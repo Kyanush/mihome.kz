@@ -1,0 +1,99 @@
+.btn-transparent{
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+.red{
+    color: red!important;
+}
+.green{
+    color: #00ba00;
+}
+.margin-padding-none{
+    margin: 0;
+    padding: 0;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 23px!important;
+    padding-left: 3px!important;
+}
+a{
+    cursor: pointer;
+}
+a:hover{
+    text-decoration: underline;
+}
+.is-delete {
+    opacity: 0.5!important;
+    background-color: #ffdfdf!important;
+}
+
+
+/* Статусы */
+.status-new{
+    color: #3c8dbc;
+}
+.status-ways{
+    color: #ff00d2;
+}
+.status-waiting-for-payment{
+    color: #18bdc6;
+}
+.status-ready-for-issue{
+    color: #f39c12;
+}
+.status-completed{
+    color: #24b80b;
+}
+.status-canceled{
+    color: red;
+}
+
+
+table{
+    font-size: 13.5px;
+}
+.img{
+    border: 1px solid #c0bdbd;
+    padding: 2px;
+    margin: 0 auto;
+}
+del{
+    font-weight: bold;
+}
+.opacity, .deleted{
+    opacity: 0.5;
+    background-color: #ffdfdf;
+}
+.scroll-catalog{
+    height: 300px;
+    overflow: auto;
+    border: 1px solid #d9d4d4;
+    padding: 3px;
+    width: 100%;
+}
+#back-site{
+    position: fixed;
+    right: 20px;
+    bottom: 50px;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    font-size: 25px;
+    z-index: 3;
+    padding-top: 10px;
+    background-color: #fff;
+}
+#back-site img {
+    width: 35px;
+    margin-left: -3px;
+    margin-top: -8px;
+}
+#filter-search{
+    max-width: 300px;
+}
+.select2{
+    width: 100%!important;
+}
