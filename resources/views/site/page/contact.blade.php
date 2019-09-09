@@ -78,9 +78,6 @@
                 </p>
                 <br/>
                 <p>
-                    @if(env('APP_NO_URL') == 'ShopX.kz')
-                        <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=96844199532" width="100%" height="600" frameborder="0"></iframe>
-                    @endif
                     @if(env('APP_NO_URL') == 'Magazin-Xiaomi.kz')
                         <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=97441155893" width="100%" height="600" frameborder="0"></iframe>
                     @endif
