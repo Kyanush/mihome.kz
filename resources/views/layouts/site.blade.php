@@ -24,9 +24,6 @@
     <meta property="og:image:width"  content="80">
     <meta property="og:image:height" content="80">
 
-    <link rel="icon" type="image/png" href="{{ config('shop.favicon') }}" />
-
-
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
