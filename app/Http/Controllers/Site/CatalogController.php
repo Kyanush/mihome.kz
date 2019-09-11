@@ -15,23 +15,6 @@ use App\Tools\Seo;
 class CatalogController extends Controller
 {
 
-    public function c($cCategory){
-
-        //категория
-        $category = Category::isActive()->where('url', $cCategory)->firstOrFail();
-        //город
-        $currentCity = ServiceCity::getCurrentCity();
-        //seo
-        $seo = Seo::catalog($category);
-
-        return view('mobile.c', [
-            'category'    => $category,
-            'currentCity' => $currentCity,
-            'seo'         => $seo
-        ]);
-
-    }
-
     public function catalogCity($city, $category){
         return $this->catalogMain($city, $category);
     }

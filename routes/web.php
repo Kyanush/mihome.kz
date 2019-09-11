@@ -62,9 +62,6 @@ Route::group(['namespace'  => 'Site'], function () {
     for ($i = 0; $i <= 50; $i++)
         $params .= "/{param$i?}";
 
-    //каталог иобильный
-    Route::get('c/{cCategory}',                          'CatalogController@c')->where(['cCategory']);
-
     //каталог
     Route::get('{city}/catalog/{category}'   . $params,  'CatalogController@catalogCity')
         ->where(['city'])
