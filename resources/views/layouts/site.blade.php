@@ -2,7 +2,7 @@
     $currentCity = \App\Services\ServiceCity::getCurrentCity();
 @endphp
 
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
@@ -146,10 +146,10 @@
             </ul>
         </div>
     </div>
-    <!-- /TOP HEADER -->
+        <!-- /TOP HEADER -->
 
 
-    <!-- MAIN HEADER -->
+        <!-- MAIN HEADER -->
     <div id="header">
         <!-- container -->
         <div class="container">
@@ -267,11 +267,11 @@
         </div>
         <!-- container -->
     </div>
-    <!-- /MAIN HEADER -->
+        <!-- /MAIN HEADER -->
 </header>
-<!-- /HEADER -->
+    <!-- /HEADER -->
 
-<!-- NAVIGATION -->
+    <!-- NAVIGATION -->
 <nav id="navigation">
     <!-- container -->
     <div class="container">
@@ -291,7 +291,7 @@
                         Каталог
                     </a>
                     <?php
-                        $categories1 = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
+                    $categories1 = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
                     ?>
                     <ul class="cat_menu">
                         @foreach($categories1 as $category1)
@@ -316,28 +316,28 @@
                                                          ->get()as $category3)
                                                 $categories3[] = $category3;
                                             ?>
-                                                <li @if(count($categories3) > 0) class="hassubs" @endif>
+                                            <li @if(count($categories3) > 0) class="hassubs" @endif>
                                                     <a href="{{ $category2->catalogUrl($currentCity->code) }}">
                                                         {{ $category2->name }}
                                                         <i class="fa fa-chevron-right"></i>
                                                     </a>
                                                     @if(count($categories3) > 0)
-                                                        <ul>
+                                                    <ul>
                                                             @foreach($categories3 as $category3)
-                                                                <li>
+                                                            <li>
                                                                     <a href="{{ $category3->catalogUrl($currentCity->code) }}">
                                                                         {{ $category3->name }}
                                                                     </a>
                                                                 </li>
-                                                            @endforeach
+                                                        @endforeach
                                                         </ul>
-                                                    @endif
+                                                @endif
                                                 </li>
-                                            @endforeach
+                                        @endforeach
                                     </ul>
                                 @endif
                             </li>
-                            @endforeach
+                        @endforeach
                     </ul>
                 </li>
                 <li class="{{ Request::routeIs('delivery_payment') ? 'active' : '' }}"><a href="{{ route('delivery_payment') }}">Доставка/Оплата</a></li>
@@ -368,7 +368,7 @@
     </div>
     <!-- /container -->
 </nav>
-<!-- /NAVIGATION -->
+    <!-- /NAVIGATION -->
 </span>
 
 @yield('content')
@@ -550,65 +550,65 @@
 
 
                 <?php
-                    $categories = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
+                $categories = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
                 ?>
 
-                    <ul class="nav nav-tabs">
-                        @php $active = true; @endphp
-                        @foreach($categories as $k => $category)
-                            <li @if($active) class="active" @php $active = false; @endphp @endif>
-                                <a data-toggle="tab" href="#{{ $category->url }}">
-                                    <i class="{{ $category->class }}"></i>
-                                    {{ $category->name }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
+                <ul class="nav nav-tabs">
+                    @php $active = true; @endphp
+                    @foreach($categories as $k => $category)
+                        <li @if($active) class="active" @php $active = false; @endphp @endif>
+                            <a data-toggle="tab" href="#{{ $category->url }}">
+                                <i class="{{ $category->class }}"></i>
+                                {{ $category->name }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
 
-                    <div class="tab-content">
-                        @php $active = true; @endphp
-                        @foreach($categories as $k => $category)
-                            <div id="{{ $category->url }}" class="tab-pane fade @if($active) in active @php $active = false; @endphp @endif">
-                                        <?php
-                                        $categories = [];
-                                        foreach($category->children()->isActive()->orderBy('sort')->get() as $category_children){
-                                            $categories[] = $category_children;
+                <div class="tab-content">
+                    @php $active = true; @endphp
+                    @foreach($categories as $k => $category)
+                        <div id="{{ $category->url }}" class="tab-pane fade @if($active) in active @php $active = false; @endphp @endif">
+                            <?php
+                            $categories = [];
+                            foreach($category->children()->isActive()->orderBy('sort')->get() as $category_children){
+                                $categories[] = $category_children;
 
-                                            $childrens_all = \App\Models\Category::orderBy('sort')
-                                                ->isActive()
-                                                ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category_children->id, false, true))
-                                                ->get();
+                                $childrens_all = \App\Models\Category::orderBy('sort')
+                                    ->isActive()
+                                    ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category_children->id, false, true))
+                                    ->get();
 
-                                            foreach ($childrens_all as $item)
-                                                $categories[] = $item;
-                                        }
-                                        ?>
+                                foreach ($childrens_all as $item)
+                                    $categories[] = $item;
+                            }
+                            ?>
 
-                                        <ul>
-                                            <li>
-                                                <a href="{{ $category->catalogUrl($currentCity->code) }}">
+                            <ul>
+                                <li>
+                                    <a href="{{ $category->catalogUrl($currentCity->code) }}">
                                                         <span>
                                                             <i class="{{ $category->class }} fa-3x"></i>
                                                         </span>
-                                                    <span>Все {{ $category->name }}</span>
-                                                </a>
-                                            </li>
-                                            @foreach($categories as $key => $item)
-                                                <li>
-                                                    <a href="{{ $item->catalogUrl($currentCity->code) }}">
+                                        <span>Все {{ $category->name }}</span>
+                                    </a>
+                                </li>
+                                @foreach($categories as $key => $item)
+                                    <li>
+                                        <a href="{{ $item->catalogUrl($currentCity->code) }}">
                                                         <span>
                                                             @if($item->image)
                                                                 <img src="{{ $item->pathImage(true) }}"/>
                                                             @endif
                                                         </span>
-                                                        <span>{{ $item->name }}</span>
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                            </div>
-                        @endforeach
-                    </div>
+                                            <span>{{ $item->name }}</span>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endforeach
+                </div>
 
             </div>
         </div>

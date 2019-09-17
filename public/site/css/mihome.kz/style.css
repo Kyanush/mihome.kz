@@ -669,7 +669,7 @@ textarea.input {
 }
 
 .catalog-products{
-   cursor: pointer;
+    cursor: pointer;
 }
 
 .main-nav>li>a {
@@ -1775,7 +1775,7 @@ textarea.input {
 }
 @media only screen and (max-width: 767px) {
     #product-tab .tab-nav li {
-         margin-top: 10px;
+        margin-top: 10px;
     }
 }
 #product-tab .tab-nav li+li {
