@@ -12,6 +12,11 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
 (function($) {
 	"use strict"
 
+    // Catalog menu
+    $('.cat_menu .fa').on('click', function (e){
+        e.preventDefault();
+    });
+
 	// Catalog filter
     $('#filterpro .aside-title').on('click', function (e) {
         if($(this).next(".checkbox-filter").hasClass('active')){
@@ -22,7 +27,7 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
     });
 
 	// Mobile Nav toggle
-	$('.menu-toggle > a, #close-menu').on('click', function (e) {
+	$('#menu-mobile > a, #close-menu').on('click', function (e) {
 		e.preventDefault();
 		$('#responsive-nav').toggleClass('active');
 	});

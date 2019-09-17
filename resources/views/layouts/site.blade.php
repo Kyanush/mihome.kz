@@ -98,7 +98,7 @@
 
 <!-- HEADER -->
 <span id="header">
-<header>
+<header  style="display: none" v-bind:style="show_block">
 
     @php
         $address = config('shop.address');
@@ -192,7 +192,7 @@
                             <a href="{{ route('wishlist') }}" title="Мои закладки">
                                 <i class="fa fa-heart-o"></i>
                                 <span>Мои закладки</span>
-                                <div class="qty" v-if="product_features_wishlist_count">@{{ product_features_wishlist_count }}</div>
+                                <div class="qty" v-if="pfwc">@{{ pfwc }}</div>
                             </a>
                         </div>
                         <!-- /Wishlist -->
@@ -244,8 +244,15 @@
                         </div>
                         <!-- /Cart -->
 
+                        <div class="menu-toggle" onclick="modalShow('.catalog-menu')">
+                            <a>
+                                <i class="fa fa-bars"></i>
+                                Каталог
+                            </a>
+                        </div>
+
                         <!-- Menu Toogle -->
-                        <div class="menu-toggle">
+                        <div class="menu-toggle" id="menu-mobile">
                             <a href="#">
                                 <i class="fa fa-bars"></i>
                                 <span>Меню</span>
@@ -274,29 +281,80 @@
 
             <i class="fa fa-remove fa-2x" id="close-menu"></i>
 
+
+
             <!-- NAV -->
-            <ul class="main-nav nav navbar-nav">
+            <ul class="main-nav nav navbar-nav cat_menu_container ">
                 <li>
-                    <a href="#" onclick="modalShow('.catalog-menu')" class="catalog-products">
+                    <a class="catalog-products">
                         <i class="fa fa-bars firm-red"></i>
-                        Каталог товаров
+                        Каталог
                     </a>
+                    <?php
+                        $categories1 = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
+                    ?>
+                    <ul class="cat_menu">
+                        @foreach($categories1 as $category1)
+                            <?php
+                            $categories2 = [];
+                            foreach($category1->children()->isActive()->orderBy('sort')->get() as $category2)
+                                $categories2[] = $category2;
+                            ?>
+                            <li @if(count($categories2) > 0) class="hassubs" @endif>
+                                <a href="{{ $category1->catalogUrl($currentCity->code) }}">
+                                    {{ $category1->name }}
+                                    <i class="fa fa-chevron-right"></i>
+                                </a>
+                                @if(count($categories2) > 0)
+                                    <ul>
+                                            @foreach($categories2 as $category2)
+                                            <?php
+                                            $categories3 = [];
+                                            foreach (\App\Models\Category::orderBy('sort')
+                                                         ->isActive()
+                                                         ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category2->id, false, true))
+                                                         ->get()as $category3)
+                                                $categories3[] = $category3;
+                                            ?>
+                                                <li @if(count($categories3) > 0) class="hassubs" @endif>
+                                                    <a href="{{ $category2->catalogUrl($currentCity->code) }}">
+                                                        {{ $category2->name }}
+                                                        <i class="fa fa-chevron-right"></i>
+                                                    </a>
+                                                    @if(count($categories3) > 0)
+                                                        <ul>
+                                                            @foreach($categories3 as $category3)
+                                                                <li>
+                                                                    <a href="{{ $category3->catalogUrl($currentCity->code) }}">
+                                                                        {{ $category3->name }}
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                            @endforeach
+                    </ul>
                 </li>
                 <li class="{{ Request::routeIs('delivery_payment') ? 'active' : '' }}"><a href="{{ route('delivery_payment') }}">Доставка/Оплата</a></li>
                 <li class="{{ Request::routeIs('guaranty') ? 'active' : '' }}"><a href="{{ route('guaranty') }}">Гарантия</a></li>
                 <li class="{{ Request::routeIs('wishlist') ? 'active' : '' }}">
                     <a href="{{ route('wishlist') }}">
                         Мои закладки
-                        <span class="badge badge-error" v-if="product_features_wishlist_count > 0">
-                            @{{  product_features_wishlist_count }}
+                        <span class="badge badge-error" v-if="pfwc > 0">
+                            @{{  pfwc }}
                         </span>
                     </a>
                 </li>
                 <li class="{{ Request::routeIs('compare_products') ? 'active' : '' }}">
                     <a href="{{ route('compare_products') }}">
                         Сравнение товаров
-                        <span class="badge badge-error" v-if="product_features_compare_count > 0">
-                            @{{  product_features_compare_count }}
+                        <span class="badge badge-error" v-if="pfwc > 0">
+                            @{{  pfwc }}
                         </span>
                     </a>
                 </li>
@@ -473,6 +531,7 @@
 <div class="callback-button" title="Обратный звонок" onclick="modalShow('.callback')">
     <i class="fa fa-phone"></i>
 </div>
+
 
 
 <!-- Каталог товаров -->
@@ -709,7 +768,6 @@
 <script src="/site/js/main.js"></script>
 
 @yield('add_in_end')
-
 
 </body>
 </html>

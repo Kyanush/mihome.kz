@@ -57,8 +57,11 @@ var header = new Vue({
                 quantity: 0
             },
             list_cart:  null,
-            product_features_compare_count: 0,
-            product_features_wishlist_count: 0
+            pfcc: 0,
+            pfwc: 0,
+            show_block: {
+                display: 'block'
+            }
         }
     },
     methods:{
@@ -80,12 +83,12 @@ var header = new Vue({
         },
         getProductFeaturesCompareCount(){
             axios.get('/product-features-compare-count').then((res)=>{
-                this.product_features_compare_count = res.data;
+                this.pfcc = res.data;
             });
         },
         getProductFeaturesWishlistCount(){
             axios.get('/product-features-wishlist-count').then((res)=>{
-                this.product_features_wishlist_count = res.data;
+                this.pfwc = res.data;
             });
         },
         cartTotal(){
