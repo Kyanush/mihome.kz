@@ -16,14 +16,6 @@ class MainController extends Controller
 
 
 
-        $productsRecommend = Product::productInfoWith()
-            ->filtersAttributes(['rekomenduemoe_dlya_vas' => 'da'])
-            ->limit(10)
-            ->where('stock', '>', 0)
-            //->OrderBy('id', 'DESC')
-            ->inRandomOrder()
-            ->get();
-
 
         $productsDiscount = Product::productInfoWith()
                 ->whereHas('specificPrice', function ($query){
@@ -37,39 +29,20 @@ class MainController extends Controller
                 ->get();
 
 
-        $productsHit = Product::productInfoWith()
-                ->filtersAttributes(['tipy_tovarov' => 'hit'])
-                ->limit(10)
-                ->where('stock', '>', 0)
-                //->OrderBy('id', 'DESC')
-                ->inRandomOrder()
-                ->get();
+        $elektrosamokaty =Product::productInfoWith()
+            ->filters(['category' => 'elektrosamokaty-xiaomi'])
+            ->limit(10)
+            ->where('stock', '>', 0)
+            ->get();
 
 
-        $productsNew = Product::productInfoWith()
-                    ->filtersAttributes(['tipy_tovarov' => 'new'])
+
+        $pylesosy = Product::productInfoWith()
+                    ->filters(['category' => 'pylesosy-xiaomi'])
                     ->limit(10)
                     ->where('stock', '>', 0)
-                    //->OrderBy('id', 'DESC')
-                    ->inRandomOrder()
                     ->get();
 
-        //Вы смотрели
-        $youWatchedProducts = ServiceYouWatchedProduct::listProducts();
-
-        //Популярные товары
-        $popularProducts = Product::productInfoWith()
-                            ->limit(9)
-                            ->where('stock', '>', 0)
-                            ->OrderBy('view_count', 'DESC')
-                            ->get();
-
-        //Новинки товаров
-        $novinkiProducts = Product::productInfoWith()
-                            ->limit(9)
-                            ->where('stock', '>', 0)
-                            ->OrderBy('id', 'DESC')
-                            ->get();
 
 
         $seo = Seo::main();
@@ -79,14 +52,10 @@ class MainController extends Controller
         return view('site.main',
             [
                 'listSlidersHomePage'          => ServiceSlider::listSlidersHomePage(),
-                'productsRecommend'            => $productsRecommend,
                 'productsDiscount'             => $productsDiscount,
-                'productsHit'                  => $productsHit,
-                'productsNew'                  => $productsNew,
+                'elektrosamokaty'              => $elektrosamokaty,
+                'pylesosy'                     => $pylesosy,
                 'seo'                          => $seo,
-                'youWatchedProducts'           => $youWatchedProducts,
-                'popularProducts'              => $popularProducts,
-                'novinkiProducts'              => $novinkiProducts,
                 'news'                         => $news
             ]);
     }
