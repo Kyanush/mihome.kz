@@ -515,6 +515,12 @@
                     </ul>
                     <span class="copyright">
 	    				Copyright &copy;{{date('Y')}} Все права защищены.
+
+                        <p>
+                            <a href="http://beesoft.kz/" target="_blank">
+                                <img width="80" src="/site/images/beesoft.png" title="BeeSoft" alt="BeeSoft"/>
+                            </a>разработано BeeSoft
+                        </p>
     				</span>
                 </div>
             </div>
