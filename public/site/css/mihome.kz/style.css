@@ -2784,4 +2784,16 @@ textarea.input {
     max-height: 50px;
 }
 /**************** Каталог меню *****************/
+
 /******************** catalog-menu ********************/
+.company-text{
+    height: 150px;
+    margin: 15px 35px 20px 35px;
+    font-size: 13px;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 50px;
+}
+.company-text.full{
+    height: auto;
+}
