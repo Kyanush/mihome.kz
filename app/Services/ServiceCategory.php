@@ -79,7 +79,7 @@ class ServiceCategory
     public static function breadcrumbCategories($category_id, $current_title, $current_link = ''){
         $breadcrumb[] = [
             'title' => 'Главная',
-            'link'  => '/'
+            'link'  => env('APP_URL')
         ];
 
         if($category_id)

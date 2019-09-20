@@ -2,7 +2,7 @@
     $breadcrumbs_new = [];
 
     foreach ($breadcrumbs as $item)
-        if($item['link'] and $item['link'] != '/')
+        if($item['link'])
                 $breadcrumbs_new[] = $item;
 @endphp
 
