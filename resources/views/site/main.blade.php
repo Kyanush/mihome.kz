@@ -12,8 +12,10 @@
         <div class="container">
             <div class="main-slider">
                 @foreach($listSlidersHomePage as $item)
-                    <a href="{{ $item->link }}" title="{{ $item->name }}">
+                    <a href="{{ $item->link }}" title="{{ $item->name }}" style="background-image: url('{{ $item->pathImage(true) }}')" title="{{ $item->name }}">
+                        <!--
                         <img src="{{ $item->pathImage(true) }}" alt="{{ $item->name }}">
+                        -->
                     </a>
                 @endforeach
             </div>

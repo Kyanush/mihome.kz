@@ -2496,14 +2496,16 @@ textarea.input {
 
 
 /**************** Слайдер главный *****************/
-.main-slider img{
+.main-slider a{
     height: 410px;
     max-width: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 @media only screen and (max-width: 767px) {
-    .main-slider img{
-        height: auto;
-        max-height: 250px;
+    .main-slider a{
+        height: 200px;
         max-width: 100%;
     }
 }
