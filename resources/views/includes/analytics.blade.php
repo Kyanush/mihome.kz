@@ -5,6 +5,11 @@
             $show = false;
 @endphp
 
+@if(mb_strtolower(env('APP_NO_URL')) == mb_strtolower('MiHome.kz'))
+    <script src="//code.jivosite.com/widget.js" data-jv-id="d5ShOZJS9K" async></script>
+@endif
+
+
 @if(env('APP_TEST') == 0 and $show)
 
 
@@ -42,6 +47,8 @@
 
 
     @if(mb_strtolower(env('APP_NO_URL')) == mb_strtolower('MiHome.kz'))
+
+
         <meta name='wmail-verification' content='afd3265a6543de7b2d413b848d62a272' />
         <meta name="yandex-verification" content="5e80dd0c70552c4f" />
         <meta name="google-site-verification" content="f3dNhkvnXjKE8QfdogVG5JNiaRsqq4z-cYEMDYodTjg" />

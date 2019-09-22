@@ -88,7 +88,7 @@
                         <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=97441155893" width="100%" height="600" frameborder="0"></iframe>
                     @endif
                     @if(env('APP_NO_URL') == 'MiHome.kz')
-                        <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A0907f0b379ab1ff176a45fb714a2ee57862dd92278b63d35c0061ca3d613456b&amp;width=100%25&amp;height=400&amp;lang=ru_RU&amp;scroll=true"></script>
+                         <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=64393237639" width="100%" height="400" frameborder="0"></iframe>
                     @endif
                 </p>
             </div>
