@@ -30,7 +30,7 @@ class ProductFeaturesCompareController extends Controller
         $productFeaturesCompareList = ServiceProductFeaturesCompare::productFeaturesCompareList();
         $seo = Seo::pageSeo('compare-products');
 
-        return view('site.compare_products', [
+        return view(Helpers::isMobile() ? 'mobile.compare_products' : 'site.compare_products', [
             'attributeGroups' => $attributeGroups,
             'productFeaturesCompareList' => $productFeaturesCompareList,
             'seo' => $seo

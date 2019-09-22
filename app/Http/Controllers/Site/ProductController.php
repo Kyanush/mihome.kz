@@ -92,7 +92,7 @@ class ProductController extends Controller
         //seo
         $seo = Seo::productDetail($product, $category);
 
-        return view('site.product_detail', [
+        return view(Helpers::isMobile() ? 'mobile.product.index' : 'site.product_detail', [
             'product'  => $product,
             'group_products' => $group_products,
             'products_interested' => $products_interested,

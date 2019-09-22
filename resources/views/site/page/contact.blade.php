@@ -30,9 +30,10 @@
             <div class="contact">
                 <p>
                     Обсудить с нами возникшие вопросы или проконсультироваться звоните к нам по номеру:
-                    <a style="font-size: 14px;text-decoration: none;" href="tel:{{ $number_phones[0]['number'] }}">
-                        {{ $number_phones[0]['format'] }}
-                    </a>
+                    @foreach($number_phones as $phone)
+                        <a style="font-size: 14px;text-decoration: none;"  href="tel: {{ $phone['number'] }}"> {{ $phone['format'] }}</a>
+                    @endforeach
+
                     (ежедневно с 11-00 до 19-00).
                     Кроме того, Вы можете отправить любые запросы или вопросы нам на электронную почту
                     <a style="font-size: 14px;text-decoration: none;" href="mailto:{{ config('shop.site_email') }}">
@@ -47,7 +48,12 @@
                     <div class="col-md-4">
                         <ul>
                             <li><b>Ежедневно, круглосуточно(телефон или WhatsApp)</b></li>
-                            <li><a href="tel:{{ $number_phones[0]['number'] }}">{{ $number_phones[0]['format'] }}</a></li>
+                            <li>
+                                @foreach($number_phones as $phone)
+                                    <a style="font-size: 14px;text-decoration: none;"  href="tel: {{ $phone['number'] }}"> {{ $phone['format'] }}</a>
+                                    <br/>
+                                @endforeach
+                            </li>
                             <li><b>Время работы</b></li>
                             <li>{{ $address[0]['working_hours'] }}</li>
                             <li><b>Адрес</b></li>

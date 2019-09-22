@@ -1,4 +1,4 @@
-@extends('layouts.site')
+@extends(\App\Tools\Helpers::isMobile() ? 'layouts.mobile' : 'layouts.site')
 
 <?php $title = 'Забыли пароль?';?>
 @section('title', $title)
@@ -7,6 +7,9 @@
 
 @section('content')
 
+    @mobile
+        @include('mobile.auth.passwords.email')
+    @elsemobile
 
         <?php $breadcrumbs = [
             [
@@ -61,6 +64,6 @@
                 </div>
             </div>
         </div>
-
+    @endmobile
 
 @endsection

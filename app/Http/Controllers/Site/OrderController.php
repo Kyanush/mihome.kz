@@ -19,7 +19,7 @@ class OrderController extends Controller
 
         $orders = Order::withCount('products')->with('status')->where('user_id', Auth::user()->id)->OrderBy('id', 'DESC')->get();
 
-        return view('site.order_history', ['orders' => $orders]);
+        return view(Helpers::isMobile() ? 'mobile.order_history' : 'site.order_history', ['orders' => $orders]);
     }
 
 
@@ -27,7 +27,7 @@ class OrderController extends Controller
 
         $order = Order::where('user_id', Auth::user()->id)->find($order_id);
 
-        return view('site.order_history_detail', ['order' => $order]);
+        return view(Helpers::isMobile() ? 'mobile.order_history_detail' : 'site.order_history_detail', ['order' => $order]);
     }
 }
 

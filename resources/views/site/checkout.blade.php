@@ -89,7 +89,7 @@
                                 </div>
                             </div>
 
-                            <div class="shiping-details" v-if="carrier.id == 1">
+                            <div class="shiping-details" v-if="carrier.id != 2">
                                 <div class="section-title">
                                     <h3 class="title">Укажите адрес доставки</h3>
                                 </div>

@@ -18,7 +18,7 @@ class CheckoutRequest extends FormRequest
             'user.phone' => 'required|phone'
         ];
 
-        if($this->input('carrier_id', 0) == 1)
+        if($this->input('carrier_id', 0) != 2)
         {
             if ($this->input('address.id', 0) > 0) {
                 $rules['address.id'] = ['required',

@@ -15,6 +15,23 @@ use App\Tools\Seo;
 class CatalogController extends Controller
 {
 
+    public function c($cCategory){
+
+        //категория
+        $category = Category::where('url', $cCategory)->first();
+        //город
+        $currentCity = ServiceCity::getCurrentCity();
+        //seo
+        $seo = Seo::catalog($category);
+
+        return view('mobile.c', [
+            'category'    => $category,
+            'currentCity' => $currentCity,
+            'seo'         => $seo
+        ]);
+
+    }
+
     public function catalogCity($city, $category){
         return $this->catalogMain($city, $category);
     }
@@ -65,7 +82,7 @@ class CatalogController extends Controller
 
 
         //Вы смотрели
-        $youWatchedProducts = ServiceYouWatchedProduct::listProducts(false, 5);
+        $youWatchedProducts = ServiceYouWatchedProduct::listProducts(false, 7);
 
         //seo
         $seo = Seo::catalog($category);
@@ -81,7 +98,7 @@ class CatalogController extends Controller
         $breadcrumbs = ServiceCategory::breadcrumbCategories($category->parent_id, $category->name);
 
 
-        return view('site.catalog', [
+        return view(Helpers::isMobile() ? 'mobile.catalog' : 'site.catalog', [
             'products' => $products,
             'youWatchedProducts' => $youWatchedProducts,
             'productsHitViewed' => $productsHitViewed,

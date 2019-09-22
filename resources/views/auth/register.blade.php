@@ -1,4 +1,4 @@
-@extends('layouts.site')
+@extends(\App\Tools\Helpers::isMobile() ? 'layouts.mobile' : 'layouts.site')
 
 @section('title', 'Регистрация в интернет магазине ' . env('APP_NAME'))
 @section('description', 'Регистрация в интернет магазине ' . env('APP_NAME'))
@@ -7,7 +7,9 @@
 @section('content')
 
 
-
+    @mobile
+        @include('mobile.auth.register')
+    @elsemobile
         <?php $breadcrumbs = [
             [
                 'title' => 'Главная',
@@ -102,7 +104,7 @@
                 </div>
             </div>
         </div>
-
+    @endmobile
 
 
 @endsection

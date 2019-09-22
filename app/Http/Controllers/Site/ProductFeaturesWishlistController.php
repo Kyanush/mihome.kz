@@ -25,7 +25,7 @@ class ProductFeaturesWishlistController extends Controller
 
     public function wishlist(){
         $seo = Seo::pageSeo('wishlist');
-        return view('site.wishlist', [
+        return view(Helpers::isMobile() ? 'mobile.wishlist' : 'site.wishlist', [
             'wishlist' => ServiceProductFeaturesWishlist::list(),
             'seo' => $seo
         ]);

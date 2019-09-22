@@ -173,7 +173,7 @@
 
 
     <!-- SECTION -->
-    <div class="section">
+    <div class="section main-info">
         <!-- container -->
         <div class="container">
                 <h1 style="text-align: center;">{{ env('APP_NO_URL') }} | Магазин оригинальной продукции в Казахстане</h1>

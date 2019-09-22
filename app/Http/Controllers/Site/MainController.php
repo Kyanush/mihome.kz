@@ -49,7 +49,7 @@ class MainController extends Controller
 
         $news = News::isActive()->limit(3)->OrderBy('created_at', 'DESC')->get();
 
-        return view('site.main',
+        return view(Helpers::isMobile() ? 'mobile.main' : 'site.main',
             [
                 'listSlidersHomePage'          => ServiceSlider::listSlidersHomePage(),
                 'productsDiscount'             => $productsDiscount,

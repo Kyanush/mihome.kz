@@ -20,12 +20,12 @@ class UserController extends Controller
 
     public function myAccount(){
         $user = Auth::user();
-        return view('site.my_account', ['user' => $user]);
+        return view(Helpers::isMobile() ? 'mobile.my_account' : 'site.my_account', ['user' => $user]);
     }
 
     public function accountEdit(){
         $user = Auth::user();
-        return view('site.account_edit', ['user' => $user]);
+        return view(Helpers::isMobile() ? 'mobile.account_edit' : 'site.account_edit', ['user' => $user]);
     }
 
     public function accountEditSave(SaveAccountEditRequest $request){
@@ -40,14 +40,14 @@ class UserController extends Controller
     }
 
     public function changePassword(){
-        return view('site.change-password');
+        return view(Helpers::isMobile() ? 'mobile.change-password' : 'site.change-password');
     }
 
     public function changePasswordSave(ChangePasswordRequest $request){
-            $user = Auth::user();
-            $user->password = bcrypt($request->input('password'));
-            $user->save();
-            return Redirect::back()->with('success', 'Ваш пароль успешно изменен');
+        $user = Auth::user();
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
+        return Redirect::back()->with('success', 'Ваш пароль успешно изменен');
     }
 
 }

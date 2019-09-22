@@ -110,10 +110,11 @@
         <div class="container">
             <ul class="header-links pull-left">
                 <li>
-                    <a href="tel:{{ $number_phones[0]['number'] }}">
-                        <i class="fa fa-phone"></i>
-                        {{ $number_phones[0]['format'] }}
-                    </a>
+                    <i class="fa fa-phone"></i>
+
+                    @foreach($number_phones as $phone)
+                        <a href="tel: {{ $phone['number'] }}"> {{ $phone['format'] }}</a>
+                    @endforeach
                 </li>
                 <li>
                     <a href="{{ route('contact') }}">
@@ -140,7 +141,7 @@
                     <li><a href="/register"><i class="fa fa-user-o"></i> Регистрация</a></li>
                 @endguest
                 @auth
-                    <li><a href="{{ route('my_account') }}"><i class="fa fa-sign-in"></i> Вы вошли как {{ Auth::user()->name }}</a></li>
+                    <li><a href="{{ route('my_account') }}"><i class="fa fa-sign-in"></i>{{ Auth::user()->name }}</a></li>
                     <li><a href="{{ route('logout') }}">    <i class="fa fa-user-o"></i> Выйти</a></li>
                 @endauth
             </ul>
@@ -431,10 +432,11 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="tel:{{ $number_phones[0]['number'] }}">
-                                    <i class="fa fa-phone"></i>
-                                    {{ $number_phones[0]['format'] }}
-                                </a>
+                                <i class="fa fa-phone"></i>
+                                @foreach($number_phones as $phone)
+                                    <a href="tel: {{ $phone['number'] }}"> {{ $phone['format'] }}</a>
+                                    <br/>
+                                @endforeach
                             </li>
                             <li>
                                 <a href="mailto:{{ config('shop.site_email') }}">

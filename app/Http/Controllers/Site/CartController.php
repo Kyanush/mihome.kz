@@ -48,7 +48,7 @@ class CartController extends Controller
         if(Auth::check())
             $user = User::with('addresses')->find(Auth::user()->id);
 
-        return view('site.checkout',[
+        return view(Helpers::isMobile() ? 'mobile.checkout' : 'site.checkout',[
             'seo'  => $seo,
             'user' => $user
         ]);

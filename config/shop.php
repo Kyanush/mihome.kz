@@ -63,9 +63,12 @@ if(env('APP_NO_URL') == 'MiHome.kz')
 
         'number_phones' => [
             [
-                //'format' => '+7 (708) 961-92-25',
-                //'number' => '+77089619225',
                 'format' => '+7 (775) 108-03-90',
+                'number' => '+77751080390',
+                'contactType' => 'Менеджер'
+            ],
+            [
+                'format' => '+7 (707) 516-26-36',
                 'number' => '+77751080390',
                 'contactType' => 'Менеджер'
             ]
