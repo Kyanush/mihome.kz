@@ -13,7 +13,7 @@ $productsDay =  \App\Models\Product::productInfoWith()
     <!-- container -->
     <div class="container">
         <div class="section-title">
-            <h3 class="title">Товар дня</h3>
+            <h3 class="title">Товары дня</h3>
         </div>
 
         <!-- row -->
