@@ -3,13 +3,13 @@
 
         <div class="box-header with-border">
 
-            <router-link :to="{ path: '/categories/create'}" class="btn btn-primary ladda-button">
+            <router-link :to="{ name: 'category_create' }" class="btn btn-primary ladda-button">
                 <span class="ladda-label">
                     <i class="fa fa-plus"></i> Создать категорию
                 </span>
             </router-link>
 
-            <router-link :to="{ path: '/categories/reorder'}" class="btn btn-default ladda-button">
+            <router-link :to="{ name: 'categories_reorder' }" class="btn btn-default ladda-button">
                 <span class="ladda-label">
                     <i class="fa fa-arrows"></i> Переупорядочить категории
                 </span>
@@ -50,7 +50,7 @@
                                 <i class="fa fa-times-circle" aria-hidden="true" v-bind:class="{ 'fa-times-circle red': !item.active, 'fa-check-circle green': item.active }"></i>
                             </td>
                             <td>
-                                <router-link :to="{ path: '/categories/edit/' + item.id}" class="btn btn-xs btn-default">
+                                <router-link :to="{ name: 'category_edit', params: { category_id: item.id } }" class="btn btn-xs btn-default">
                                     <i class="fa fa-edit"></i> Изменить
                                 </router-link>
 

@@ -45,7 +45,7 @@ class CallbackController extends AdminController
 
     public function newCallbacksCount(){
 
-        $default_id = Status::whereUse(1)->defaultValue()->first()->id;
+        $default_id = Status::callbacksStatusId()->defaultValue()->first()->id;
 
         return  $this->sendResponse(intval(Callback::where('status_id', $default_id)->count()));
     }

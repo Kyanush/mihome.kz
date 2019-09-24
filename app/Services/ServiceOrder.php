@@ -34,15 +34,18 @@ class ServiceOrder implements OrderInterface
                     $price = $product->price;
             }
 
+            $cost_price = $product->cost_price;
+
             //findOrNew
             $order = Order::find($order_id);
 
             $order->products()->syncWithoutDetaching([$product_id =>
                 [
-                    'name'     => $product->name,
-                    'sku'      => $product->sku,
-                    'price'    => $price,
-                    'quantity' => $quantity
+                    'name'       => $product->name,
+                    'sku'        => $product->sku,
+                    'price'      => $price,
+                    'cost_price' => $cost_price,
+                    'quantity'   => $quantity
                 ]
             ]);
 
@@ -68,8 +71,8 @@ class ServiceOrder implements OrderInterface
 
             $emails[] = env('MAIL_ADMIN');
 
-            if($order->user->email)
-                $emails[] = $order->user->email;
+            if($order->user_email)
+                $emails[] = $order->user_email;
 
             $subject = env('APP_NAME') . ' - ' . 'заказ №:' . $order->id;
             Mail::send('mails.new_order', ['order' => $order, 'subject' => $subject], function($m) use($subject, $emails)

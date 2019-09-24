@@ -37,7 +37,7 @@
                     <tr v-bind:class="{ 'deleted': !item.active }">
                         <td>{{ item.id }}</td>
                         <td>
-                            <router-link :to="{ path: '/products/edit/' + item.product_id}">
+                            <router-link :to="{ path: '/product/' + item.product_id}">
                                 {{ item.product.name }}
                             </router-link>
                         </td>
@@ -172,20 +172,14 @@
                                 <div class="col-md-12" v-if="!product_id">
                                     <div class="form-group" v-bind:class="{'has-error' : IsError('question_answer.product_id')}">
                                         <label>Товар <span class="red">*</span></label>
-
-                                        <Select2
-                                                @select="setQuestionAnswerProductId($event)"
-                                                :settings="productsSearchSelect2.settings"
-                                                :options="productsSearchSelect2.options"
-                                        />
-
+                                        <input placeholder="Товар ID" v-model="question_answer.product_id" class="form-control"/>
+                                        <br/>
+                                        <searchProducts ref="searchProducts" @productSelected="setProductId"/>
                                         <span v-if="IsError('question_answer.product_id')" class="help-block" v-for="e in IsError('question_answer.product_id')">
                                             {{ e }}
                                         </span>
                                     </div>
                                 </div>
-
-
 
                             </div>
                             <div class="row btn-item">
@@ -214,7 +208,7 @@
     import Paginate from 'vuejs-paginate';
     import { mapGetters } from 'vuex';
     import Select2 from 'v-select2-component';
-
+    import searchProducts from '../plugins/SearchProducts';
     import datePicker from 'vue-bootstrap-datetimepicker';
     import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
@@ -223,7 +217,8 @@
         components:{
             Paginate,
             Select2,
-            datePicker
+            datePicker,
+            searchProducts
         },
 
         data () {
@@ -249,35 +244,6 @@
                 filter:{
                     page:   (this.$route.query.page       ? this.$route.query.page : 1),
                     search: (this.$route.query.search     ? this.$route.query.search : ''),
-                },
-                productsSearchSelect2:{
-                    options:  [],
-                    settings: {
-                        placeholder: "Поиск",
-                        ajax: {
-                            url: '/admin/search-products',
-                            dataType: 'json',
-                            data: function (params) {
-                                var query = {
-                                    search: params.term,
-                                    perPage: 5
-                                }
-                                return query;
-                            },
-                            processResults: function (data) {
-                                var results = [];
-                                data.forEach(function (item, index){
-                                    results.push({
-                                        id:     item.id,
-                                        text:   item.name
-                                    });
-                                });
-                                return {
-                                    results: results
-                                };
-                            }
-                        }
-                    }
                 }
             }
         },
@@ -296,11 +262,10 @@
             convertDataSelect2(values, column_id, column_text, disabled_column, default_option){
                 return this.$helper.convertDataSelect2(values, column_id, column_text, disabled_column, default_option);
             },
-
-            setQuestionAnswerProductId(item){
-                this.question_answer.product_id = item.id;
+            setProductId(product){
+                this.question_answer.product_id = product.id;
+                this.$refs.searchProducts.search = '';
             },
-
             saveQuestionAnswer(event){
                 event.preventDefault();
 
@@ -349,7 +314,7 @@
                 this.question_answer.question     = item ? item.question   : '';
                 this.question_answer.answer       = item ? item.answer     : '';
                 this.question_answer.product_id   = item ? item.product.id : (this.product_id > 0 ? this.product_id : 0);
-                this.question_answer.active       = item ? item.active     : 0;
+                this.question_answer.active       = item ? item.active     : 1;
                 this.question_answer.created_at   = item ? item.created_at : '';
 
                 $('#popup-question-answer').modal('show');

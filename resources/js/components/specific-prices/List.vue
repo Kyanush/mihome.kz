@@ -25,7 +25,7 @@
                             <tr class="odd even" v-for="(item, index) in specific_prices.data" v-bind:class="{'opacity': item.product.format_price == item.product.reduced_price}">
                                 <td>{{ item.id }}</td>
                                 <td>
-                                    <router-link :to="{ path: '/products/edit/' + item.product.id}">
+                                    <router-link :to="{ path: '/product/' + item.product.id}">
                                         {{ item.product.name }}
                                     </router-link>
                                 </td>
@@ -42,7 +42,7 @@
                                 </td>
                                 <td>{{ item.product.reduced_price }}</td>
                                 <td>
-                                    <router-link :to="{ path: '/products/edit/' + item.product_id}" class="btn btn-xs btn-default">
+                                    <router-link :to="{ path: '/product/' + item.product_id}" class="btn btn-xs btn-default">
                                         <i class="fa fa-edit"></i> Изменить
                                     </router-link>
 

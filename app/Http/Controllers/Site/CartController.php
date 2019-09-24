@@ -10,17 +10,18 @@ use App\Services\ServiceOrder;
 use App\Services\ServiceUser;
 use App\Tools\Helpers;
 use App\Tools\Seo;
-use App\User;
 use Illuminate\Http\Request;
 use App\Models\Order;
-use Illuminate\Support\Facades\Auth;
+use Auth;
+use App\User;
 
 class CartController extends Controller
 {
 
+
     public function cartSave(Request $request){
-        $product_id = intval($request->input('product_id'));
-        $quantity   = intval($request->input('quantity', 0));
+        $product_id = $request->input('product_id');
+        $quantity   = $request->input('quantity', 0);
 
         return $this->sendResponse(
             ServiceCart::cartSave($product_id, $quantity)
@@ -41,14 +42,26 @@ class CartController extends Controller
         return $this->sendResponse($cartTotal);
     }
 
+    public function header_cart_info(){
+        $total = ServiceCart::cartTotal();
+        $total['sum'] = Helpers::priceFormat($total['sum']);
+
+        $cartProductsList = ServiceCart::cartProductsList();
+
+        return view('site.header_cart_info', [
+            'total' => $total,
+            'cartProductsList' => $cartProductsList
+        ]);
+    }
+
     public function checkout(){
         $seo = Seo::pageSeo('checkout');
 
         $user = null;
         if(Auth::check())
-            $user = User::with('addresses')->find(Auth::user()->id);
+            $user = User::find(Auth::user()->id);
 
-        return view(Helpers::isMobile() ? 'mobile.checkout' : 'site.checkout',[
+        return view(Helpers::isMobile() ? 'mobile.checkout' : 'site.checkout', [
             'seo'  => $seo,
             'user' => $user
         ]);
@@ -87,24 +100,22 @@ class CartController extends Controller
             $request->input('user.phone')
         );
 
-        //адрес
-        $address_id = $request->input('address.id', 0);
-        if(!$address_id)
-        {
-            $address = $user->addresses()->create($request->input('address'));
-            $address_id = $address->id;
-        }
+
 
 
         //заказ
         $order = new Order();
-        $order->type                = 1;
-        $order->user_id             = $user->id;
-        $order->status_id           = 1;//новый
-        $order->carrier_id          = $request->input('carrier_id');
-        $order->shipping_address_id = $address_id;
-        $order->comment             = $request->input('comment', '');
-        $order->payment_id          = $request->input('payment_id');
+        $order->type_id     = 4;
+        $order->user_id     = $user->id;
+        $order->carrier_id  = $request->input('carrier_id');
+        $order->comment     = $request->input('comment', '');
+        $order->payment_id  = $request->input('payment_id');
+        $order->city        = $request->input('city');
+        $order->address     = $request->input('address');
+        $order->user_email  = $request->input('user.email');
+        $order->user_name   = $request->input('user.name');
+        $order->user_phone  = $request->input('user.phone');
+
         if($order->save())
         {
             //товара заказа
@@ -135,9 +146,12 @@ class CartController extends Controller
 
         //заказ
         $order = new Order();
-        $order->type                = 2;
-        $order->user_id             = $user->id;
-        $order->status_id           = 1;//новый
+        $order->type_id     = 5;
+        $order->user_id     = $user->id;
+        $order->user_email  = $request->input('email');
+        $order->user_name   = $request->input('name');
+        $order->user_phone  = $request->input('phone');
+
         if($order->save())
         {
             ServiceOrder::productAdd($request->input('product_id'), $order->id);

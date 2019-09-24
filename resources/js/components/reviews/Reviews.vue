@@ -39,7 +39,7 @@
                 <tr v-for="item in reviews.data" v-bind:class="{ 'deleted': !item.active }">
                     <td>{{ item.id }}</td>
                     <td>
-                        <router-link :to="{ path: '/products/edit/' + item.product_id}">
+                        <router-link :to="{ path: '/product/' + item.product_id}">
                             {{ item.product.name }}
                         </router-link>
                     </td>
@@ -201,20 +201,14 @@
                                 <div class="col-md-12" v-if="!product_id">
                                     <div class="form-group" v-bind:class="{'has-error' : IsError('review.product_id')}">
                                         <label>Товар <span class="red">*</span></label>
-
-                                        <Select2
-                                                @select="setReviewProductId($event)"
-                                                :settings="productsSearchSelect2.settings"
-                                                :options="productsSearchSelect2.options"
-                                        />
-
+                                        <input placeholder="Товар ID" v-model="review.product_id" class="form-control"/>
+                                        <br/>
+                                        <searchProducts ref="searchProducts" @productSelected="setProductId"/>
                                         <span v-if="IsError('review.product_id')" class="help-block" v-for="e in IsError('review.product_id')">
                                             {{ e }}
                                         </span>
                                     </div>
                                 </div>
-
-
 
                             </div>
                             <div class="row btn-item">
@@ -243,18 +237,18 @@
     import Paginate from 'vuejs-paginate';
     import { mapGetters } from 'vuex';
     import Select2 from 'v-select2-component';
-
     import datePicker from 'vue-bootstrap-datetimepicker';
     import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+    import searchProducts from '../plugins/SearchProducts';
 
     export default {
         props:['product_id'],
         components:{
             Paginate,
             Select2,
-            datePicker
+            datePicker,
+            searchProducts
         },
-
         data () {
             return {
                 datetimepicker: {
@@ -281,35 +275,6 @@
                     page:   (this.$route.query.page       ? this.$route.query.page : 1),
                     search: (this.$route.query.search     ? this.$route.query.search : ''),
                 },
-                productsSearchSelect2:{
-                    options:  [],
-                    settings: {
-                        placeholder: "Поиск",
-                        ajax: {
-                            url: '/admin/search-products',
-                            dataType: 'json',
-                            data: function (params) {
-                                var query = {
-                                    search: params.term,
-                                    perPage: 5
-                                }
-                                return query;
-                            },
-                            processResults: function (data) {
-                                var results = [];
-                                data.forEach(function (item, index){
-                                    results.push({
-                                        id:     item.id,
-                                        text:   item.name
-                                    });
-                                });
-                                return {
-                                    results: results
-                                };
-                            }
-                        }
-                    }
-                }
             }
         },
         watch: {
@@ -327,11 +292,10 @@
             convertDataSelect2(values, column_id, column_text, disabled_column, default_option){
                 return this.$helper.convertDataSelect2(values, column_id, column_text, disabled_column, default_option);
             },
-
-            setReviewProductId(item){
-                this.review.product_id = item.id;
+            setProductId(product){
+                this.review.product_id = product.id;
+                this.$refs.searchProducts.search = '';
             },
-
             saveReview(event){
                 event.preventDefault();
 
@@ -388,7 +352,6 @@
                 $('#popup-review').modal('show');
             },
             deleteReview(item){
-
                 this.$swal({
                     title: 'Вы действительно хотите удалить "' + item.name + '"?',
                     type: 'warning',

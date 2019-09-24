@@ -2,9 +2,9 @@
     <div class="box">
 
         <div class="box-header with-border">
-            <router-link :to="{ path: '/payments/create'}" class="btn btn-primary ladda-button">
+            <router-link :to="{ name: 'payment_create' }" class="btn btn-primary ladda-button">
                 <span class="ladda-label">
-                    <i class="fa fa-plus"></i> Создать тип оплаты
+                    <i class="fa fa-plus"></i> Создать
                 </span>
             </router-link>
             <input id="filter-search" type="search" class="form-control input-sm pull-right" placeholder="Поиск" v-model="filter.search">
@@ -28,7 +28,7 @@
                             <img  class="img" v-if="item.logo" v-bind:src="item.logo ? '/uploads/payments/' + item.logo : ''" width="70"/>
                         </td>
                         <td>
-                            <router-link :to="{ path: '/payments/edit/' + item.id}" class="btn btn-xs btn-default">
+                            <router-link :to="{ name: 'payment_edit', params:{ payment_id: item.id } }" class="btn btn-xs btn-default">
                                 <i class="fa fa-edit"></i> Изменить
                             </router-link>
 

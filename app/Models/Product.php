@@ -5,6 +5,8 @@ namespace App\Models;
 
 use App\Services\ServiceCategory;
 use App\Services\ServiceCity;
+use App\Services\ServiceDB;
+use App\Services\ServiceUploadUrl;
 use Illuminate\Database\Eloquent\Model;
 use File;
 use App\Tools\Upload;
@@ -27,6 +29,7 @@ class Product extends Model
         'description_mini',
         'photo',
     	'price',
+        'cost_price',
     	'sku',
     	'stock',
         'seo_keywords',
@@ -189,6 +192,12 @@ class Product extends Model
         //Событие до
         static::Saving(function($product) {
 
+            if($product->active != 0 and $product->active != 1)
+                $product->active = 1;
+
+            if(!is_numeric($product->stock))
+                $product->stock = 1;
+
             //группа товара
             if(empty($product->group_id))
                 $product->group_id = ProductGroup::create()->id;
@@ -197,7 +206,7 @@ class Product extends Model
             $product->url = str_slug(empty($product->url) ? $product->name : $product->url);
 
             if(empty($product->id))
-                $product_id = Helpers::tableNextId('products');
+                $product_id = ServiceDB::tableNextId('products');
 
             //фото
             if(is_uploaded_file($product->photo))
@@ -211,7 +220,27 @@ class Product extends Model
                 $upload->setHeight(600);
                 $upload->setPath($product->productFileFolder(false, $product_id ?? 0));
                 $upload->setFile($product->photo);
-                $product->photo = $upload->save();
+                $fileName = $upload->save();
+                if($fileName)
+                {
+                    $product->photo = $fileName;
+                }
+            }
+            //загрузка по ссылке
+            elseif(ServiceUploadUrl::validUrlImage($product->photo))
+            {
+                $serviceUploadUrl = new ServiceUploadUrl();
+                if(!empty($product->id))
+                    self::find($product->id)->deletePhoto();
+
+                $serviceUploadUrl->name = str_slug($product->name);
+                $serviceUploadUrl->url = $product->photo;
+                $serviceUploadUrl->path_save = $product->productFileFolder(false, $product_id ?? 0);
+                $filename = $serviceUploadUrl->copy();
+                if($filename)
+                {
+                    $product->photo = $filename;
+                }
             }
 
             if(empty($product->sku))

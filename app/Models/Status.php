@@ -15,8 +15,12 @@ class Status extends Model
         'default'
     ];
 
-    public function scopeWhereUse($query, $where_use){
-        return $query->where('where_use', $where_use);
+    public function scopeCallbacksStatusId($query){
+        return $query->where('where_use', 'callbacks_status_id');
+    }
+
+    public function scopeOrdersType($query){
+        return $query->where('where_use', 'orders_type_id');
     }
 
     public function scopeDefaultValue($query){

@@ -24,9 +24,11 @@ class ServiceUser
         return User::create($data);
     }
 
-    public static function findOrNewUserCart($email, $name, $phone){
+    public static function findOrNewUserCart($email, $name, $phone)
+    {
         $user = User::where('email', $email)->first();
-        if(!$user){
+        if(!$user)
+        {
             $user = self::createUser(
                 $email,
                 null,
@@ -34,10 +36,6 @@ class ServiceUser
                 $phone
             );
             Auth::loginUsingId($user->id);
-        }else{
-            $user->phone = $phone;
-            $user->name  = $name;
-            $user->save();
         }
         return $user;
     }

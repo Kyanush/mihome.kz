@@ -2,7 +2,7 @@
     <div class="box">
 
         <div class="box-header with-border">
-            <router-link :to="{ path: '/order-statuses/create'}" class="btn btn-primary ladda-button">
+            <router-link :to="{ name: 'order_status_create' }" class="btn btn-primary ladda-button">
                 <span class="ladda-label">
                     <i class="fa fa-plus"></i> Создать статус заказа
                 </span>
@@ -30,7 +30,7 @@
                             <td>{{ item.description }}</td>
                             <td>{{ item.notification == 1 ? 'Да' : 'Нет' }}</td>
                             <td>
-                                <router-link :to="{ path: '/order-statuses/edit/' + item.id}" class="btn btn-xs btn-default">
+                                <router-link :to="{ name: 'order_status_edit', params: { order_status_id: item.id } }" class="btn btn-xs btn-default">
                                     <i class="fa fa-edit"></i> Изменить
                                 </router-link>
 

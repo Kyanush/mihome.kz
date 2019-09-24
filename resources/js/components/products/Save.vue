@@ -141,13 +141,30 @@
                                                 <label>
                                                     <span class="red">*</span>
                                                     <i class="fa fa-money" aria-hidden="true"></i>
-                                                    Цена:
+                                                    Цена продажи:
                                                 </label>
                                             </td>
                                             <td width="75%">
                                                 <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.price')}">
                                                     <input id="price" type="number" v-model="product.price" class="form-control"/>
                                                     <span v-if="IsError('product.price')" class="help-block" v-for="e in IsError('product.price')">
+                                                         {{ e }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="25%" class="text-right">
+                                                <label>
+                                                    <span class="red">*</span>
+                                                    <i class="fa fa-money" aria-hidden="true"></i>
+                                                    Себестоимость товара:
+                                                </label>
+                                            </td>
+                                            <td width="75%">
+                                                <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.cost_price')}">
+                                                    <input id="cost_price" type="number" v-model="product.cost_price" class="form-control"/>
+                                                    <span v-if="IsError('product.cost_price')" class="help-block" v-for="e in IsError('product.cost_price')">
                                                          {{ e }}
                                                     </span>
                                                 </div>
@@ -202,7 +219,7 @@
                                         </tr>
                                         <tr>
                                             <td width="25%" class="text-right">
-                                                <label>SKU:</label>
+                                                <label>Артикул:</label>
                                             </td>
                                             <td width="75%">
                                                 <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.sku')}">
@@ -247,16 +264,46 @@
                                             </td>
                                             <td width="75%">
                                                 <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.photo')}">
-                                                    <label class="btn btn-primary btn-file">
-                                                        <i class="fa fa-file-image-o" aria-hidden="true"></i>  Фото товара
-                                                        <input type="file" accept="image/*"  @change="setProductPhoto($event)"/>
-                                                    </label>
+
+                                                    <table class="table table-bordered ">
+                                                        <tbody>
+                                                            <tr>
+                                                                 <td>
+                                                                     <label>
+                                                                         <input type="radio" v-model="product_photo_upload_type" value="file"/>
+                                                                         Загрузить с компьютера
+                                                                     </label>
+                                                                 </td>
+                                                                 <td>
+                                                                     <label>
+                                                                         <input type="radio" v-model="product_photo_upload_type" value="url">
+                                                                         Вставить путь к файлу
+                                                                     </label>
+                                                                 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2">
+
+                                                                    <label v-if="product_photo_upload_type == 'file'" class="btn btn-primary btn-file">
+                                                                        <i class="fa fa-file-image-o" aria-hidden="true"></i> Загрузить
+                                                                        <input type="file" accept="image/*"  @change="setProductPhoto($event)"/>
+                                                                    </label>
+
+                                                                    <input v-if="product_photo_upload_type == 'url'"
+                                                                           placeholder="Пример: https://test.kz/uploads/products/339/xiaomi-mi-9-se-664gb-ocean-blue.jpeg"
+                                                                           class="form-control"
+                                                                           type="text"
+                                                                           v-model="product.photo"/>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                     <span v-if="IsError('product.photo')" class="help-block" v-for="e in IsError('product.photo')">
                                                          {{ e }}
                                                     </span>
-                                                    <p>
+                                                    <p v-if="product.pathPhoto">
                                                         <br/>
-                                                        <img v-bind:src="product.pathPhoto ? product.pathPhoto : ''" class="img" id="photo-img" width="100"/>
+                                                        <img v-bind:src="product.pathPhoto" class="img" width="100"/>
                                                     </p>
                                                 </div>
                                             </td>
@@ -517,7 +564,7 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Название</th>
-                                                <th>SKU</th>
+                                                <th>Артикул</th>
                                                 <th>Цена</th>
                                                 <th>Статус</th>
                                                 <th>Действия</th>
@@ -535,7 +582,7 @@
                                                        v-bind:class="{ 'fa-times-circle red': !item.active, 'fa-check-circle green': item.active }"></i>
                                                 </td>
                                                 <td>
-                                                    <router-link :to="{ path: '/products/edit/' + item.id}" class="btn btn-xs btn-default" v-if="product.id != item.id" target="_blank">
+                                                    <router-link :to="{ path: '/product/' + item.id}" class="btn btn-xs btn-default" v-if="product.id != item.id" target="_blank">
                                                         <i class="fa fa-edit"></i> Изменить
                                                     </router-link>
 
@@ -553,11 +600,7 @@
 
                                     <h3>Добавить товар</h3>
                                     <div id="ungrouped_products">
-                                        <Select2
-                                                 @select="productGroupAdd($event)"
-                                                 :settings="productSearchSelect2.settings"
-                                                 :options="productSearchSelect2.options"
-                                                 />
+                                        <searchProducts ref="searchProducts" @productSelected="productGroupAdd"/>
                                     </div>
                                 </div>
                             </div>
@@ -596,16 +639,10 @@
                                         </table>
                                         </div>
                                     </div>
-
                                     <hr/>
-
                                     <h3>Добавить товар</h3>
                                     <div>
-                                        <Select2
-                                                @select="addProductAccessory($event)"
-                                                :settings="productSearchSelect2.settings"
-                                                :options="productSearchSelect2.options"
-                                        />
+                                        <searchProducts ref="searchProducts" @productSelected="addProductAccessory"/>
                                     </div>
 
                                 </div>
@@ -694,35 +731,20 @@
 
 
 <script>
-
-
-
     import Paginate from 'vuejs-paginate';
-
     //https://select2.org/configuration/options-api
     import Select2 from 'v-select2-component';
-
-
-
-
-
     import UploadImages from '../plugins/UploadImages';
-
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
-
-
     import datePicker from 'vue-bootstrap-datetimepicker';
     import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
-
     import reviews from '../reviews/reviews';
     import questions_answers from '../questions-answers/QuestionsAnswers';
-
-
     import Categories  from '../plugins/Categories';
     import Ckeditor    from  '../plugins/Ckeditor';
     import SelectColor from '../plugins/SelectColor';
-
+    import searchProducts from '../plugins/SearchProducts';
 
     export default {
         components:{
@@ -734,11 +756,11 @@
             reviews,
             questions_answers,
             Categories,
-            SelectColor
+            SelectColor,
+            searchProducts
         },
         data () {
             return {
-
                 datetimepicker: {
                     format: 'YYYY-MM-DD HH:mm:ss',
                     useCurrent: false,
@@ -746,9 +768,8 @@
                     showClose: true,
                     locale: 'ru'
                 },
-
                 product:{
-                    id: this.$route.params.id ? this.$route.params.id : 0,
+                    id: this.$route.params.product_id ? this.$route.params.product_id : 0,
                     attribute_set_id: 0,
                     name: '',
                     url: '',
@@ -757,6 +778,7 @@
                     photo: '',
                     pathPhoto: '',
                     price: 0,
+                    cost_price: 0,
                     sku: '',
                     stock: 0,
                     active: 1,
@@ -765,8 +787,7 @@
                     youtube: '',
                     view_count: 0
                 },
-
-
+                product_photo_upload_type: 'file',
                 product_accessories: [],
                 attributes: [],
                 product_images: [],
@@ -777,49 +798,11 @@
                     expiration_date: ''
                 },
                 categories: [],
-
                 method_redirect: 'save_and_back',
                 tab_active: 'tab_general',
                 categories_list: [],
                 attributes_sets_more_info: [],
-
-
                 group_products: [],
-
-
-                productSearchSelect2:{
-                    options:  [],
-                    settings: {
-                        placeholder: "Поиск",
-                        ajax: {
-                            url: '/admin/search-products',
-                            dataType: 'json',
-                            data: function (params) {
-                                var query = {
-                                    search: params.term,
-                                    perPage: 5
-                                }
-                                return query;
-                            },
-                            processResults: function (data) {
-                                var results = [];
-                                data.forEach(function (item, index){
-                                        results.push({
-                                            id:     item.id,
-                                            text:   item.name,
-                                            name:   item.name,
-                                            sku:    item.sku,
-                                            price:  item.price,
-                                            active: item.active,
-                                        });
-                                });
-                                return {
-                                    results: results
-                                };
-                            }
-                        }
-                    }
-                }
             }
         },
 
@@ -838,10 +821,11 @@
             deleteProductAccessory(index){
                  this.$delete(this.product_accessories, index);
             },
-            addProductAccessory({id, name, active}){
+            addProductAccessory(product){
+
                 var add = true;
                 this.product_accessories.forEach(function (item, index){
-                    if(item.product_id == id)
+                    if(item.id == product.id)
                     {
                         add = false;
                         return;
@@ -850,38 +834,37 @@
 
                 if(add)
                     this.product_accessories.push({
-                        id: id,
-                        name: name,
-                        active: active
+                        id:     product.id,
+                        name:   product.name,
+                        active: product.active
                     });
                 else{
                     this.$helper.swalError('Товар уже добавлен');
                 }
             },
+            productGroupAdd(product){
 
-
-            productGroupAdd({id, name, sku, price, active}){
                 var add = true;
                 this.group_products.forEach(function (item, index){
-                    if(id == item.id)
+                    if(item.id == product.id)
                     {
                         add = false;
                         return;
                     }
                 });
+
                 if(add)
                 {
                     this.group_products.push({
-                        id: id,
-                        name: name,
-                        sku: sku,
-                        price: price,
-                        active: active
+                        id:     product.id,
+                        name:   product.name,
+                        sku:    product.sku,
+                        price:  product.price,
+                        active: product.active
                     });
                 }else{
                     this.$helper.swalError('Товар уже добавлен');
                 }
-                this.productSearchSelect2.options = [];
             },
             productGroupDelete(index){
                 this.$delete(this.group_products, index);
@@ -897,11 +880,15 @@
                 this.$set(this.attributes[index], 'value' , '');
             },
             setProductPhoto(event){
-                this.$helper.setImgSrc(event.target.files[0], '#photo-img');
+
+                var self = this;
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    self.product.pathPhoto = e.target.result;
+                };
+                reader.readAsDataURL(event.target.files[0]);
+
                 this.product.photo = event.target.files[0];
-            },
-            setImages(files){
-                this.product_images = files;
             },
             setTab(tab){
                 this.tab_active = tab;
@@ -991,12 +978,18 @@
 
                         }else if(this.method_redirect == 'save_and_continue'){
                             var product_id = res.data;
-                            if(!this.product.id)
-                                this.$router.push('/products/edit/' + product_id);
 
-                            this.getProduct(product_id);
+                            this.$router.go({
+                                name: 'product_edit',
+                                params: {
+                                    product_id: product_id
+                                }
+                            });
+
                         }else if(this.method_redirect == 'save_and_new'){
-                            window.location = '/admin/product/create';
+
+                            this.$router.go({ name: 'product_create' });
+
                         }
                     }
                 });
@@ -1011,6 +1004,7 @@
                                 var data    = res.data;
                                 var product = data.product;
 
+
                                 this.product.id               = product.id;
                                 this.product.attribute_set_id = product.attribute_set_id;
                                 this.product.name             = product.name;
@@ -1022,6 +1016,7 @@
                                 this.product.photo            = product.photo;
                                 this.product.pathPhoto        = product.pathPhoto;
                                 this.product.price            = parseInt(product.price);
+                                this.product.cost_price       = parseInt(product.cost_price);
                                 this.product.sku              = product.sku;
                                 this.product.stock            = product.stock;
                                 this.product.active           = product.active;
@@ -1112,6 +1107,14 @@
         watch: {
             '$route'() {
                 this.getProduct(this.$route.params.id);
+            },
+            'product.photo':{
+                handler: function (val, oldVal) {
+                    if(this.product_photo_upload_type == 'url'){
+                        this.product.pathPhoto = val;
+                    }
+                },
+                deep: true
             }
         },
     }

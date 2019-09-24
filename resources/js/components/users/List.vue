@@ -2,10 +2,10 @@
     <div class="box">
 
         <div class="box-header with-border">
-            <router-link :to="{ path: '/users/create'}" class="btn btn-primary ladda-button">
-                            <span class="ladda-label">
-                                <i class="fa fa-plus"></i> Создать
-                            </span>
+            <router-link :to="{ name: 'user_create' }" class="btn btn-primary ladda-button">
+                <span class="ladda-label">
+                    <i class="fa fa-plus"></i> Создать
+                </span>
             </router-link>
             <input id="filter-search" type="search" class="form-control input-sm pull-right" placeholder="Поиск" v-model="filter.search">
         </div>
@@ -50,7 +50,7 @@
                     <i class="fa" v-bind:class="{'red fa-times-circle' : !item.active, 'green fa-check-circle' : item.active }"></i>
                 </td>
                 <td>
-                    <router-link :to="{ path: '/users/edit/' + item.id}" class="btn btn-xs btn-default">
+                    <router-link :to="{ name: 'user_edit', params: { user_id: item.id }}" class="btn btn-xs btn-default">
                         <i class="fa fa-edit"></i> Изменить
                     </router-link>
 

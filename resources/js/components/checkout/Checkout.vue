@@ -206,28 +206,15 @@
                                     <div class="cart_rumi_shipping_address">
                                         <div class="cart_rumi_shipping_address_header">Укажите адрес доставки</div>
 
-                                        <div class="cart_rumi_shipping_address_inputs" v-if="addresses.length > 0">
-                                            <div class="cart_rumi_shipping_address_input_string">
-                                                <div class="cart_rumi_shipping_address_input_string_show_first">Ваш адрес<br>
-                                                    <select v-model="address.id">
-                                                        <option value="0">Новый адрес</option>
-                                                        <option v-bind:value="item.id" v-for="item in addresses">
-                                                            {{ item.city }} - {{ item.address }}
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="cart_rumi_shipping_address_inputs" v-if="address.id == 0">
+                                        <div class="cart_rumi_shipping_address_inputs">
                                             <div class="cart_rumi_shipping_address_input_string">
                                                 <div class="cart_rumi_shipping_address_input_string_show_first">Адрес <span class="simplecheckout-required">*</span><br>
-                                                    <input v-model="address.address" name="rumi_address_street" id="rumi_address_street" type="text" value="">
+                                                    <input v-model="address" name="rumi_address_street" id="rumi_address_street" type="text" value="">
                                                 </div>
                                             </div>
                                             <div class="cart_rumi_shipping_address_input_string">
                                                 <div class="cart_rumi_shipping_address_input_string_show">Город  <span class="simplecheckout-required">*</span><br>
-                                                    <input v-model="address.city"  name="rumi_address_apartment" id="rumi_address_apartment" value="" type="text">
+                                                    <input v-model="city"  name="rumi_address_apartment" id="rumi_address_apartment" value="" type="text">
                                                 </div>
                                             </div>
                                         </div>
@@ -286,26 +273,22 @@
                 list_cart: [],
                 list_carriers: [],
                 list_payments: [],
-                addresses: this._user ? (this._user.addresses ? this._user.addresses : [])  : [],
                 cart_total: {
                     sum: 0,
                     quantity: 0
                 },
-                order_id: 0,
-
                 carrier: {},
                 payment: {},
-                address:{
-                    id: 0,
-                    city: '',
-                    address: ''
-                },
+
                 user:{
                     phone:  this._user ? this._user.phone      : '',
                     email:  this._user ? this._user.email      : '',
                     name:   this._user ? this._user.name       : ''
                 },
                 comment: '',
+                order_id: 0,
+                city: '',
+                address: '',
 
                 checkout_wait: false
             }
@@ -364,11 +347,8 @@
                     var data = {
                         carrier_id: this.carrier.id,
                         payment_id: this.payment.id,
-                        address: {
-                            id:      this.address.id,
-                            city:    this.address.city,
-                            address: this.address.address
-                        },
+                        city:       this.city,
+                        address:    this.address,
                         user: {
                             phone: this.user.phone,
                             email: this.user.email,

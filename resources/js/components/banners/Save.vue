@@ -64,7 +64,7 @@
 
                              </div>
 
-                             <router-link :to="{path: '/banners'}" class="btn btn-default">
+                             <router-link :to="{ name: 'banners' }" class="btn btn-default">
                                  <span class="fa fa-ban"></span> &nbsp;
                                  Отменить
                              </router-link>
@@ -90,7 +90,7 @@
             return {
                 method_redirect: 'save_and_back',
                 banner:{
-                    id: this.$route.params.id ? this.$route.params.id : 0,
+                    id: this.$route.params.banner_id ? this.$route.params.banner_id : 0,
                     name: '',
                     link: '',
                     body: '',
@@ -137,17 +137,17 @@
                             if(!this.banner.id)
                             {
                                 this.banner.id = res.data;
-                                this.$router.push('/banners/edit/' + this.banner.id);
+                                this.$router.push({
+                                    name: 'banner_edit',
+                                    params: {
+                                        banner_id: this.banner.id
+                                    }
+                                });
                             }
                         }else if(this.method_redirect == 'save_and_new'){
-                            window.location = '/admin/banners/create';
-
-                            this.banner = {
-                                id:   0,
-                                name: '',
-                                link: '',
-                                body: ''
-                            };
+                            this.$router.go({
+                                name: 'banner_create'
+                            });
                         }
 
                     }

@@ -78,6 +78,17 @@
                         </span>
                     </div>
 
+                    <div class="form-group col-md-6" v-bind:class="{'has-error' : IsError('attribute.show_product_detail')}">
+                        <label>Показывать характеристика товара</label>
+                        <select class="form-control" v-model="attribute.show_product_detail">
+                            <option value="1">Да</option>
+                            <option value="0">Нет</option>
+                        </select>
+                        <span v-if="IsError('attribute.show_product_detail')" class="help-block" v-for="e in IsError('attribute.show_product_detail')">
+                            {{ e }}
+                        </span>
+                    </div>
+
                     <div class="form-group col-md-12 attr-field attr-type-media image" v-if="attribute.type == 'media'" v-bind:class="{'has-error' : IsError('attribute.values.0.value')}">
                         <div>
                             <label>Картина по умолчанию</label>
@@ -258,7 +269,7 @@
 
                         </div>
 
-                        <router-link :to="{path: '/attributes'}" class="btn btn-default">
+                        <router-link :to="{ name: 'attributes' }" class="btn btn-default">
                             <span class="fa fa-ban"></span> &nbsp;
                             Отменить
                         </router-link>
@@ -302,6 +313,7 @@
                     use_in_filter: 0,
                     description: '',
                     attribute_group_id: 0,
+                    show_product_detail: 1,
                     values: [{
                         id: 0,
                         value: '',
@@ -347,9 +359,10 @@
             }
         },
         created(){
-            if(this.$route.params.id > 0)
+            var attribute_id = this.$route.params.attribute_id;
+            if(attribute_id > 0)
             {
-                axios.get('/admin/attribute-view/' + this.$route.params.id).then((res)=>{
+                axios.get('/admin/attribute-view/' + attribute_id).then((res)=>{
                     this.attribute = res.data;
 
                     if(!this.attribute.attribute_group_id)
@@ -433,14 +446,15 @@
 
                 var form_data = new FormData();
 
-                form_data.append('attribute[id]',            this.attribute.id);
-                form_data.append('attribute[name]',          this.attribute.name);
-                form_data.append('attribute[type]',          this.attribute.type);
-                form_data.append('attribute[required]',      this.attribute.required);
-                form_data.append('attribute[code]',          this.attribute.code);
-                form_data.append('attribute[use_in_filter]', this.attribute.use_in_filter);
-                form_data.append('attribute[description]',   this.attribute.description);
+                form_data.append('attribute[id]',                   this.attribute.id);
+                form_data.append('attribute[name]',                 this.attribute.name);
+                form_data.append('attribute[type]',                 this.attribute.type);
+                form_data.append('attribute[required]',             this.attribute.required);
+                form_data.append('attribute[code]',                 this.attribute.code);
+                form_data.append('attribute[use_in_filter]',        this.attribute.use_in_filter);
+                form_data.append('attribute[description]',          this.attribute.description);
                 form_data.append('attribute[attribute_group_id]',   this.attribute.attribute_group_id);
+                form_data.append('attribute[show_product_detail]',  this.attribute.show_product_detail);
 
 
 
@@ -465,28 +479,17 @@
                             if(!this.attribute.id)
                             {
                                 this.attribute.id = res.data;
-                                this.$router.push('/attributes/edit/' + this.attribute.id);
+                                this.$router.push({
+                                    name: 'attribute_edit',
+                                    params: {
+                                        attribute_id: this.attribute.id
+                                    }
+                                });
                             }
                         }else if(this.method_redirect == 'save_and_new'){
-                            window.location = '/admin/attributes/create';
-
-                            this.attribute = {
-                                id: 0,
-                                    name: '',
-                                    type: '',
-                                    required: 0,
-                                    code: '',
-                                    use_in_filter: 0,
-                                    description: '',
-                                    attribute_group_id: 0,
-                                    values: [{
-                                        id: 0,
-                                        value: '',
-                                        code: '',
-                                        props: '',
-                                        is_delete: 0
-                                    }]
-                            };
+                            this.$router.go({
+                                name: 'attribute_create'
+                            });
                         }
                     }
                 });

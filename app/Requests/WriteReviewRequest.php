@@ -8,13 +8,13 @@ class WriteReviewRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'product_id' => 'required|exists:products,id',
+            'product_id' => 'exists:products,id',
             'minus'      => '',
             'plus'       => '',
-            'email'      => 'required|nullable|email',
-            'comment'    => 'required',
-            'name'       => 'required|max:255',
-            'rating'     => 'required|integer|max:5|min:1',
+            'email'      => 'nullable|email',
+            'comment'    => '',
+            'name'       => 'max:255',
+            'rating'     => 'integer|max:5|min:1',
             'created_at' => 'date_format:"Y-m-d H:i:s"'
         ];
         return $rules;

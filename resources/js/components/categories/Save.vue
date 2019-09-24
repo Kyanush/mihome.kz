@@ -342,7 +342,7 @@
             return {
                 method_redirect: 'save_and_back',
                 category:{
-                    id: this.$route.params.id ? this.$route.params.id : 0,
+                    id: this.$route.params.category_id ? this.$route.params.category_id : 0,
                     parent_id: 0,
                     name: '',
                     url: '',
@@ -463,23 +463,17 @@
                             if(!this.category.id)
                             {
                                 this.category.id = res.data;
-                                this.$router.push('/categories/edit/' + this.category.id);
+                                this.$router.push({
+                                        name: 'category_edit',
+                                        params: {
+                                            category_id: this.category.id
+                                        }
+                                    });
                             }
                         }else if(this.method_redirect == 'save_and_new'){
-                            window.location = '/admin/categories/create';
-
-                            this.category.id    = 0;
-                            this.category.parent_id  = 0;
-                            this.category.name  = '';
-                            this.category.url  = '';
-                            this.category.image = '';
-                            this.category.class = '';
-                            this.category.type = '';
-                            this.category.description = '';
-                            this.category.seo_keywords = '';
-                            this.category.seo_description = '';
-                            this.category.active = 1;
-                            this.category.category_filter_links = [];
+                            this.$router.go({
+                                name: 'category_create'
+                            });
                         }
 
                     }

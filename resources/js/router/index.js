@@ -16,6 +16,10 @@ import attributes_sets_save    from  '../components/attributes-sets/Save.vue';
 import products_list    from  '../components/products/List.vue';
 import products_save    from  '../components/products/Save.vue';
 
+
+import import_export  from '../components/import-export/Import-export.vue';
+
+
 import reviews    from  '../components/reviews/reviews.vue';
 import questions_answers    from  '../components/questions-answers/QuestionsAnswers.vue';
 
@@ -71,57 +75,59 @@ export default new Router({
 
         {
             path: '/main',
-            name: 'Статистика',
-            component: main
+            name: 'main',
+            component: main,
+            meta: {
+                title: 'Статистика',
+            }
         },
-
-
-
-
-
 
 
         //Категория
         {
             path: '/categories',
-            name: 'Категории',
+            name: 'categories',
             component: categories_list,
             meta: {
+                title: 'Категории',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/categories/create',
-            name: 'Создать категорию',
+            path: '/category',
+            name: 'category_create',
             component: categories_save,
             meta: {
+                title: 'Создать категорию',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Категории', link: '/categories' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Категории', link: '/categories' },
                 ]
             }
         },
         {
             path: '/categories/reorder',
-            name: 'Переупорядочить категории',
+            name: 'categories_reorder',
             component: categories_reorder,
             meta: {
+                title: 'Переупорядочить категории',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Категории', link: '/categories' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Категории', link: '/categories' },
                 ]
             }
         },
         {
-            path: '/categories/edit/:id',
-            name: 'Редактировать категорию',
+            path: '/category/:category_id',
+            name: 'category_edit',
             component: categories_save,
             meta: {
+                title: 'Редактировать категорию',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Категории', link: '/categories' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Категории', link: '/categories' },
                 ]
             }
         },
@@ -135,33 +141,36 @@ export default new Router({
         //Атрибуты
         {
             path: '/attributes',
-            name: 'Атрибуты',
+            name: 'attributes',
             component: attributes_list,
             meta: {
+                title: 'Атрибуты',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/attributes/create',
-            name: 'Создать атрибут',
+            path: '/attribute',
+            name: 'attribute_create',
             component: attributes_save,
             meta: {
+                title: 'Создать атрибут',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Атрибуты', link: '/attributes' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Атрибуты', link: '/attributes' },
                 ]
             }
         },
         {
-            path: '/attributes/edit/:id',
-            name: 'Редактировать атрибут',
+            path: '/attribute/:attribute_id',
+            name: 'attribute_edit',
             component: attributes_save,
             meta: {
+                title: 'Редактировать атрибут',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Атрибуты', link: '/attributes' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Атрибуты', link: '/attributes' },
                 ]
             }
         },
@@ -175,33 +184,36 @@ export default new Router({
         //Attribute Sets
         {
             path: '/attributes-sets',
-            name: 'Наборы атрибутов',
+            name: 'attributes_sets',
             component: attributes_sets_list,
             meta: {
+                title: 'Наборы атрибутов',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/attributes-sets/create',
-            name: 'Добавить набор атрибутов',
+            path: '/attribute-set',
+            name: 'attribute_set_create',
             component: attributes_sets_save,
             meta: {
+                title: 'Добавить набор атрибутов',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Наборы атрибутов', link: '/attributes-sets' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Наборы атрибутов', link: '/attributes-sets' },
                 ]
             }
         },
         {
-            path: '/attributes-sets/edit/:id',
-            name: 'Редактировать набор атрибутов',
+            path: '/attribute-set/:attribute_set_id',
+            name: 'attribute_set_edit',
             component: attributes_sets_save,
             meta: {
+                title: 'Редактировать набор атрибутов',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Наборы атрибутов', link: '/attributes-sets' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Наборы атрибутов', link: '/attributes-sets' },
                 ]
             }
 
@@ -216,48 +228,63 @@ export default new Router({
         //Товары
         {
             path: '/products',
-            name: 'Товары',
+            name: 'products',
             component: products_list,
             meta: {
+                title: 'Товары',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/product/create',
-            name: 'Добавить товар',
+            path: '/product',
+            name: 'product_create',
             component: products_save,
             meta: {
+                title: 'Добавить товар',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Товары', link: '/products' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Товары',           link: '/products' },
                 ]
             }
         },
         {
-            path: '/products/edit/:id',
-            name: 'Редактировать товар',
+            path: '/product/:product_id',
+            name: 'product_edit',
             component: products_save,
             meta: {
+                title: 'Редактировать товар',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Товары', link: '/products' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Товары',           link: '/products' },
                 ]
             }
         },
+        {
+            path: '/import-export',
+            component: import_export,
+            meta: {
+                title: 'Импорт/Экспорт',
+                breadcrumb: [
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Товары',           link: '/products' },
+                ]
+            }
+        },
+
 
 
 
         //Отзывы
         {
             path: '/reviews',
-            name: 'Отзывы',
             component: reviews,
             meta: {
+                title: 'Отзывы',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Товары', link: '/products' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Товары', link: '/products' },
                 ]
             }
         },
@@ -265,12 +292,12 @@ export default new Router({
         //Вопросы-ответы
         {
             path: '/questions-answers',
-            name: 'Вопросы-ответы',
             component: questions_answers,
             meta: {
+                title: 'Вопросы-ответы',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Товары', link: '/products' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Товары', link: '/products' },
                 ]
             }
         },
@@ -279,36 +306,39 @@ export default new Router({
         /**********************************************************************************************************************/
         {
             path: '/users',
-            name: 'Клиенты и пользователи',
+            name: 'users',
             component: users_list,
             meta: {
+                title: 'Клиенты и пользователи',
                 roles: ['admin'],
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/users/create',
-            name: 'Создать',
+            path: '/user',
+            name: 'user_create',
             component: users_save,
             meta: {
+                title: 'Создать',
                 roles: ['admin'],
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Клиенты и пользователи', link: '/users' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Клиенты и пользователи', link: '/users' },
                 ]
             }
         },
         {
-            path: '/users/edit/:id',
-            name: 'Редактировать',
+            path: '/user/:user_id',
+            name: 'user_edit',
             component: users_save,
             meta: {
+                title: 'Редактировать',
                 roles: ['admin'],
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Клиенты и пользователи', link: '/users' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Клиенты и пользователи', link: '/users' },
                 ]
             }
         },
@@ -319,67 +349,76 @@ export default new Router({
         //Курьер
         {
             path: '/carriers',
-            name: 'Курьеры',
+            name: 'carriers',
             component: carriers_list,
             meta: {
+                title: 'Курьеры',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/carriers/create',
-            name: 'Создать курьер',
+            path: '/courier',
+            name: 'courier_create',
             component: carriers_save,
             meta: {
+                title: 'Создать курьер',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Курьеры', link: '/carriers' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Курьеры', link: '/carriers' },
                 ]
             }
         },
         {
-            path: '/carriers/edit/:id',
-            name: 'Редактировать курьер',
+            path: '/courier/:courier_id',
+            name: 'courier_edit',
             component: carriers_save,
             meta: {
+                title: 'Редактировать курьер',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Курьеры', link: '/carriers' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Курьеры', link: '/carriers' },
                 ]
             }
         },
 
+
+
+
         //Слайдеры
         {
             path: '/sliders',
-            name: 'Слайдеры',
+            name: 'sliders',
             component: sliders_list,
             meta: {
+                title: 'Слайдеры',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/sliders/create',
-            name: 'Создать слайдер',
+            path: '/slider',
+            name: 'slider_create',
             component: sliders_save,
             meta: {
+                title: 'Создать слайдер',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Слайдеры', link: '/sliders' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Слайдеры', link: '/sliders' },
                 ]
             }
         },
         {
-            path: '/sliders/edit/:id',
-            name: 'Редактировать слайдер',
+            path: '/slider/:slider_id',
+            name: 'slider_edit',
             component: sliders_save,
             meta: {
+                title: 'Редактировать слайдер',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Слайдеры', link: '/sliders' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Слайдеры', link: '/sliders' },
                 ]
             }
         },
@@ -388,33 +427,36 @@ export default new Router({
         //статус
         {
             path: '/order-statuses',
-            name: 'Статусы заказов',
+            name: 'order_statuses',
             component: order_statuses_list,
             meta: {
+                title: 'Статусы заказов',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/order-statuses/create',
-            name: 'Создать статус заказа',
+            path: '/order-status',
+            name: 'order_status_create',
             component: order_statuses_save,
             meta: {
+                title: 'Создать статус заказа',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Статусы заказов', link: '/order-statuses' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Статусы заказов', link: '/order-statuses' },
                 ]
             }
         },
         {
-            path: '/order-statuses/edit/:id',
-            name: 'Редактировать статус заказа',
+            path: '/order-status/:order_status_id',
+            name: 'order_status_edit',
             component: order_statuses_save,
             meta: {
+                title: 'Редактировать статус заказа',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Статусы заказов', link: '/order-statuses' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Статусы заказов', link: '/order-statuses' },
                 ]
             }
         },
@@ -423,11 +465,11 @@ export default new Router({
         //Скидки
         {
             path: '/specific-prices',
-            name: 'Скидки',
             component: specific_prices_list,
             meta: {
+                title: 'Скидки',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
@@ -436,22 +478,24 @@ export default new Router({
         //Обратный звонок
         {
             path: '/callbacks',
-            name: 'Обратный звонок',
+            name: 'callbacks',
             component: callbacks_list,
             meta: {
+                title: 'Обратный звонок',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/callbacks/edit/:id',
-            name: 'Редактировать слайдер',
+            path: '/callback/:callback_id',
+            name: 'callback',
             component: callbacks_detail,
             meta: {
+                title: 'Редактировать слайдер',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Обратный звонок', link: '/callbacks' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Обратный звонок', link: '/callbacks' },
                 ]
             }
         },
@@ -461,33 +505,36 @@ export default new Router({
         //заказы
         {
             path: '/orders',
-            name: 'Заказы',
+            name: 'orders',
             component: orders_list,
             meta: {
+                title: 'Заказы',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/orders/:id',
-            name: 'Заказ',
+            path: '/order/:order_id',
+            name: 'order_edit',
             component: orders_detail,
             meta: {
+                title: 'Заказ',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Заказы', link: '/orders' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Заказы', link: '/orders' },
                 ]
             }
         },
         {
-            path: '/orders/create',
-            name: 'Создать заказ',
+            path: '/order',
+            name: 'order_create',
             component: orders_detail,
             meta: {
+                title: 'Создать заказ',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Создать заказ', link: '/orders' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Создать заказ', link: '/orders' },
                 ]
             }
         },
@@ -499,33 +546,36 @@ export default new Router({
         //Курьер
         {
             path: '/payments',
-            name: 'Тип оплаты',
+            name: 'payments',
             component: payments_list,
             meta: {
+                title: 'Тип оплаты',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/payments/create',
-            name: 'Создать курьер',
+            path: '/payment',
+            name: 'payment_create',
             component: payments_save,
             meta: {
+                title: 'Создать курьер',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Тип оплаты', link: '/payments' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Тип оплаты', link: '/payments' },
                 ]
             }
         },
         {
-            path: '/payments/edit/:id',
-            name: 'Редактировать курьер',
+            path: '/payment/:payment_id',
+            name: 'payment_edit',
             component: payments_save,
             meta: {
+                title: 'Редактировать курьер',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Тип оплаты', link: '/payments' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Тип оплаты', link: '/payments' },
                 ]
             }
         },
@@ -536,33 +586,36 @@ export default new Router({
         //Город
         {
             path: '/cities',
-            name: 'Тип оплаты',
+            name: 'cities',
             component: cities_list,
             meta: {
+                title: 'Тип оплаты',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/cities/create',
-            name: 'Создать город',
+            path: '/city',
+            name: 'city_create',
             component: cities_save,
             meta: {
+                title: 'Создать город',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Тип оплаты', link: '/cities' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Тип оплаты', link: '/cities' },
                 ]
             }
         },
         {
-            path: '/cities/edit/:id',
-            name: 'Редактировать город',
+            path: '/city/:city_id',
+            name: 'city_edit',
             component: cities_save,
             meta: {
+                title: 'Редактировать город',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Тип оплаты', link: '/cities' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Тип оплаты', link: '/cities' },
                 ]
             }
         },
@@ -573,33 +626,36 @@ export default new Router({
         //Баннеры
         {
             path: '/banners',
-            name: 'Баннеры',
+            name: 'banners',
             component: banners_list,
             meta: {
+                title: 'Баннеры',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/banners/create',
-            name: 'Создать город',
+            path: '/banner',
+            name: 'banner_create',
             component: banners_save,
             meta: {
+                title: 'Создать город',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Баннеры', link: '/banners' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Баннеры', link: '/banners' },
                 ]
             }
         },
         {
-            path: '/banners/edit/:id',
-            name: 'Редактировать город',
+            path: '/banner/:banner_id',
+            name: 'banner_edit',
             component: banners_save,
             meta: {
+                title: 'Редактировать город',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Баннеры', link: '/banners' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Баннеры', link: '/banners' },
                 ]
             }
         },
@@ -609,33 +665,36 @@ export default new Router({
         //Новостей
         {
             path: '/news',
-            name: 'Новости',
+            name: 'news',
             component: news_list,
             meta: {
+                title: 'Новости',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
+                    { title: 'Главная страница', link: '/main' },
                 ]
             }
         },
         {
-            path: '/news/create',
-            name: 'Создать',
+            path: '/news-create',
+            name: 'news_create',
             component: news_save,
             meta: {
+                title: 'Создать',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Новости', link: '/news' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Новости', link: '/news' },
                 ]
             }
         },
         {
-            path: '/news/edit/:id',
-            name: 'Редактировать',
+            path: '/news/:news_id',
+            name: 'news_edit',
             component: news_save,
             meta: {
+                title: 'Редактировать',
                 breadcrumb: [
-                    { name: 'Главная страница', link: '/main' },
-                    { name: 'Новости', link: '/news' },
+                    { title: 'Главная страница', link: '/main' },
+                    { title: 'Новости', link: '/news' },
                 ]
             }
         },

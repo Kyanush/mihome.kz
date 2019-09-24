@@ -19,6 +19,7 @@ class SaveProductRequest extends FormRequest
             'product.description' => 'required',
             'product.description_mini' => 'max:500',
             'product.price'       => 'numeric|required|min:1',
+            'product.cost_price'  => 'numeric|required|min:1',
             'product.sku'         => 'max:100|unique:products,sku' . ($product_id ? (',' . $product_id . ',id') : ''),
             'product.stock'       => 'integer',
             'product.active'      => 'required|integer|min:0|max:1',
@@ -33,7 +34,7 @@ class SaveProductRequest extends FormRequest
             'specific_price.reduction'       => 'nullable|numeric|min:0',
             'specific_price.discount_type'   => 'nullable|max:10',
 
-            'product_images.*.value'         => 'nullable|image|mimes:jpeg,jpg,png|max:10000',
+            'product_images.*.value'         => '',//nullable|image|mimes:jpeg,jpg,png|max:10000
         ];
 
         if ($this->input('specific_price.reduction') > 0)
@@ -73,7 +74,8 @@ class SaveProductRequest extends FormRequest
             'product.url'         => "'Ссылка'",
             'product.description' => "'Описание'",
             'product.description_mini' => "'Краткое описание'",
-            'product.price'       => "'Цена'",
+            'product.price'       => "'Цена продажи'",
+            'product.cost_price'  => "'Себестоимость товара'",
             'product.sku'         => "'SKU'",
             'product.stock'       => "'Количество на складе'",
             'product.active'      => "'Статус'",

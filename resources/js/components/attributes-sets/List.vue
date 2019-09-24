@@ -3,7 +3,7 @@
 
                     <div class="box-header with-border">
 
-                        <router-link :to="{ path: '/attributes-sets/create'}" class="btn btn-primary ladda-button">
+                        <router-link :to="{ name: 'attribute_set_create' }" class="btn btn-primary ladda-button">
                             <span class="ladda-label">
                                 <i class="fa fa-plus"></i> Добавить набор атрибутов
                             </span>
@@ -26,7 +26,7 @@
                                     <td>{{ item.id }}</td>
                                     <td>{{ item.name }}</td>
                                     <td>
-                                        <router-link :to="{ path: '/attributes-sets/edit/' + item.id}" class="btn btn-xs btn-default">
+                                        <router-link :to="{ name: 'attribute_set_edit', params: { attribute_set_id: item.id} }" class="btn btn-xs btn-default">
                                             <i class="fa fa-edit"></i> Изменить
                                         </router-link>
 

@@ -1,7 +1,7 @@
 <template>
     <div class="row">
 
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">
@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">
@@ -180,7 +180,6 @@
       text-transform: uppercase;
   }
   .quantity{
-      font-weight: 500;
-      font-size: 18px;
+      font-weight: 600;
   }
 </style>

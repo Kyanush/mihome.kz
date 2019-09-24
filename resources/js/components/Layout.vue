@@ -257,19 +257,26 @@
                         </router-link>
                     </li>
 
-<!--
-
-                    <li><a href="http://estarter-ecommerce-for-laravel/admin/notification-templates"><i class="fa fa-list"></i> <span>Notification Templates</span></a></li>
-
-                    <li class="treeview">
-                        <a href="#"><i class="fa fa-group"></i> <span>Users, Roles, Permissions</span> <i class="fa fa-angle-left pull-right"></i></a>
-                        <ul class="treeview-menu">
-                            <li><a href="http://estarter-ecommerce-for-laravel/admin/users"><i class="fa fa-user"></i> <span>Users</span></a></li>
-                            <li><a href="http://estarter-ecommerce-for-laravel/admin/role"><i class="fa fa-group"></i> <span>Roles</span></a></li>
-                            <li><a href="http://estarter-ecommerce-for-laravel/admin/permission"><i class="fa fa-key"></i> <span>Permissions</span></a></li>
-                        </ul>
+                    <li v-bind:class="{'active' : menu_active('/import-export/')}">
+                        <router-link :to="{ path: '/import-export'}">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                            <span>Импорт/Экспорт</span>
+                        </router-link>
                     </li>
--->
+
+                    <!--
+
+                                        <li><a href="http://estarter-ecommerce-for-laravel/admin/notification-templates"><i class="fa fa-list"></i> <span>Notification Templates</span></a></li>
+
+                                        <li class="treeview">
+                                            <a href="#"><i class="fa fa-group"></i> <span>Users, Roles, Permissions</span> <i class="fa fa-angle-left pull-right"></i></a>
+                                            <ul class="treeview-menu">
+                                                <li><a href="http://estarter-ecommerce-for-laravel/admin/users"><i class="fa fa-user"></i> <span>Users</span></a></li>
+                                                <li><a href="http://estarter-ecommerce-for-laravel/admin/role"><i class="fa fa-group"></i> <span>Roles</span></a></li>
+                                                <li><a href="http://estarter-ecommerce-for-laravel/admin/permission"><i class="fa fa-key"></i> <span>Permissions</span></a></li>
+                                            </ul>
+                                        </li>
+                    -->
 
 
 

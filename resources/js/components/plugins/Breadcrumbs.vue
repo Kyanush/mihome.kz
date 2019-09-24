@@ -35,7 +35,7 @@
         },
         computed:{
             routeName(){
-                return this.$route.name;
+                return this.$route.meta.title;
             }
         }
     }
