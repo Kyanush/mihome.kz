@@ -76,7 +76,7 @@ class CatalogController extends Controller
 
         $productsHitViewed = Product::productInfoWith()
             ->filters($category_code ? ['category' => $category_code] : [])
-            ->OrderBy('viewed', 'DESC')
+            ->OrderBy('view_count', 'DESC')
             ->limit(10)
             ->get();
 
