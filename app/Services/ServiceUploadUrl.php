@@ -19,7 +19,7 @@ class ServiceUploadUrl
         if($downloadedFileContents === false)
             return false;
 
-        $save = file_put_contents($this->path_save . '/' . $filename, $downloadedFileContents);
+        $save = file_put_contents($this->path_save . $filename, $downloadedFileContents);
 
         if($save)
             return $filename;

@@ -7,11 +7,12 @@
 
     {{-- Encrypted CSRF token for Laravel, in order for Ajax requests to work --}}
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+
     <title></title>
 
-    @yield('before_styles')
+@yield('before_styles')
 
-    <!--
+<!--
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     -->
     <meta content="" name="viewport">
@@ -21,7 +22,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/dist/css/AdminLTE.css">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/dist/css/skins/_all-skins.min.css">
 
@@ -32,12 +33,12 @@
     <link rel="stylesheet" href="{{ asset('vendor/backpack/backpack.base.css') }}?v=2">
     <link rel="stylesheet" href="{{ asset('vendor/backpack/overlays/backpack.bold.css') }}">
 
-    @yield('after_styles')
+@yield('after_styles')
 
-    <!-- jQuery 2.2.3 -->
+<!-- jQuery 2.2.3 -->
     <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -52,7 +53,7 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/darkness/jquery-ui.css" />
     <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 
-    <!--
+<!--
     <link rel="stylesheet" href="{{ asset('vendor/backpack/nestedSortable/nestedSortable.css') }}">
     <script src="{{ asset('vendor/backpack/nestedSortable/jquery.mjs.nestedSortable2.js') }}" type="text/javascript"></script>
 -->
@@ -61,17 +62,21 @@
 
 
 
-
-<!--
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js'></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.print.css">
--->
+    <!--
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js'></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.print.css">
+    -->
 
 
 </head>
 <body class="skin-blue sidebar-mini">
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -178,7 +183,7 @@
     }
 
     $curentPageLink.parents('li').addClass('active');
-            {{-- Enable deep link to tab --}}
+        {{-- Enable deep link to tab --}}
     var activeTab = $('[href="' + location.hash.replace("#", "#tab_") + '"]');
     location.hash && activeTab && activeTab.tab('show');
     $('.nav-tabs a').on('shown.bs.tab', function (e) {

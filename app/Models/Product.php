@@ -202,11 +202,23 @@ class Product extends Model
             if(empty($product->group_id))
                 $product->group_id = ProductGroup::create()->id;
 
+
             //чпу
             $product->url = str_slug(empty($product->url) ? $product->name : $product->url);
 
             if(empty($product->id))
+            {
                 $product_id = ServiceDB::tableNextId('products');
+
+                $path_folder = public_path(config('shop.products_path_file') . $product_id) . '/';
+                if(!File::isDirectory($path_folder))
+                    File::makeDirectory($path_folder, 0777, true, true);
+
+            }else{
+                $product_id = $product->id;
+            }
+
+
 
             //фото
             if(is_uploaded_file($product->photo))
@@ -218,7 +230,7 @@ class Product extends Model
                 $upload->fileName = str_slug($product->name);
                 $upload->setWidth(300);
                 $upload->setHeight(600);
-                $upload->setPath($product->productFileFolder(false, $product_id ?? 0));
+                $upload->setPath(config('shop.products_path_file') . $product_id . '/');
                 $upload->setFile($product->photo);
                 $fileName = $upload->save();
                 if($fileName)
@@ -235,7 +247,7 @@ class Product extends Model
 
                 $serviceUploadUrl->name = str_slug($product->name);
                 $serviceUploadUrl->url = $product->photo;
-                $serviceUploadUrl->path_save = $product->productFileFolder(false, $product_id ?? 0);
+                $serviceUploadUrl->path_save = public_path(config('shop.products_path_file') . $product_id) . '/';
                 $filename = $serviceUploadUrl->copy();
                 if($filename)
                 {
