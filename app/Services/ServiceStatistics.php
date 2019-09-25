@@ -159,7 +159,7 @@ class ServiceStatistics
                 'color'       => '#ffb45f',
                 'textColor'   =>  '#222D32',
                 'allDay'      => false,
-                'url'         => '/admin/callbacks/' . $item->id,
+                'url'         => '/admin/callback/' . $item->id,
                 'icon_class'  => $item->status->class,
                 'icon_title'  => $item->type
             ];
