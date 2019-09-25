@@ -3,7 +3,7 @@
 
         <div class="box-header with-border">
 
-            <router-link :to="{ path: '/carriers/create'}" class="btn btn-primary ladda-button">
+            <router-link :to="{ name: 'courier_create' }" class="btn btn-primary ladda-button">
                 <span class="ladda-label">
                     <i class="fa fa-plus"></i> Создать курьер
                 </span>
@@ -34,7 +34,7 @@
                                     <img class="img" v-if="item.logo" v-bind:src="item.logo ? '/uploads/carriers/' + item.logo : ''" width="70"/>
                                 </td>
                                 <td>
-                                    <router-link :to="{ path: '/carriers/edit/' + item.id}" class="btn btn-xs btn-default">
+                                    <router-link :to="{ name: 'courier_edit', params: { courier_id: item.id } }" class="btn btn-xs btn-default">
                                         <i class="fa fa-edit"></i> Изменить
                                     </router-link>
 

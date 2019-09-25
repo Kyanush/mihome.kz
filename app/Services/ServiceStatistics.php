@@ -119,14 +119,14 @@ class ServiceStatistics
                 'color'       => '#b8c7ce',
                 'textColor'   =>  '#222D32',
                 'allDay'      => false,
-                'url'         => '/admin/orders/' . $item->id,
+                'url'         => '/admin/order/' . $item->id,
                 'icon_class'  => $item->status->class,
                 'icon_title'  => $item->status->name
             ];
 
             if(!isset($total_orders[ $item->status_id ]))
                 $total_orders[ $item->status_id ] = [
-                    'total'     => ($item->total),
+                    'total'     => $item->total,
                     'class'     => $item->status->class,
                     'title'     => $item->status->name,
                     'quantity'  => 1,
@@ -159,7 +159,7 @@ class ServiceStatistics
                 'color'       => '#ffb45f',
                 'textColor'   =>  '#222D32',
                 'allDay'      => false,
-                'url'         => '/admin/callbacks/edit/' . $item->id,
+                'url'         => '/admin/callbacks/' . $item->id,
                 'icon_class'  => $item->status->class,
                 'icon_title'  => $item->type
             ];

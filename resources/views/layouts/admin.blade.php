@@ -7,7 +7,6 @@
 
     {{-- Encrypted CSRF token for Laravel, in order for Ajax requests to work --}}
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link rel="icon" type="image/png" href="{{ config('shop.favicon') }}" />
     <title></title>
 
     @yield('before_styles')

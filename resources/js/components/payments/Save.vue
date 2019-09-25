@@ -82,7 +82,7 @@
             return {
                 method_redirect: 'save_and_back',
                 payment:{
-                    id: this.$route.params.id ? this.$route.params.id : 0,
+                    id: this.$route.params.payment_id ? this.$route.params.payment_id : 0,
                     name: '',
                     logo: ''
                 }
@@ -130,16 +130,17 @@
                             if(!this.payment.id)
                             {
                                 this.payment.id = res.data;
-                                this.$router.push('/payments/edit/' + this.payment.id);
+                                this.$router.push({
+                                    name: 'payment_edit',
+                                    params: {
+                                        payment_id: this.payment.id
+                                    }
+                                });
                             }
                         }else if(this.method_redirect == 'save_and_new'){
-                            window.location = '/admin/payments/create';
-
-                            this.payment = {
-                                id: 0,
-                                name: '',
-                                logo: ''
-                            };
+                            this.$router.go({
+                                name: 'payment_create'
+                            });
                         }
 
                     }

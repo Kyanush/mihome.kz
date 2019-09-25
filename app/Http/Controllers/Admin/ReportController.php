@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\AdminController;
 
 use App\Models\Product;
-use Mpdf\Mpdf;
+use App\Services\ServicePrint;
 use Illuminate\Http\Request;
 use App\Models\Order;
 
@@ -33,7 +33,12 @@ class ReportController extends AdminController
             'date_end'       => false
         ]);
 
-        return $this->render($format, $result, $title);
+        $print = new ServicePrint();
+        $print->result = $result;
+        $print->format = $format;
+        $print->title  = $title;
+
+        return $print->print();
     }
 
     public function goods($format, Request $request){
@@ -75,47 +80,12 @@ class ReportController extends AdminController
             'date_end'       => $request->input('created_at_end')
         ]);
 
-        return $this->render($format, $result, $title);
+        $print = new ServicePrint();
+        $print->result = $result;
+        $print->format = $format;
+        $print->title  = $title;
+
+        return $print->print();
     }
-
-    private function splitRedirect($request, $data){
-            if(!$request->input('page') and $data->lastPage() > 1)
-            {
-                for ($i = 1; $i <= $data->lastPage(); $i++)
-                {
-                    $s = strpos($request->fullUrl(), '?') !== false ? '&' : '?';
-                    $fullURL = $request->fullUrl() . $s . 'page=' . $i;
-
-                    echo <<<HTML
-                      <script>
-                            window.open('$fullURL', '_blank');
-                            setTimeout(function () {
-                                window.close(); 
-                            }.bind(this), 1000);
-                      </script>
-HTML;
-                }
-                exit();
-            }
-    }
-
-
-    private function render($format, $result, $title){
-        if($format == 'excel')
-        {
-            header("Content-Type: application/vnd.ms-excel; charset=utf-8");
-            header("Content-Disposition: attachment; filename=$title.xls");
-            header("Expires: 0");
-            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-            header("Cache-Control: private",false);
-            return $result;
-        }else{
-            $mpdf = new Mpdf(['orientation' => 'L']);
-            $mpdf->WriteHTML($result);
-            $mpdf->Output();
-        }
-    }
-
-
 
 }

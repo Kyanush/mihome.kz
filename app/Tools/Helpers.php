@@ -243,8 +243,6 @@ class Helpers
 
     public static function isMobile(){
         //return false;
-
-
         //mobile
         $detect = new Mobile_Detect();
         if($detect->isMobile())
@@ -253,10 +251,7 @@ class Helpers
             return false;
     }
 
-    public static function tableNextId($tableName){
-        $statement = DB::select("show table status like '" . env('DB_TABLE_PREFIX') . $tableName . "'");
-        return $statement[0]->Auto_increment;
-    }
+
 
     public static function sortConvert($value, $column = 'id', $order = 'DESC'){
         if($value)

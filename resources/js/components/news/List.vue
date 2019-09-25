@@ -3,7 +3,7 @@
 
         <div class="box-header with-border">
 
-            <router-link :to="{ path: '/news/create'}" class="btn btn-primary ladda-button">
+            <router-link :to="{ name: 'news_create' }" class="btn btn-primary ladda-button">
                 <span class="ladda-label">
                     <i class="fa fa-plus"></i> Создать
                 </span>
@@ -46,7 +46,7 @@
                             <i class="fa fa-times-circle" aria-hidden="true" v-bind:class="{ 'fa-times-circle red': !item.active, 'fa-check-circle green': item.active }"></i>
                         </td>
                         <td>
-                            <router-link :to="{ path: '/news/edit/' + item.id}" class="btn btn-xs btn-default">
+                            <router-link :to="{ name: 'news_edit', params: { news_id: item.id } }" class="btn btn-xs btn-default">
                                 <i class="fa fa-edit"></i> Изменить
                             </router-link>
 

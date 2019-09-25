@@ -18,20 +18,10 @@ class CheckoutRequest extends FormRequest
             'user.phone' => 'required|phone'
         ];
 
-        if($this->input('carrier_id', 0) != 2)
+        if($this->input('carrier_id', 0) == 1)
         {
-            if ($this->input('address.id', 0) > 0) {
-                $rules['address.id'] = ['required',
-                    Rule::exists('addresses', 'id')
-                        ->where(function ($query) {
-                            if (Auth::check())
-                                $query->where('user_id', Auth::user()->id);
-                        })
-                ];
-            } else {
-                $rules['address.city'] = 'required|max:255';
-                $rules['address.address'] = 'required|max:255';
-            }
+            $rules['city'] = 'required|max:255';
+            $rules['address'] = 'required|max:255';
         }
 
         return $rules;
@@ -46,9 +36,8 @@ class CheckoutRequest extends FormRequest
             'user.email'      => "'Email'",
             'user.name'       => "'Имя'",
             'user.phone'      => "'Телефон'",
-            'address.id'      => "'Ваш адрес'",
-            'address.city'    => "'Город'",
-            'address.address' => "'Адрес'",
+            'city'            => "'Город'",
+            'address'         => "'Адрес'",
         ];
     }
 

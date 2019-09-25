@@ -74,7 +74,7 @@
 
                              </div>
 
-                             <router-link :to="{path: '/carriers'}" class="btn btn-default">
+                             <router-link :to="{ name: 'carriers' }" class="btn btn-default">
                                  <span class="fa fa-ban"></span> &nbsp;
                                  Отменить
                              </router-link>
@@ -96,7 +96,7 @@
             return {
                 method_redirect: 'save_and_back',
                 carrier:{
-                    id: this.$route.params.id ? this.$route.params.id : 0,
+                    id: this.$route.params.courier_id ? this.$route.params.courier_id : 0,
                     name: '',
                     price: 0,
                     delivery_text: '',
@@ -148,18 +148,15 @@
                             if(!this.carrier.id)
                             {
                                 this.carrier.id = res.data;
-                                this.$router.push('/carriers/edit/' + this.carrier.id);
+                                this.$router.push({
+                                    name: 'courier_edit',
+                                    params:{
+                                        courier_id: this.carrier.id
+                                    }
+                                });
                             }
                         }else if(this.method_redirect == 'save_and_new'){
-                            window.location = '/admin/carriers/create';
-
-                            this.carrier = {
-                                id: 0,
-                                name: '',
-                                price: 0,
-                                delivery_text: '',
-                                logo: ''
-                            };
+                            this.$router.go({ name: 'courier_create' });
                         }
 
                     }

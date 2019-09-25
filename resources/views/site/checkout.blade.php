@@ -94,19 +94,11 @@
                                     <h3 class="title">Укажите адрес доставки</h3>
                                 </div>
                                 <div class="payment-method">
-                                    <div class="form-group" v-if="addresses.length > 0">
-                                        <select v-model="address.id" class="form-control">
-                                            <option value="0">Новый адрес</option>
-                                            <option v-bind:value="item.id" v-for="item in addresses">
-                                                @{{ item.city }} - @{{ item.address }}
-                                            </option>
-                                        </select>
+                                    <div class="form-group">
+                                        <input v-model="address" type="text" class="input" placeholder="Адрес *"/>
                                     </div>
-                                    <div class="form-group" v-if="address.id == 0">
-                                        <input v-model="address.address" type="text" class="input" placeholder="Адрес *"/>
-                                    </div>
-                                    <div class="form-group" v-if="address.id == 0">
-                                        <input v-model="address.city" type="text" class="input" placeholder="Город *"/>
+                                    <div class="form-group">
+                                        <input v-model="city" type="text" class="input" placeholder="Город *"/>
                                     </div>
                                 </div>
                             </div>
@@ -219,7 +211,6 @@
                         list_cart: [],
                         list_carriers: [],
                         list_payments: [],
-                        addresses: <?=json_encode($user ? $user->addresses : []);?>,
                         cart_total: {
                             sum: 0,
                             quantity: 0
@@ -228,11 +219,8 @@
 
                         carrier: {},
                         payment: {},
-                        address:{
-                            id: 0,
-                            city: '',
-                            address: ''
-                        },
+                        city: '',
+                        address: '',
                         user:{
                             phone: '{{$user->phone ?? '' }}',
                             email: '{{$user->email ?? '' }}',
@@ -301,11 +289,8 @@
                             var data = {
                                 carrier_id: this.carrier.id,
                                 payment_id: this.payment.id,
-                                address: {
-                                    id:      this.address.id,
-                                    city:    this.address.city,
-                                    address: this.address.address
-                                },
+                                city:    this.city,
+                                address: this.address,
                                 user: {
                                     phone: this.user.phone,
                                     email: this.user.email,

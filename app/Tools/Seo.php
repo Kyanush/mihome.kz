@@ -14,19 +14,13 @@ class Seo
 {
 
     public static function main(){
+        $city     = ServiceCity::getCurrentCity();
 
-        if(env('APP_NO_URL') == 'Magazin-Xiaomi.kz')
-        {
-            $title       = "Магазин Xiaomi - интернет-магазин";
-            $description = "⚡Фирменный магазин Xiaomi в Алматы ☝️Новинки ⭐Оригинальный товар ✌Сервисная поддержка ⏳Акции ✅Выгодные цены ✅Быстрая доставка ✅Свежие обзоры техники ⏩Заходи и выбирай, лучшее только у нас!";
-            $keywords    = "xiaomi в казахстане, xiaomi казахстан, xiaomi купить в казахстане, xiaomi цена в казахстане, фирменный магазин xiaomi в алматы, купить сяоми через интернет магазин, магазин xiaomi в алматы, магазин xiaomi, магазин xiaomi алматы, магазин ксиоми алматы";
-        }
-        else if(env('APP_NO_URL') == 'MiHome.kz')
-        {
-            $title       = "Mi Home - товары Xiaomi для дома | Алматы, Казахстан";
-            $description = "【Mi Home】Ми Хоум ✅ Товары Xiaomi (Сяоми) ⚡Фирменный магазин Xiaomi в Алматы ☝️Новинки ⭐Оригинальный товар ✌Сервисная поддержка ⏳Акции ✅Выгодные цены ✅Быстрая доставка ✅Свежие обзоры техники ⏩Заходи и выбирай, лучшее только у нас!";
-            $keywords    = "xiaomi в казахстане, xiaomi казахстан, xiaomi купить в казахстане, xiaomi цена в казахстане, фирменный магазин xiaomi в алматы, купить сяоми через интернет магазин, магазин xiaomi в алматы, магазин xiaomi, магазин xiaomi алматы, магазин ксиоми алматы";
-        }
+        $siteName = env('APP_NAME');
+
+        $title       = "{$siteName} в {$city->name} - Электроника, Бытовая Техника, Смартфоны";
+        $description = "{$siteName} — покупка бытовой техники и электроники ✅. Удобная процедура оформления ⭐, простой процесс покупки и большой ассортимент товаров ⚡. Описания товаров, отзывы и лучшие цены в Казахстане ☝.";
+        $keywords    = "товары, НИЗКАЯ ЦЕНА, Скидки, Акции, {$siteName}, купить, бытовая техника, электроника, покупка";
 
         return [
             'title'       => $title,
@@ -34,6 +28,7 @@ class Seo
             'description' => $description
         ];
     }
+
 
     public static function productDetail($product, $category){
 
@@ -57,8 +52,6 @@ class Seo
             'description' => $description
         ];
     }
-
-
 
 
     public static function catalog($category){

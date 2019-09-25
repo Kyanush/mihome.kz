@@ -17,7 +17,8 @@ class Callback extends Model
         'message',
         'email',
         'status_id',
-        'comment'
+        'comment',
+        'order_id'
 	];
 
     public function scopeSearch($query, $search){
@@ -39,7 +40,7 @@ class Callback extends Model
         static::creating(function ($modal) {
             if(!$modal->status_id)
             {
-                $modal->status_id = Status::whereUse(1)->defaultValue()->first()->id;
+                $modal->status_id = Status::callbacksStatusId()->defaultValue()->first()->id;
             }
         });
 

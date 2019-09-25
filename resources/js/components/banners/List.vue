@@ -2,7 +2,7 @@
     <div class="box">
 
         <div class="box-header with-border">
-            <router-link :to="{ path: '/banners/create'}" class="btn btn-primary ladda-button">
+            <router-link :to="{ name: 'banner_create' }" class="btn btn-primary ladda-button">
                 <span class="ladda-label">
                     <i class="fa fa-plus"></i> Баннеры
                 </span>
@@ -26,7 +26,7 @@
                         <td>{{ item.name }}</td>
                         <td>{{ item.link }}</td>
                         <td>
-                            <router-link :to="{ path: '/banners/edit/' + item.id}" class="btn btn-xs btn-default">
+                            <router-link :to="{ name: 'banner_edit', params:{ banner_id: item.id } }" class="btn btn-xs btn-default">
                                 <i class="fa fa-edit"></i> Изменить
                             </router-link>
                             <a class="btn btn-xs btn-default" @click="bannerDelete(item, index)">

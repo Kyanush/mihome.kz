@@ -8,9 +8,15 @@ use App\Models\Status;
 class StatusController extends AdminController
 {
 
-    public function list($where_use)
+    public function callbacksStatusId()
     {
-        $statuses = Status::WhereUse($where_use)->OrderBy('sort')->get();
+        $statuses = Status::callbacksStatusId()->OrderBy('sort')->get();
+        return  $this->sendResponse($statuses);
+    }
+
+    public function ordersType()
+    {
+        $statuses = Status::ordersType()->OrderBy('sort')->get();
         return  $this->sendResponse($statuses);
     }
 

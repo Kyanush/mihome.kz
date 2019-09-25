@@ -101,8 +101,7 @@ const VueInputMask = require('vue-inputmask').default
 Vue.use(VueInputMask);
 
 router.beforeEach((to, from, next) => {
-    if (to.name)
-        document.title = to.name;
+    document.title = to.meta.title;
     store.dispatch('SetErrors', null);
     return next();
 });

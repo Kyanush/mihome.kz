@@ -2,7 +2,7 @@
     <div class="box">
 
         <div class="box-header with-border">
-            <router-link :to="{ path: '/orders/create'}" class="btn btn-primary ladda-button">
+            <router-link :to="{ name: 'order_create' }" class="btn btn-primary ladda-button">
                 <span class="ladda-label">
                     <i class="fa fa-plus"></i> Создать заказ
                 </span>
@@ -47,10 +47,11 @@
                                     <tr class="odd even">
                                         <td><b>Тип заказа:</b></td>
                                         <td>
-                                            <select class="form-control" v-model="filter.type">
+                                            <select class="form-control" v-model="filter.type_id">
                                                 <option value="">Все</option>
-                                                <option value="1">Оформление заказа</option>
-                                                <option value="2">Купить в 1 клик</option>
+                                                <option v-for="item in types" :value="item.id">
+                                                    {{ item.name }}
+                                                </option>
                                             </select>
                                         </td>
                                     </tr>
@@ -77,12 +78,6 @@
                                         <td><b>Курьер:</b></td>
                                         <td>
                                             <Select2 :settings="{multiple: true}" v-model="filter.carrier_id" :options="convertDataSelect2(carriers)"/>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd even">
-                                        <td><b>Адрес:</b></td>
-                                        <td>
-                                            <Select2 :settings="{multiple: true}" v-model="filter.shipping_address_id" :options="convertDataSelect2(addresses, 'id', 'address|city')"/>
                                         </td>
                                     </tr>
                                     <tr class="odd even">
@@ -196,7 +191,7 @@
                 </th>
                 <th>
                     Тип заказа
-                    <SortTable v-model="filter.sort" :column="'type'"></SortTable>
+                    <SortTable v-model="filter.sort" :column="'type_id'"></SortTable>
                 </th>
                 <th>
                     Оплачен
@@ -216,12 +211,12 @@
             <tbody>
             <tr class="odd even" v-for="(item, index) in orders.data" v-if="no_show_order_id != item.id">
                 <td>
-                    <router-link :to="{ path: '/orders/' + item.id}" title="Посмотреть">
+                    <router-link :to="{ path: '/order/' + item.id}" title="Посмотреть">
                         {{ item.id }}
                     </router-link>
                 </td>
                 <td>
-                    <router-link :to="{ path: '/users/edit/' + item.user_id}">
+                    <router-link v-if="item.user_id" :to="{ path: '/users/edit/' + item.user_id}">
                         {{ item.user.name }}
                     </router-link>
                 </td>
@@ -230,7 +225,7 @@
                     {{ item.status.name }}
                 </td>
                 <td>
-                    {{ item.type == 1 ? 'Оформление заказа' : 'Купить в 1 клик' }}
+                    {{ item.type.name }}
                 </td>
                 <td>
                     <span v-if="item.paid == 1"><i class="fa fa-check-circle status-completed"></i>&nbsp;Да</span>
@@ -239,7 +234,7 @@
                 <td>{{ item.total }}</td>
                 <td>{{ dateFormatTodayYesterday(item.created_at) }}</td>
                 <td>
-                    <router-link :to="{ path: '/orders/' + item.id}" title="Посмотреть" class="btn btn-xs btn-default">
+                    <router-link :to="{ name: 'order_edit', params: { order_id: item.id } }" title="Посмотреть" class="btn btn-xs btn-default">
                         <i class="fa fa-eye"></i> <!--Посмотреть--->
                     </router-link>
 
@@ -315,13 +310,13 @@
                 users: [],
                 order_statuses: [],
                 carriers: [],
-                addresses: [],
                 payments: [],
+                types: [],
 
                 filter:{
                     id:                   (this.$route.query.id   ? this.$route.query.id : ''),
                     user_id:               this.filter_user_id ? this.filter_user_id : (this.$route.query.user_id   ? this.$route.query.user_id : ''),
-                    type:                 (this.$route.query.type   ? this.$route.query.type : ''),
+                    type_id:                 (this.$route.query.type_id   ? this.$route.query.type_id : ''),
                     status_id:            (this.$route.query.status_id   ? this.$route.query.status_id : ''),
                     carrier_id:           (this.$route.query.carrier_id   ? this.$route.query.carrier_id : ''),
                     shipping_address_id:  (this.$route.query.shipping_address_id   ? this.$route.query.shipping_address_id : ''),
@@ -351,6 +346,10 @@
         created(){
             this.ordersList();
 
+            axios.get('/admin/status/orders-type').then((res)=>{
+                this.types = res.data;
+            });
+
             axios.get('/admin/order/users').then((res)=>{
                 this.users = res.data;
             });
@@ -361,10 +360,6 @@
 
             axios.get('/admin/carriers-list', {params:  {perPage: 1000}}).then((res)=>{
                 this.carriers = res.data.data;
-            });
-
-            axios.get('/admin/addresses-list').then((res)=>{
-                this.addresses = res.data;
             });
 
             axios.get('/admin/payments-list', {params:  {perPage: 1000}}).then((res)=>{

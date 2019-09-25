@@ -8,7 +8,7 @@ export default function(Vue){
                 data.push({
                     id: 0,
                     text: 'По умолчанию',
-                    disabled: false,
+                    disabled: false
                 });
 
             values.forEach(function(item, index){

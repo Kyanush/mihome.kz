@@ -21,13 +21,11 @@ class ServiceYouWatchedProduct
         return false;
     }
 
-    public static function listProducts($product_id = false, $limit = 0)
+    public static function listProducts($product_id = false)
     {
         $products = [];
-        $youWatchedProducts = YouWatchedProduct::searchVisitNumber()->with(['product' => function($query) use ($product_id, $limit){
+        $youWatchedProducts = YouWatchedProduct::searchVisitNumber()->with(['product' => function($query) use ($product_id){
                                     $query->productInfoWith();
-                                    if($limit > 0)
-                                        $query->limit($limit);
 
                                     if($product_id)
                                        $query->whereNotIn('id', is_array($product_id) ? $product_id : [$product_id]);

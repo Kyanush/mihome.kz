@@ -57,7 +57,7 @@
 
                              </div>
 
-                             <router-link :to="{path: '/attributes-sets'}" class="btn btn-default">
+                             <router-link :to="{ name: 'attributes_sets' }" class="btn btn-default">
                                  <span class="fa fa-ban"></span> &nbsp;
                                  Отменить
                              </router-link>
@@ -85,7 +85,7 @@
             return {
                 method_redirect: 'save_and_back',
                 attribute_set:{
-                    id: this.$route.params.id ? this.$route.params.id : 0,
+                    id: this.$route.params.attribute_set_id ? this.$route.params.attribute_set_id : 0,
                     name: '',
                     attributes: ''
                 },
@@ -96,8 +96,6 @@
             console.log('Component mounted.')
         },
         created(){
-
-
             axios.get('/admin/attributes-list').then((res)=>{
                 var self = this;
                 res.data.data.forEach(function (item, index) {
@@ -107,7 +105,6 @@
                     });
                 });
             });
-
 
             if(this.attribute_set.id > 0)
             {
@@ -141,15 +138,20 @@
                             if(!this.attribute_set.id)
                             {
                                 this.attribute_set.id = res.data;
-                                this.$router.push('/attributes-sets/edit/' + this.attribute_set.id);
+                                this.$router.push({
+                                    name: 'attribute_set_edit',
+                                    params: {
+                                        attribute_set_id: this.attribute_set.id
+                                    }
+                                });
                             }
                         }else if(this.method_redirect == 'save_and_new'){
-                            window.location = '/admin/attributes-sets/create';
-
-                            this.attribute_set.id = 0;
-                            this.attribute_set.name = '';
-                            this.attribute_set.attributes = []
-
+                            this.$router.go({
+                                name: 'attribute_set_create',
+                                params: {
+                                    product_id: product_id
+                                }
+                            });
                         }
                     }
                 });

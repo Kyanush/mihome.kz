@@ -33,7 +33,7 @@
                                  {{ e }}
                              </span>
                          </div>
-                         
+
                          <div class="form-group col-md-12" v-bind:class="{'has-error' : IsError('city.active')}">
                              <label>Активно <span class="red">*</span></label>
                              <select v-model="city.active" class="form-control">
@@ -75,7 +75,7 @@
 
                              </div>
 
-                             <router-link :to="{path: '/cities'}" class="btn btn-default">
+                             <router-link :to="{ name: 'cities' }" class="btn btn-default">
                                  <span class="fa fa-ban"></span> &nbsp;
                                  Отменить
                              </router-link>
@@ -97,7 +97,7 @@
             return {
                 method_redirect: 'save_and_back',
                 city:{
-                    id: this.$route.params.id ? this.$route.params.id : 0,
+                    id: this.$route.params.city_id ? this.$route.params.city_id : 0,
                     name: '',
                     code: '',
                     sort: 0,
@@ -142,18 +142,18 @@
                             if(!this.city.id)
                             {
                                 this.city.id = res.data;
-                                this.$router.push('/cities/edit/' + this.city.id);
+                                this.$router.push({
+                                    name: 'city_edit',
+                                    params: {
+                                        city_id: this.city.id
+                                    }
+                                });
                             }
                         }else if(this.method_redirect == 'save_and_new'){
-                            window.location = '/admin/cities/create';
-
-                            this.city.id      = 0;
-                            this.city.name    = '';
-                            this.city.code    = '';
-                            this.city.sort    = 0;
-                            this.city.active  = 1;
+                            this.$router.go({
+                                name: 'city_create'
+                            });
                         }
-
                     }
                 });
 

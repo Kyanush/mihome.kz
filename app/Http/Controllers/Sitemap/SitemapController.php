@@ -36,13 +36,7 @@ class SitemapController extends Controller
         $products   = Product::with('categories')->filters(['active' => 1])->get();
         $categories = Category::isActive()->get();
         $siteUrl    = env('APP_URL');
-
-        return response()->view('sitemap.city', [
-            'city'       => $city,
-            'products'   => $products,
-            'categories' => $categories,
-            'siteUrl'    => $siteUrl
-        ])->header('Content-Type', 'text/xml');
+        return response()->view('sitemap.city', compact(['city', 'products', 'categories', 'siteUrl']))->header('Content-Type', 'text/xml');
     }
 
 }

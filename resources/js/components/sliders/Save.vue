@@ -93,7 +93,7 @@
 
                              </div>
 
-                             <router-link :to="{path: '/sliders'}" class="btn btn-default">
+                             <router-link :to="{ name: 'sliders' }" class="btn btn-default">
                                  <span class="fa fa-ban"></span> &nbsp;
                                  Отменить
                              </router-link>
@@ -115,7 +115,7 @@
             return {
                 method_redirect: 'save_and_back',
                 slider:{
-                    id: this.$route.params.id ? this.$route.params.id : 0,
+                    id: this.$route.params.slider_id ? this.$route.params.slider_id : 0,
                     name: '',
                     link: '',
                     image: '',
@@ -167,20 +167,17 @@
                             if(!this.slider.id)
                             {
                                 this.slider.id = res.data;
-                                this.$router.push('/sliders/edit/' + this.slider.id);
+                                this.$router.push({
+                                    name: 'sliders_edit',
+                                    params: {
+                                        slider_id: this.slider.id
+                                    }
+                                });
                             }
                         }else if(this.method_redirect == 'save_and_new'){
-                            window.location = '/admin/sliders/create';
-
-                            this.slider = {
-                                id:  0,
-                                name: '',
-                                link: '',
-                                image: '',
-                                sort: 0,
-                                show_where: 'home_page',
-                                active: 1
-                            };
+                            this.$router.go({
+                                name: 'slider_create'
+                            });
                         }
 
                     }

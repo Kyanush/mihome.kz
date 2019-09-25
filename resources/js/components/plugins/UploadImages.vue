@@ -1,12 +1,16 @@
 <template>
-    <label class="dropzone">
+    <div class="dropzone">
 
         <p>
-            <a for="pictures">
+            <a @click="showUploadUrl">
+                <i class="fa fa-link green"></i> Вставить путь к файлу
+            </a>
+            &nbsp;&nbsp;
+            <label for="pictures">
                 <i class="fa fa-upload green"></i> Загрузить фото
                 <input type="file" accept="image/*"  multiple id="pictures" @change="setValue($event)"/>
-            </a>
-            &nbsp;
+            </label>
+            &nbsp;&nbsp;
             <a v-if="value.length" @click="deleteAll($event)">
                 <i class="fa fa-remove red"></i>
                 Удалить все
@@ -25,7 +29,7 @@
             </div>
         </div>
 
-    </label>
+    </div>
 </template>
 
 
@@ -73,6 +77,33 @@
             },
             setImgSrc(value, element){
                 this.$helper.setImgSrc(value, element);
+            },
+            showUploadUrl() {
+                var self = this;
+                this.$swal.fire({
+                    title: 'Вставить путь к файлу',
+                    input: 'text',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Вставить',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (login) => {
+                        return login;
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                    if(result.value)
+                    {
+                        self.value.push({
+                            id: 0,
+                            is_delete: 0,
+                            value: result.value,
+                            image_view: result.value
+                        });
+                    }
+                });
             }
         },
         computed:{
@@ -114,6 +145,15 @@
     }
     .dropzone p{
         font-weight: normal;
+    }
+    .dropzone a, .dropzone label{
+        cursor: pointer;
+        font-weight: normal;
+        color: #3c8dbc;
+    }
+    .dropzone a:hover,
+    .dropzone label:hover{
+        text-decoration: underline;
     }
     .images-view{
         text-align: center;

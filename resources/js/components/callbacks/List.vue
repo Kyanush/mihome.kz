@@ -36,7 +36,7 @@
                         <td>{{ dateFormatTodayYesterday(item.created_at) }}</td>
                         <td>{{ dateFormatTodayYesterday(item.updated_at) }}</td>
                         <td>
-                            <router-link :to="{ path: '/callbacks/edit/' + item.id}" class="btn btn-xs btn-default" title="Изменить">
+                            <router-link :to="{ name: 'callback', params: {callback_id: item.id} }" class="btn btn-xs btn-default" title="Изменить">
                                 <i class="fa fa-edit"></i> <!--Изменить-->
                             </router-link>
                             <a class="btn btn-xs btn-default" @click="callbackDelete(item, index)">

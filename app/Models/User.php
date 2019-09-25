@@ -61,15 +61,7 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role', 'role_id', 'id');
     }
 
-    public function addresses()
-    {
-        return $this->hasMany('App\Models\Address', 'user_id', 'id');
-    }
 
-    public function companies()
-    {
-        return $this->hasMany('App\Models\Company', 'user_id', 'id');
-    }
 
     public function hasRole($check)
     {

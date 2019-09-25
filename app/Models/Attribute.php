@@ -17,7 +17,8 @@ class Attribute extends Model
         'code',
         'use_in_filter',
         'description',
-        'attribute_group_id'
+        'attribute_group_id',
+        'show_product_detail'
  	];
 
 

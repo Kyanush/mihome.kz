@@ -102,7 +102,7 @@
 
                              </div>
 
-                             <router-link :to="{path: '/news'}" class="btn btn-default">
+                             <router-link :to="{ name: 'news' }" class="btn btn-default">
                                  <span class="fa fa-ban"></span> &nbsp;
                                  Отменить
                              </router-link>
@@ -131,7 +131,7 @@
             return {
                 method_redirect: 'save_and_back',
                 news:{
-                    id: this.$route.params.id ? this.$route.params.id : 0,
+                    id: this.$route.params.news_id ? this.$route.params.news_id : 0,
                     title: '',
                     code: '',
                     created_at: '',
@@ -192,21 +192,17 @@
                             if(!this.news.id)
                             {
                                 this.news.id = res.data;
-                                this.$router.push('/news/edit/' + this.news.id);
+                                this.$router.push({
+                                    name: 'news_edit',
+                                    params: {
+                                        news_id: this.news.id
+                                    }
+                                });
                             }
                         }else if(this.method_redirect == 'save_and_new'){
-                            window.location = '/admin/news/create';
-
-                            this.news = {
-                                id:    0,
-                                title: '',
-                                code:  '',
-                                created_at: '',
-                                image: '',
-                                preview_text: '',
-                                detail_text:  '',
-                                active:       1
-                            };
+                            this.$router.go({
+                                name: 'news_create'
+                            });
                         }
 
                     }

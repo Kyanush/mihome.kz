@@ -880,42 +880,28 @@ Vue.component('checkout', {
                                 </div>
                             </div>
                             
-                            <span v-if="carrier.id != 2">
+                            
+                            <span v-if="carrier.id == 1">
                                 <p class="container-title">Укажите адрес доставки</p>
                                 
-                                <div class="pickup-delivery g-bb-fat" v-if="addresses.length > 0">
+                                <div class="pickup-delivery g-bb-fat">
                                     <div>
-                                        <div class="input _focused">
-                                            <label class="input__label">Ваш адрес *</label>
-                                            <select v-model="address.id" class="input__select input__input" style="width: 100%">
-                                                <option value="0">Новый адрес</option>
-                                                <option v-bind:value="item.id" v-for="item in addresses">
-                                                    {{ item.city }} - {{ item.address }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="input__has-error" v-if="focus.address == 2">Пожалуйста, заполните это поле</div>
-                                    </div>
-                                </div>    
-                                
-                                <div class="pickup-delivery g-bb-fat" v-if="address.id == 0">
-                                    <div>
-                                        <div class="input" :class="{ '_has-value': address.address, '_focused': focus.address == 1, '_invalid': focus.address == 2 && !address.address }">
+                                        <div class="input" :class="{ '_has-value': address, '_focused': focus.address == 1, '_invalid': focus.address == 2 && !address }">
                                             <label class="input__label">Адрес *</label>
                                             <input 
                                                 class="input__input" 
-                                                v-model="address.address" 
+                                                v-model="address" 
                                                 @focus="focus.address = 1" 
                                                 @blur="focus.address = 2"/>
                                         </div>
                                         <div class="input__has-error" v-if="focus.address == 2">Пожалуйста, заполните это поле</div>
                                     </div>
                                     <div>
-                                        <div class="input" :class="{ '_has-value': address.city, '_focused': focus.city == 1, '_invalid': focus.city == 2 && !address.city }">
+                                        <div class="input" :class="{ '_has-value': city, '_focused': focus.city == 1, '_invalid': focus.city == 2 && !city }">
                                             <label class="input__label">Город *</label>
                                             <input 
                                                 class="input__input" 
-                                                v-model="address.city" 
+                                                v-model="city" 
                                                 @focus="focus.city = 1" 
                                                 @blur="focus.city = 2"/>
                                         </div>
@@ -1026,7 +1012,6 @@ Vue.component('checkout', {
             list_cart: [],
             list_carriers: [],
             list_payments: [],
-            addresses: user_info.addresses,
             cart_total: {
                 sum: 0,
                 quantity: 0
@@ -1035,11 +1020,8 @@ Vue.component('checkout', {
 
             carrier: {},
             payment: {},
-            address:{
-                id: 0,
-                city: '',
-                address: ''
-            },
+            city: '',
+            address: '',
             user:{
                 name:  user_info.name,
                 email: user_info.email,
@@ -1113,11 +1095,8 @@ Vue.component('checkout', {
                 var data = {
                     carrier_id: this.carrier.id,
                     payment_id: this.payment.id,
-                    address: {
-                        id:      this.address.id,
-                        city:    this.address.city,
-                        address: this.address.address
-                    },
+                    city:       this.city,
+                    address:    this.address,
                     user: {
                         phone: this.user.phone,
                         email: this.user.email,
