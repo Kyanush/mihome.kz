@@ -257,12 +257,25 @@
                         </router-link>
                     </li>
 
-                    <li v-bind:class="{'active' : menu_active('/import-export/')}">
-                        <router-link :to="{ path: '/import-export'}">
-                            <i class="fa fa-download" aria-hidden="true"></i>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-book" aria-hidden="true"></i>
                             <span>Импорт/Экспорт</span>
-                        </router-link>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu" style="display: none;">
+                            <li v-bind:class="{'active' : menu_active('/import-export/')}">
+                                <router-link :to="{ path: '/import-export'}">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                    <span>Импорт/Экспорт</span>
+                                </router-link>
+                            </li>
+                        </ul>
                     </li>
+
+
+
 
                     <!--
 

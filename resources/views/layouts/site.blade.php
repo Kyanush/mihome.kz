@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="/site/css/font-awesome.min.css">
 
     <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="/site/css/{{ mb_strtolower(env('APP_NO_URL')) }}/style.css"/>
+    <link type="text/css" rel="stylesheet" href="/site/css/style.css"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
