@@ -62,7 +62,7 @@ class ProductController extends Controller
 
         //Вы смотрели
         ServiceYouWatchedProduct::youWatchedProduct($product->id);
-        $youWatchedProducts = ServiceYouWatchedProduct::listProducts($product->id);
+        $youWatchedProducts = ServiceYouWatchedProduct::listProducts($product->id, 10);
 
 
 

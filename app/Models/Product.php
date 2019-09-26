@@ -459,10 +459,15 @@ class Product extends Model
 
     public function pathPhoto($firstSlash = false)
     {
-        if($this->photo)
-            return $this->productFileFolder($firstSlash) . $this->photo;
-        else
-            'https://cdn.samsung.com/etc/designs/smg/global/imgs/support/cont/NO_IMG_600x600.png';
+        if($this->photo == 'zashchitnoye-steklo.png')
+        {
+            return '/site/images/zashchitnoye-steklo.png';
+        }else{
+            if($this->photo)
+                return $this->productFileFolder($firstSlash) . $this->photo;
+            else
+                return false;
+        }
     }
 
     public function productFileFolder($firstSlash = false, $product_id = 0)
