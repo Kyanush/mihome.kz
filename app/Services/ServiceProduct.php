@@ -248,7 +248,7 @@ class ServiceProduct implements ProductInterface
                     }
                 }
 
-            $item['value'] = is_array($item['value']) ? $item['value'] : [$item['value']];
+            $item['value'] = (array)$item['value'];
 
             foreach ($item['value'] as $value)
             {

@@ -17,7 +17,7 @@ import products_list    from  '../components/products/List.vue';
 import products_save    from  '../components/products/Save.vue';
 
 
-import import_export  from '../components/import-export/Import-export.vue';
+import import_export   from '../components/import-export/Import-export.vue';
 
 
 import reviews    from  '../components/reviews/reviews.vue';
@@ -272,7 +272,6 @@ export default new Router({
                 ]
             }
         },
-
 
 
 

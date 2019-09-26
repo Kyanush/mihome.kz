@@ -36,6 +36,9 @@ class ImportController extends AdminController
         $selected = $request->input('selected');
         $data_column = $request->input('data_column');
         $identification_column = $request->input('identification_column');
+        $attribute_group_id = $request->input('attribute_group_id');
+
+
 
         $import = new ServiceImport();
         $import->data = $data;
@@ -43,6 +46,8 @@ class ImportController extends AdminController
         $import->selected = $selected;
         $import->data_column = $data_column;
         $import->identification_column = $identification_column;
+        $import->attribute_group_id = $attribute_group_id;
+
         $result = $import->save();
 
         if($result)

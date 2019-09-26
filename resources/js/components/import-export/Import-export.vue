@@ -6,9 +6,13 @@
                 <tr>
                     <td>
                         <select class="form-control" v-model="table">
-                            <option v-for="table_name in table_list" :value="table_name">
-                                {{ table_name }}
-                            </option>
+                            <option v-for="table_name in table_list" :value="table_name">{{ table_name }}</option>
+                        </select>
+                    </td>
+                    <td v-if="table == 't_products'">
+                        <select class="form-control" v-model="attribute_group_id">
+                            <option value=""></option>
+                            <option v-for="group in attributes_sets_more_info" :value="group.id">{{ group.name }}</option>
                         </select>
                     </td>
                     <td>
@@ -38,11 +42,12 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <th></th>
                         <th width="130" v-for="(number, index) in data_item_max_length">
                             <select class="form-control" @change="disabled_column(index)" v-model="data_column[ number - 1 ]">
                                 <option></option>
                                 <option v-for="column in columns"
-                                        v-bind:disabled="column.selected_index >= 0 && column.selected_index != index"
+                                        v-bind:disabled="column.selected_index >= 0 && column.selected_index != index && column.type != 'multiple_select'"
                                         :value="column.column">
                                     {{ column.title ? column.title : column.column }}
                                 </option>
@@ -52,6 +57,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(item, index) in data">
+                        <td>{{ index + 1 }}</td>
                         <td>
                             <input type="checkbox" v-model="selected[ index ]"/>
                         </td>
@@ -62,6 +68,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th></th>
                         <th></th>
                         <th width="130" v-for="number in data_item_max_length">
                             <select class="form-control" v-model="data_column[ number - 1 ]">
@@ -126,7 +133,10 @@
                 wait: false,
                 table_list: [],
                 table: 't_products',
-                mgs: null
+                mgs: null,
+                attributes_sets_more_info: [],
+                attributes: [],
+                attribute_group_id: 0
             }
         },
         created() {
@@ -134,6 +144,10 @@
                 this.table_list = res.data;
             });
             this.tableColumns();
+            axios.get('/admin/attribute-sets-more-info').then((res)=>{
+                this.attributes_sets_more_info = res.data;
+                console.log(res.data);
+            });
         },
         computed: {
             sendActive(){
@@ -153,6 +167,37 @@
                     this.tableColumns(val);
                 },
                 deep: true
+            },
+            attribute_group_id:{
+                handler: function (val, oldVal) {
+
+                    for (var i = this.columns.length-1; i >= 0; i--)
+                    {
+                        if(typeof this.columns[i].column == 'number')
+                        {
+                            this.$delete(this.columns, i);
+                        }
+                    }
+
+                    setTimeout(function (){
+                        var self = this;
+                        this.attributes_sets_more_info.forEach((item, i) => {
+                            if(item.id == val)
+                            {
+                                    item.attributes.forEach((item, index) => {
+                                        self.columns.push({
+                                            column: item.id,
+                                            selected_index: -1,
+                                            title: 'Атрибут: ' + item.name,
+                                            type: item.type
+                                        });
+                                    });
+                                return;
+                            }
+                        });
+                    }.bind(this), 1000);
+                },
+                deep: true
             }
         },
         methods:{
@@ -167,7 +212,26 @@
                     var self = this;
                     this.columns.forEach((item, i) => {
                         self.$set(self.columns[i], 'selected_index', -1);
+                        self.$set(self.columns[i], 'type', '');
                     });
+
+                    if(table == 't_products')
+                    {
+                        this.columns.push(
+                            {
+                                column:         "categories",
+                                selected_index: -1,
+                                title:          "Категория",
+                                type:           "multiple_select"
+                            },
+                            {
+                                column:         "images",
+                                selected_index: -1,
+                                title:          "Картинки",
+                                type:           "multiple_select"
+                            }
+                        );
+                    }
 
                 });
             },
@@ -217,13 +281,19 @@
                         data:                  this.data,
                         data_column:           this.data_column,
                         selected:              this.selected,
-                        table:                 this.table
+                        table:                 this.table,
+                        attributes:            this.attributes,
+                        attribute_group_id:    this.attribute_group_id
                     };
 
                     axios.post('/admin/import', data).then((res)=>{
                         var data = res.data;
+
+                        console.log(data);
+
                         this.mgs = data;
                         this.wait = false;
+
                     }).catch(error => {
                         this.wait = false;
                     });
@@ -272,10 +342,25 @@
                             if(!self.data[ index ][ number ])
                                  self.data[ index ][ number ] = '';
                         });
-
                         self.data_column[ number ] = '';
                     }
 
+                    for (var i = self.data.length; i >= 0; i--)
+                    {
+                        if(self.data[i])
+                        {
+                            var empty_count = 0;
+                            for (var number = 0; number < self.data_item_max_length; number++)
+                            {
+                                if (!self.data[i][number])
+                                    empty_count++;
+                            }
+
+                            if(empty_count == self.data_item_max_length)
+                                self.$delete(self.data, i);
+
+                        }
+                    }
 
                 };
                 reader.readAsArrayBuffer(oFile);

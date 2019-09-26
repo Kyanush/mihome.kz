@@ -459,10 +459,10 @@ class Product extends Model
 
     public function pathPhoto($firstSlash = false)
     {
-        if(!empty($this->photo))
+        if($this->photo)
             return $this->productFileFolder($firstSlash) . $this->photo;
         else
-            false;
+            'https://cdn.samsung.com/etc/designs/smg/global/imgs/support/cont/NO_IMG_600x600.png';
     }
 
     public function productFileFolder($firstSlash = false, $product_id = 0)
