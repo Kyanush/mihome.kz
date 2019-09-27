@@ -58,9 +58,9 @@
                                             {{ $attribute->name }}
                                             <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
                                         </div>
-                                        <div class="checkbox-filter {{ !isset($filters[$attribute->code]) ? '' : 'active' }}">
+                                        <div class="checkbox-filter active {{ !isset($filters[$attribute->code]) ? '' : 'active' }}">
                                             @foreach($attribute->values as $k => $value)
-                                                <div class="input-checkbox">
+                                                <div class="input-checkbox {{ $k > 5 ? 'hide' : '' }}">
 
                                                     <input onclick="urlParamsGenerate()"
                                                            value="{{ $value->code }}"
@@ -92,6 +92,11 @@
                                                         <!--<small>(578)</small>--->
                                                     </label>
                                                 </div>
+                                                @if($k == 5)
+                                                    <div class="input-checkbox show-more-filters">
+                                                        <a>Показать еще <i class="fa fa-angle-down"></i></a>
+                                                    </div>
+                                                @endif
                                             @endforeach
                                         </div>
                                     </div>
@@ -167,7 +172,7 @@
                         <!-- store products -->
                         <div class="row">
 
-                            @foreach($products as $product)
+                            @foreach($catalog as $product)
                                 <!-- product -->
                                     <div class="col-md-4 col-xs-12">
                                         @include('site.includes.product_item', ['product' => $product])
@@ -178,17 +183,12 @@
                         </div>
                         <!-- /store products -->
 
-
-
                         <!-- store bottom filter -->
                         <div class="store-filter clearfix">
                             <span class="store-qty">
-                                Товар {{$products->currentpage() * $products->perpage()}} из {{$products->total()}}
+                                Товар {{$catalog->currentpage() * $catalog->perpage()}} из {{$catalog->total()}}
                             </span>
-
-
-                            {!! $products->links("pagination::default") !!}
-
+                            {!! $catalog->links("pagination::default") !!}
                         </div>
                         <!-- /store bottom filter -->
                     </div>

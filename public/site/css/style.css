@@ -196,6 +196,26 @@ textarea.input {
     display: block;
 }
 
+.input-radio.hide, .input-checkbox.hide {
+    display: none;
+}
+
+.show-more-filters{
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.show-more-filters a{
+    color: #3c92c3;
+    font-weight: 600;
+}
+
+.show-more-filters a:hover{
+    text-decoration: underline;
+}
+
 .input-radio input[type="radio"]:not(:checked), .input-radio input[type="radio"]:checked, .input-checkbox input[type="checkbox"]:not(:checked), .input-checkbox input[type="checkbox"]:checked {
     position: absolute;
     margin-left: -9999px;
@@ -2528,6 +2548,8 @@ textarea.input {
     display: block;
     text-align: center;
     width: 145px;
+    margin-top: 30px;
+    margin-bottom: 10px;
 }
 .catalog-clear-filter:hover{
     border-bottom: none;

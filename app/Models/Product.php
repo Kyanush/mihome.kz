@@ -101,49 +101,51 @@ class Product extends Model
     }
 
     public function scopeFiltersAttributes($query, $filters){
-        if(!empty($filters))
-        {
-            $attribute_codes = $value_codes = $values = [];
 
-            foreach ($filters as $code => $value)
-            {
-                if(!empty($code) and !empty($value))
+            $product_ids_group = $product_ids = [];
+
+            if(count($filters) > 0)
+                foreach ($filters as $attr_code => $value_code)
                 {
-                    $attribute_codes[] = (string)$code;
-                    if(is_array($value)){
-                        foreach ($value as $v)
-                            if(trim($v))
-                                $value_codes[] = (string)$v;
-                }elseif(trim($value))
-                        $value_codes[] = (string)$value;
-                }
-            }
 
-            if(count($attribute_codes) > 0 and count($value_codes) > 0)
-            {
-                $attributes = Attribute::whereIn('code', $attribute_codes)->with(['values' => function($query) use ($value_codes){
-                    $query->whereIn('code', $value_codes);
-                }])
-                    ->whereHas('values', function($query) use ($value_codes){
-                        $query->whereIn('code', $value_codes);
-                    })
-                    ->get();
+                    if(empty($attr_code) or empty($value_code))
+                        continue;
 
-                foreach ($attributes as $attribute)
-                {
-                    foreach ($attribute->values as $value)
+                    $attribute = Attribute::where('code', $attr_code)->first();
+                    if($attribute)
                     {
-                        $values[] = (string)$value->value;
+                       $value = $attribute->values()->where('code', $value_code)->first()->value ?? false;
+                       if($value)
+                       {
+                           $arr = AttributeProductValue::where('attribute_id', $attribute->id)->where('value', $value)->get();
+                           foreach ($arr as $fff)
+                           {
+                               $product_ids_group[$fff->product_id][] = $fff->product_id;
+                           }
+                       }
                     }
                 }
 
-                if($attribute_codes and $values)
-                    $query->whereHas('attributes', function ($query) use ($attribute_codes, $values){
-                        $query->whereIn('code',  $attribute_codes);
-                        $query->whereIn('value', $values);
-                    });
+            $max = 0;
+            foreach ($product_ids_group as $key => $item)
+            {
+                if(count($item) > $max)
+                    $max = count($item);
             }
-        }
+
+            foreach ($product_ids_group as $key => $item)
+            {
+                if(count($item) == $max)
+                {
+                    $product_ids[$key] = $key;
+                }
+            }
+
+            if(count($product_ids) > 0)
+            {
+                $query->whereIn('id', $product_ids);
+            }
+
         return $query;
     }
 

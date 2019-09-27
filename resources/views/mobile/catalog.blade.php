@@ -85,12 +85,12 @@
             @include('mobile.includes.space', ['style' => 'height: 36.273vw;'])
 
             <div class="catalog-grid _list _top">
-                @foreach($products as $product)
+                @foreach($catalog as $product)
                     @include('mobile.includes.product_item', ['product' => $product])
                 @endforeach
             </div>
 
-            {!! $products->links("pagination::mobile") !!}
+            {!! $catalog->links("pagination::mobile") !!}
 
         </div>
 

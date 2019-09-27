@@ -58,21 +58,11 @@ class CatalogController extends Controller
 
 
 
-        $products = Product::productInfoWith()
-            ->where(function ($query){
-                //скидки
-                /*
-                if(strpos(url()->current(), '/specials') !== false)
-                {
-                    $query->WhereHas('specificPrice', function ($query) {
-                        $query->dateActive();
-                    });
-                }*/
-            })
+        $catalog = Product::productInfoWith()
             ->filters($filters)
             ->filtersAttributes($filters)
             ->OrderBy($column, $order)
-            ->paginate(15)->onEachSide(1);
+            ->paginate(15);
 
         $productsHitViewed = Product::productInfoWith()
             ->filters($category_code ? ['category' => $category_code] : [])
@@ -99,7 +89,7 @@ class CatalogController extends Controller
 
 
         return view(Helpers::isMobile() ? 'mobile.catalog' : 'site.catalog', [
-            'products' => $products,
+            'catalog' => $catalog,
             'youWatchedProducts' => $youWatchedProducts,
             'productsHitViewed' => $productsHitViewed,
             'filters' => $filters,

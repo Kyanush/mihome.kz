@@ -21,6 +21,11 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
     	 $('.company-text').addClass('full');
     });
 
+    $('.show-more-filters').on('click', function (e){
+        $(this).parents('.checkbox-filter').find('.hide').removeClass('hide');
+        $(this).remove();
+    });
+
 	// Catalog filter
     $('#filterpro .aside-title').on('click', function (e) {
         if($(this).next(".checkbox-filter").hasClass('active')){

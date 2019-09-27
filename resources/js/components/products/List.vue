@@ -843,14 +843,17 @@
             },
 
             productsList(){
-                if(this.wait)
+
+                if(this.wait || true)
                 {
+
                     this.wait = false;
                     var urlParamsGenerate = this.urlParamsGenerate();
                     this.$router.push({hash: urlParamsGenerate});
 
                     axios.post('/admin/products-attributes-filters', this.filter).then((res)=>{
                         var data = res.data;
+                        console.log(data);
                         this.products_attributes_filters = data;
                     });
 

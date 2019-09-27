@@ -35,8 +35,17 @@
                     };
 
                     if(self.value)
-                        if(self.value.indexOf(item[ self.returnKey ]) >= 0)
-                            i['state'] = { 'selected' : true, opened: false};
+                    {
+                       if(self.value == item[ self.returnKey ])
+                       {
+                           i['state'] = { 'selected' : true, opened: false};
+                       }
+                        else if($.isArray(self.value))
+                       {
+                           if(self.value.indexOf(item[ self.returnKey ]) >= 0)
+                               i['state'] = { 'selected' : true, opened: false};
+                       }
+                    }
 
                     data.push(i);
                 });

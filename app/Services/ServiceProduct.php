@@ -271,39 +271,54 @@ class ServiceProduct implements ProductInterface
 
     public static function productsAttributesFilters($filters, $useInFilter = true)
     {
-        $attributeProductValue = AttributeProductValue::select(['attribute_id', 'value'])
-            ->whereHas('product', function($query) use ($filters){
-                $query->filters($filters);
-                $query->filtersAttributes($filters);
-            })
-            ->whereHas('attribute', function($query) use ($useInFilter){
-                if($useInFilter)
-                    $query->useInFilter();
-                else
-                    $query->whereIn('type', ['multiple_select', 'dropdown']);
-            })
-            ->where(function ($query){
-                $query->whereNotNull('value');
-                $query->orWhere('value', '!=', "''");
-            })
-            ->GroupBy(['attribute_id', 'value'])
-            ->get();
-
-        $attribute_ids = [];
-        $values = [];
-
-        foreach($attributeProductValue as $value)
+        if($filters)
         {
-            $attribute_ids[$value->attribute_id] = $value->attribute_id;
-            $values[$value->value] = $value->value;
-        }
+            $attributeProductValue = AttributeProductValue::select(['attribute_id', 'value'])
+                ->whereHas('product', function($query) use ($filters){
+                    $query->filters($filters);
+                    $query->filtersAttributes($filters);
+                })
+                ->whereHas('attribute', function($query) use ($useInFilter){
+                    if($useInFilter)
+                        $query->useInFilter();
+                    else
+                        $query->whereIn('type', ['multiple_select', 'dropdown']);
+                })
+                ->where(function ($query){
+                    $query->whereNotNull('value');
+                    $query->orWhere('value', '!=', "''");
+                })
+                ->GroupBy(['attribute_id', 'value'])
+                ->get();
 
-        return Attribute::whereIn('id', $attribute_ids)->with(['values' => function($query) use ($values){
-            $query->whereIn('value', $values);
-        }])
-            ->whereHas('values', function ($query) use ($values){
-                $query->whereIn('value', $values);
-            })->get();
+
+            return Attribute::with(['values' => function($query) use ($attributeProductValue){
+
+                $query->where(function ($query) use ($attributeProductValue) {
+                    foreach($attributeProductValue as $value)
+                    {
+                        $query->orwhere(function ($query) use ($value) {
+                            $query->where('attribute_id', $value->attribute_id);
+                            $query->where('value', $value->value);
+                        });
+                    }
+                });
+
+            }])
+            ->whereHas('values', function ($query) use ($attributeProductValue){
+
+                $query->where(function ($query) use ($attributeProductValue) {
+                    foreach($attributeProductValue as $value)
+                    {
+                        $query->orwhere(function ($query) use ($value) {
+                            $query->where('attribute_id', $value->attribute_id);
+                            $query->where('value', $value->value);
+                        });
+                    }
+                });
+            })
+            ->get();
+        }
     }
 
 }
