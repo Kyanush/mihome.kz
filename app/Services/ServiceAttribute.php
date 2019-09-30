@@ -25,13 +25,15 @@ class ServiceAttribute
                         $value = $attribute->values()->findOrNew($item['id']);
 
                         if ($attribute->type == 'media') {
-                            if (!empty($value->value) and (is_uploaded_file($item['value']) or empty($item['value']))) {
+                            if (!empty($value->value) and (is_uploaded_file($item['value']) or empty($item['value'])))
+                            {
                                 $path_delete = config('shop.attributes_path_file') . $value->value;
                                 if (File::exists($path_delete))
                                     File::delete($path_delete);
                             }
 
-                            if (is_uploaded_file($item['value'])) {
+                            if (is_uploaded_file($item['value']))
+                            {
                                 $upload = new Upload();
                                 $upload->setPath(config('shop.attributes_path_file'));
                                 $upload->setFile($item['value']);

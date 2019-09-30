@@ -1,6 +1,7 @@
 <?php
 namespace App\Requests;
 use Illuminate\Foundation\Http\FormRequest;
+use \Illuminate\Validation\Rule;
 
 class SaveAttributeRequest extends FormRequest
 {
@@ -20,7 +21,9 @@ class SaveAttributeRequest extends FormRequest
         ];
 
         if($this->input('attribute.type') == 'multiple_select' or $this->input('attribute.type') == 'dropdown')
-            $rules['attribute.values.*.value'] = 'required';
+        {
+            $rules["attribute.values.*.value"]  = 'required|distinct';
+        }
 
         return $rules;
     }

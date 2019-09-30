@@ -1,6 +1,7 @@
 <template>
     <div class="box">
 
+
         <div class="box-header with-border">
             <router-link :to="{ name: 'product_create' }" class="btn btn-primary ladda-button">
                 <span class="ladda-label">
@@ -136,26 +137,13 @@
                     <div class="table-responsive1">
                         <table class="table table-bordered ">
                         <tbody class="filter">
-                        <tr class="odd even" v-for="item in products_attributes_filters">
+                        <tr class="odd even">
                             <td colspan="2">
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-2"  v-for="item in products_attributes_filters">
                                         <b>{{ item.name }}</b>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <ul>
-                                            <li v-for="value in item.values">
-                                                <label v-bind:for="'value' + value.id">
-                                                    <input v-bind:id="'value' + value.id"
-                                                           type="checkbox"
-                                                           v-bind:checked="filter[ item.code ] == value.code"
-                                                           v-model="filter[ item.code ]"
-                                                           v-bind:value="value.code"/>
-                                                    {{ value.value }}
-                                                </label>
-                                            </li>
-                                        </ul>
-
+                                        <Select2 :settings="{ multiple: true }"
+                                                 v-model="filter[ item.code ]" :options="convertDataSelect2(item.values, 'code', 'value')"/>
                                     </div>
                                 </div>
                             </td>
@@ -529,6 +517,8 @@
 
         <report :report_types="report_types" :filter="filter"></report>
 
+
+
     </div>
 </template>
 
@@ -541,10 +531,11 @@
     import Categories     from '../plugins/Categories';
     import SortTable      from '../plugins/SortTable';
     import report     from '../plugins/Report';
+    import Select2    from 'v-select2-component';
 
     export default {
         components:{
-            Paginate, datePicker, Categories, SortTable, report
+            Paginate, datePicker, Categories, SortTable, report, Select2
         },
         data () {
             return {
@@ -572,19 +563,19 @@
 
                 products: [],
                 filter:{
-                    page:               this.urlParamsGet('page'),
-                    name:               this.urlParamsGet('name'),
-                    active:             this.urlParamsGet('active'),
-                    url:                this.urlParamsGet('url'),
-                    price_start:        this.urlParamsGet('price_start'),
-                    price_end:          this.urlParamsGet('price_end'),
-                    sku:                this.urlParamsGet('sku'),
-                    stock_start:        this.urlParamsGet('stock_start'),
-                    stock_end:          this.urlParamsGet('stock_end'),
-                    created_at_start:   this.urlParamsGet('created_at_start'),
-                    created_at_end:     this.urlParamsGet('created_at_end'),
-                    category:           this.urlParamsGet('category'),
-                    sort:               this.urlParamsGet('sort')
+                    page:               this.$route.query.page,
+                    name:               this.$route.query.name,
+                    active:             this.$route.query.active,
+                    url:                this.$route.query.url,
+                    price_start:        this.$route.query.price_start,
+                    price_end:          this.$route.query.price_end,
+                    sku:                this.$route.query.sku,
+                    stock_start:        this.$route.query.stock_start,
+                    stock_end:          this.$route.query.stock_end,
+                    created_at_start:   this.$route.query.created_at_start,
+                    created_at_end:     this.$route.query.created_at_end,
+                    category:           this.$route.query.category,
+                    sort:               this.$route.query.sort
                 },
                 clone_product:{
                     product_id: 0,
@@ -623,12 +614,17 @@
             if(product_attribute_show_filter)
                 this.product_attribute_show_filter = product_attribute_show_filter === 'true' ? true : false;
 
-            axios.post('/admin/products-attributes-filters', this.urlParamsGet()).then((res)=>{
+
+
+            axios.post('/admin/products-attributes-filters', this.filter).then((res)=>{
                 var data = res.data;
+
                 var self = this;
                 Object.keys(data).forEach(function (column) {
                     var code = data[column].code;
-                    var value = self.urlParamsGet(code);
+                    var value = self.$route.query[ code ];
+                    if(!value)
+                        value = '';
 
                     if(!$.isArray(value)){
                         self.$set(self.filter, code, [value]);
@@ -636,12 +632,6 @@
                         self.$set(self.filter, code, value);
                 });
             });
-
-            setTimeout(function () {
-                this.productsList();
-            }.bind(this), 500)
-
-
 
         },
 
@@ -654,6 +644,9 @@
             }
         },
         methods:{
+            convertDataSelect2(values, column_id, column_text, disabled_column, default_option){
+                return this.$helper.convertDataSelect2(values, column_id, column_text, disabled_column, default_option);
+            },
             showReport(){
                 $('#popup-peport').modal('show');
             },
@@ -733,53 +726,6 @@
                 this.product_attribute_show_filter = !this.product_attribute_show_filter;
                 localStorage.setItem('product_attribute_show_filter', this.product_attribute_show_filter);
             },
-
-            urlParamsGenerate(){
-
-                var params = '';
-
-                var self = this;
-                Object.keys(this.filter).forEach(function (column) {
-                    if(self.filter[column])
-                    {
-                        if(column == 'page' && self.filter[column] == 1) return;
-
-                        var value = self.filter[column];
-
-                        if($.isArray(self.filter[column])){
-                            value = '';
-                            $.each(self.filter[column], function(idx2, val2) {
-                                if(val2)
-                                    value += val2 + '-or-';
-                            });
-                            if(value)
-                                value = value.slice(0,-4);
-                        }
-
-                        if(value)
-                            params += column + '-' + value + '/';
-                    }
-                });
-
-                if(params)
-                    params = params.slice(0,-1);
-
-                return params;
-            },
-            urlParamsGet(key){
-                var filters = {};
-                var hash = this.$route.hash;
-                hash = hash.substring(1);
-                hash = hash.split('/');
-                for (var i = 0; i < hash.length; i++)
-                {
-                    var param = hash[i].split('-');
-                    var d = hash[i].replace(param[0] + '-','');
-                    filters[param[0]] = d.indexOf('-or-') >= 0 ? d.split('-or-') : d;
-                }
-
-                return key ? (filters[key] ? filters[key] : '') : filters;
-            },
             clearFilters(){
                 var self = this;
                 Object.keys(this.filter).forEach(function (column) {
@@ -844,28 +790,49 @@
 
             productsList(){
 
-                if(this.wait || true)
+                if(this.wait)
                 {
 
                     this.wait = false;
-                    var urlParamsGenerate = this.urlParamsGenerate();
-                    this.$router.push({hash: urlParamsGenerate});
+
+
+                    var filter = [];
+                    var self = this;
+                    Object.keys(this.filter).forEach(function (column) {
+                        if(self.filter[column])
+                        {
+                            Object.keys(self.filter[column]).forEach(function (column2) {
+                                if(self.filter[column][column2])
+                                {
+                                    if(!filter[column])
+                                        filter[column] = [];
+
+                                    filter[column].push(
+                                        self.filter[column][column2]
+                                    );
+                                }
+                            });
+                        }
+                    });
+
+                    setTimeout(function () {
+                        this.$router.push({query: filter});
+                    }.bind(this), 1000);
+
+
+
 
                     axios.post('/admin/products-attributes-filters', this.filter).then((res)=>{
                         var data = res.data;
-                        console.log(data);
                         this.products_attributes_filters = data;
                     });
-
                     axios.post('/admin/products-list', this.filter).then((res)=>{
                         this.products = res.data;
                         this.wait = true;
                     });
-
                     axios.post('/admin/product-price-min-max', this.filter).then((res)=>{
                         this.products_price = res.data;
                     });
-
                 }
             },
             ...mapActions(['SetErrors'])

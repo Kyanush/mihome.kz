@@ -315,8 +315,8 @@
 
                 filter:{
                     id:                   (this.$route.query.id   ? this.$route.query.id : ''),
-                    user_id:               this.filter_user_id ? this.filter_user_id : (this.$route.query.user_id   ? this.$route.query.user_id : ''),
-                    type_id:                 (this.$route.query.type_id   ? this.$route.query.type_id : ''),
+                    user_id:              (this.filter_user_id ? this.filter_user_id : (this.$route.query.user_id   ? this.$route.query.user_id : '')),
+                    type_id:              (this.$route.query.type_id   ? this.$route.query.type_id : ''),
                     status_id:            (this.$route.query.status_id   ? this.$route.query.status_id : ''),
                     carrier_id:           (this.$route.query.carrier_id   ? this.$route.query.carrier_id : ''),
                     shipping_address_id:  (this.$route.query.shipping_address_id   ? this.$route.query.shipping_address_id : ''),
