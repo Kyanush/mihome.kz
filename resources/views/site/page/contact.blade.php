@@ -84,12 +84,7 @@
                 </p>
                 <br/>
                 <p>
-                    @if(env('APP_NO_URL') == 'Magazin-Xiaomi.kz')
-                        <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=97441155893" width="100%" height="600" frameborder="0"></iframe>
-                    @endif
-                    @if(env('APP_NO_URL') == 'MiHome.kz')
-                         <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=64393237639" width="100%" height="400" frameborder="0"></iframe>
-                    @endif
+                      <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=64393237639" width="100%" height="400" frameborder="0"></iframe>
                 </p>
             </div>
         </div>

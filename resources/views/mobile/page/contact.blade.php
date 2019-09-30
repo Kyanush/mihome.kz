@@ -72,7 +72,7 @@
             </ul>
         </p>
         <p>
-            <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A809d57a2d5e1595921eb0d4243f8faaa2748651e7ca204d04724d363036ff2ab&amp;source=constructor" width="100%" height="300" style="margin: 0;" frameborder="0"></iframe>
+            <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=64393237639" width="100%" height="600" frameborder="0"></iframe>
         </p>
     </div>
 
