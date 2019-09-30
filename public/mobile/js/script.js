@@ -5,6 +5,11 @@ if(user_info)
 
 $(document).ready(function() {
 
+    $('#show-full').on('click', function (e){
+        $('.company-text').addClass('full');
+        $(this).remove();
+    });
+
     $('.icon_menu').click(function(e){
             $('.wrapper').addClass('g-ttl-move')
             $('.kaspi-menu').addClass('_opened')

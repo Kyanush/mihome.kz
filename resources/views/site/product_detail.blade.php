@@ -1,13 +1,9 @@
 @extends('layouts.site')
 
-
-@section('title',    	 $seo['title'])
+@section('title',    	$seo['title'])
 @section('description', $seo['description'])
 @section('keywords',    $seo['keywords'])
-
-@section('og_title',    	  $seo['title'])
-@section('og_description',   $seo['description'])
-@section('og_image',    	  env('APP_URL') . $product->pathPhoto(true))
+@section('og_image',    env('APP_URL') . $product->pathPhoto(true))
 
 @section('content')
 

@@ -8069,3 +8069,13 @@ div,h1,h2,h3,h4,h5,h6,label,p,span {
 
 
 /**************************** My code *****************************/
+.company-text{
+    height: 335px;
+    font-size: 13px;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 50px;
+}
+.company-text.full{
+    height: auto;
+}
