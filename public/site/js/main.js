@@ -19,6 +19,7 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
 
     $('#show-full').on('click', function (e){
     	 $('.company-text').addClass('full');
+    	 $(this).remove();
     });
 
     $('.show-more-filters').on('click', function (e){
