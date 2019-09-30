@@ -102,38 +102,38 @@ class Product extends Model
 
     public function scopeFiltersAttributes($query, $filters){
 
-            $product_ids_group = $product_ids = [];
+            $product_attribute_count = $product_ids = [];
 
             if(count($filters) > 0)
-                foreach ($filters as $attr_code => $value_code)
+                foreach ($filters as $filter_code => $filter_value)
                 {
 
-                    if(empty($attr_code) or empty($value_code))
+                    if(empty($filter_code) or empty($filter_value))
                         continue;
 
-                    $attribute = Attribute::where('code', $attr_code)->first();
+                    $attribute = Attribute::where('code', $filter_code)->first();
                     if($attribute)
                     {
-                       $value = $attribute->values()->where('code', $value_code)->first()->value ?? false;
+                       $value = $attribute->values()->where('code', $filter_value)->first()->value ?? false;
                        if($value)
                        {
-                           $arr = AttributeProductValue::where('attribute_id', $attribute->id)->where('value', $value)->get();
-                           foreach ($arr as $fff)
+                           $attributeProductValue = AttributeProductValue::where('attribute_id', $attribute->id)->where('value', $value)->get();
+                           foreach ($attributeProductValue as $item)
                            {
-                               $product_ids_group[$fff->product_id][] = $fff->product_id;
+                               $product_attribute_count[ $item->product_id ][] = $item->product_id;
                            }
                        }
                     }
                 }
 
             $max = 0;
-            foreach ($product_ids_group as $key => $item)
+            foreach ($product_attribute_count as $key => $item)
             {
                 if(count($item) > $max)
                     $max = count($item);
             }
 
-            foreach ($product_ids_group as $key => $item)
+            foreach ($product_attribute_count as $key => $item)
             {
                 if(count($item) == $max)
                 {
