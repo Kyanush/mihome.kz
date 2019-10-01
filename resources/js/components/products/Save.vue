@@ -347,13 +347,19 @@
                                             <td width="25%" class="text-right">
                                                 <label><span class="red">*</span> Наборы атрибутов:</label>
                                             </td>
-                                            <td width="75%">
+                                            <td width="60%">
                                                 <div class="form-group col-md-6">
                                                     <Select2 @change="selectAttributeSetId($event)"
                                                              v-if="tab_active == 'tab_attributes'"
                                                              v-model="product.attribute_set_id"
                                                              :options="convertDataSelect2(attributes_sets_more_info)"/>
                                                 </div>
+                                            </td>
+                                            <td width="15%">
+                                                <router-link target="_blank" :to="{ name: 'attribute_set_edit', params: { attribute_set_id: product.attribute_set_id} }" class="btn btn-xs btn-default">
+                                                    <i class="fa fa-edit"></i>
+                                                    Изменить
+                                                </router-link>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -364,16 +370,16 @@
 
                                 <table class="table table-bordered "
                                        v-for="item in attributes_sets_more_info"
-                                       v-if="item.id == product.attribute_set_id && attributes.length > 0"
-                                >
+                                       v-if="item.id == product.attribute_set_id && attributes.length > 0">
                                     <tbody>
                                         <tr v-for="(attribute, index) in item.attributes">
                                             <td width="25%" class="text-right">
                                                 <label>
-                                                    <span class="red" v-if="attribute.required == 1">*</span> {{ attribute.name }}:
+                                                    <span class="red" v-if="attribute.required == 1">*</span>
+                                                    {{ attribute.name }}:
                                                 </label>
                                             </td>
-                                            <td width="75%">
+                                            <td width="60%">
 
                                                     <div class="form-group col-md-6" v-if="attribute.type == 'text'" v-bind:class="{'has-error' : IsError('attributes.' + index + '.value')}">
                                                         <p class="help-block">Текст</p>
@@ -455,6 +461,12 @@
                                                         </span>
 
                                                     </div>
+                                            </td>
+                                            <td width="15%">
+                                                <router-link :title="'Изменить ' + attribute.name"  target="_blank" :to="{ name: 'attribute_edit', params:{ attribute_id: attribute.id }}" class="btn btn-xs btn-default">
+                                                    <i class="fa fa-edit"></i>
+                                                    Изменить
+                                                </router-link>
                                             </td>
                                         </tr>
                                     </tbody>

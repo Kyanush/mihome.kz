@@ -457,7 +457,7 @@
                 form_data.append('attribute[show_product_detail]',  this.attribute.show_product_detail);
 
 
-
+                var self = this;
                 this.attribute.values.forEach(function (value, i) {
                     form_data.append('attribute[values]['+i+'][id]',        value.id);
                     form_data.append('attribute[values]['+i+'][value]',     value.value);
@@ -465,18 +465,23 @@
                     form_data.append('attribute[values]['+i+'][props]',     value.props);
                     form_data.append('attribute[values]['+i+'][is_delete]', value.is_delete);
 
-                    var oTable = document.getElementById('values');
-                    var rowLength = oTable.rows.length;
-                    for (var row = 1; row < rowLength; row++)
+                    if(self.attribute.type == 'dropdown' && self.attribute.type == 'multiple_select' && self.attribute.type == 'color')
                     {
-                        var oCells = oTable.rows.item(row).cells;
-                        var number = oCells.item(0).innerHTML;
-
-                        if(parseInt(number)-1 == i)
+                        var oTable = document.getElementById('values');
+                        var rowLength = oTable.rows.length;
+                        for (var row = 1; row < rowLength; row++)
                         {
-                            form_data.append('attribute[values]['+i+'][sort]', row-1);
-                            break;
+                            var oCells = oTable.rows.item(row).cells;
+                            var number = oCells.item(0).innerHTML;
+
+                            if(parseInt(number)-1 == i)
+                            {
+                                form_data.append('attribute[values]['+i+'][sort]', row-1);
+                                break;
+                            }
                         }
+                    }else{
+                        form_data.append('attribute[values]['+i+'][sort]', value.sort);
                     }
 
                 });
