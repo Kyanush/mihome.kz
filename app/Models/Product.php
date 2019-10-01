@@ -289,6 +289,12 @@ class Product extends Model
         return $this->belongsToMany('App\Models\Product', 'product_accessories', 'product_id', 'accessory_product_id');
     }
 
+    //аксессуары
+    public function productAccessoriesBack()
+    {
+        return $this->belongsToMany('App\Models\Product', 'product_accessories', 'accessory_product_id', 'product_id');
+    }
+
     //Отзывы
     public function reviews()
     {

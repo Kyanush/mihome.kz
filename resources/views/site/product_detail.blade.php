@@ -16,7 +16,7 @@
     @include('site.includes.breadcrumb', ['breadcrumbs' => $breadcrumbs])
 
     <!-- SECTION -->
-    <div class="section">
+    <div class="section" id="product-detail">
         <!-- container -->
         <div class="container">
             <!-- row -->
@@ -244,7 +244,39 @@
                 </div>
                 <!-- /Product details -->
 
-                <!-- Product tab -->
+                @if($group_products->isNotEmpty())
+                    <div class="col-md-12">
+                        <br/>
+                        <h3 class="aside-title">Похожие товары</h3>
+                        <br/>
+                        <div class="row">
+                            @foreach($group_products as $product)
+                                <div class="col-md-4">
+                                    @include('site.includes.product-widget', ['product' => $product])
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                @if($products_interested->isNotEmpty())
+                    <div class="col-md-12">
+                        <br/>
+                        <h3 class="aside-title">С этим товаром покупаю</h3>
+                        <br/>
+                        <div class="row">
+                            @foreach($products_interested as $product)
+                                <div class="col-md-4">
+                                    @include('site.includes.product-widget', ['product' => $product])
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+
+
+            <!-- Product tab -->
                 <div class="col-md-12">
                     <div id="product-tab">
                         <!-- product tab nav -->
@@ -297,7 +329,7 @@
                                                     @if(empty($attribute->pivot->value))
                                                         @continue
                                                     @endif
-                                                    <li><b>{{ $attribute->name }}:</b> {{ $attribute->pivot->value }}</li>
+                                                    <li>{{ $attribute->name }}: {{ $attribute->pivot->value }}</li>
                                                 @endforeach
                                             </ul>
                                         @endforeach
@@ -531,6 +563,8 @@
     <!-- /SECTION -->
 
     @include('site.includes.product_slider', ['products' => $youWatchedProducts, 'title' => 'Вы смотрели'])
+
+
 
     <!-- Modal -->
     <div class="modal fade one-click-order" role="dialog">

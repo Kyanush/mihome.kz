@@ -56,9 +56,10 @@
                     @if($attribute->id == 49 and $attribute->pivot->value)
                         @if($attribute->pivot->value == 'Хит')
                             <div class="hit"><img src="/mobile/images/sticker_hit.png"> Хит</div>
-                        @endif
-                        @if($attribute->pivot->value == 'New!')
+                        @elseif($attribute->pivot->value == 'New!')
                             <div class="new">New!</div>
+                        @else
+                            <div class="new">{{ $attribute->pivot->value }}</div>
                         @endif
                     @endif
                 @endforeach
@@ -124,10 +125,11 @@
 
     </div>
 
-    <div class="container-title">Поховые товары</div>
+
     <div class="mount-sellers-offers _short-list" id="sellers">
         <div class="sellers-offers _short-list">
 
+            <div class="container-title">Поховые товары</div>
             <div class="_sellers-offers">
                 <div class="container loan-selector g-bb-fat">
                     <div class="loan-selector__text-before">Цвет</div>
@@ -173,9 +175,8 @@
                 </div>
             </div>
 
-
-
-
+            @include('mobile.includes.product_slider', ['products' => $group_products,  'title' => 'Похожие товары', 'url' => ''])
+            @include('mobile.includes.product_slider', ['products' => $products_interested, 'title' => 'С этим товаром покупаю', 'url' => ''])
 
             <div class="container-title">Характеристики</div>
             <div class="short-specifications container">
@@ -246,7 +247,6 @@
                 </a>
             </div>
 
-            @include('mobile.includes.product_slider', ['products' => $products_interested, 'title' => 'С этим товаром покупаю', 'url' => ''])
             @include('mobile.includes.product_slider', ['products' => $youWatchedProducts,  'title' => 'Вы смотрели', 'url' => ''])
 
             <button type="button" class="button _big-fixed button-sellers" onclick="_addToCart({{ $product->id }})">

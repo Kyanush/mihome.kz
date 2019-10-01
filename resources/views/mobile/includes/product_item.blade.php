@@ -37,9 +37,10 @@
                         @if($attribute->id == 49 and $attribute->pivot->value)
                             @if($attribute->pivot->value == 'Хит')
                                 <div class="hit"><img src="/mobile/images/sticker_hit.png"> Хит</div>
-                            @endif
-                            @if($attribute->pivot->value == 'New!')
+                            @elseif($attribute->pivot->value == 'New!')
                                 <div class="new">New!</div>
+                            @else
+                                <div class="new">{{ $attribute->pivot->value }}</div>
                             @endif
                         @endif
                     @endforeach

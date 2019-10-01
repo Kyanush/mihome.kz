@@ -41,11 +41,6 @@ class ProductController extends Controller
                             ->with(['images' => function($query){
                                     $query->OrderBy('order', 'ASC');
                                 },
-                                /*
-                                'questionsAnswers' => function($query){
-                                    $query->isActive();
-                                },
-                                */
                                 'reviews' => function($query){
                                     $query->with('isLike');
                                     $query->withCount(['likes', 'disLikes']);
@@ -55,10 +50,13 @@ class ProductController extends Controller
                             ->where('url', $product_url)
                             ->firstOrFail();
 
-
+        //Похожие товары
         $group_products = $product->groupProducts()->productInfoWith()->where('id', '<>', $product->id)->get();
 
+        //С этим товаром покупаю
         $products_interested = $product->productAccessories()->productInfoWith()->get();
+        if($products_interested->isEmpty())
+            $products_interested = $product->productAccessoriesBack()->productInfoWith()->get();
 
         //Вы смотрели
         ServiceYouWatchedProduct::youWatchedProduct($product->id);

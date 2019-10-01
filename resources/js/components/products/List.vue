@@ -555,13 +555,13 @@
                     showClear: true,
                     showClose: true,
                 },
-                wait: true,
 
                 products_price: [],
 
                 products_attributes_filters: [],
 
                 products: [],
+                filter2: [],
                 filter:{
                     page:               this.$route.query.page,
                     name:               this.$route.query.name,
@@ -625,11 +625,7 @@
                     var value = self.$route.query[ code ];
                     if(!value)
                         value = '';
-
-                    if(!$.isArray(value)){
-                        self.$set(self.filter, code, [value]);
-                    }else
-                        self.$set(self.filter, code, value);
+                    self.$set(self.filter, code, value);
                 });
             });
 
@@ -729,13 +725,9 @@
             clearFilters(){
                 var self = this;
                 Object.keys(this.filter).forEach(function (column) {
-                    if($.isArray(self.filter[column])){
-                        self.filter[column] = [];
-                    }else if(self.filter[column]){
-                        self.filter[column] = '';
-                    }
+                    self.filter[column] = '';
                 });
-                this.$router.push({path: '/products'});
+                this.$router.push({query: ''});
                 this.selected = {
                     products_ids: [],
                     stock:  '',
@@ -790,50 +782,29 @@
 
             productsList(){
 
-                if(this.wait)
-                {
+                    var params = {};
+                    if(this.filter.page > 1)
+                        params['page'] = this.filter.page;
 
-                    this.wait = false;
-
-
-                    var filter = [];
                     var self = this;
                     Object.keys(this.filter).forEach(function (column) {
-                        if(self.filter[column])
+                        if(self.filter[column] && column != 'page')
                         {
-                            Object.keys(self.filter[column]).forEach(function (column2) {
-                                if(self.filter[column][column2])
-                                {
-                                    if(!filter[column])
-                                        filter[column] = [];
-
-                                    filter[column].push(
-                                        self.filter[column][column2]
-                                    );
-                                }
-                            });
+                            params[column] = self.filter[column];
                         }
                     });
 
-                    setTimeout(function () {
-                        this.$router.push({query: filter});
-                    }.bind(this), 1000);
-
-
-
-
-                    axios.post('/admin/products-attributes-filters', this.filter).then((res)=>{
+                    this.$router.push({query: params});
+                    axios.post('/admin/products-attributes-filters', params).then((res)=>{
                         var data = res.data;
                         this.products_attributes_filters = data;
                     });
-                    axios.post('/admin/products-list', this.filter).then((res)=>{
+                    axios.post('/admin/products-list', params).then((res)=>{
                         this.products = res.data;
-                        this.wait = true;
                     });
-                    axios.post('/admin/product-price-min-max', this.filter).then((res)=>{
+                    axios.post('/admin/product-price-min-max', params).then((res)=>{
                         this.products_price = res.data;
                     });
-                }
             },
             ...mapActions(['SetErrors'])
         },
@@ -842,7 +813,6 @@
                 'IsError'
             ])
         }
-
     }
 </script>
 
