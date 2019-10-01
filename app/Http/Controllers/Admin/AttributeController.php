@@ -12,7 +12,6 @@ use File;
 class AttributeController extends AdminController
 {
 
-
     public function list(Request $request)
     {
         $list =  Attribute::search($request->input('search'))

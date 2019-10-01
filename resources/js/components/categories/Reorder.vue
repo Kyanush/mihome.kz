@@ -122,7 +122,13 @@
     }
 </script>
 
-
+<style>
+    .content{
+        min-height: auto;
+        padding: 0;
+        margin: 0;
+    }
+</style>
 <style scoped>
      .btn-plus, .btn-minus{
           padding: 0 6px;

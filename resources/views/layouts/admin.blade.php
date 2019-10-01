@@ -208,5 +208,14 @@
 </a>
 
 
+<!-- Sort table --->
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    function sortableTable(el){
+        $(el).sortable();
+    }
+</script>
+<!-- Sort table --->
+
 </body>
 </html>

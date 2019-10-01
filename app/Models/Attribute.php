@@ -73,7 +73,7 @@ class Attribute extends Model
 
 	public function values()
     {
-        return $this->hasMany('App\Models\AttributeValue', 'attribute_id', 'id');
+        return $this->hasMany('App\Models\AttributeValue', 'attribute_id', 'id')->OrderBy('sort');
     }
 
     public function sets()

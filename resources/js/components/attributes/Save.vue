@@ -140,20 +140,17 @@
                     </div>
 
                     <div class="form-group attr-field attr-type-dropdown col-md-12" v-if="attribute.type == 'multiple_select' || attribute.type == 'dropdown' || attribute.type == 'color'">
-
-
                         <div class="table-responsive1">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="values">
                                 <thead>
                                     <tr>
                                         <td colspan="2">
-
                                             <button class="btn btn-primary" @click="addOption" type="button">
                                                 <i class="fa fa-plus"></i>
                                                 Создать вариант
                                             </button>
-
                                         </td>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -163,13 +160,14 @@
                                         <td><b>Значение</b></td>
                                         <td><b>Код</b></td>
                                         <td><b>Свойство</b></td>
+                                        <td width="100"><b>Переместить</b></td>
                                         <td width="30"><b>Удалить</b></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(item, index) in attribute.values">
                                         <td>
-                                            #{{ index + 1}}
+                                            {{ index + 1}}
                                         </td>
                                         <td>
                                             <input  type="text" v-model="attribute.values[index].value" class="form-control" v-bind:disabled="item.is_delete == 1" placeholder="Значение">
@@ -195,6 +193,10 @@
 
                                         </td>
                                         <td class="text-center">
+                                            <input v-show="false"  type="text" v-model="attribute.values[index].sort"  class="form-control" />
+                                            <i class="fa fa-arrows-alt resize"> </i>
+                                        </td>
+                                        <td class="text-center">
                                             <a title="Удалить" class="btn btn-xs btn-default red" @click="deleteOption(index)">
                                                 <i class="fa fa-remove"></i>
                                             </a>
@@ -210,30 +212,13 @@
                                         <td><b>Значение</b></td>
                                         <td><b>Код</b></td>
                                         <td><b>Свойство</b></td>
+                                        <td><b>Переместить</b></td>
                                         <td width="30"><b>Удалить</b></td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
-
-
-
-
-
                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 </div><!-- /.box-body -->
                 <div class="box-footer">
@@ -319,6 +304,7 @@
                         value: '',
                         code: '',
                         props: '',
+                        sort: 0,
                         is_delete: 0
                     }]
                 },
@@ -359,6 +345,8 @@
             }
         },
         created(){
+            this.sortableTable();
+
             var attribute_id = this.$route.params.attribute_id;
             if(attribute_id > 0)
             {
@@ -378,13 +366,18 @@
         watch: {
             'attribute.type': {
                 handler: function (val, oldVal) {
-                    if(val != 'dropdown' && val != 'multiple_select')
+                    if(val != 'dropdown' && val != 'multiple_select' && val != 'color')
                         this.attribute.use_in_filter = 0;
                 },
                 deep: true
             },
         },
         methods:{
+            sortableTable(){
+                setTimeout(function() {
+                    sortableTable('#values tbody');
+                }, 2000);
+            },
             convertDataSelect2(values, column_id, column_text, disabled_column, default_option){
                 return this.$helper.convertDataSelect2(values, column_id, column_text, disabled_column, default_option);
             },
@@ -399,6 +392,7 @@
                         value: '',
                         code: '',
                         props: '',
+                        sort: 0,
                         is_delete: 0
                     }];
 
@@ -413,6 +407,7 @@
                         value: '',
                         code: '',
                         props: '',
+                        sort: 0,
                         is_delete: 0
                     }];
                 }
@@ -428,8 +423,10 @@
                     value: '',
                     code: '',
                     props: '',
+                    sort: 0,
                     is_delete: false
                 });
+                this.sortableTable();
             },
             deleteOption(index){
                     if(this.attribute.values[index].id){
@@ -443,6 +440,9 @@
             attributeSave(event){
                 event.preventDefault();
                 this.SetErrors(null);
+
+
+
 
                 var form_data = new FormData();
 
@@ -464,9 +464,25 @@
                     form_data.append('attribute[values]['+i+'][code]',      value.code);
                     form_data.append('attribute[values]['+i+'][props]',     value.props);
                     form_data.append('attribute[values]['+i+'][is_delete]', value.is_delete);
+
+                    var oTable = document.getElementById('values');
+                    var rowLength = oTable.rows.length;
+                    for (var row = 1; row < rowLength; row++)
+                    {
+                        var oCells = oTable.rows.item(row).cells;
+                        var number = oCells.item(0).innerHTML;
+
+                        if(parseInt(number)-1 == i)
+                        {
+                            form_data.append('attribute[values]['+i+'][sort]', row-1);
+                            break;
+                        }
+                    }
+
                 });
 
                 axios.post('/admin/attribute-save', form_data).then((res)=>{
+                    console.log(res.data);
                     if(res.data)
                     {
 
@@ -511,5 +527,8 @@
     }
     img {
         max-width: 100%;
+    }
+    .resize{
+        cursor: all-scroll;
     }
 </style>

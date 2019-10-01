@@ -14,7 +14,8 @@ class AttributeValue extends Model
     	'attribute_id',
     	'value',
         'code',
-        'props'
+        'props',
+        'sort'
 	];
 
     protected static function boot()
