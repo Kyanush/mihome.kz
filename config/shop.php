@@ -40,7 +40,7 @@
             ]
         ],
 
-        'site_email' => 'info@mihome.kz',
+        'site_email' => 'mihome.kz@gmail.com',
         'logo' => env('APP_URL')    . '/site/images/logo.png',
         'favicon' => env('APP_URL') . '/site/images/favicon.ico'
     ];
