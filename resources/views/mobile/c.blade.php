@@ -22,7 +22,7 @@
 
         <div class="catalog-sub-items">
             <ul class="catalog-sub-items__list">
-                @foreach($category->children()->orderBy('sort')->get() as $item)
+                @foreach($category->children()->isActive()->orderBy('sort')->get() as $item)
                     <li class="catalog-sub-items__el">
                         <a href="{{ $item->catalogUrl($currentCity->code) }}" class="catalog-sub-item catalog-main">
                             <span class="catalog-sub-item__title">{{ $item->name }}</span>
