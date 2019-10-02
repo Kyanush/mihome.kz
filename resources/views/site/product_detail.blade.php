@@ -250,9 +250,9 @@
                         <h3 class="aside-title">Похожие товары</h3>
                         <br/>
                         <div class="row">
-                            @foreach($group_products as $product)
+                            @foreach($group_products as $product_item)
                                 <div class="col-md-4">
-                                    @include('site.includes.product-widget', ['product' => $product])
+                                    @include('site.includes.product-widget', ['product' => $product_item])
                                 </div>
                             @endforeach
                         </div>
@@ -265,9 +265,9 @@
                         <h3 class="aside-title">С этим товаром покупаю</h3>
                         <br/>
                         <div class="row">
-                            @foreach($products_interested as $product)
+                            @foreach($products_interested as $product_item)
                                 <div class="col-md-4">
-                                    @include('site.includes.product-widget', ['product' => $product])
+                                    @include('site.includes.product-widget', ['product' => $product_item])
                                 </div>
                             @endforeach
                         </div>
@@ -417,7 +417,7 @@
                                     <!-- Reviews -->
                                     <div class="col-md-6">
                                         <div id="reviews">
-                                            @if(count($product->reviews) == 0)
+                                            @if($product->reviews->isEmpty())
                                                 <p>Нет отзывы</p>
                                             @else
                                                 <ul class="reviews">
@@ -499,25 +499,11 @@
                                             <form class="review-form" action="javascript:void(null);" onsubmit="writeReview(this); return false;" method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{ $product->id }}"/>
-                                                <input
-                                                    class="input"
-                                                    name="name"
-                                                    placeholder="Введите имя *"
-                                                    @auth
-                                                    value="{{ Auth::user()->name }}"
-                                                    @endauth
-                                                    type="text"/>
-                                                <input
-                                                    class="input"
-                                                    name="email"
-                                                    placeholder="Введите e-mail *"
-                                                    @auth
-                                                    value="{{ Auth::user()->email }}"
-                                                    @endauth
-                                                    type="text"/>
+                                                <input required class="input" name="name" placeholder="Введите имя *" @auth value="{{ Auth::user()->name }}" @endauth type="text"/>
+                                                <input required class="input" name="email" placeholder="Введите e-mail *" @auth value="{{ Auth::user()->email }}" @endauth type="text"/>
                                                 <textarea class="input" name="plus" placeholder="Что вам понравилось"></textarea>
                                                 <textarea class="input" name="minus" placeholder="Опишите недостатки"></textarea>
-                                                <textarea class="input" name="comment" placeholder="Введите комментарий *"></textarea>
+                                                <textarea class="input" required name="comment" placeholder="Введите комментарий *"></textarea>
                                                 <div class="input-rating">
                                                     <span>Оценка: </span>
                                                     <div class="stars">

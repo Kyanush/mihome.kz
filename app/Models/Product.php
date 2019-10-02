@@ -462,7 +462,7 @@ class Product extends Model
     }
 
     public function detailUrlProductAdmin(){
-        return '/admin/products/edit/' . $this->id;
+        return '/admin/product/' . $this->id;
     }
 
     public function pathPhoto($firstSlash = false)

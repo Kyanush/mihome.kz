@@ -75,14 +75,10 @@ class ProductController extends Controller
         if($view_count)
             $product->increment('view_count');
 
-
-
         //категория
         $category = Category::where('url', $category_url)->first();
         if(!$category)
             $category = Category::find($product->categories[0]->id);
-
-
 
         //Хлебная крошка
         $breadcrumbs = ServiceCategory::breadcrumbCategories($category->id, $product->name);
