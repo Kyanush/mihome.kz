@@ -282,13 +282,19 @@
                         <!-- product tab nav -->
                         <ul class="tab-nav">
                             <li class="active">
-                                <a data-toggle="tab" href="#description">Описание</a>
+                                <a data-toggle="tab" href="#description">
+                                    <h2>Описание</h2>
+                                </a>
                             </li>
                             <li>
-                                <a data-toggle="tab" href="#attributes">Характеристики</a>
+                                <a data-toggle="tab" href="#attributes">
+                                    <h2>Характеристики</h2>
+                                </a>
                             </li>
                             <li>
-                                <a data-toggle="tab" href="#reviews">Отзывы({{$product->reviews_count}})</a>
+                                <a data-toggle="tab" href="#reviews">
+                                    <h2>Отзывы({{$product->reviews_count}})</h2>
+                                </a>
                             </li>
                         </ul>
                         <!-- /product tab nav -->

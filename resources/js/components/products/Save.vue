@@ -360,6 +360,10 @@
                                                     <i class="fa fa-edit"></i>
                                                     Изменить
                                                 </router-link>
+                                                <button type="button" class="btn btn-xs btn-default" @click="attributeSetsMoreInfo">
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    Обновить все
+                                                </button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -819,6 +823,21 @@
         },
 
         methods:{
+            attributeSetsMoreInfo(refresh){
+                axios.get('/admin/attribute-sets-more-info').then((res)=>{
+                    this.attributes_sets_more_info = res.data;
+
+                    if(refresh)
+                    {
+                        this.$swal({
+                            type: 'success',
+                            //html: 'Номер заказа <a style="font-size: 20px;" href="/order-history/' + this.order_id + '">№:' + this.order_id + '</a>',
+                            title: 'Успешно обновлено'
+                        });
+                    }
+
+                });
+            },
             convertColorOptions(values){
                 var data = [];
                 values.forEach(function (item, index) {
@@ -1079,9 +1098,7 @@
             ...mapActions(['SetErrors'])
         },
         created(){
-            axios.get('/admin/attribute-sets-more-info').then((res)=>{
-                this.attributes_sets_more_info = res.data;
-            });
+            this.attributeSetsMoreInfo();
 
             var params = {per_page: 100};
             axios.get('/admin/categories-list', {params:  params}).then((res)=>{

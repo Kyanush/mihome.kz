@@ -1817,6 +1817,10 @@ textarea.input {
     color: #8D99AE;
 }
 
+#product-tab .tab-nav li a h2{
+    font-size: 18px;
+}
+
 #product-tab .tab-nav li.active a {
     color: #3c92c3;
 }

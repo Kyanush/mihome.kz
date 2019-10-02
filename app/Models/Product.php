@@ -230,8 +230,8 @@ class Product extends Model
 
                 $upload = new Upload();
                 $upload->fileName = str_slug($product->name);
-                $upload->setWidth(300);
-                $upload->setHeight(600);
+                //$upload->setWidth(300);
+                //$upload->setHeight(600);
                 $upload->setPath(config('shop.products_path_file') . $product_id . '/');
                 $upload->setFile($product->photo);
                 $fileName = $upload->save();

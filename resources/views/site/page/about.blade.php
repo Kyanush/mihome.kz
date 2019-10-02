@@ -22,7 +22,7 @@
         <div class="section">
             <!-- container -->
             <div class="container">
-                @include('includes.about_text')
+                @include('includes.about_text', ['title' => $seo['title']])
             </div>
         </div>
 

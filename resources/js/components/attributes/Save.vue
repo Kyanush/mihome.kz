@@ -487,7 +487,6 @@
                 });
 
                 axios.post('/admin/attribute-save', form_data).then((res)=>{
-                    console.log(res.data);
                     if(res.data)
                     {
 

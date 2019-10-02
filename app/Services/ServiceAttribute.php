@@ -54,7 +54,7 @@ class ServiceAttribute
                     }
                 }
             }
-            return true;
+            return $attribute->id;
         }
 
         return false;
