@@ -81,6 +81,10 @@
     <script type="text/javascript" src="/site/js/axios.min.js"></script>
     <!-- Vue js -->
 
+    <!-- jivosite -->
+    <script src="//code.jivosite.com/widget.js" data-jv-id="d5ShOZJS9K" async></script>
+    <!-- jivosite -->
+
     <meta name="csrf-token"               content="{{ csrf_token() }}" />
 
 

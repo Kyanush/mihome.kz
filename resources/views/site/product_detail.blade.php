@@ -170,7 +170,7 @@
                                 </div>
                                 @if($product->inCart)
                                     <a href="{{ route('checkout') }}">
-                                        <button class="add-to-cart-btn product-in-basket">
+                                        <button class="add-to-cart-btn product-in-basket1">
                                             <i class="fa fa-shopping-cart"></i>
                                             Товар в корзине
                                         </button>
@@ -276,76 +276,59 @@
 
 
 
-            <!-- Product tab -->
+                <!-- Product tab -->
                 <div class="col-md-12">
                     <div id="product-tab">
-                        <!-- product tab nav -->
-                        <ul class="tab-nav">
-                            <li class="active">
-                                <a data-toggle="tab" href="#description">
-                                    <h2>Описание</h2>
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#attributes">
-                                    <h2>Характеристики</h2>
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#reviews">
-                                    <h2>Отзывы({{$product->reviews_count}})</h2>
-                                </a>
-                            </li>
-                        </ul>
-                        <!-- /product tab nav -->
 
-                        <!-- product tab content -->
-                        <div class="tab-content">
-
+                            <h2 class="text-center tab-title">Описание</h2>
                             <!-- description  -->
-                            <div id="description" class="tab-pane fade in active">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        {!! $product->description  !!}
-                                    </div>
-                                </div>
+                            <div id="description">
+                                {!! $product->description  !!}
                             </div>
                             <!-- /description  -->
 
+                            <h2 class="text-center tab-title">Характеристики</h2>
                             <!-- attributes  -->
-                            <div id="attributes" class="tab-pane fade in">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <?php $attributes = [];?>
-                                        @foreach($product->attributes as $attribute)
-                                            @if(empty($attribute->attribute_group_id) or empty($attribute->pivot->value))
-                                                @continue
-                                            @endif
-                                            <?php $attributes[$attribute->attribute_group_id][] = $attribute;?>
-                                        @endforeach
-
-                                        @foreach(App\Models\AttributeGroup::OrderBy('sort')->get() as $attributeGroup)
-                                            @if(!isset($attributes[$attributeGroup->id]))
-                                                @continue
-                                            @endif
-                                            <br/>
-                                            <p><b>{{ $attributeGroup->name }}</b></p>
-                                            <ul>
-                                                @foreach($attributes[$attributeGroup->id] as $attribute)
-                                                    @if(empty($attribute->pivot->value))
-                                                        @continue
-                                                    @endif
-                                                    <li>{{ $attribute->name }}: {{ $attribute->pivot->value }}</li>
-                                                @endforeach
-                                            </ul>
-                                        @endforeach
-                                    </div>
-                                </div>
+                            <div id="attributes">
+                                    <?php $attributes = [];?>
+                                    @foreach($product->attributes as $attribute)
+                                        @if(empty($attribute->attribute_group_id) or empty($attribute->pivot->value))
+                                            @continue
+                                        @endif
+                                        <?php $attributes[$attribute->attribute_group_id][] = $attribute;?>
+                                    @endforeach
+                                        <table class="table table-bordered">
+                                            @foreach(App\Models\AttributeGroup::OrderBy('sort')->get() as $attributeGroup)
+                                                @if(!isset($attributes[$attributeGroup->id]))
+                                                    @continue
+                                                @endif
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <b>{{ $attributeGroup->name }}</b>
+                                                        </td>
+                                                    </tr>
+                                                    @foreach($attributes[$attributeGroup->id] as $attribute)
+                                                        @if(empty($attribute->pivot->value))
+                                                            @continue
+                                                        @endif
+                                                        <tr>
+                                                            <td>
+                                                                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
+                                                                {{ $attribute->name }}:
+                                                            </td>
+                                                            <td>
+                                                                {{ $attribute->pivot->value }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                            @endforeach
+                                        </table>
                             </div>
                             <!-- /attributes  -->
 
+                            <h2 class="text-center tab-title">Отзывы({{$product->reviews_count}})</h2>
                             <!-- reviews  -->
-                            <div id="reviews" class="tab-pane fade in">
+                            <div id="reviews">
                                 <div class="row">
                                     <!-- Rating -->
                                     <div class="col-md-3">
@@ -558,9 +541,9 @@
                             <!-- /reviews  -->
                         </div>
                         <!-- /product tab content  -->
-                    </div>
                 </div>
                 <!-- /product tab -->
+
             </div>
             <!-- /row -->
         </div>
