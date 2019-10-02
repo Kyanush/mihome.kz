@@ -155,8 +155,8 @@ class ServiceProduct implements ProductInterface
 
                     $upload = new Upload();
                     $upload->fileName = str_slug($product->name) . '-' . ServiceDB::tableNextId('product_images');
-                    $upload->setWidth(460);
-                    $upload->setHeight(350);
+                    //$upload->setWidth(460);
+                    //$upload->setHeight(350);
                     $upload->setPath($product->productFileFolder());
                     $upload->setFile($item['value']);
 
