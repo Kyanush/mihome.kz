@@ -17,8 +17,9 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
         e.preventDefault();
     });
 
-    $('#show-full').on('click', function (e){
+    $('.show-full').on('click', function (e){
     	 $('.company-text').addClass('full');
+         $('#description').addClass('full');
     	 $(this).remove();
     });
 

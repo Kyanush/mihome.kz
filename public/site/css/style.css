@@ -1775,7 +1775,14 @@ textarea.input {
     color: #fb8800;
     cursor: pointer;
 }
-
+#product-tab #description{
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+}
+#product-tab #description.full{
+    height: auto;
+}
 /*-- Rating --*/
 
 .rating-avg {
@@ -2780,4 +2787,23 @@ textarea.input {
     margin-inline-end: 0px;
     padding-inline-start: 40px;
     list-style: unset;
+}
+.show-full{
+    text-align: center;
+    margin-top: 30px;
+    cursor: pointer;
+}
+.show-full:after{
+    content: " ";
+    border-bottom-style: dashed;
+    border-bottom-width: 2px;
+    display: block;
+    width: 165px;
+    margin: 0 auto;
+}
+.show-full:hover:after{
+    color: #fff;
+}
+.show-full, .show-full .fa{
+    color: #3c92c3!important;
 }

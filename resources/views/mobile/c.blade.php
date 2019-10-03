@@ -6,12 +6,16 @@
 
 @section('content')
 
+    @section('add_in_head')
+        <meta name="robots" content="noindex"/>
+    @stop
+
     @include('mobile.includes.topbar', [
-        'class'       => '',
+        'class'       => '_fixed',
         'title'       => $category->name,
         'search_show' => true,
-        'menu_link'   => '',
-        'menu_class'  => 'icon_menu'
+        'menu_link'   => $category->parent_id ? route('category_menu_mobile', ['category' => $category->parent->url]) : route('index'),
+        'menu_class'  => 'icon_back'
     ])
 
     <div class="categories">
@@ -22,33 +26,25 @@
 
         <div class="catalog-sub-items">
             <ul class="catalog-sub-items__list">
-                @foreach($category->children()->isActive()->orderBy('sort')->get() as $item)
+                <li class="catalog-sub-items__el">
+                    <a href="{{ $category->catalogUrl($currentCity->code) }}" class="catalog-sub-item">
+                        <b class="catalog-sub-item__title">Все {{ $category->name }}</b>
+                        <span class="catalog-sub-item__icon icon icon_chevron"></span>
+                    </a>
+                </li>
+                @foreach($category->children as $item)
                     <li class="catalog-sub-items__el">
-                        <a href="{{ $item->catalogUrl($currentCity->code) }}" class="catalog-sub-item catalog-main">
+                        @php
+                            $items = $item->children()->orderBy('sort')->get();
+                        @endphp
+                        <a href="{{ $items->isNotEmpty() ? route('category_menu_mobile', ['category' => $item->url]) : $item->catalogUrl($currentCity->code) }}" class="catalog-sub-item">
                             <span class="catalog-sub-item__title">{{ $item->name }}</span>
-
-                            @php
-                                $items = $item->children()->orderBy('sort')->get();
-                            @endphp
-
-                            @if(count($items) > 0)
+                            @if($items->isNotEmpty())
                                 <span class="catalog-sub-item__icon catalog-sub-item__close icon icon_plus"></span>
                             @else
                                 <span class="catalog-sub-item__icon icon icon_chevron"></span>
                             @endif
                         </a>
-                        @if(count($items) > 0)
-                            <ul class="catalog-sub-items__list">
-                                @foreach($items as $item2)
-                                    <li class="catalog-sub-items__el">
-                                        <a href="{{ $item2->catalogUrl($currentCity->code) }}" class="catalog-sub-item">
-                                            <span class="catalog-sub-item__title">{{ $item2->name }}</span>
-                                            <span class="catalog-sub-item__icon icon icon_chevron"></span>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
                     </li>
                 @endforeach
             </ul>

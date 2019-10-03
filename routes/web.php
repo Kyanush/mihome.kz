@@ -51,7 +51,7 @@ Route::group(['namespace'  => 'Site'], function () {
         $params .= "/{param$i?}";
 
     //каталог иобильный
-    Route::get('c/{cCategory}',                          'CatalogController@c')->where(['cCategory']);
+    Route::get('c/{category}', 'CatalogController@c')->where(['category'])->name('category_menu_mobile');
 
     //каталог
     Route::get('{city}/catalog/{category}'   . $params,  'CatalogController@catalogCity')

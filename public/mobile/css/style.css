@@ -2151,11 +2151,11 @@ img[data-src] {
     height: 17.067vw;
     border-bottom: .267vw solid #eee;
     padding: 4vw;
-    padding-left: 14.4vw;
+    padding-left: 10vw;
     opacity: 1;
 }
 
-.catalog-sub-items__el._active .catalog-sub-item__close {
+.catalog-sub-items__el._active .catalog-sub-item__close{
     transform: rotate(45deg)!important;
 }
 

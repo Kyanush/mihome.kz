@@ -172,7 +172,7 @@
             <div class="company-text">
                 @include('includes.about_text')
             </div>
-            <div class="text-center cursor-pointer firm-red" id="show-full">
+            <div class="show-full">
                 <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
                 Показать полностью
             </div>

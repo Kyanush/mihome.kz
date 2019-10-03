@@ -285,6 +285,10 @@
                             <div id="description">
                                 {!! $product->description  !!}
                             </div>
+                            <div class="show-full">
+                                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                Показать полностью
+                            </div>
                             <!-- /description  -->
 
                             <h2 class="text-center tab-title">Характеристики</h2>

@@ -295,48 +295,59 @@
                         <i class="fa fa-bars firm-red"></i>
                         Каталог
                     </a>
-                    <?php
-                    $categories1 = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
-                    ?>
+                    @php
+                        $categories1 = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
+                    @endphp
                     <ul class="cat_menu">
                         @foreach($categories1 as $category1)
-                            <?php
-                            $categories2 = [];
-                            foreach($category1->children()->isActive()->orderBy('sort')->get() as $category2)
-                                $categories2[] = $category2;
-                            ?>
-                            <li @if(count($categories2) > 0) class="hassubs" @endif>
+                            @php
+                                $categories2 = $category1->children()->isActive()->orderBy('sort')->get();
+                            @endphp
+                            <li @if($categories2->isNotEmpty()) class="hassubs" @endif>
                                 <a href="{{ $category1->catalogUrl($currentCity->code) }}">
                                     {{ $category1->name }}
                                     <i class="fa fa-chevron-right"></i>
                                 </a>
-                                @if(count($categories2) > 0)
+                                @if($categories2->isNotEmpty())
                                     <ul>
                                             @foreach($categories2 as $category2)
-                                            <?php
-                                            $categories3 = [];
-                                            foreach (\App\Models\Category::orderBy('sort')
-                                                         ->isActive()
-                                                         ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category2->id, false, true))
-                                                         ->get()as $category3)
-                                                $categories3[] = $category3;
-                                            ?>
-                                            <li @if(count($categories3) > 0) class="hassubs" @endif>
+                                            @php
+                                                $categories3 = $category2->children()->isActive()->orderBy('sort')->get();
+                                            @endphp
+                                            <li @if($categories3->isNotEmpty()) class="hassubs" @endif>
                                                     <a href="{{ $category2->catalogUrl($currentCity->code) }}">
                                                         {{ $category2->name }}
                                                         <i class="fa fa-chevron-right"></i>
                                                     </a>
-                                                    @if(count($categories3) > 0)
-                                                    <ul>
-                                                            @foreach($categories3 as $category3)
-                                                            <li>
-                                                                    <a href="{{ $category3->catalogUrl($currentCity->code) }}">
-                                                                        {{ $category3->name }}
-                                                                    </a>
-                                                                </li>
-                                                        @endforeach
+                                                    @if($categories3->isNotEmpty())
+                                                        <ul>
+                                                                @foreach($categories3 as $category3)
+                                                                    @php
+                                                                        $categories4 = \App\Models\Category::orderBy('sort')
+                                                                                ->isActive()
+                                                                                ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category3->id, false, true))
+                                                                                ->get();
+                                                                    @endphp
+                                                                    <li @if($categories4->isNotEmpty()) class="hassubs" @endif>
+                                                                        <a href="{{ $category3->catalogUrl($currentCity->code) }}">
+                                                                            {{ $category3->name }}
+                                                                            <i class="fa fa-chevron-right"></i>
+                                                                        </a>
+                                                                        @if(count($categories4) > 0)
+                                                                            <ul>
+                                                                               @foreach($categories4 as $category4)
+                                                                               <li>
+                                                                                    <a href="{{ $category4->catalogUrl($currentCity->code) }}">
+                                                                                        {{ $category4->name }}
+                                                                                    </a>
+                                                                               </li>
+                                                                               @endforeach
+                                                                            </ul>
+                                                                        @endif
+                                                                    </li>
+                                                                @endforeach
                                                         </ul>
-                                                @endif
+                                                    @endif
                                                 </li>
                                         @endforeach
                                     </ul>

@@ -349,7 +349,7 @@
                                             </td>
                                             <td width="60%">
                                                 <div class="form-group col-md-6">
-                                                    <Select2 @change="selectAttributeSetId($event)"
+                                                    <Select2
                                                              v-if="tab_active == 'tab_attributes'"
                                                              v-model="product.attribute_set_id"
                                                              :options="convertDataSelect2(attributes_sets_more_info)"/>
@@ -368,7 +368,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-
 
 
 
@@ -824,19 +823,17 @@
 
         methods:{
             attributeSetsMoreInfo(refresh){
-                axios.get('/admin/attribute-sets-more-info').then((res)=>{
-                    this.attributes_sets_more_info = res.data;
-
-                    if(refresh)
-                    {
-                        this.$swal({
-                            type: 'success',
-                            //html: 'Номер заказа <a style="font-size: 20px;" href="/order-history/' + this.order_id + '">№:' + this.order_id + '</a>',
-                            title: 'Успешно обновлено'
-                        });
-                    }
-
-                });
+                  axios.get('/admin/attribute-sets-more-info').then((res)=>{
+                        this.attributes_sets_more_info = res.data;
+                        if(refresh)
+                        {
+                            this.$swal({
+                                type: 'success',
+                                //html: 'Номер заказа <a style="font-size: 20px;" href="/order-history/' + this.order_id + '">№:' + this.order_id + '</a>',
+                                title: 'Успешно обновлено'
+                            });
+                        }
+                  });
             },
             convertColorOptions(values){
                 var data = [];
@@ -1028,7 +1025,7 @@
             getProduct(product_id){
                 if(product_id > 0)
                 {
-                    setTimeout(function () {
+
                             axios.get('/admin/product-view/' + product_id).then((res)=>{
                                 document.querySelector('input[type=file]').value = '';
 
@@ -1054,26 +1051,22 @@
                                 this.product.youtube          = product.youtube;
                                 this.product.view_count       = product.view_count;
 
-
-
-                                this.selectAttributeSetId(product.attribute_set_id);
                                 this.groupProducts(product.group_id);
-
 
                                 this.categories     = data.categories;
                                 this.product_images = data.images;
 
-                                var self = this;
-                                $.each(data.attributes, function(attribute_id, value) {
-
+                                setTimeout(function () {
+                                    var self = this;
+                                    $.each(data.attributes, function(attribute_id, value) {
                                         self.attributes.forEach(function (item, index) {
                                             if(attribute_id == item.attribute_id)
                                             {
                                                 self.$set(self.attributes[index], 'value' , value);
                                             }
                                         });
-
-                                });
+                                    });
+                                }.bind(this, data), 1000);
 
                                 this.product_accessories = data.product_accessories;
 
@@ -1087,7 +1080,6 @@
                                 }
 
                             });
-                    }.bind(this), 250);
                 }
             },
             groupProducts(group_id){
@@ -1105,11 +1097,10 @@
                 this.categories_list = res.data.data;
             });
 
-
-            if(this.product.id > 0)
-                this.getProduct(this.product.id);
-
-
+            setTimeout(function () {
+                if(this.product.id > 0)
+                    this.getProduct(this.product.id);
+            }.bind(this), 1000);
         },
 
         computed:{
@@ -1142,6 +1133,12 @@
                     if(this.product_photo_upload_type == 'url'){
                         this.product.pathPhoto = val;
                     }
+                },
+                deep: true
+            },
+            'product.attribute_set_id':{
+                handler: function (val, oldVal) {
+                    this.selectAttributeSetId(val);
                 },
                 deep: true
             }
