@@ -305,39 +305,67 @@
                             <h2 class="text-center tab-title">Характеристики</h2>
                             <!-- attributes  -->
                             <div id="attributes">
-                                    <?php $attributes = [];?>
-                                    @foreach($product->attributes as $attribute)
-                                        @if(empty($attribute->attribute_group_id) or empty($attribute->pivot->value))
-                                            @continue
-                                        @endif
-                                        <?php $attributes[$attribute->attribute_group_id][] = $attribute;?>
-                                    @endforeach
-                                        <table class="table table-bordered">
-                                            @foreach(App\Models\AttributeGroup::OrderBy('sort')->get() as $attributeGroup)
-                                                @if(!isset($attributes[$attributeGroup->id]))
-                                                    @continue
-                                                @endif
+
+                                    @php
+                                        $attributes = [];
+                                        foreach($product->attributes as $attribute)
+                                        {
+                                            if(empty($attribute->pivot->value) or $attribute->show_product_detail == 0)
+                                                continue;
+                                            $attributes[ (int)$attribute->attribute_group_id ][] = $attribute;
+                                        }
+                                    @endphp
+
+                                    <table class="table table-bordered">
+                                        @foreach(App\Models\AttributeGroup::OrderBy('sort')->get() as $attributeGroup)
+                                            @if(!isset($attributes[$attributeGroup->id]))
+                                                @continue
+                                            @endif
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <b>{{ $attributeGroup->name }}</b>
+                                                    </td>
+                                                </tr>
+                                                @foreach($attributes[$attributeGroup->id] as $attribute)
                                                     <tr>
-                                                        <td colspan="2">
-                                                            <b>{{ $attributeGroup->name }}</b>
+                                                        <td>
+                                                            @if($attribute->description)
+                                                                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
+                                                            @endif
+                                                            {{ $attribute->name }}:
+                                                        </td>
+                                                        <td>
+                                                            {{ $attribute->pivot->value }}
                                                         </td>
                                                     </tr>
-                                                    @foreach($attributes[$attributeGroup->id] as $attribute)
-                                                        @if(empty($attribute->pivot->value))
-                                                            @continue
-                                                        @endif
-                                                        <tr>
-                                                            <td>
+                                                @endforeach
+                                                @unset($attributes[$attributeGroup->id])
+                                        @endforeach
+
+                                        @if(count($attributes) > 0)
+                                            <tr>
+                                                <td colspan="2">
+                                                    <b>Другие</b>
+                                                </td>
+                                            </tr>
+                                            @foreach($attributes as $attribute_items)
+                                                @foreach($attribute_items as $attribute)
+                                                    <tr>
+                                                        <td>
+                                                            @if($attribute->description)
                                                                 <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
-                                                                {{ $attribute->name }}:
-                                                            </td>
-                                                            <td>
-                                                                {{ $attribute->pivot->value }}
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
+                                                            @endif
+                                                            {{ $attribute->name }}:
+                                                        </td>
+                                                        <td>
+                                                            {{ $attribute->pivot->value }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             @endforeach
-                                        </table>
+                                        @endif
+                                    </table>
+
                             </div>
                             <!-- /attributes  -->
 
