@@ -97,3 +97,8 @@ del{
 .select2{
     width: 100%!important;
 }
+.skin-blue .sidebar-menu>li.header {
+    color: #ffffff;
+    background: #367fa9;
+    font-weight: 500;
+}

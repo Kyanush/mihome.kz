@@ -113,7 +113,11 @@
                     <!-- ==== Recommended place for admin menu items ==== -->
                     <!-- ================================================ -->
 
-                    <li class="header">МАГАЗИН</li>
+                    <li class="header">
+                        <i class="fa fa-shopping-basket"></i>
+                        &nbsp;
+                        МАГАЗИН
+                    </li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-shopping-basket" aria-hidden="true"></i>
@@ -191,7 +195,11 @@
 
 
 
-                    <li class="header">КОНТЕНТ</li>
+                    <li class="header">
+                        <i class="fa fa-file"></i>
+                        &nbsp;
+                        КОНТЕНТ
+                    </li>
                     <li v-bind:class="{'active' : menu_active('/news/')}">
                         <router-link :to="{ path: '/news'}">
                             <i class="fa fa-newspaper-o" aria-hidden="true"></i>
@@ -212,7 +220,11 @@
                     </li>
 
 
-                    <li class="header">НАСТРОЙКИ</li>
+                    <li class="header">
+                        <i class="fa fa-cogs"></i>
+                        &nbsp;
+                        НАСТРОЙКИ
+                    </li>
                     <li v-bind:class="{'active' : menu_active('/import-export/')}">
                         <router-link :to="{ path: '/import-export'}">
                             <i class="fa fa-download" aria-hidden="true"></i>
