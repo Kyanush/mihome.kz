@@ -38,7 +38,9 @@
                     height: 300,
 
                     //filebrowserUploadUrl: '/ckeditor-upload-image?path=uploads/products/' + this.$route.params.id + '/',
-                    filebrowserUploadUrl: '/ckeditor-upload-image?path=' + this.uploadFilePath,
+
+
+                    filebrowserUploadUrl: '/ckeditor-upload-image?path=' + (this.uploadFilePath ? this.uploadFilePath : ''),
 
 
                     filebrowserUploadMethod: 'form',

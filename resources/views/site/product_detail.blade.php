@@ -13,6 +13,11 @@
         'category'         => $category
     ])
 
+    @section('add_in_head')
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+        <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    @stop
+
     @include('site.includes.breadcrumb', ['breadcrumbs' => $breadcrumbs])
 
     <!-- SECTION -->
@@ -25,20 +30,22 @@
                 <div class="col-md-5 col-md-push-2">
                     <div id="product-main-img">
                         <div class="product-preview">
-                            <img src="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                            <a data-fancybox="gallery" href="{{ $product->pathPhoto(true) }}">
+                                <img src="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                            </a>
 
                             <?php ob_start();?>
                             <div class="product-label">
                                 @if($product->specificPrice)
                                     <span class="sale">
-                                            {{ $product->getDiscountTypeinfo() }}
-                                        </span>
+                                        {{ $product->getDiscountTypeinfo() }}
+                                    </span>
                                 @endif
                                 @foreach($product->attributes as $attribute)
                                     @if($attribute->id == 49 and $attribute->pivot->value)
                                         <span class="new {{ str_slug($attribute->pivot->value)  }}">
-                                                {{ $attribute->pivot->value  }}
-                                            </span>
+                                             {{ $attribute->pivot->value  }}
+                                        </span>
                                     @endif
                                 @endforeach
                             </div>
@@ -51,12 +58,16 @@
                         @if(count($product->images) > 0)
                             @foreach($product->images as $image)
                                 <div class="product-preview">
-                                    <img src="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                                    <a data-fancybox="gallery" href="{{ $image->imagePath(true) }}">
+                                        <img src="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                                    </a>
                                     {!! $label !!}
                                 </div>
                             @endforeach
                         @endif
+
                     </div>
+                    <p class="zoom-txt">Чтобы увеличить, нажмите на картинку</p>
                 </div>
                 <!-- /Product main img -->
 

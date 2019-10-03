@@ -1578,11 +1578,20 @@ textarea.input {
 .product-preview img {
     max-width: 100%;
     margin: 0 auto;
+    max-height: 450px;
 }
-
+#product-main-img .product-preview img {
+    cursor: -webkit-zoom-in;
+}
 /*----------------------------*\
 	Product details
 \*----------------------------*/
+
+.zoom-txt{
+    text-align: center;
+    padding-top: 20px;
+    color: #999;
+}
 
 .product-details .product-name {
     text-transform: uppercase;

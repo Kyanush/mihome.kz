@@ -44,11 +44,15 @@ class Order extends Model
             {
                 if($order->status_id != self::find($order->id)->status_id && $order->status->notification != 0)
                 {
+                    $user_email = $order->user_email;
+                    if($user_email)
+                    {
+                        $subject = env('APP_NAME') . ' - ' . 'заказ №:' . $order->id . ', статус вашего заказа';
 
-                    $subject = env('APP_NAME') . ' - ' . 'заказ №:' . $order->id . ', статус вашего заказа';
-                    Mail::send('mails.status_update_order', ['order' => $order, 'subject' => $subject], function ($m) use ($order, $subject) {
-                        $m->to($order->user->email)->subject($subject);
-                    });
+                        Mail::send('mails.status_update_order', ['order' => $order, 'subject' => $subject], function ($m) use ($user_email, $subject) {
+                            $m->to($user_email)->subject($subject);
+                        });
+                    }
                 }
             }
             if($order->status_id != self::find($order->id)->status_id)

@@ -4,11 +4,11 @@
         <header class="main-header">
 
             <!-- Logo -->
-            <router-link :to="{ path: '/main'}" class="logo">
+            <router-link :to="{ name: 'main'}" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini">SHOP</span>
+                <span class="logo-mini">Shop</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">SHOP</span>
+                <span class="logo-lg"><b>Shop</b> CRM</span>
             </router-link>
 
             <!-- Header Navbar: style can be found in header.less -->
@@ -81,7 +81,7 @@
                         <p class="role-desc">{{ RoleDesc }}</p>
                         <small>
                             <small>
-                                <router-link :to="{ path: '/users/edit/' + UserId}">
+                                <router-link :to="{ name: 'user_edit', params: { user_id: UserId }}">
                                      <span>
                                         <i class="fa fa-user-circle-o"></i> Мой аккаунт
                                     </span>
@@ -94,13 +94,26 @@
                         </small>
                     </div>
                 </div>
+
+                <form action="/admin/products" method="get" class="sidebar-form">
+                    <div class="input-group">
+                        <input type="text" name="name" class="form-control" placeholder="Поиск товара...">
+                        <span class="input-group-btn">
+                            <button type="submit" id="search-btn" class="btn btn-flat">
+                              <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+
                 <!-- sidebar menu: : style can be found in sidebar.less -->
-                <ul class="sidebar-menu">
+                <ul class="sidebar-menu tree">
 
                     <!-- ================================================ -->
                     <!-- ==== Recommended place for admin menu items ==== -->
                     <!-- ================================================ -->
 
+                    <li class="header">МАГАЗИН</li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-shopping-basket" aria-hidden="true"></i>
@@ -136,6 +149,76 @@
                         </ul>
                     </li>
 
+
+
+                    <li v-bind:class="{'active' : menu_active('/orders/')}">
+                        <router-link :to="{ path: '/orders'}">
+                            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                            <span>Заказы </span>
+                            <span class="pull-right-container" v-if="new_orders_count > 0">
+                                  <small class="label pull-right bg-red">
+                                      {{ new_orders_count }}
+                                  </small>
+                            </span>
+                        </router-link>
+                    </li>
+
+
+
+
+
+                    <li v-bind:class="{'active' : menu_active('/callbacks/')}">
+                        <router-link :to="{ path: '/callbacks'}">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span>Обратный звонок</span>
+                            <span class="pull-right-container" v-if="new_callbacks_count > 0">
+                                  <small class="label pull-right bg-red">
+                                      {{ new_callbacks_count }}
+                                  </small>
+                            </span>
+                        </router-link>
+                    </li>
+
+
+
+                    <li v-bind:class="{'active' : menu_active('/main/')}">
+                        <router-link :to="{ path: '/main'}">
+                            <i class="fa fa-area-chart" aria-hidden="true"></i>
+                            <span>Статистика</span>
+                        </router-link>
+                    </li>
+
+
+
+
+                    <li class="header">КОНТЕНТ</li>
+                    <li v-bind:class="{'active' : menu_active('/news/')}">
+                        <router-link :to="{ path: '/news'}">
+                            <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                            <span>Новости</span>
+                        </router-link>
+                    </li>
+                    <li v-bind:class="{'active' : menu_active('/banners/')}">
+                        <router-link :to="{ path: '/banners'}">
+                            <i class="fa fa-clipboard" aria-hidden="true"></i>
+                            <span>Баннеры</span>
+                        </router-link>
+                    </li>
+                    <li v-bind:class="{'active' : menu_active('/sliders/')}">
+                        <router-link :to="{ path: '/sliders'}">
+                            <i class="fa fa-sliders" aria-hidden="true"></i>
+                            <span>Слайдеры</span>
+                        </router-link>
+                    </li>
+
+
+                    <li class="header">НАСТРОЙКИ</li>
+                    <li v-bind:class="{'active' : menu_active('/import-export/')}">
+                        <router-link :to="{ path: '/import-export'}">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                            <span>Импорт/Экспорт</span>
+                        </router-link>
+                    </li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-tag"></i>
@@ -157,45 +240,12 @@
                             </li>
                         </ul>
                     </li>
-
-                    <li v-bind:class="{'active' : menu_active('/orders/')}">
-                        <router-link :to="{ path: '/orders'}">
-                            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
-                            <span>Заказы </span>
-                            <span class="pull-right-container" v-if="new_orders_count > 0">
-                                  <small class="label pull-right bg-red">
-                                      {{ new_orders_count }}
-                                  </small>
-                            </span>
-                        </router-link>
-                    </li>
-
                     <li v-bind:class="{'active' : menu_active('/users/')}">
                         <router-link :to="{ path: '/users'}">
                             <i class="fa fa-users"></i>
                             <span>Клиенты и пользователи</span>
                         </router-link>
                     </li>
-
-                    <li v-bind:class="{'active' : menu_active('/sliders/')}">
-                        <router-link :to="{ path: '/sliders'}">
-                            <i class="fa fa-sliders" aria-hidden="true"></i>
-                            <span>Слайдеры</span>
-                        </router-link>
-                    </li>
-
-                    <li v-bind:class="{'active' : menu_active('/callbacks/')}">
-                        <router-link :to="{ path: '/callbacks'}">
-                            <i class="fa fa-phone" aria-hidden="true"></i>
-                            <span>Обратный звонок</span>
-                            <span class="pull-right-container" v-if="new_callbacks_count > 0">
-                                  <small class="label pull-right bg-red">
-                                      {{ new_callbacks_count }}
-                                  </small>
-                            </span>
-                        </router-link>
-                    </li>
-
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-book" aria-hidden="true"></i>
@@ -235,35 +285,6 @@
                             </li>
                         </ul>
                     </li>
-
-                    <li v-bind:class="{'active' : menu_active('/main/')}">
-                        <router-link :to="{ path: '/main'}">
-                            <i class="fa fa-area-chart" aria-hidden="true"></i>
-                            <span>Статистика</span>
-                        </router-link>
-                    </li>
-
-                    <li v-bind:class="{'active' : menu_active('/banners/')}">
-                        <router-link :to="{ path: '/banners'}">
-                            <i class="fa fa-clipboard" aria-hidden="true"></i>
-                            <span>Баннеры</span>
-                        </router-link>
-                    </li>
-
-                    <li v-bind:class="{'active' : menu_active('/news/')}">
-                        <router-link :to="{ path: '/news'}">
-                            <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-                            <span>Новости</span>
-                        </router-link>
-                    </li>
-
-                    <li v-bind:class="{'active' : menu_active('/import-export/')}">
-                        <router-link :to="{ path: '/import-export'}">
-                            <i class="fa fa-download" aria-hidden="true"></i>
-                            <span>Импорт/Экспорт</span>
-                        </router-link>
-                    </li>
-
                     <!--
 
                                         <li><a href="http://estarter-ecommerce-for-laravel/admin/notification-templates"><i class="fa fa-list"></i> <span>Notification Templates</span></a></li>
