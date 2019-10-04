@@ -18,8 +18,12 @@ class ReviewController extends AdminController
         $reviews = Review::search($search)
             ->with(['products'])
             ->where(function ($query) use ($product_id){
+
                 if($product_id)
-                    $query->where('product_id', $product_id);
+                    $query->whereHas('products', function($query) use ($product_id){
+                        $query->where('product_id', $product_id);
+                    });
+
             })
             ->OrderBy('id', 'DESC')
             ->paginate($request->input('per_page', 10));

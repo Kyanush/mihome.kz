@@ -200,8 +200,8 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12" v-if="!product_id">
-                                    <div class="form-group" v-bind:class="{'has-error' : IsError('review.product_id')}">
+                                <div class="col-md-12">
+                                    <div class="form-group" v-bind:class="{'has-error' : IsError('products')}">
                                         <label>Товар <span class="red">*</span></label>
 
                                         <div id="group-with_this_product_buy">
@@ -301,7 +301,6 @@
                     plus: '',
                     minus: '',
                     rating: 5,
-                    product_id: (this.product_id > 0 ? this.product_id : 0),
                     active: 1,
                     created_at: ''
                 },
@@ -410,7 +409,6 @@
                 this.review.plus       = item ? item.plus       : '';
                 this.review.minus      = item ? item.minus      : '';
                 this.review.rating     = item ? item.rating     : 5;
-                this.review.product_id = item ? item.product_id : (this.product_id > 0 ? this.product_id : 0);
                 this.review.active     = item ? item.active     : 1;
                 this.review.created_at = item ? item.created_at : '';
                 this.products          = item ? item.products   : '';

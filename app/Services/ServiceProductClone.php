@@ -112,9 +112,7 @@ class ServiceProductClone
         {
             foreach($product->reviews()->get() as $item)
             {
-                $data = $item->toArray();
-                unset($data['id']);
-                $clone->reviews()->create($data);
+                $clone->reviews()->attach($item->id);
             }
         }
 

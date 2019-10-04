@@ -358,9 +358,9 @@ class Product extends Model
     public function avgRating()
     {
          return $this->belongsToMany('App\Models\Review', 'review_product', 'product_id', 'review_id')
-            ->select([DB::raw('t_reviews.product_id'), DB::raw('TRUNCATE(avg(rating), 0) as avg_rating')])
+            ->select([DB::raw('t_review_product.product_id'), DB::raw('TRUNCATE(avg(rating), 0) as avg_rating')])
             ->isActive()
-            ->GroupBy(DB::raw('t_reviews.product_id'));
+            ->GroupBy(DB::raw('t_review_product.product_id'));
     }
 
     public function oneProductFeaturesCompare()
