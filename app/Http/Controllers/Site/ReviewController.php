@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
 use App\Models\Review;
 use App\Requests\SetLikeRequest;
-use App\Requests\WriteReviewRequest;
+use App\Requests\WriteReviewRequestSite;
 use App\Services\ServiceReview;
 
 class ReviewController extends Controller
@@ -26,13 +26,12 @@ class ReviewController extends Controller
         ]);
     }
 
-    public function writeReview(WriteReviewRequest $request)
+    public function writeReview(WriteReviewRequestSite $request)
     {
         $review = Review::create($request->all());
-        if($review){
-            $review->delete();
+        if($review)
             return $this->sendResponse(true);
-        }
+
         return $this->sendResponse(false);
     }
 

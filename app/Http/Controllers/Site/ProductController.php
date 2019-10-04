@@ -6,12 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use App\Services\ServiceCategory;
-use App\Services\ServiceCity;
 use App\Services\ServiceYouWatchedProduct;
 use App\Tools\Helpers;
 use App\Tools\Seo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class ProductController extends Controller
 {
@@ -40,15 +40,27 @@ class ProductController extends Controller
         $product = Product::productInfoWith()
                             ->with(['images' => function($query){
                                     $query->OrderBy('order', 'ASC');
-                                },
-                                'reviews' => function($query){
-                                    $query->with('isLike');
-                                    $query->withCount(['likes', 'disLikes']);
-                                    $query->isActive();
                                 }
                             ])
                             ->where('url', $product_url)
                             ->firstOrFail();
+
+        $ratings_groups = $product->reviews()
+                                 ->select('rating', DB::raw('count(*) as total'))
+                                 ->groupBy('rating')
+                                 ->orderBy('rating')
+                                 ->get();
+
+        if(Helpers::isMobile()){
+            $view = $_GET['view'] ?? false;
+            if($view == 'reviews')
+                $reviews = $product->reviews()->with('isLike')->withCount(['likes', 'disLikes'])->isActive()->get();
+            else
+                $reviews = $product->reviews()->with('isLike')->withCount(['likes', 'disLikes'])->isActive()->paginate(2);
+        }else{
+            $reviews = $product->reviews()->with('isLike')->withCount(['likes', 'disLikes'])->isActive()->paginate(3);
+        }
+
 
         //Похожие товары
         $group_products = $product->groupProducts()->productInfoWith()->where('id', '<>', $product->id)->get();
@@ -88,6 +100,8 @@ class ProductController extends Controller
 
         return view(Helpers::isMobile() ? 'mobile.product.index' : 'site.product_detail', [
             'product'  => $product,
+            'reviews' => $reviews,
+            'ratings_groups' => $ratings_groups,
             'group_products' => $group_products,
             'products_interested' => $products_interested,
             'youWatchedProducts' => $youWatchedProducts,

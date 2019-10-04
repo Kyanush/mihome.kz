@@ -1,17 +1,5 @@
 @if ($paginator->hasPages())
-
-    <!--
-    <ul class="store-pagination">
-        <li class="active">1</li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-    </ul>
----->
-
-    <ul class="store-pagination">
-
+    <ul class="{{$class ?? 'store-pagination'}}">
 
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())

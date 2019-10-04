@@ -384,75 +384,26 @@
                                                     @endfor
                                                 </div>
                                             </div>
-                                            <!--
                                             <ul class="rating">
-                                                <li>
-                                                    <div class="rating-stars">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                    <div class="rating-progress">
-                                                        <div style="width: 80%;"></div>
-                                                    </div>
-                                                    <span class="sum">3</span>
-                                                </li>
-                                                <li>
-                                                    <div class="rating-stars">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    </div>
-                                                    <div class="rating-progress">
-                                                        <div style="width: 60%;"></div>
-                                                    </div>
-                                                    <span class="sum">2</span>
-                                                </li>
-                                                <li>
-                                                    <div class="rating-stars">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    </div>
-                                                    <div class="rating-progress">
-                                                        <div></div>
-                                                    </div>
-                                                    <span class="sum">0</span>
-                                                </li>
-                                                <li>
-                                                    <div class="rating-stars">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    </div>
-                                                    <div class="rating-progress">
-                                                        <div></div>
-                                                    </div>
-                                                    <span class="sum">0</span>
-                                                </li>
-                                                <li>
-                                                    <div class="rating-stars">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    </div>
-                                                    <div class="rating-progress">
-                                                        <div></div>
-                                                    </div>
-                                                    <span class="sum">0</span>
-                                                </li>
+                                                @php
+                                                   $total_all = collect($ratings_groups)->sum('total');
+                                                @endphp
+                                                @foreach($ratings_groups as $rating_group)
+                                                    <li>
+                                                        <div class="rating-stars">
+                                                            <i class="fa {{ $rating_group->rating < 1 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                            <i class="fa {{ $rating_group->rating < 2 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                            <i class="fa {{ $rating_group->rating < 3 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                            <i class="fa {{ $rating_group->rating < 4 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                            <i class="fa {{ $rating_group->rating < 5 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                        </div>
+                                                        <div class="rating-progress">
+                                                            <div style="width: {{ ($rating_group->total / $total_all) * 100 }}%;"></div>
+                                                        </div>
+                                                        <span class="sum">{{ $rating_group->total }}</span>
+                                                    </li>
+                                                @endforeach
                                             </ul>
-                                            --->
                                         </div>
                                     </div>
                                     <!-- /Rating -->
@@ -460,21 +411,21 @@
                                     <!-- Reviews -->
                                     <div class="col-md-6">
                                         <div id="reviews">
-                                            @if($product->reviews->isEmpty())
+                                            @if($reviews->isEmpty())
                                                 <p>Нет отзывы</p>
                                             @else
                                                 <ul class="reviews">
-                                                    @foreach($product->reviews as $review)
+                                                    @foreach($reviews as $review)
                                                         <li>
                                                             <div class="review-heading">
                                                                 <h5 class="name">{{ $review->name }}</h5>
                                                                 <p class="date">{{ \App\Tools\Helpers::ruDateFormat($review->created_at) }}</p>
                                                                 <div class="review-rating">
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star-o empty"></i>
+                                                                    <i class="fa {{ $review->rating < 1 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                                    <i class="fa {{ $review->rating < 2 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                                    <i class="fa {{ $review->rating < 3 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                                    <i class="fa {{ $review->rating < 4 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                                    <i class="fa {{ $review->rating < 5 ? 'fa-star-o empty' : 'fa-star' }}"></i>
                                                                 </div>
                                                             </div>
                                                             <div class="review-body">
@@ -523,15 +474,11 @@
                                                     @endforeach
                                                 </ul>
                                         @endif
-                                        <!---
-                                            <ul class="reviews-pagination">
-                                                <li class="active">1</li>
-                                                <li><a href="#">2</a></li>
-                                                <li><a href="#">3</a></li>
-                                                <li><a href="#">4</a></li>
-                                                <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                            </ul>
-                                            --->
+
+                                        @if($reviews->isNotEmpty())
+                                            {!! $reviews->links("pagination::default", ['class' => 'reviews-pagination']) !!}
+                                        @endif
+
                                         </div>
                                     </div>
                                     <!-- /Reviews -->
@@ -542,11 +489,11 @@
                                             <form class="review-form" action="javascript:void(null);" onsubmit="writeReview(this); return false;" method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{ $product->id }}"/>
-                                                <input required class="input" name="name" placeholder="Введите имя *" @auth value="{{ Auth::user()->name }}" @endauth type="text"/>
-                                                <input required class="input" name="email" placeholder="Введите e-mail *" @auth value="{{ Auth::user()->email }}" @endauth type="text"/>
+                                                <input  class="input" name="name" placeholder="Введите имя *" @auth value="{{ Auth::user()->name }}" @endauth type="text"/>
+                                                <input  class="input" name="email" placeholder="Введите e-mail *" @auth value="{{ Auth::user()->email }}" @endauth type="text"/>
                                                 <textarea class="input" name="plus" placeholder="Что вам понравилось"></textarea>
                                                 <textarea class="input" name="minus" placeholder="Опишите недостатки"></textarea>
-                                                <textarea class="input" required name="comment" placeholder="Введите комментарий *"></textarea>
+                                                <textarea class="input" name="comment" placeholder="Введите комментарий *"></textarea>
                                                 <div class="input-rating">
                                                     <span>Оценка: </span>
                                                     <div class="stars">
@@ -568,6 +515,22 @@
                                 </div>
                             </div>
                             <!-- /reviews  -->
+
+                            @if($product->youtube)
+                                <h2 class="text-center tab-title">Видео обзор</h2>
+                                <div class="text-center">
+                                    <iframe
+                                        frameborder="0"
+                                        allowfullscreen="1"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                        title="YouTube video player"
+                                        width="640"
+                                        height="360"
+                                        src="https://www.youtube.com/embed/{{ $product->youtube }}?rel=0&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fkaspi.kz&amp;widgetid=1">
+                                    </iframe>
+                                </div>
+                            @endif
+
                         </div>
                         <!-- /product tab content  -->
                 </div>

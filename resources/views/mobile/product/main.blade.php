@@ -220,10 +220,10 @@
                 </a>
             </div>
 
-            @if(count($product->reviews) == 0)
+            @if($reviews->isEmpty())
                 <p class="padding-4vw">Нет отзывы</p>
             @else
-                @foreach($product->reviews as $review)
+                @foreach($reviews as $review)
                     @include('mobile.product.review_item', ['review' => $review, 'like_show' => false, 'review_text_class' => '_short'])
                 @endforeach
             @endif

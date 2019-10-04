@@ -1908,6 +1908,10 @@ textarea.input {
     text-align: center;
 }
 
+.reviews-pagination .fa{
+    color: #3c92c3!important;
+}
+
 .reviews-pagination li {
     display: inline-block;
     width: 35px;
