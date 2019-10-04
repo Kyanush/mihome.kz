@@ -96,10 +96,11 @@
                         </h1>
 
 
+
                         <div>
                             <div class="product-rating">
                                 @for($i = 1; $i <= 5; $i++)
-                                    <i class="fa <?=(($product->avgRating->avg_rating ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
+                                    <i class="fa <?=(($product->avgRating[0]->avg_rating ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
                                 @endfor
                             </div>
                             <a class="review-link" onclick="writeReviewShow()">
@@ -377,16 +378,16 @@
                                     <div class="col-md-3">
                                         <div id="rating">
                                             <div class="rating-avg">
-                                                <span>{{ $product->avgRating->avg_rating ?? 0 }}</span>
+                                                <span>{{ $product->avgRating[0]->avg_rating ?? 0 }}</span>
                                                 <div class="rating-stars">
                                                     @for($i = 1; $i <= 5; $i++)
-                                                        <i class="fa <?=(($product->avgRating->avg_rating ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
+                                                        <i class="fa <?=(($product->avgRating[0]->avg_rating ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
                                                     @endfor
                                                 </div>
                                             </div>
                                             <ul class="rating">
                                                 @php
-                                                   $total_all = collect($ratings_groups)->sum('total');
+                                                    $total_all = collect($ratings_groups)->sum('total');
                                                 @endphp
                                                 @foreach($ratings_groups as $rating_group)
                                                     <li>
@@ -475,9 +476,11 @@
                                                 </ul>
                                         @endif
 
-                                        @if($reviews->isNotEmpty())
-                                            {!! $reviews->links("pagination::default", ['class' => 'reviews-pagination']) !!}
-                                        @endif
+
+                                            @if($reviews->isNotEmpty())
+                                                {!! $reviews->links("pagination::default", ['class' => 'reviews-pagination']) !!}
+                                            @endif
+
 
                                         </div>
                                     </div>

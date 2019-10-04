@@ -135,7 +135,12 @@
                                                     Клиент ID:
                                                 </td>
                                                 <td>
-                                                    <Select2 v-model="order.user_id" :options="convertDataSelect2(users, 'id', false, false, true)"/>
+                                                    <select class="form-control" v-model="order.user_id">
+                                                          <option value=""></option>
+                                                          <option v-for="user in users" :value="user.id">
+                                                              {{ user.name }} {{ user.surname }}
+                                                          </option>
+                                                    </select>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -515,7 +520,7 @@
 
                 order: {
                     id: 0,
-                    user_id: 0,
+                    user_id: '',
                     type_id: 7,
                     status_id: 1,
                     carrier_id: 2,
@@ -620,8 +625,8 @@
             showProductAddForm(){
                 $('#search-products').modal('show');
             },
-            convertDataSelect2(values, column_id, column_text, disabled_column, default_option){
-                return this.$helper.convertDataSelect2(values, column_id, column_text, disabled_column, default_option);
+            convertDataSelect2(values, column_id, column_text, disabled_column, default_option, default_value){
+                return this.$helper.convertDataSelect2(values, column_id, column_text, disabled_column, default_option, default_value);
             },
             getOrder(order_id){
 

@@ -8,7 +8,8 @@ class WriteReviewRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'product_id' => 'exists:products,id',
+            'products_ids'          => 'required|exists:products,id',
+            'products_ids.*'        => 'required|exists:products,id',
             'minus'      => '',
             'plus'       => '',
             'email'      => 'nullable|email',
@@ -23,7 +24,8 @@ class WriteReviewRequest extends FormRequest
     public function attributes()
     {
         return [
-            'product_id' => "'Товар ID'",
+            'products_ids'          => "'Товар'",
+            'products_ids.*'        => "'Товар'",
             'minus'      => "'Недостатки'",
             'plus'       => "'Достоинства'",
             'email'      => "'Ваш e-mail'",

@@ -56,7 +56,7 @@ class ServiceProduct implements ProductInterface
         $product->productAccessories()->detach();
 
         //Отзывы
-        $product->reviews()->delete();
+        $product->reviews()->detach();
 
         //Вопрос-ответ
         $product->questionsAnswers()->delete();

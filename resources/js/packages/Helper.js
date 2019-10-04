@@ -1,12 +1,12 @@
 export default function(Vue){
     Vue.helper = {
-        convertDataSelect2(values, column_id, column_text, disabled_column, default_option){
+        convertDataSelect2(values, column_id, column_text, disabled_column, default_option, default_value){
 
             var data = [];
 
             if(default_option)
                 data.push({
-                    id: 0,
+                    id: default_value ? default_value : 0,
                     text: 'По умолчанию',
                     disabled: false
                 });

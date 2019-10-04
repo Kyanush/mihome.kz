@@ -45,12 +45,6 @@ class ProductController extends Controller
                             ->where('url', $product_url)
                             ->firstOrFail();
 
-        $ratings_groups = $product->reviews()
-                                 ->select('rating', DB::raw('count(*) as total'))
-                                 ->groupBy('rating')
-                                 ->orderBy('rating')
-                                 ->get();
-
         if(Helpers::isMobile()){
             $view = $_GET['view'] ?? false;
             if($view == 'reviews')
@@ -61,6 +55,12 @@ class ProductController extends Controller
             $reviews = $product->reviews()->with('isLike')->withCount(['likes', 'disLikes'])->isActive()->paginate(3);
         }
 
+
+        $ratings_groups = $product->reviews()
+            ->select('rating', DB::raw('count(*) as total'))
+            ->groupBy('rating')
+            ->orderBy('rating')
+            ->get();
 
         //Похожие товары
         $group_products = $product->groupProducts()->productInfoWith()->where('id', '<>', $product->id)->get();

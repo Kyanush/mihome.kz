@@ -11,7 +11,7 @@ class WriteReviewRequestSite extends FormRequest
             'product_id' => 'exists:products,id',
             'minus'      => 'max:500',
             'plus'       => 'max:500',
-            'email'      => 'required|email',
+            'email'      => 'max:255',
             'comment'    => 'required|',
             'name'       => 'required|max:500',
             'rating'     => 'required|integer|max:5|min:1'

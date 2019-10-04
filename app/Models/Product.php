@@ -298,7 +298,7 @@ class Product extends Model
     //Отзывы
     public function reviews()
     {
-        return $this->hasMany('App\Models\Review', 'product_id', 'id');
+        return $this->belongsToMany('App\Models\Review', 'review_product', 'product_id', 'review_id');
     }
 
     //Вопрос-ответ
@@ -357,10 +357,10 @@ class Product extends Model
 
     public function avgRating()
     {
-        return $this->hasOne('App\Models\Review', 'product_id', 'id')
-            ->select(['product_id', DB::raw('TRUNCATE(avg(rating), 0) as avg_rating')])
+         return $this->belongsToMany('App\Models\Review', 'review_product', 'product_id', 'review_id')
+            ->select([DB::raw('t_reviews.product_id'), DB::raw('TRUNCATE(avg(rating), 0) as avg_rating')])
             ->isActive()
-            ->GroupBy('product_id');
+            ->GroupBy(DB::raw('t_reviews.product_id'));
     }
 
     public function oneProductFeaturesCompare()
@@ -462,7 +462,7 @@ class Product extends Model
     }
 
     public function detailUrlProductAdmin(){
-        return '/admin/product/' . $this->id;
+        return env('APP_URL') . '/admin/product/' . $this->id;
     }
 
     public function pathPhoto($firstSlash = false)

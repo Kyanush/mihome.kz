@@ -39,9 +39,11 @@
                 <tr v-for="item in reviews.data" v-bind:class="{ 'deleted': !item.active }">
                     <td>{{ item.id }}</td>
                     <td>
-                        <router-link :to="{ path: '/product/' + item.product_id}">
-                            {{ item.product.name }}
-                        </router-link>
+                        <ul v-for="product in item.products">
+                            <router-link :to="{ name: 'product_edit', params: { product_id: product.id} }">
+                                {{ product.name }}
+                            </router-link>
+                        </ul>
                     </td>
                     <td>{{ item.minus }}</td>
                     <td>{{ item.plus }}</td>
@@ -201,12 +203,44 @@
                                 <div class="col-md-12" v-if="!product_id">
                                     <div class="form-group" v-bind:class="{'has-error' : IsError('review.product_id')}">
                                         <label>Товар <span class="red">*</span></label>
-                                        <input placeholder="Товар ID" v-model="review.product_id" class="form-control"/>
-                                        <br/>
-                                        <searchProducts ref="searchProducts" @productSelected="setProductId"/>
-                                        <span v-if="IsError('review.product_id')" class="help-block" v-for="e in IsError('review.product_id')">
-                                            {{ e }}
-                                        </span>
+
+                                        <div id="group-with_this_product_buy">
+                                            <div class="table-responsive1">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Товар ID</th>
+                                                            <th>Название</th>
+                                                            <th>Статус</th>
+                                                            <th>Действия</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="tr-current-product" v-for="(item, index) in products">
+                                                            <td>{{ item.id }}</td>
+                                                            <td>{{ item.name }}</td>
+                                                            <td>
+                                                                <i class="fa fa-times-circle"
+                                                                   aria-hidden="true"
+                                                                   v-bind:class="{ 'fa-times-circle red'   : !item.active,
+                                                                               'fa-check-circle green' : item.active }"></i>
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn btn-xs btn-default btn-remove-from-group" @click="deleteProduct(index)">
+                                                                    <i class="fa fa-times"></i> Удалить
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <h3>Добавить товар</h3>
+                                        <div>
+                                            <searchProducts ref="searchProducts" @productSelected="setProduct"/>
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -266,11 +300,12 @@
                     comment: '',
                     plus: '',
                     minus: '',
-                    rating: 0,
+                    rating: 5,
                     product_id: (this.product_id > 0 ? this.product_id : 0),
                     active: 1,
                     created_at: ''
                 },
+                products: [],
                 filter:{
                     page:   (this.$route.query.page       ? this.$route.query.page : 1),
                     search: (this.$route.query.search     ? this.$route.query.search : ''),
@@ -287,14 +322,36 @@
         },
         created() {
             this.getReviews();
+
+            var review_id = this.$route.query.review_id;
+            if(review_id)
+            {
+                axios.get('/admin/review/' + review_id).then(response => {
+                    this.popupReview(response.data);
+                });
+            }
         },
         methods:{
+            deleteProduct(index){
+                this.$delete(this.products, index);
+            },
             convertDataSelect2(values, column_id, column_text, disabled_column, default_option){
                 return this.$helper.convertDataSelect2(values, column_id, column_text, disabled_column, default_option);
             },
-            setProductId(product){
-                this.review.product_id = product.id;
-                this.$refs.searchProducts.search = '';
+            setProduct(product){
+                var add = true;
+                this.products.forEach(function (item, index){
+                    if(item.id == product.id)
+                    {
+                        add = false;
+                        return;
+                    }
+                });
+
+                if(add)
+                    this.products.push(product);
+                else
+                    this.$helper.swalError('Товар уже добавлен');
             },
             saveReview(event){
                 event.preventDefault();
@@ -305,7 +362,12 @@
                     data.append(column, self.$helper.isNullClear(value));
                 });
 
-                axios.post('/admin/review-save', data).then(response => {
+                //Аксессуары
+                $.each(this.products, function(index, item) {
+                    data.append('products_ids[' + index + ']', item.id);
+                });
+
+                axios.post('/admin/review', data).then(response => {
                     if(response.data){
                         this.$helper.swalSuccess(this.review.id ? 'Отзыв изменен' : 'Отзыв создан' );
                         this.getReviews();
@@ -329,9 +391,12 @@
                 if(this.product_id)
                     params['product_id'] = this.product_id;
 
-                axios.get('/admin/reviews-list', {params:  params}).then(response => {
+                axios.get('/admin/reviews', {params:  params}).then(response => {
                     this.reviews = response.data;
-                    if(!this.product_id)
+
+                    console.log(response.data);
+
+                    if(!this.product_id && !this.$route.query.review_id)
                         this.$router.push({query: params});
                 });
             },
@@ -344,10 +409,11 @@
                 this.review.comment    = item ? item.comment    : '';
                 this.review.plus       = item ? item.plus       : '';
                 this.review.minus      = item ? item.minus      : '';
-                this.review.rating     = item ? item.rating     : 0;
-                this.review.product_id = item ? item.product.id : (this.product_id > 0 ? this.product_id : 0);
-                this.review.active     = item ? item.active     : 0;
+                this.review.rating     = item ? item.rating     : 5;
+                this.review.product_id = item ? item.product_id : (this.product_id > 0 ? this.product_id : 0);
+                this.review.active     = item ? item.active     : 1;
                 this.review.created_at = item ? item.created_at : '';
+                this.products          = item ? item.products   : '';
 
                 $('#popup-review').modal('show');
             },
@@ -362,7 +428,7 @@
                     cancelButtonText: 'Нет'
                 }).then((result) => {
                     if (result.value) {
-                        axios.post('/admin/review-delete/' + item.id).then(response => {
+                        axios.delete('/admin/review/' + item.id).then(response => {
                             if(response.data){
                                 this.$helper.swalSuccess('Успешно удален');
                                 this.getReviews();

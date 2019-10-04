@@ -53,9 +53,11 @@ class Review extends Model
         return $this->hasMany('App\Models\ReviewLike', 'review_id', 'id');
     }
 
-    public function product()
+
+
+    public function products()
     {
-        return $this->belongsTo('App\Models\Product', 'product_id', 'id');
+        return $this->belongsToMany('App\Models\Product', 'review_product', 'review_id', 'product_id');
     }
 
     protected static function boot()
@@ -70,8 +72,11 @@ class Review extends Model
                 if(env('APP_TEST') == 0)
                 {
                     $subject = env('APP_NAME') . ' - ' . 'Написать отзыв';
-                    Mail::send('mails.write_review', ['data' => $modal, 'subject' => $subject], function ($m) use ($subject) {
-                        $m->to(env('MAIL_ADMIN'))->subject($subject);
+
+                    $emails = [ env('MAIL_ADMIN') ];
+
+                    Mail::send('mails.write_review', ['data' => $modal, 'subject' => $subject], function ($m) use ($subject, $emails) {
+                        $m->to($emails)->subject($subject);
                     });
                 }
             }
@@ -79,9 +84,11 @@ class Review extends Model
         });
 
         //до
-        static::deleting(function($product) {
-            $product->reviewLikes()->delete();
+        static::deleting(function($review) {
+            $review->reviewLikes()->delete();
+            $review->products()->detach();
         });
+
     }
 
     public function scopeSearch($query, $search){

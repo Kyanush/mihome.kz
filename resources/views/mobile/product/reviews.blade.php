@@ -6,7 +6,7 @@
         <div class="reviews__rating container g-bb-fat">
             <div class="reviews__rating-heading">Рейтинг товара</div>
             <span class="reviews__rating-link">
-                <span class="rating _big _{{ ($product->avgRating->avg_rating ?? 0) * 2}}"></span>
+                <span class="rating _big _{{ ($product->avgRating[0]->avg_rating ?? 0) * 2}}"></span>
                 <span class="rating-count g-fl-r">
                     <span>{{ $product->reviews_count }}</span>&nbsp;отзывов
                 </span>

@@ -79,7 +79,7 @@
                 {{ $product->name }}
             </h1>
             <a class="item__rating">
-                <span class="rating _{{ ($product->avgRating->avg_rating ?? 0) * 2}}"></span>
+                <span class="rating _{{ ($product->avgRating[0]->avg_rating ?? 0) * 2}}"></span>
                 <span class="rating-count">(<span> {{ $product->reviews_count }}</span>&nbsp;отзывов)</span>
             </a>
             <div class="item__sku">Код товара:&nbsp;{{ $product->sku }}</div>
@@ -212,7 +212,7 @@
             <div class="reviews__rating container ">
                 <div class="reviews__rating-heading">Рейтинг товара</div>
                 <a href="{{ $product->detailUrlProduct() }}?view=reviews" class="reviews__rating-link">
-                    <span class="rating _big _{{ ($product->avgRating->avg_rating ?? 0) * 2}}"></span>
+                    <span class="rating _big _{{ ($product->avgRating[0]->avg_rating ?? 0) * 2}}"></span>
                     <span class="rating-count g-fl-r">
                         <span>{{ $product->reviews_count }}</span>&nbsp;
                         отзывов

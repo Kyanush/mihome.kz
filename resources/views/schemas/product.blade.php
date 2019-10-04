@@ -25,10 +25,10 @@
     "productID"   :  "{{ $product->id }}",
     "image"       :  [ {!! $images !!} ],
 
-    @if(intval($product->avgRating->avg_rating ?? 0) > 0 and $product->reviews_count > 0)
+    @if(intval($product->avgRating[0]->avg_rating ?? 0) > 0 and $product->reviews_count > 0)
             "aggregateRating": {
                 "@type": "AggregateRating",
-                "ratingValue": "{{ intval($product->avgRating->avg_rating ?? 0) }}",
+                "ratingValue": "{{ intval($product->avgRating[0]->avg_rating ?? 0) }}",
         "reviewCount": "{{ $product->reviews_count }}"
     },
     @endif
@@ -149,10 +149,10 @@
             </div>
         </div>
 
-        @if(intval($product->avgRating->avg_rating ?? 0) > 0 and $product->reviews_count > 0)
+        @if(intval($product->avgRating[0]->avg_rating ?? 0) > 0 and $product->reviews_count > 0)
             <div itemprop="aggregateRating" itemtype="http://schema.org/AggregateRating" itemscope>
                 <meta itemprop="reviewCount" content="{{ $product->reviews_count }}" />
-                <meta itemprop="ratingValue" content="{{ intval($product->avgRating->avg_rating ?? 0) }}" />
+                <meta itemprop="ratingValue" content="{{ intval($product->avgRating[0]->avg_rating ?? 0) }}" />
             </div>
         @endif
 

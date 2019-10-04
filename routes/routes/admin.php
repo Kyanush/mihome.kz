@@ -54,9 +54,11 @@ Route::group(['middleware' => ['role:admin'], 'prefix'     => 'admin', 'namespac
 
 
         //отзывы
-        Route::get('reviews-list',                'ReviewController@list');
-        Route::post('review-delete/{review_id}',  'ReviewController@delete')->where(['review_id' => '[0-9]+']);
-        Route::post('review-save',                'ReviewController@save');
+        Route::get('reviews',                'ReviewController@list');
+        Route::delete('review/{review_id}',  'ReviewController@delete')->where(['review_id' => '[0-9]+']);
+        Route::post('review',                'ReviewController@save');
+        Route::get('review/{review_id}',     'ReviewController@get')->where(['review_id' => '[0-9]+']);
+
 
         //Вопросы-ответы
         Route::get('questions-answers-list',               'QuestionAnswerController@list');
