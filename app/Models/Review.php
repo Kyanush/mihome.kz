@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Tools\Helpers;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Mail;
-use Auth;
+
 
 class Review extends Model
 {
@@ -67,12 +68,7 @@ class Review extends Model
         //Событие после
         static::Created(function ($modal) {
 
-            $send = true;
-            if(Auth::check())
-                if(Auth::user()->hasRole('admin'))
-                    $send = false;
-
-            if($modal->email and env('APP_TEST') == 0 and $send)
+            if($modal->email and env('APP_TEST') == 0 and !Helpers::isAdmin())
             {
                 $subject = env('APP_NAME') . ' - ' . 'Написать отзыв';
 

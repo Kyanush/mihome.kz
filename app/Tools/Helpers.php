@@ -10,6 +10,7 @@ namespace App\Tools;
 
 use Mobile_Detect;
 use DB;
+use Auth;
 
 class Helpers
 {
@@ -268,6 +269,14 @@ class Helpers
             'column' => $column,
             'order'  => $order
         ];
+    }
+
+
+    public static function isAdmin(){
+        if(Auth::check())
+            if(Auth::user()->hasRole('admin'))
+                return true;
+        return false;
     }
 
 }

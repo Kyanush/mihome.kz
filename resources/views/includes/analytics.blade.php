@@ -1,11 +1,4 @@
-@php
-    $show = true;
-    if(Auth::check())
-        if(Auth::user()->hasRole('admin'))
-            $show = false;
-@endphp
-
-@if(env('APP_TEST') == 0 and $show)
+@if(env('APP_TEST') == 0 and !\App\Tools\Helpers::isAdmin())
 
         <meta name='wmail-verification' content='afd3265a6543de7b2d413b848d62a272' />
         <meta name="yandex-verification" content="5e80dd0c70552c4f" />
