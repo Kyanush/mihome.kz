@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Mail;
+use Auth;
 
 class Review extends Model
 {
@@ -66,18 +67,20 @@ class Review extends Model
         //Событие после
         static::Created(function ($modal) {
 
-            if($modal->email)
+            $send = true;
+            if(Auth::check())
+                if(Auth::user()->hasRole('admin'))
+                    $send = false;
+
+            if($modal->email and env('APP_TEST') == 0 and $send)
             {
-                if(env('APP_TEST') == 0)
-                {
-                    $subject = env('APP_NAME') . ' - ' . 'Написать отзыв';
+                $subject = env('APP_NAME') . ' - ' . 'Написать отзыв';
 
-                    $emails = [ env('MAIL_ADMIN') ];
+                $emails = [ env('MAIL_ADMIN') ];
 
-                    Mail::send('mails.write_review', ['data' => $modal, 'subject' => $subject], function ($m) use ($subject, $emails) {
-                        $m->to($emails)->subject($subject);
-                    });
-                }
+                Mail::send('mails.write_review', ['data' => $modal, 'subject' => $subject], function ($m) use ($subject, $emails) {
+                    $m->to($emails)->subject($subject);
+                });
             }
 
         });
