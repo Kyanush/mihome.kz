@@ -21,7 +21,7 @@
     @include('site.includes.breadcrumb', ['breadcrumbs' => $breadcrumbs])
 
     <!-- SECTION -->
-    <div class="section" id="product-detail">
+    <div class="section" id="product-detail" itemtype="http://schema.org/Product" itemscope>
         <!-- container -->
         <div class="container">
             <!-- row -->
@@ -31,7 +31,7 @@
                     <div id="product-main-img">
                         <div class="product-preview">
                             <a data-fancybox="gallery" href="{{ $product->pathPhoto(true) }}">
-                                <img src="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                                <img itemprop="image" src="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
                             </a>
 
                             <?php ob_start();?>
@@ -59,7 +59,7 @@
                             @foreach($product->images as $image)
                                 <div class="product-preview">
                                     <a data-fancybox="gallery" href="{{ $image->imagePath(true) }}">
-                                        <img src="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                                        <img itemprop="image" src="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
                                     </a>
                                     {!! $label !!}
                                 </div>
@@ -91,67 +91,93 @@
                 <!-- Product details -->
                 <div class="col-md-5">
                     <div class="product-details">
-                        <h1 class="product-name">
+                        <h1 class="product-name" itemprop="name" >
                             {{ $product->name }}
                         </h1>
+                        <meta itemprop="mpn" content="{{ $product->sku }}" />
+                        <meta itemprop="sku" content="{{ $product->sku }}" />
+                        <div itemprop="brand" itemtype="http://schema.org/Thing" itemscope>
+                            <meta itemprop="name" content="{{ $category->name }}" />
+                        </div>
 
-
-
-                        <div>
-                            <div class="product-rating">
-                                @for($i = 1; $i <= 5; $i++)
-                                    <i class="fa <?=(($product->avgRating[0]->avg_rating ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
-                                @endfor
+                        @if(intval($product->avgRating[0]->avg_rating ?? 0) > 0 and $product->reviews_count > 0)
+                            <div itemprop="aggregateRating" itemtype="http://schema.org/AggregateRating" itemscope>
+                                <meta itemprop="reviewCount" content="{{ $product->reviews_count }}" />
+                                <meta itemprop="ratingValue" content="{{ intval($product->avgRating[0]->avg_rating ?? 0) }}" />
                             </div>
-                            <a class="review-link" onclick="writeReviewShow()">
-                                {{ $product->reviews_count }} {{ $product->reviews_count > 1 ? 'отзывов' : 'отзыв' }} | Написать отзыв
-                            </a>
-                        </div>
-                        <div>
-                            <h3 class="product-price">
-                                {{ \App\Tools\Helpers::priceFormat($product->getReducedPrice()) }}
-                                @if($product->specificPrice)
-                                    <del class="product-old-price">
-                                        {{ \App\Tools\Helpers::priceFormat($product->price) }}
-                                    </del>
-                                @endif
-                            </h3>
-                            @if($product->stock > 0)
-                                <span class="product-available">
-                                    <i class="fa fa-check"></i> В наличии
-                                </span>
-                            @else
-                                <span class="product-no-available">
-                                    <i class="fa fa-close"></i> Товар отсутствует
-                                </span>
-                                <p class="firm-red">При поступлении товара, цена может отличаться</p>
-                            @endif
-                        </div>
-                        <p>
-                            <a href="{{ route('delivery_payment') }}">Доставка по всему казахстану </a> от 1000 тг до 3000 тг.
-                            По городам <a href="{{ route('delivery_payment') }}"> Казахстана</a>, работаем с курьерской компанией "Алем-Тат", срок доставки 3-4 рабочих дня.
-                        </p>
+                        @endif
 
-                        <div class="product-options">
-                            <label>Цвет:</label>
-                            <label>
-                                @foreach($product->attributes as $attribute)
-                                    @if($attribute->id == 50 and $attribute->pivot->value)
-                                        @php
-                                            $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
-                                                $query->where('value', $attribute->pivot->value);
-                                                $query->orWhere('id',  $attribute->pivot->value);
-                                            })->first();
-                                        @endphp
-                                        @if($attributeValue)
-                                            <a title="{{ $attributeValue->value }}"
-                                               class="color"
-                                               style="background-color: {{ $attributeValue->props ?? '#fff' }}"></a>
-                                        @endif
+                        <span itemprop="offers" itemtype="http://schema.org/Offer" itemscope>
+
+                            <link itemprop="url" href="{{ $product->detailUrlProduct() }}" />
+                            @if($product->stock > 0)
+                                <meta itemprop="availability"  content="https://schema.org/InStock" />
+                                <meta itemprop="itemCondition" content="http://schema.org/NewCondition" />
+                            @else
+                                <meta itemprop="availability" content="https://schema.org/OutOfStock" />
+                            @endif
+                            <meta itemprop="priceCurrency" content="KZT" />
+                            <meta itemprop="itemCondition" content="https://schema.org/UsedCondition" />
+                            @php
+                                $specificPrice = $product->specificPrice(function ($query){
+                                                              $query->DateActive();
+                                                         })
+                                                         ->first();
+                            @endphp
+                            @if($specificPrice)
+                                @if($specificPrice->expiration_date)
+                                    <meta itemprop="priceValidUntil" content="{{ date('Y-m-d', strtotime($specificPrice->expiration_date)) }}" />
+                                @else
+                                    <meta itemprop="priceValidUntil" content="{{date('Y')+1}}-12-31" />
+                                @endif
+                            @else
+                                <meta itemprop="priceValidUntil" content="{{date('Y')+1}}-12-31" />
+                            @endif
+                            <div itemprop="seller" itemtype="http://schema.org/Organization" itemscope>
+                                <meta itemprop="name" content="{{ env('APP_NAME') }}" />
+                            </div>
+
+
+
+                            <div>
+                                <div class="product-rating">
+                                    @for($i = 1; $i <= 5; $i++)
+                                        <i class="fa <?=(($product->avgRating[0]->avg_rating ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
+                                    @endfor
+                                </div>
+                                <a class="review-link" onclick="writeReviewShow()">
+                                    {{ $product->reviews_count }} {{ $product->reviews_count > 1 ? 'отзывов' : 'отзыв' }} | Написать отзыв
+                                </a>
+                            </div>
+                            <div>
+                                <h3 class="product-price" itemprop="price" content="{{ $product->getReducedPrice() }}">
+                                    {{ \App\Tools\Helpers::priceFormat($product->getReducedPrice()) }}
+                                    @if($product->specificPrice)
+                                        <del class="product-old-price">
+                                            {{ \App\Tools\Helpers::priceFormat($product->price) }}
+                                        </del>
                                     @endif
-                                @endforeach
-                                @foreach($group_products as $group_product)
-                                    @foreach($group_product->attributes as $attribute)
+                                </h3>
+                                @if($product->stock > 0)
+                                    <span class="product-available">
+                                        <i class="fa fa-check"></i> В наличии
+                                    </span>
+                                @else
+                                    <span class="product-no-available">
+                                        <i class="fa fa-close"></i> Товар отсутствует
+                                    </span>
+                                    <p class="firm-red">При поступлении товара, цена может отличаться</p>
+                                @endif
+                            </div>
+                            <p>
+                                <a href="{{ route('delivery_payment') }}">Доставка по всему казахстану </a> от 1000 тг до 3000 тг.
+                                По городам <a href="{{ route('delivery_payment') }}"> Казахстана</a>, работаем с курьерской компанией "Алем-Тат", срок доставки 3-4 рабочих дня.
+                            </p>
+
+                            <div class="product-options">
+                                <label>Цвет:</label>
+                                <label>
+                                    @foreach($product->attributes as $attribute)
                                         @if($attribute->id == 50 and $attribute->pivot->value)
                                             @php
                                                 $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
@@ -159,99 +185,115 @@
                                                     $query->orWhere('id',  $attribute->pivot->value);
                                                 })->first();
                                             @endphp
-                                            <a style="background-color: {{ $attributeValue->props ?? '#fff' }}"
-                                               title="{{ $attribute->pivot->value }} - {{ $group_product->name }}"
-                                               class="color"
-                                               href="{{ $group_product->detailUrlProduct() }}">
-                                            </a>
+                                            @if($attributeValue)
+                                                <a title="{{ $attributeValue->value }}"
+                                                   class="color"
+                                                   style="background-color: {{ $attributeValue->props ?? '#fff' }}"></a>
+                                            @endif
                                         @endif
                                     @endforeach
-                                @endforeach
-                            </label>
-                            <label>Артикул: {{ $product->sku }}</label>
-                        </div>
+                                    @foreach($group_products as $group_product)
+                                        @foreach($group_product->attributes as $attribute)
+                                            @if($attribute->id == 50 and $attribute->pivot->value)
+                                                @php
+                                                    $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
+                                                        $query->where('value', $attribute->pivot->value);
+                                                        $query->orWhere('id',  $attribute->pivot->value);
+                                                    })->first();
+                                                @endphp
+                                                <a style="background-color: {{ $attributeValue->props ?? '#fff' }}"
+                                                   title="{{ $attribute->pivot->value }} - {{ $group_product->name }}"
+                                                   class="color"
+                                                   href="{{ $group_product->detailUrlProduct() }}">
+                                                </a>
+                                            @endif
+                                        @endforeach
+                                    @endforeach
+                                </label>
+                                <label>Артикул: {{ $product->sku }}</label>
+                            </div>
 
-                        @if($product->stock > 0)
-                            <div class="add-to-cart">
-                                <div class="qty-label">
-                                    <div class="input-number">
-                                        <input type="number" value="1" id="quantity"/>
-                                        <span class="qty-up">+</span>
-                                        <span class="qty-down">-</span>
+                            @if($product->stock > 0)
+                                <div class="add-to-cart">
+                                    <div class="qty-label">
+                                        <div class="input-number">
+                                            <input type="number" value="1" id="quantity"/>
+                                            <span class="qty-up">+</span>
+                                            <span class="qty-down">-</span>
+                                        </div>
                                     </div>
-                                </div>
-                                @if($product->inCart)
-                                    <a href="{{ route('checkout') }}">
-                                        <button class="add-to-cart-btn product-in-basket1">
+                                    @if($product->inCart)
+                                        <a href="{{ route('checkout') }}">
+                                            <button class="add-to-cart-btn product-in-basket1">
+                                                <i class="fa fa-shopping-cart"></i>
+                                                Товар в корзине
+                                            </button>
+                                        </a>
+                                    @else
+                                        <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }}, $('#quantity').val())">
                                             <i class="fa fa-shopping-cart"></i>
-                                            Товар в корзине
+                                            Добавить в корзину
                                         </button>
+                                    @endif
+                                </div>
+                            @endif
+
+                            <ul class="product-btns">
+                                <li>
+                                    <a class="{{ $product->oneProductFeaturesWishlist ? 'active' : '' }}" onclick="productFeaturesWishlist(this, {{ $product->id }})">
+                                        <i class="fa fa-heart-o"></i> закладку
                                     </a>
-                                @else
-                                    <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }}, $('#quantity').val())">
-                                        <i class="fa fa-shopping-cart"></i>
-                                        Добавить в корзину
-                                    </button>
-                                @endif
-                            </div>
-                        @endif
-
-                        <ul class="product-btns">
-                            <li>
-                                <a class="{{ $product->oneProductFeaturesWishlist ? 'active' : '' }}" onclick="productFeaturesWishlist(this, {{ $product->id }})">
-                                    <i class="fa fa-heart-o"></i> закладку
-                                </a>
-                            </li>
-                            <li>
-                                <a class="{{ $product->oneProductFeaturesCompare  ? 'active' : '' }}" onclick="productFeaturesCompare(this, {{ $product->id }})">
-                                    <i class="fa fa-exchange"></i> сравнить
-                                </a>
-                            </li>
-                        </ul>
-
-                        <ul class="product-links">
-                            <li>Категория:</li>
-                            <li><a href="/catalog/{{ $category->url }}">{{ $category->name }}</a></li>
-                        </ul>
-
-                        <ul class="product-links">
-                            <li>поделиться:</li>
-                            <li>
-                                <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
-                                <script src="//yastatic.net/share2/share.js"></script>
-                                <div class="ya-share2" data-services="vkontakte,facebook,whatsapp,telegram"></div>
-                            </li>
-                        </ul>
-
-                        @if($product->stock > 0)
-                            <br/>
-                            <ul class="add-to-cart">
-                                <button class="add-to-cart-btn" onclick="modalShow('.one-click-order')">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    Купить в 1 клик
-                                </button>
+                                </li>
+                                <li>
+                                    <a class="{{ $product->oneProductFeaturesCompare  ? 'active' : '' }}" onclick="productFeaturesCompare(this, {{ $product->id }})">
+                                        <i class="fa fa-exchange"></i> сравнить
+                                    </a>
+                                </li>
                             </ul>
-                        @else
-                            <div class="product-links">
-                                <form action="javascript:void(null);" onsubmit="subscribe(this); return false;" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                    <div class="form-group">
-                                        <label>Оставьте электронную почту, чтобы узнать о поступлении товара</label>
-                                        <input class="form-control"
-                                               type="text"
-                                               name="email"
-                                               @auth value="{{ Auth::user()->email }}" @endauth
-                                               placeholder="Ваша электронная почта"/>
-                                    </div>
-                                    <button type="submit" class="btn btn-firm">
-                                        <i class="fa fa-bell"></i>
-                                        Подписаться
-                                    </button>
-                                </form>
-                            </div>
-                        @endif
 
+                            <ul class="product-links">
+                                <li>Категория:</li>
+                                <li><a href="/catalog/{{ $category->url }}">{{ $category->name }}</a></li>
+                            </ul>
+
+                            <ul class="product-links">
+                                <li>поделиться:</li>
+                                <li>
+                                    <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+                                    <script src="//yastatic.net/share2/share.js"></script>
+                                    <div class="ya-share2" data-services="vkontakte,facebook,whatsapp,telegram"></div>
+                                </li>
+                            </ul>
+
+                            @if($product->stock > 0)
+                                <br/>
+                                <ul class="add-to-cart">
+                                    <button class="add-to-cart-btn" onclick="modalShow('.one-click-order')">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        Купить в 1 клик
+                                    </button>
+                                </ul>
+                            @else
+                                <div class="product-links">
+                                    <form action="javascript:void(null);" onsubmit="subscribe(this); return false;" method="post" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <div class="form-group">
+                                            <label>Оставьте электронную почту, чтобы узнать о поступлении товара</label>
+                                            <input class="form-control"
+                                                   type="text"
+                                                   name="email"
+                                                   @auth value="{{ Auth::user()->email }}" @endauth
+                                                   placeholder="Ваша электронная почта"/>
+                                        </div>
+                                        <button type="submit" class="btn btn-firm">
+                                            <i class="fa fa-bell"></i>
+                                            Подписаться
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        </span>
                     </div>
                 </div>
                 <!-- /Product details -->
@@ -292,83 +334,85 @@
                 <div class="col-md-12">
                     <div id="product-tab">
 
-                            <h2 class="text-center tab-title">Описание</h2>
-                            <!-- description  -->
-                            <div id="description">
-                                {!! $product->description  !!}
-                            </div>
-                            <div class="show-full">
-                                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-                                Показать полностью
-                            </div>
-                            <!-- /description  -->
+                            <span itemprop="description">
+                                <h2 class="text-center tab-title">Описание</h2>
+                                <!-- description  -->
+                                <div id="description">
+                                    {!! $product->description  !!}
+                                </div>
+                                <div class="show-full">
+                                    <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                    Показать полностью
+                                </div>
+                                <!-- /description  -->
 
-                            <h2 class="text-center tab-title">Характеристики</h2>
-                            <!-- attributes  -->
-                            <div id="attributes">
+                                <h2 class="text-center tab-title">Характеристики</h2>
+                                <!-- attributes  -->
+                                <div id="attributes">
 
-                                    @php
-                                        $attributes = [];
-                                        foreach($product->attributes as $attribute)
-                                        {
-                                            if(empty($attribute->pivot->value) or $attribute->show_product_detail == 0)
-                                                continue;
-                                            $attributes[ (int)$attribute->attribute_group_id ][] = $attribute;
-                                        }
-                                    @endphp
+                                        @php
+                                            $attributes = [];
+                                            foreach($product->attributes as $attribute)
+                                            {
+                                                if(empty($attribute->pivot->value) or $attribute->show_product_detail == 0)
+                                                    continue;
+                                                $attributes[ (int)$attribute->attribute_group_id ][] = $attribute;
+                                            }
+                                        @endphp
 
-                                    <table class="table table-bordered">
-                                        @foreach(App\Models\AttributeGroup::OrderBy('sort')->get() as $attributeGroup)
-                                            @if(!isset($attributes[$attributeGroup->id]))
-                                                @continue
-                                            @endif
+                                        <table class="table table-bordered">
+                                            @foreach(App\Models\AttributeGroup::OrderBy('sort')->get() as $attributeGroup)
+                                                @if(!isset($attributes[$attributeGroup->id]))
+                                                    @continue
+                                                @endif
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <b>{{ $attributeGroup->name }}</b>
+                                                        </td>
+                                                    </tr>
+                                                    @foreach($attributes[$attributeGroup->id] as $attribute)
+                                                        <tr>
+                                                            <td>
+                                                                @if($attribute->description)
+                                                                    <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
+                                                                @endif
+                                                                {{ $attribute->name }}:
+                                                            </td>
+                                                            <td>
+                                                                {{ $attribute->pivot->value }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                    @unset($attributes[$attributeGroup->id])
+                                            @endforeach
+
+                                            @if(count($attributes) > 0)
                                                 <tr>
                                                     <td colspan="2">
-                                                        <b>{{ $attributeGroup->name }}</b>
+                                                        <b>Другие</b>
                                                     </td>
                                                 </tr>
-                                                @foreach($attributes[$attributeGroup->id] as $attribute)
-                                                    <tr>
-                                                        <td>
-                                                            @if($attribute->description)
-                                                                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
-                                                            @endif
-                                                            {{ $attribute->name }}:
-                                                        </td>
-                                                        <td>
-                                                            {{ $attribute->pivot->value }}
-                                                        </td>
-                                                    </tr>
+                                                @foreach($attributes as $attribute_items)
+                                                    @foreach($attribute_items as $attribute)
+                                                        <tr>
+                                                            <td>
+                                                                @if($attribute->description)
+                                                                    <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
+                                                                @endif
+                                                                {{ $attribute->name }}:
+                                                            </td>
+                                                            <td>
+                                                                {{ $attribute->pivot->value }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
                                                 @endforeach
-                                                @unset($attributes[$attributeGroup->id])
-                                        @endforeach
+                                            @endif
+                                        </table>
 
-                                        @if(count($attributes) > 0)
-                                            <tr>
-                                                <td colspan="2">
-                                                    <b>Другие</b>
-                                                </td>
-                                            </tr>
-                                            @foreach($attributes as $attribute_items)
-                                                @foreach($attribute_items as $attribute)
-                                                    <tr>
-                                                        <td>
-                                                            @if($attribute->description)
-                                                                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
-                                                            @endif
-                                                            {{ $attribute->name }}:
-                                                        </td>
-                                                        <td>
-                                                            {{ $attribute->pivot->value }}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @endforeach
-                                        @endif
-                                    </table>
-
-                            </div>
-                            <!-- /attributes  -->
+                                </div>
+                                <!-- /attributes  -->
+                            </span>
 
                             <h2 class="text-center tab-title">Отзывы({{$product->reviews_count}})</h2>
                             <!-- reviews  -->
@@ -417,10 +461,15 @@
                                             @else
                                                 <ul class="reviews">
                                                     @foreach($reviews as $review)
-                                                        <li>
+                                                        <li itemprop="review" itemtype="http://schema.org/Review" itemscope>
                                                             <div class="review-heading">
-                                                                <h5 class="name">{{ $review->name }}</h5>
-                                                                <p class="date">{{ \App\Tools\Helpers::ruDateFormat($review->created_at) }}</p>
+
+                                                                <div itemprop="author" itemtype="http://schema.org/Person" itemscope>
+                                                                    <h5 class="name" itemprop="name">{{ $review->name }}</h5>
+                                                                </div>
+                                                                <p class="date" itemprop="datePublished" content="{{ date('Y-m-d', strtotime($review->created_at)) }}">
+                                                                    {{ \App\Tools\Helpers::ruDateFormat($review->created_at) }}
+                                                                </p>
                                                                 <div class="review-rating">
                                                                     <i class="fa {{ $review->rating < 1 ? 'fa-star-o empty' : 'fa-star' }}"></i>
                                                                     <i class="fa {{ $review->rating < 2 ? 'fa-star-o empty' : 'fa-star' }}"></i>
@@ -428,29 +477,36 @@
                                                                     <i class="fa {{ $review->rating < 4 ? 'fa-star-o empty' : 'fa-star' }}"></i>
                                                                     <i class="fa {{ $review->rating < 5 ? 'fa-star-o empty' : 'fa-star' }}"></i>
                                                                 </div>
+                                                                <div itemprop="reviewRating" itemtype="http://schema.org/Rating" itemscope>
+                                                                    <meta itemprop="ratingValue" content="{{ $review->rating }}" />
+                                                                    <meta itemprop="bestRating"  content="5" />
+                                                                    <meta itemprop="worstRating" content="1" />
+                                                                </div>
                                                             </div>
                                                             <div class="review-body">
-                                                                @if($review->plus)
-                                                                    <p>
-                                                                        <b>Достоинства</b>
-                                                                        <br/>
-                                                                        {{ $review->plus }}
-                                                                    </p>
-                                                                @endif
-                                                                @if($review->minus)
-                                                                    <p>
-                                                                        <b>Недостатки</b>
-                                                                        <br/>
-                                                                        {{ $review->minus }}
-                                                                    </p>
-                                                                @endif
-                                                                @if($review->comment)
-                                                                    <p>
-                                                                        <b>Комментарий</b>
-                                                                        <br/>
-                                                                        {{ $review->comment }}
-                                                                    </p>
-                                                                @endif
+                                                                <span itemprop="reviewBody">
+                                                                    @if($review->plus)
+                                                                        <p>
+                                                                            <b>Достоинства</b>
+                                                                            <br/>
+                                                                            {{ $review->plus }}
+                                                                        </p>
+                                                                    @endif
+                                                                    @if($review->minus)
+                                                                        <p>
+                                                                            <b>Недостатки</b>
+                                                                            <br/>
+                                                                            {{ $review->minus }}
+                                                                        </p>
+                                                                    @endif
+                                                                    @if($review->comment)
+                                                                        <p>
+                                                                            <b>Комментарий</b>
+                                                                            <br/>
+                                                                            {{ $review->comment }}
+                                                                        </p>
+                                                                    @endif
+                                                                </span>
 
                                                                 <div class="review-like" id="review_{{ $review->id }}">
                                                                     <b>Вам понравился отзыв?</b>

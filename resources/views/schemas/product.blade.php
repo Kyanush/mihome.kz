@@ -63,29 +63,29 @@
         @endif
         },
 
-@php $reviews = $product->reviews; @endphp
+        @php $reviews = $product->reviews; @endphp
         @if($reviews)
             "review": [
-@foreach($reviews as $key => $review)
-                {
-                    "@type": "Review",
-                    "author": "{{ $review->name }}",
-                "datePublished": "{{ date('Y-m-d', strtotime($review->created_at)) }}",
-                "description": "{{ strip_tags($review->comment) }}",
-                "reviewRating": {
-                    "@type": "Rating",
-                    "bestRating": "5",
-                    "worstRating": "1",
-                    "ratingValue": "{{ $review->rating }}"
-                }
-            }<?=(count($reviews) > $key + 1) ? ',' : '';?>
-            @endforeach
+                @foreach($reviews as $key => $review)
+                    {
+                        "@type": "Review",
+                        "author": "{{ $review->name }}",
+                        "datePublished": "{{ date('Y-m-d', strtotime($review->created_at)) }}",
+                        "reviewBody": "{{ strip_tags($review->comment) }}",
+                        "reviewRating": {
+                            "@type": "Rating",
+                            "bestRating": "5",
+                            "worstRating": "1",
+                            "ratingValue": "{{ $review->rating }}"
+                        }
+                    }<?=(count($reviews) > $key + 1) ? ',' : '';?>
+                @endforeach
             ],
-@endif
+        @endif
 
         @if($group_products)
             "isRelatedTo": [
-@foreach($group_products as $gp_key => $group_product)
+                @foreach($group_products as $gp_key => $group_product)
                 {
                        "@type"        : "Product",
                         "image"       : "{{ env('APP_URL') . $group_product->pathPhoto(true) }}",
@@ -98,7 +98,7 @@
                             "priceCurrency": "KZT"
                         }
                 }<?=(count($group_products) > $gp_key + 1) ? ',' : '';?>
-            @endforeach
+                @endforeach
             ]
 @endif
 
@@ -107,7 +107,7 @@
 @stop
 
 
-
+@if(false)
 <div>
     <div itemtype="http://schema.org/Product" itemscope>
         <meta itemprop="mpn" content="{{ $product->sku }}" />
@@ -164,7 +164,7 @@
                         <meta itemprop="name" content="{{ $review->name }}" />
                     </div>
                     <meta itemprop="datePublished" content="{{ date('Y-m-d', strtotime($review->created_at)) }}" />
-                    <meta itemprop="description"   content="{{ strip_tags($review->comment) }}" />
+                    <meta itemprop="reviewBody"   content="{{ strip_tags($review->comment) }}" />
                     <div itemprop="reviewRating" itemtype="http://schema.org/Rating" itemscope>
                         <meta itemprop="ratingValue" content="{{ $review->rating }}" />
                         <meta itemprop="bestRating"  content="5" />
@@ -181,3 +181,4 @@
 
     </div>
 </div>
+@endif
