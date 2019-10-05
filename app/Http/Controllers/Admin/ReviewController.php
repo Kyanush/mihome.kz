@@ -46,7 +46,7 @@ class ReviewController extends AdminController
 
         $review->products()->sync($data['products_ids']);
 
-        return $this->sendResponse(true);
+        return $this->sendResponse($data['products_ids']);
     }
 
     public function get($id)

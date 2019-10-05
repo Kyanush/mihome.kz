@@ -17,7 +17,6 @@ class Review extends Model
         'plus',
         'minus',
         'rating',
-        'product_id',
         'active',
         'created_at',
         'updated_at'

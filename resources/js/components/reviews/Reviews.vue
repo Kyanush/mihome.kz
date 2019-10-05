@@ -20,7 +20,7 @@
 
         <div class="table-responsive">
             <table class="table table-bordered ">
-            <thead>
+                <thead>
                 <tr>
                     <th>№</th>
                     <th>Товар</th>
@@ -34,8 +34,8 @@
                     <th>Дата создания</th>
                     <th>Действия</th>
                 </tr>
-            </thead>
-            <tbody v-if="reviews">
+                </thead>
+                <tbody v-if="reviews">
                 <tr v-for="item in reviews.data" v-bind:class="{ 'deleted': !item.active }">
                     <td>{{ item.id }}</td>
                     <td>
@@ -67,8 +67,8 @@
                         </a>
                     </td>
                 </tr>
-            </tbody>
-            <tfoot>
+                </tbody>
+                <tfoot>
                 <tr>
                     <th>№</th>
                     <th>Товар</th>
@@ -82,21 +82,21 @@
                     <th>Дата создания</th>
                     <th>Действия</th>
                 </tr>
-            </tfoot>
-        </table>
+                </tfoot>
+            </table>
         </div>
 
         <div class="text-center">
-                <paginate
-                        v-if="reviews && reviews.last_page > 1"
-                        v-model="reviews.current_page"
-                        :page-count="reviews.last_page"
-                        :click-handler="getReviews"
-                        :prev-text="'<<'"
-                        :next-text="'>>'"
-                        :container-class="'pagination'"
-                        :page-class="'page-item'"></paginate>
-         </div>
+            <paginate
+                    v-if="reviews && reviews.last_page > 1"
+                    v-model="reviews.current_page"
+                    :page-count="reviews.last_page"
+                    :click-handler="getReviews"
+                    :prev-text="'<<'"
+                    :next-text="'>>'"
+                    :container-class="'pagination'"
+                    :page-class="'page-item'"></paginate>
+        </div>
 
         <div class="modal fade form-popup" id="popup-review" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -208,29 +208,29 @@
                                             <div class="table-responsive1">
                                                 <table class="table table-striped">
                                                     <thead>
-                                                        <tr>
-                                                            <th>Товар ID</th>
-                                                            <th>Название</th>
-                                                            <th>Статус</th>
-                                                            <th>Действия</th>
-                                                        </tr>
+                                                    <tr>
+                                                        <th>Товар ID</th>
+                                                        <th>Название</th>
+                                                        <th>Статус</th>
+                                                        <th>Действия</th>
+                                                    </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr class="tr-current-product" v-for="(item, index) in products">
-                                                            <td>{{ item.id }}</td>
-                                                            <td>{{ item.name }}</td>
-                                                            <td>
-                                                                <i class="fa fa-times-circle"
-                                                                   aria-hidden="true"
-                                                                   v-bind:class="{ 'fa-times-circle red'   : !item.active,
+                                                    <tr class="tr-current-product" v-for="(item, index) in products">
+                                                        <td>{{ item.id }}</td>
+                                                        <td>{{ item.name }}</td>
+                                                        <td>
+                                                            <i class="fa fa-times-circle"
+                                                               aria-hidden="true"
+                                                               v-bind:class="{ 'fa-times-circle red'   : !item.active,
                                                                                'fa-check-circle green' : item.active }"></i>
-                                                            </td>
-                                                            <td>
-                                                                <a class="btn btn-xs btn-default btn-remove-from-group" @click="deleteProduct(index)">
-                                                                    <i class="fa fa-times"></i> Удалить
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                        </td>
+                                                        <td>
+                                                            <a class="btn btn-xs btn-default btn-remove-from-group" @click="deleteProduct(index)">
+                                                                <i class="fa fa-times"></i> Удалить
+                                                            </a>
+                                                        </td>
+                                                    </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -363,10 +363,14 @@
 
                 //Аксессуары
                 $.each(this.products, function(index, item) {
-                    data.append('products_ids[' + index + ']', item.id);
+                    data.append('products_ids[' + item.id + ']', item.id);
                 });
 
+                if(this.product_id)
+                    data.append('products_ids[' + this.product_id + ']', this.product_id);
+
                 axios.post('/admin/review', data).then(response => {
+                    console.log(response.data);
                     if(response.data){
                         this.$helper.swalSuccess(this.review.id ? 'Отзыв изменен' : 'Отзыв создан' );
                         this.getReviews();
@@ -411,7 +415,7 @@
                 this.review.rating     = item ? item.rating     : 5;
                 this.review.active     = item ? item.active     : 1;
                 this.review.created_at = item ? item.created_at : '';
-                this.products          = item ? item.products   : '';
+                this.products          = item ? item.products   : [];
 
                 $('#popup-review').modal('show');
             },
