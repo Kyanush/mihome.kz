@@ -54,6 +54,17 @@ class ServiceStatistics
                 ];
 
             $series[ $item->status_id ]['data'][ $item->month . $item->year ] = intval($item->total);
+
+            if(!isset($series[0]))
+            {
+                $series[0] = [
+                    'name' => 'Все',
+                    'data' => $data_leng
+                ];
+            }else{
+                $series[0]['data'][ $item->month . $item->year ] += intval($item->total);
+            }
+
         }
 
         foreach ($series as $k => $v)
@@ -89,6 +100,16 @@ class ServiceStatistics
                 ];
 
             $series[ $item->status_id ]['data'][ $item->month . $item->year ] = intval($item->quantity);
+
+            if(!isset($series[0]))
+            {
+                $series[0] = [
+                    'name' => 'Все',
+                    'data' => $data_leng
+                ];
+            }else{
+                $series[0]['data'][ $item->month . $item->year ] += intval($item->quantity);
+            }
         }
 
         foreach ($series as $k => $v)

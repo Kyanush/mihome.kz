@@ -161,9 +161,9 @@
             }
         },
         created(){
-            if(this.callback.id > 0)
-            {
-                axios.get('/admin/callback-view/' + this.callback.id).then((res)=>{
+            var callback_id = this.callback.id;
+            if(callback_id){
+                axios.get('/admin/callback-view/' + callback_id).then((res)=>{
                     var res = res.data;
                     this.callback.id         = res.id;
                     this.callback.type       = res.type;
@@ -174,11 +174,12 @@
                     this.callback.comment    = res.comment;
                     this.callback.order_id   = res.order_id;
                     this.callback.created_at = res.created_at;
-                    this.orders_detail_show = true;
+
+                    this.orders_detail_show  = true;
                 });
-            }else{
-                this.orders_detail_show = true;
             }
+            else
+                this.orders_detail_show = true;
 
             axios.get('/admin/status/callbacks-status-id').then((res)=>{
                 this.statuses = res.data;
@@ -187,37 +188,53 @@
         methods:{
             setTab(tab){
                 this.tab_active = tab;
+
+                if(tab == 'main')
+                {
+                    axios.get('/admin/callback-view/' + this.callback.id).then((res)=>{
+                        var res = res.data;
+                        this.callback.order_id = res.order_id;
+                    });
+                }
             },
             setMethodRedirect(value){
                 this.method_redirect = value;
             },
             callbackSave(event){
                 event.preventDefault();
-                this.SetErrors(null);
 
-                axios.post('/admin/callback-save', {callback: this.callback}).then((res)=>{
-                    if(res.data)
-                    {
-                        this.$helper.swalSuccess(this.callback.id ? 'Успешно изменено' : 'Успешно создано');
+                if(this.callback.status_id == 2 && !this.callback.order_id)
+                {
+                    this.tab_active = 'orders';
+                    this.$swal({
+                        type: 'error',
+                        title: 'Добавьте что купил клиент'
+                    });
+                }else{
+                    this.SetErrors(null);
+                    axios.post('/admin/callback-save', {callback: this.callback}).then((res)=>{
+                        if(res.data)
+                        {
+                            this.$helper.swalSuccess(this.callback.id ? 'Успешно изменено' : 'Успешно создано');
 
-                        if(this.method_redirect == 'save_and_back'){
-                            history.back();
+                            if(this.method_redirect == 'save_and_back'){
+                                history.back();
 
-                        }else if(this.method_redirect == 'save_and_continue'){
-                            if(!this.callback.id)
-                            {
-                                this.callback.id = res.data;
-                                this.$router.push({
-                                    name: 'callback',
-                                    params:{
-                                        callback_id: this.callback.id
-                                    }
-                                });
+                            }else if(this.method_redirect == 'save_and_continue'){
+                                if(!this.callback.id)
+                                {
+                                    this.callback.id = res.data;
+                                    this.$router.push({
+                                        name: 'callback',
+                                        params:{
+                                            callback_id: this.callback.id
+                                        }
+                                    });
+                                }
                             }
                         }
-                    }
-                });
-
+                    });
+                }
             },
             ...mapActions(['SetErrors'])
         },

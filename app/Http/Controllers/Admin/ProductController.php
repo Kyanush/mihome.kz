@@ -34,6 +34,7 @@ class ProductController extends AdminController
                 return  [
                     'product'    => $item,
                     'photo_path' => $item->pathPhoto(true),
+                    'price'      => Helpers::priceFormat($item->getReducedPrice()),
                 ];
             });
         }

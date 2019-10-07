@@ -11,8 +11,14 @@
 
         <ul>
             <li v-for="item in results">
-                <img :src="item.photo_path" width="50"/>
-                ID:{{ item.product.id }}, {{ item.product.name }}
+                <router-link target="_blank" :to="{ name: 'product_edit', params: { product_id: item.product.id} }" title="Изменить">
+                    <img :src="item.photo_path" width="30"/>
+                </router-link>
+
+                <router-link target="_blank" :to="{ name: 'product_edit', params: { product_id: item.product.id} }" title="Изменить" :class="{ 'red': (!item.product.active || !item.product.stock)}">
+                    ID:{{ item.product.id }}, {{ item.product.name }}, {{ item.price }}
+                </router-link>
+
                 <a class="pull-right" @click="selected(item.product)">Выбрать</a>
             </li>
         </ul>
