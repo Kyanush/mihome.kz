@@ -65,6 +65,20 @@
             </ul>
         </p>
         <p>
+            <ul>
+                <li><b>Мы в соцсетях.</b></li>
+                <li>
+                    <p>
+                        @foreach(config('shop.social_network') as $item)
+                            <a href="{{ $item['url'] }}" title="{{ $item['title'] }}" target="_blank">
+                                <img height="30" src="{{ $item['icon'] }}"/>
+                            </a>
+                        @endforeach
+                    </p>
+                </li>
+            </ul>
+        </p>
+        <p>
             <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=64393237639" width="100%" height="600" frameborder="0"></iframe>
         </p>
     </div>

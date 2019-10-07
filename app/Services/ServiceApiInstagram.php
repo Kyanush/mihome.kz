@@ -8,7 +8,7 @@ class ServiceApiInstagram
     public function __construct($access_token = '')
     {
         if(!$access_token)
-            $this->access_token = config('shop.social_network.instagram_token');
+            $this->access_token = config('shop.social_network.instagram.token');
     }
 
     public function api($link){

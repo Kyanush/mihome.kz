@@ -134,25 +134,25 @@ class Helpers
             [
                 'column' => 'view_count',
                 'order'  => 'DESC',
-                'title'  => 'популярные',
+                'title'  => 'популярные А-Я',
                 'value'  => 'sort_view_count-desc'
             ],
             [
                 'column' => 'view_count',
                 'order'  => 'ASC',
-                'title'  => 'популярные',
+                'title'  => 'популярные Я-А',
                 'value'  => 'sort_view_count-asc'
             ],
             [
                 'column' => 'name',
                 'order'  => 'ASC',
-                'title'  => 'по названию',
+                'title'  => 'по названию А-Я',
                 'value'  => 'sort_name-asc'
             ],
             [
                 'column' => 'name',
                 'order'  => 'DESC',
-                'title'  => 'по названию',
+                'title'  => 'по названию Я-А',
                 'value'  => 'sort_name-desc'
             ],
             [

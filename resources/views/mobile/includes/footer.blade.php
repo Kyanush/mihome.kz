@@ -27,6 +27,14 @@
             <b>E-mail:</b>
             <a href="mailto:{{ config('shop.site_email') }}">{{ config('shop.site_email') }}</a>
         </div>
+        <div class="footer__contacts-text">
+            <b>Мы в соцсетях:</b>
+            @foreach(config('shop.social_network') as $item)
+                <a href="{{ $item['url'] }}" title="{{ $item['title'] }}" target="_blank">
+                    <img height="30" src="{{ $item['icon'] }}"/>
+                </a>
+            @endforeach
+        </div>
     </div>
     <div class="footer__links">
         <a class="footer__link" href="/login">Вход в кабинет</a>

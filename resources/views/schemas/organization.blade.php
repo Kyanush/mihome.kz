@@ -2,8 +2,8 @@
     //социальные сети
     $sameAs = '';
     $social_network = config('shop.social_network');
-    foreach ($social_network as $name => $link)
-        $sameAs.= '"' . $link . '",';
+    foreach ($social_network as $item)
+        $sameAs.= '"' . $item['url'] . '",';
 
     $sameAs = mb_substr($sameAs, 0, -1);
 

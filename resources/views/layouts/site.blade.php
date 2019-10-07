@@ -410,11 +410,16 @@
                         </button>
                     </form>
                     <ul class="newsletter-follow">
-                        <li>
-                            <a href="{{ config('shop.social_network.instagram') }}" target="_blank" title="Вы в Instagram">
-                                <i class="fa fa-instagram"></i>
-                            </a>
-                        </li>
+
+                            <li><b>Мы в соцсетях.</b></li>
+                            @foreach(config('shop.social_network') as $item)
+                                <li>
+                                    <a href="{{ $item['url'] }}" title="{{ $item['title'] }}" target="_blank">
+                                        <img height="30" src="{{ $item['icon'] }}"/>
+                                    </a>
+                                </li>
+                            @endforeach
+
                     </ul>
                 </div>
             </div>
@@ -522,6 +527,7 @@
             <!-- row -->
             <div class="row">
                 <div class="col-md-12 text-center">
+
                     <ul class="footer-payments">
                         <li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
                         <li><a href="#"><i class="fa fa-credit-card"></i></a></li>
@@ -530,6 +536,7 @@
                         <li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
                         <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
                     </ul>
+
                     <span class="copyright">
 	    				Copyright &copy;{{date('Y')}} Все права защищены.
 

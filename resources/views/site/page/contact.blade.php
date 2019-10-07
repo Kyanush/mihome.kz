@@ -74,9 +74,11 @@
                         <ul>
                             <li><b>Мы в соцсетях.</b></li>
                             <li>
-                                <a href="{{ config('shop.social_network.instagram') }}" title="Вы в Instagram" target="_blank">
-                                    <i class="fa fa-instagram fa-2x"></i>
-                                </a>
+                                @foreach(config('shop.social_network') as $item)
+                                    <a href="{{ $item['url'] }}" title="{{ $item['title'] }}" target="_blank">
+                                        <img height="30" src="{{ $item['icon'] }}"/>
+                                    </a>
+                                @endforeach
                             </li>
                         </ul>
                     </div>

@@ -73,7 +73,7 @@
 
             <div style="float:right;margin-right:50px;overflow:hidden;">
                 <div style="float:left;margin-right:5px;">
-                    <a href="{{ config('shop.social_network.instagram') }}"  title="Мы в Instagram" class="daria-goto-anchor" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ config('shop.instagram.url') }}"  title="Мы в Instagram" class="daria-goto-anchor" target="_blank" rel="noopener noreferrer">
                         <img width="29" src="{{ env('APP_URL') }}/site/images/insta.png">
                     </a>
                 </div>
