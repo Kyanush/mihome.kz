@@ -169,10 +169,9 @@
                                     <p class="firm-red">При поступлении товара, цена может отличаться</p>
                                 @endif
                             </div>
-                            <p>
-                                <a href="{{ route('delivery_payment') }}">Доставка по всему казахстану </a> от 1000 тг до 3000 тг.
-                                По городам <a href="{{ route('delivery_payment') }}"> Казахстана</a>, работаем с курьерской компанией "Алем-Тат", срок доставки 3-4 рабочих дня.
-                            </p>
+
+
+
 
                             <div class="product-options">
                                 <label>Цвет:</label>
@@ -298,6 +297,42 @@
                 </div>
                 <!-- /Product details -->
 
+
+                <div class="col-md-12">
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <p><i class="fa fa-truck firm-red2"  style="font-size: 20px;"></i> Доставка</p>
+                                <p>Курьером по Алматы <b>бесплатно</b></p>
+                                <p>Отправка по Казахстану <a href="{{ route('delivery_payment') }}">подробнее</a></p>
+                            </td>
+                            <td>
+                                <p>
+                                    <i class="fa fa-car firm-red2" aria-hidden="true"  style="font-size: 20px;"></i>
+                                    Самовывоз
+                                </p>
+                                <p>Магазины в <b>Алматы</b> <a href="{{ route('contact') }}">подробнее</a></p>
+                            </td>
+                            <td>
+                                <p>
+                                    <i class="fa fa-check firm-red2" aria-hidden="true"  style="font-size: 20px;"></i>
+                                    Гарантия и возврат
+                                </p>
+                                <p>
+                                    Гарантия 12 мес <a href="{{ route('guaranty') }}">подробнее</a>
+                                </p>
+                            </td>
+                            <td>
+                                <p>
+                                    <i class="fa fa-credit-card firm-red2" aria-hidden="true"  style="font-size: 20px;"></i>
+                                    Оплата
+                                </p>
+                                <p>Наличными или картой</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
                 @if($group_products->isNotEmpty())
                     <div class="col-md-12">
                         <br/>
@@ -333,85 +368,86 @@
                 <!-- Product tab -->
                 <div class="col-md-12">
                     <div id="product-tab">
-
                             <span itemprop="description">
-                                <h2 class="text-center tab-title">Описание</h2>
-                                <!-- description  -->
-                                <div id="description">
-                                    {!! $product->description  !!}
-                                </div>
-                                <div class="show-full">
-                                    <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-                                    Показать полностью
-                                </div>
-                                <!-- /description  -->
+                                @if($product->description)
+                                    <h2 class="text-center tab-title">Описание</h2>
+                                    <!-- description  -->
+                                    <div id="description">
+                                        {!! $product->description  !!}
+                                    </div>
+                                    <div class="show-full">
+                                        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                        Показать полностью
+                                    </div>
+                                    <!-- /description  -->
+                                @endif
 
-                                <h2 class="text-center tab-title">Характеристики</h2>
-                                <!-- attributes  -->
-                                <div id="attributes">
+                                @php
+                                    $attributes = [];
+                                    foreach($product->attributes as $attribute)
+                                    {
+                                        if(empty($attribute->pivot->value) or $attribute->show_product_detail == 0)
+                                            continue;
+                                        $attributes[ (int)$attribute->attribute_group_id ][] = $attribute;
+                                    }
+                                @endphp
+                                @if(count($attributes) > 0)
+                                    <h2 class="text-center tab-title">Характеристики</h2>
+                                    <!-- attributes  -->
+                                    <div id="attributes">
+                                            <table class="table table-bordered">
+                                                @foreach(App\Models\AttributeGroup::OrderBy('sort')->get() as $attributeGroup)
+                                                    @if(!isset($attributes[$attributeGroup->id]))
+                                                        @continue
+                                                    @endif
+                                                        <tr>
+                                                            <td colspan="2">
+                                                                <b>{{ $attributeGroup->name }}</b>
+                                                            </td>
+                                                        </tr>
+                                                        @foreach($attributes[$attributeGroup->id] as $attribute)
+                                                            <tr>
+                                                                <td>
+                                                                    @if($attribute->description)
+                                                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
+                                                                    @endif
+                                                                    {{ $attribute->name }}:
+                                                                </td>
+                                                                <td>
+                                                                    {{ $attribute->pivot->value }}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                        @unset($attributes[$attributeGroup->id])
+                                                @endforeach
 
-                                        @php
-                                            $attributes = [];
-                                            foreach($product->attributes as $attribute)
-                                            {
-                                                if(empty($attribute->pivot->value) or $attribute->show_product_detail == 0)
-                                                    continue;
-                                                $attributes[ (int)$attribute->attribute_group_id ][] = $attribute;
-                                            }
-                                        @endphp
-
-                                        <table class="table table-bordered">
-                                            @foreach(App\Models\AttributeGroup::OrderBy('sort')->get() as $attributeGroup)
-                                                @if(!isset($attributes[$attributeGroup->id]))
-                                                    @continue
-                                                @endif
+                                                @if(count($attributes) > 0)
                                                     <tr>
                                                         <td colspan="2">
-                                                            <b>{{ $attributeGroup->name }}</b>
+                                                            <b>Другие</b>
                                                         </td>
                                                     </tr>
-                                                    @foreach($attributes[$attributeGroup->id] as $attribute)
-                                                        <tr>
-                                                            <td>
-                                                                @if($attribute->description)
-                                                                    <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
-                                                                @endif
-                                                                {{ $attribute->name }}:
-                                                            </td>
-                                                            <td>
-                                                                {{ $attribute->pivot->value }}
-                                                            </td>
-                                                        </tr>
+                                                    @foreach($attributes as $attribute_items)
+                                                        @foreach($attribute_items as $attribute)
+                                                            <tr>
+                                                                <td>
+                                                                    @if($attribute->description)
+                                                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
+                                                                    @endif
+                                                                    {{ $attribute->name }}:
+                                                                </td>
+                                                                <td>
+                                                                    {{ $attribute->pivot->value }}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
                                                     @endforeach
-                                                    @unset($attributes[$attributeGroup->id])
-                                            @endforeach
+                                                @endif
+                                            </table>
 
-                                            @if(count($attributes) > 0)
-                                                <tr>
-                                                    <td colspan="2">
-                                                        <b>Другие</b>
-                                                    </td>
-                                                </tr>
-                                                @foreach($attributes as $attribute_items)
-                                                    @foreach($attribute_items as $attribute)
-                                                        <tr>
-                                                            <td>
-                                                                @if($attribute->description)
-                                                                    <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
-                                                                @endif
-                                                                {{ $attribute->name }}:
-                                                            </td>
-                                                            <td>
-                                                                {{ $attribute->pivot->value }}
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @endforeach
-                                            @endif
-                                        </table>
-
-                                </div>
-                                <!-- /attributes  -->
+                                    </div>
+                                    <!-- /attributes  -->
+                                @endif
                             </span>
 
                             <h2 class="text-center tab-title">Отзывы({{$product->reviews_count}})</h2>

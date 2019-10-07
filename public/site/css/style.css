@@ -68,7 +68,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-    color: #2B2D42;
     font-weight: 500;
     -webkit-transition: 0.2s color;
     transition: 0.2s color;
@@ -1215,7 +1214,7 @@ textarea.input {
 }
 
 .product-widget .product-body .product-name {
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     font-size: 12px;
 }
 
@@ -2351,6 +2350,9 @@ textarea.input {
 .firm-red{
     color: #3c92c3;
 }
+.firm-red2{
+    color: #fb8800;
+}
 .cursor-pointer{
     cursor: pointer;
 }
@@ -2819,4 +2821,7 @@ textarea.input {
 }
 .show-full, .show-full .fa{
     color: #3c92c3!important;
+}
+.color{
+
 }

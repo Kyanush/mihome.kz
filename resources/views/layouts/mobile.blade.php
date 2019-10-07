@@ -63,6 +63,9 @@
     <script type="text/javascript" src="/site/js/jquery.maskedinput.min.js"></script>
     <!-- Mask --->
 
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="/site/css/font-awesome.min.css">
+
     <meta name="yandex-verification" content="d9d1d901f0c53a09" />
     <meta name="google-site-verification" content="YOGU9Dh4gfT8os5uvRCSuQ_kwUhoUbXwqQFiNshBSHw" />
 

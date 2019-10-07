@@ -85,15 +85,6 @@
             <div class="item__sku">Код товара:&nbsp;{{ $product->sku }}</div>
         </div>
 
-        <div class="item__info container text-center">
-            <button
-                    type="button"
-                    class="button _white"
-                    onclick="buyIn1Click({{ $product->id }})">
-                Купить в 1 клик
-            </button>
-        </div>
-
         <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
             <div class="item__prices">
                 <div class="item__debet">
@@ -120,7 +111,61 @@
             </div>
         </div>
 
+        <div class="item__info container text-center">
+            <button
+                type="button"
+                class="button _white"
+                onclick="buyIn1Click({{ $product->id }})">
+                Купить в 1 клик
+            </button>
+        </div>
 
+        <div class="item__info container">
+            <h2 style="color: #3c92c3;">
+                <i class="fa fa-truck firm-red2"  style="font-size: 20px;"></i> Доставка
+            </h2>
+            <ul class="short-specifications__list">
+                <li class="short-specifications__list-el">
+                    Курьером по Алматы <b>бесплатно</b>
+                </li>
+                <li class="short-specifications__list-el">
+                    Отправка по Казахстану <a href="{{ route('delivery_payment') }}">подробнее</a>
+                </li>
+            </ul>
+
+
+            <h2 style="color: #3c92c3;">
+                <i class="fa fa-car firm-red2" aria-hidden="true"  style="font-size: 20px;"></i>
+                Самовывоз
+            </h2>
+            <ul class="short-specifications__list">
+                <li class="short-specifications__list-el">
+                    Магазины в <b>Алматы</b> <a href="{{ route('contact') }}">подробнее</a>
+                </li>
+            </ul>
+
+
+            <h2 style="color: #3c92c3;">
+                <i class="fa fa-check firm-red2" aria-hidden="true"  style="font-size: 20px;"></i>
+                Гарантия и возврат
+            </h2>
+            <ul class="short-specifications__list">
+                <li class="short-specifications__list-el">
+                    Гарантия 12 мес <a href="{{ route('guaranty') }}">подробнее</a>
+                </li>
+            </ul>
+
+
+            <h2 style="color: #3c92c3;">
+                <i class="fa fa-credit-card firm-red2" aria-hidden="true"  style="font-size: 20px;"></i>
+                Оплата
+            </h2>
+            <ul class="short-specifications__list">
+                <li class="short-specifications__list-el">
+                    Наличными или картой
+                </li>
+            </ul>
+        </div>
 
 
     </div>
