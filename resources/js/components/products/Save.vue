@@ -384,85 +384,85 @@
                                             </td>
                                             <td width="60%">
 
-                                                    <div class="form-group col-md-6" v-if="attribute.type == 'text'" v-bind:class="{'has-error' : IsError('attributes.' + index + '.value')}">
-                                                        <p class="help-block">Текст</p>
-                                                        <input type="text" v-model="attributes[index].value" class="form-control">
-                                                        <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
-                                                             {{ e }}
-                                                        </span>
-                                                    </div>
+                                                    <div class="form-group col-md-6" v-bind:class="{'has-error' : IsError('attributes.' + index + '.value')}">
+                                                        <b v-if="attribute.attribute_group">
+                                                            {{ attribute.attribute_group.name }}
+                                                        </b>
 
-                                                    <div class="form-group col-md-6" v-if="attribute.type == 'textarea'" v-bind:class="{'has-error' : IsError('attributes.' + index + '.value')}">
-                                                        <p class="help-block">Текстовая область</p>
-                                                        <textarea v-model="attributes[index].value" class="form-control"></textarea>
-                                                        <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
-                                                             {{ e }}
-                                                        </span>
-                                                    </div>
+                                                        <span v-if="attribute.type == 'text'">
+                                                            <p class="help-block">Текст</p>
 
-                                                    <div class="form-group col-md-6" v-if="attribute.type == 'date'" v-bind:class="{'has-error' : IsError('attributes.' + index + '.value')}">
-                                                        <p class="help-block">Дата</p>
-                                                        <input type="date" v-model="attributes[index].value" class="form-control"/>
-                                                        <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
-                                                             {{ e }}
+                                                            <input type="text" v-model="attributes[index].value" class="form-control">
+                                                            <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
+                                                                 {{ e }}
+                                                            </span>
                                                         </span>
-                                                    </div>
 
-                                                    <div class="form-group col-md-6" v-if="attribute.type == 'multiple_select'" v-bind:class="{'has-error' : IsError('attributes.' + index + '.value')}">
-                                                        <p class="help-block">Множественный выбор</p>
-                                                        <Select2 v-model="attributes[index].value" :settings="{ multiple: true }" :options="convertDataSelect2(attribute.values, 'value', 'value')"/>
-                                                        <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
-                                                             {{ e }}
+                                                        <span v-if="attribute.type == 'textarea'">
+                                                            <p class="help-block">Текстовая область</p>
+                                                            <textarea v-model="attributes[index].value" class="form-control"></textarea>
+                                                            <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
+                                                                 {{ e }}
+                                                            </span>
                                                         </span>
-                                                    </div>
 
-                                                    <div class="form-group col-md-6" v-if="attribute.type == 'media'" v-bind:class="{'has-error' : IsError('attributes.' + index + '.value')}">
-                                                        <div class="row">
-                                                            <div class="col-sm-6" style="margin-bottom: 20px;">
-                                                                <img width="100" id="attribute-img" class="img" v-bind:src="attributes[index].value ? '/uploads/attributes/' + attributes[index].value : ''"/>
+                                                        <span v-if="attribute.type == 'date'">
+                                                            <p class="help-block">Дата</p>
+                                                            <input type="date" v-model="attributes[index].value" class="form-control"/>
+                                                            <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
+                                                                 {{ e }}
+                                                            </span>
+                                                        </span>
+
+                                                        <span v-if="attribute.type == 'multiple_select'">
+                                                            <p class="help-block">Множественный выбор</p>
+                                                            <Select2 v-model="attributes[index].value" :settings="{ multiple: true }" :options="convertDataSelect2(attribute.values, 'value', 'value')"/>
+                                                            <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
+                                                                 {{ e }}
+                                                            </span>
+                                                        </span>
+
+                                                        <span v-if="attribute.type == 'media'">
+                                                            <div class="row">
+                                                                <div class="col-sm-6" style="margin-bottom: 20px;">
+                                                                    <img width="100" id="attribute-img" class="img" v-bind:src="attributes[index].value ? '/uploads/attributes/' + attributes[index].value : ''"/>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <input type="hidden" v-model="attributes[index].value"/>
+                                                            <input type="hidden" v-model="attributes[index].value"/>
 
-                                                        <div class="btn-group">
-                                                            <label class="btn btn-primary btn-file">
-                                                                Загрузить
-                                                                <input  type="file" accept="image/*" id="uploadImage" class="hide" @change="setAttributeImage($event, index)"/>
-                                                            </label>
-                                                            <button class="btn btn-danger" id="remove" type="button" @click="clearAttributeImage(index)">
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
-                                                        </div>
+                                                            <div class="btn-group">
+                                                                <label class="btn btn-primary btn-file">
+                                                                    Загрузить
+                                                                    <input  type="file" accept="image/*" id="uploadImage" class="hide" @change="setAttributeImage($event, index)"/>
+                                                                </label>
+                                                                <button class="btn btn-danger" id="remove" type="button" @click="clearAttributeImage(index)">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                            </div>
 
-                                                        <p class="help-block">Картинка</p>
-                                                        <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
-                                                             {{ e }}
-                                                        </span>
-                                                    </div>
-
-                                                    <div class="form-group col-md-6" v-if="attribute.type == 'dropdown'" v-bind:class="{'has-error' : IsError('attributes.' + index + '.value')}">
-                                                        <p class="help-block">Выбор</p>
-                                                        <Select2 v-model="attributes[index].value" :options="convertDataSelect2(attribute.values, 'value', 'value')"/>
-                                                        <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
-                                                             {{ e }}
-                                                        </span>
-                                                    </div>
-
-
-                                                    <div class="form-group col-md-6" v-if="attribute.type == 'color'" v-bind:class="{'has-error' : IsError('attributes.' + index + '.value')}">
-                                                        <p class="help-block">Цвет</p>
-                                                        <!--
-                                                        <Select2 v-model="attributes[index].value"
-                                                                 :options="convertDataSelect2(attribute.values, 'value', 'value')"/>
-                                                        -->
-                                                        <SelectColor
-                                                                :colorOptions="convertColorOptions(attribute.values)"
-                                                                v-model="attributes[index].value"></SelectColor>
-
-                                                        <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
-                                                             {{ e }}
+                                                            <p class="help-block">Картинка</p>
+                                                            <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
+                                                                 {{ e }}
+                                                            </span>
                                                         </span>
 
+                                                        <span v-if="attribute.type == 'dropdown'">
+                                                            <p class="help-block">Выбор</p>
+                                                            <Select2 v-model="attributes[index].value" :options="convertDataSelect2(attribute.values, 'value', 'value')"/>
+                                                            <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
+                                                                 {{ e }}
+                                                            </span>
+                                                        </span>
+
+                                                        <span v-if="attribute.type == 'color'">
+                                                            <p class="help-block">Цвет</p>
+                                                            <SelectColor
+                                                                    :colorOptions="convertColorOptions(attribute.values)"
+                                                                    v-model="attributes[index].value"></SelectColor>
+                                                            <span v-if="IsError('attributes.' + index + '.value')" class="help-block" v-for="e in IsError('attributes.' + index + '.value')">
+                                                                 {{ e }}
+                                                            </span>
+                                                        </span>
                                                     </div>
                                             </td>
                                             <td width="15%">
@@ -795,7 +795,7 @@
                     price: 0,
                     cost_price: 0,
                     sku: '',
-                    stock: 0,
+                    stock: 1,
                     active: 1,
                     seo_keywords: '',
                     seo_description: '',
@@ -824,6 +824,7 @@
         methods:{
             attributeSetsMoreInfo(refresh){
                   axios.get('/admin/attribute-sets-more-info').then((res)=>{
+                      console.log(res.data);
                         this.attributes_sets_more_info = res.data;
                         if(refresh)
                         {
@@ -931,7 +932,7 @@
                             if(['text', 'textarea', 'date', 'media'].indexOf(attribute.type) != -1)
                             {
                                 self.attributes.push({
-                                    value: attribute.values[0].value,
+                                    value: (attribute.values.length ? attribute.values[0].value : ''),
                                     attribute_id: attribute.id
                                 });
                             }else{
@@ -997,6 +998,8 @@
                 });
 
                 axios.post('/admin/product-save', data).then((res)=>{
+                    var product_id = res.data;
+
                     if(res.data)
                     {
                         this.$helper.swalSuccess(this.product.id ? 'Успешно изменено' : 'Успешно создано');
@@ -1005,7 +1008,7 @@
                             history.back();
 
                         }else if(this.method_redirect == 'save_and_continue'){
-                            var product_id = res.data;
+
 
                             this.$router.go({
                                 name: 'product_edit',

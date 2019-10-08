@@ -29,16 +29,16 @@ class MainController extends Controller
                 ->get();
 
 
-        $elektrosamokaty =Product::productInfoWith()
-            ->filters(['category' => 'elektrosamokaty-xiaomi'])
+        $products1 =Product::productInfoWith()
+            ->filters(['category' => 'redmi-note-8-pro'])
             ->limit(10)
             ->where('stock', '>', 0)
             ->get();
 
 
 
-        $pylesosy = Product::productInfoWith()
-                    ->filters(['category' => 'pylesosy-xiaomi'])
+        $products2 = Product::productInfoWith()
+                    ->filters(['category' => 'redmi-note-8'])
                     ->limit(10)
                     ->where('stock', '>', 0)
                     ->get();
@@ -53,8 +53,8 @@ class MainController extends Controller
             [
                 'listSlidersHomePage'          => ServiceSlider::listSlidersHomePage(),
                 'productsDiscount'             => $productsDiscount,
-                'elektrosamokaty'              => $elektrosamokaty,
-                'pylesosy'                     => $pylesosy,
+                'products1'                    => $products1,
+                'products2'                    => $products2,
                 'seo'                          => $seo,
                 'news'                         => $news
             ]);

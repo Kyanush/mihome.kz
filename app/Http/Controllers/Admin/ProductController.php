@@ -78,7 +78,7 @@ class ProductController extends AdminController
     }
 
     public function AttributeSetsMoreInfo(){
-        $list =  AttributeSet::with('attributes.values')->get();
+        $list =  AttributeSet::with(['attributes.values', 'attributes.attributeGroup'])->get();
         return  $this->sendResponse($list);
     }
 

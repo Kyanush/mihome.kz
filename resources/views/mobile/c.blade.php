@@ -28,6 +28,7 @@
             <ul class="catalog-sub-items__list">
                 <li class="catalog-sub-items__el">
                     <a href="{{ $category->catalogUrl($currentCity->code) }}" class="catalog-sub-item">
+                        <img width="50px" src="{{ $category->pathImage(true) }}"/>
                         <b class="catalog-sub-item__title">Все {{ $category->name }}</b>
                         <span class="catalog-sub-item__icon icon icon_chevron"></span>
                     </a>
@@ -38,6 +39,9 @@
                             $items = $item->children()->orderBy('sort')->get();
                         @endphp
                         <a href="{{ $items->isNotEmpty() ? route('category_menu_mobile', ['category' => $item->url]) : $item->catalogUrl($currentCity->code) }}" class="catalog-sub-item">
+
+                            <img width="50px" src="{{ $item->pathImage(true) }}"/>
+
                             <span class="catalog-sub-item__title">{{ $item->name }}</span>
                             @if($items->isNotEmpty())
                                 <span class="catalog-sub-item__icon catalog-sub-item__close icon icon_plus"></span>

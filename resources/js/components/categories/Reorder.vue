@@ -33,6 +33,11 @@
                                                                       ||
                                                                    (!item['$foldClose'] && item.children && item.children.length) }">
                                              {{ item.name }}
+
+                                            <router-link target="_blank" :to="{ name: 'category_edit', params: { category_id: item.id } }" class="btn btn-xs btn-default">
+                                                <i class="fa fa-edit"></i>
+                                            </router-link>
+
                                         </span>
                                    </div>
                               </template>

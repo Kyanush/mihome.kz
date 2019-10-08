@@ -38,9 +38,10 @@
 
     @include('mobile.includes.main-slider')
 
-    @include('mobile.includes.product_slider', ['products' => $productsDiscount, 'title' => 'Акции', 'url' => ''])
-    @include('mobile.includes.product_slider', ['products' => $elektrosamokaty,  'title' => 'Самокаты', 'url' => ''])
-    @include('mobile.includes.product_slider', ['products' => $pylesosy,         'title' => 'Пылесосы Xiaomi', 'url' => ''])
+    @include('mobile.includes.product_slider', ['products' => $products1, 'title' => 'Redmi Note 8 Pro', 'url' => ''])
+    @include('mobile.includes.product_slider', ['products' => $products2, 'title' => 'Redmi Note 8', 'url' => ''])
+
+    @include('mobile.includes.product_slider', ['products' => $productsDiscount,  'title' => 'Акции', 'url' => ''])
 
     <div class="mount-item-teaser">
         <h2 class="container-title">Мы в Instagram</h2>

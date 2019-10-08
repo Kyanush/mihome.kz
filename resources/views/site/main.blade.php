@@ -26,8 +26,9 @@
 
 
     @include('site.includes.product_day')
-    @include('site.includes.product_slider', ['products' => $productsDiscount, 'title' => 'Акции'])
-    @include('site.includes.product_slider', ['products' => $elektrosamokaty, 'title' => 'Самокаты'])
+
+    @include('site.includes.product_slider', ['products' => $products1, 'title' => 'Redmi Note 8 Pro'])
+    @include('site.includes.product_slider', ['products' => $products2, 'title' => 'Redmi Note 8'])
 
 
     <!-- HOT DEAL SECTION -->
@@ -78,8 +79,7 @@
     </div>
     <!-- /HOT DEAL SECTION -->
 
-
-    @include('site.includes.product_slider', ['products' => $pylesosy, 'title' => 'Пылесосы Xiaomi'])
+    @include('site.includes.product_slider', ['products' => $productsDiscount, 'title' => 'Акции'])
 
     @if(false)
         <!-- SECTION -->

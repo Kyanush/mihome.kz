@@ -2104,7 +2104,7 @@ img[data-src] {
     background: #fff;
     padding: 4vw;
     color: #4a4a4a;
-    height: 17.067vw;
+    /*height: 17.067vw;*/
     display: flex;
     align-items: center;
     text-align: center;
@@ -2112,6 +2112,15 @@ img[data-src] {
     cursor: pointer;
     font-size: 4.533vw;
     text-decoration: none;
+}
+
+.catalog-sub-item img{
+    width: 50px;
+    max-height: 100%;
+}
+
+.catalog-sub-item__title{
+    padding-left: 15px;
 }
 
 .catalog-sub-item._active {
