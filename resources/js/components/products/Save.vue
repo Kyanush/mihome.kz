@@ -729,10 +729,16 @@
                                 <span data-value="save_and_back">Сохранить и новый</span>
                             </button>
 
+                            <a target="_blank" :href="detail_url" v-if="detail_url" class="btn btn-warning">
+                                <i class="fa fa-internet-explorer" aria-hidden="true"></i>
+                                Посмотреть товар
+                            </a>
+
                             <router-link :to="{path: '/products'}" class="btn btn-default">
                                 <span class="fa fa-ban"></span> &nbsp;
                                 Отменить
                             </router-link>
+
                         </div>
                     </div><!-- /.box-footer-->
 
@@ -818,6 +824,7 @@
                 categories_list: [],
                 attributes_sets_more_info: [],
                 group_products: [],
+                detail_url: ''
             }
         },
 
@@ -1081,6 +1088,8 @@
                                     this.specific_price.start_date      = data.specific_price.start_date;
                                     this.specific_price.expiration_date = data.specific_price.expiration_date;
                                 }
+
+                                this.detail_url = data.detail_url;
 
                             });
                 }

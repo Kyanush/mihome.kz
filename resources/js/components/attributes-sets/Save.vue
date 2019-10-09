@@ -96,7 +96,7 @@
             console.log('Component mounted.')
         },
         created(){
-            axios.get('/admin/attributes-list').then((res)=>{
+            axios.get('/admin/attributes-list?per_page=1000').then((res)=>{
                 var self = this;
                 res.data.data.forEach(function (item, index) {
                     self.list_attributes.push({

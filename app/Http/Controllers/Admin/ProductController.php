@@ -169,7 +169,9 @@ class ProductController extends AdminController
             ];
         });
 
+
         return $this->sendResponse([
+            'detail_url'          => $product->detailUrlProduct(),
             'product'             => $product,
             'product_accessories' => $product_accessories,
             'images'              => $images,
