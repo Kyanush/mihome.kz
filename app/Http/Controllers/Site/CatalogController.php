@@ -22,7 +22,7 @@ class CatalogController extends Controller
             $query->orderBy('sort');
             $query->isActive();
 
-        }])->where('url', $category)->first();
+        }])->where('url', $category)->firstOrFail();
 
         //город
         $currentCity = ServiceCity::getCurrentCity();
