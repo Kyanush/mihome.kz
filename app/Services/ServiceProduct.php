@@ -252,8 +252,9 @@ class ServiceProduct implements ProductInterface
 
             foreach ($item['value'] as $value)
             {
-                if($value == 'null' or $value === null)
-                    $value = '';
+                if($value == 'null' or empty($value))
+                    continue;
+
                 $product->attributes()->attach([$item['attribute_id'] => ['value' => $value]]);
             }
 
