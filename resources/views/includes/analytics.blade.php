@@ -1,8 +1,9 @@
 @if(env('APP_TEST') == 0 and !\App\Tools\Helpers::isAdmin())
 
-        <meta name='wmail-verification' content='afd3265a6543de7b2d413b848d62a272' />
+        <meta name='wmail-verification' content='085488c39c4c1d74afb87133253844db' />
         <meta name="yandex-verification" content="5e80dd0c70552c4f" />
         <meta name="google-site-verification" content="f3dNhkvnXjKE8QfdogVG5JNiaRsqq4z-cYEMDYodTjg" />
+        <meta name="msvalidate.01" content="FA2FCEE563AF49653FFF42334E7092CC" />
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145899417-1"></script>
