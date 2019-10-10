@@ -3,40 +3,40 @@
 
 
 
-            <div class="row">
-                <div class="col-md-12 well">
-                    <h2>
-                        <history_back></history_back>
+        <div class="row">
+            <div class="col-md-12 well">
+                <h2>
+                    <history_back></history_back>
 
-                        Заказ #{{ order.id }}
+                    Заказ #{{ order.id }}
 
-                        <router-link :to="{ name: 'user_edit', params: {user_id: order.user_id} }" v-if="order.user">
-                            - | {{ order.user.name }} {{ order.user.surname }}
-                        </router-link>
+                    <router-link :to="{ name: 'user_edit', params: {user_id: order.user_id} }" v-if="order.user">
+                        - | {{ order.user.name }} {{ order.user.surname }}
+                    </router-link>
 
-                        {{ order.created_at ? '|'  + dateFormat(order.created_at) : ''}}
+                    {{ order.created_at ? '|'  + dateFormat(order.created_at) : ''}}
 
-                        <a class="btn btn-success ladda-button pull-right" @click="saveOrder">
+                    <a class="btn btn-success ladda-button pull-right" @click="saveOrder">
                             <span class="ladda-label">
                                 <i class="fa fa-cart-arrow-down"></i> {{ order.id ? 'Сохранить заказ' : 'Создать заказ'}}
                             </span>
-                        </a>
+                    </a>
 
-                    </h2>
-                </div>
+                </h2>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-7">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">
-                                <span><i class="fa fa-ticket"></i> О заказе</span>
-                            </h3>
-                        </div>
-                        <div class="box-body">
-                            <div class="table-responsive1">
-                                <table class="table table-striped table-hover">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <span><i class="fa fa-ticket"></i> О заказе</span>
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive1">
+                            <table class="table table-striped table-hover">
                                 <tbody>
                                 <tr>
                                     <td>
@@ -95,137 +95,137 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            </div>
-                            <hr>
+                        </div>
+                        <hr>
 
-                            <div class="box-body">
-                                <div class="table-responsive1">
-                                    <table class="table table-striped table-hover">
-                                        <tbody>
-                                        <tr>
-                                            <td>Комментарии</td>
-                                            <td colspan="3">
-                                                <textarea class="form-control" v-model="order.comment"></textarea>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <div class="box-body">
+                            <div class="table-responsive1">
+                                <table class="table table-striped table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td>Комментарии</td>
+                                        <td colspan="3">
+                                            <textarea class="form-control" v-model="order.comment"></textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
+                        </div>
 
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <span><i class="fa fa-user"></i> Клиент</span>
+                        </h3>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="well">
+                            <div class="table-responsive1">
+                                <table class="table table-condensed table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <i class="fa fa-user-circle-o"></i>
+                                            Клиент ID:
+                                        </td>
+                                        <td>
+                                            <select class="form-control" v-model="order.user_id">
+                                                <option value=""></option>
+                                                <option v-for="user in users" :value="user.id">
+                                                    {{ user.name }} {{ user.surname }}
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i class="fa fa-envelope"></i>
+                                            Имя:
+                                        </td>
+                                        <td>
+                                            <input v-model="order.user_name" class="form-control"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i class="fa fa-phone"></i>
+                                            Телефон:
+                                        </td>
+                                        <td>
+                                            <input
+                                                @blur="order.user_phone = $event.target.value;"
+                                                v-model="order.user_phone"
+                                                class="form-control phone-mask"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i class="fa fa-email"></i>
+                                            E-mail
+                                        </td>
+                                        <td>
+                                            <input v-model="order.user_email" class="form-control"/>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">
-                                <span><i class="fa fa-user"></i> Клиент</span>
-                            </h3>
-                        </div>
 
-                        <div class="box-body">
-                            <div class="well">
-                                <div class="table-responsive1">
-                                    <table class="table table-condensed table-hover">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <i class="fa fa-user-circle-o"></i>
-                                                    Клиент ID:
-                                                </td>
-                                                <td>
-                                                    <select class="form-control" v-model="order.user_id">
-                                                          <option value=""></option>
-                                                          <option v-for="user in users" :value="user.id">
-                                                              {{ user.name }} {{ user.surname }}
-                                                          </option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <i class="fa fa-envelope"></i>
-                                                    Имя:
-                                                </td>
-                                                <td>
-                                                    <input v-model="order.user_name" class="form-control"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <i class="fa fa-phone"></i>
-                                                    Телефон:
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        @blur="order.user_phone = $event.target.value;"
-                                                        v-model="order.user_phone"
-                                                        class="form-control phone-mask"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <i class="fa fa-email"></i>
-                                                    E-mail
-                                                </td>
-                                                <td>
-                                                    <input v-model="order.user_email" class="form-control"/>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <span><i class="fa fa-user"></i> Адреса доставки</span>
+                        </h3>
                     </div>
 
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">
-                                <span><i class="fa fa-user"></i> Адреса доставки</span>
-                            </h3>
-                        </div>
-
-                        <div class="box-body">
-                            <div class="well">
-                                <div class="table-responsive1">
-                                    <table class="table table-condensed table-hover">
-                                        <tbody>
-                                            <tr>
-                                                <td>Город:</td>
-                                                <td>
-                                                    <input v-model="order.city" class="form-control"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Адрес:</td>
-                                                <td>
-                                                    <input v-model="order.address" class="form-control"/>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                    <div class="box-body">
+                        <div class="well">
+                            <div class="table-responsive1">
+                                <table class="table table-condensed table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td>Город:</td>
+                                        <td>
+                                            <input v-model="order.city" class="form-control"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Адрес:</td>
+                                        <td>
+                                            <input v-model="order.address" class="form-control"/>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
-            <div  class="row">
-                <div class="col-md-12">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">
-                                <span><i class="fa fa-truck"></i> Курьер</span>
-                            </h3>
-                        </div>
+        <div  class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <span><i class="fa fa-truck"></i> Курьер</span>
+                        </h3>
+                    </div>
 
-                        <div class="box-body">
-                            <div class="table-responsive1">
-                                <table class="table table-condensed">
+                    <div class="box-body">
+                        <div class="table-responsive1">
+                            <table class="table table-condensed">
                                 <thead>
                                 <tr>
                                     <th style="width: 150px;">Логотип</th>
@@ -260,26 +260,26 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">
-                                <span><i class="fa fa-paypal"></i> Тип оплаты</span>
-                            </h3>
-                        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <span><i class="fa fa-paypal"></i> Тип оплаты</span>
+                        </h3>
+                    </div>
 
-                        <div class="box-body">
-                            <div class="table-responsive1">
-                                <table class="table table-condensed">
+                    <div class="box-body">
+                        <div class="table-responsive1">
+                            <table class="table table-condensed">
                                 <thead>
                                 <tr>
                                     <th style="width: 150px;">Логотип</th>
@@ -319,99 +319,99 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">
-                                <span><i class="fa fa-shopping-cart"></i> Товары</span>
-                            </h3>
-                            <a class="btn btn-primary ladda-button pull-right" @click="showProductAddForm">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <span><i class="fa fa-shopping-cart"></i> Товары</span>
+                        </h3>
+                        <a class="btn btn-primary ladda-button pull-right" @click="showProductAddForm">
                                 <span class="ladda-label">
                                     <i class="fa fa-plus"></i> Добавить товар
                                 </span>
-                            </a>
-                        </div>
-                        <div class="box-body">
-                            <div class="table-responsive1">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Товар</th>
-                                            <th>Себестоимость товара</th>
-                                            <th>Цена</th>
-                                            <th>Количество</th>
-                                            <th class="text-right">Всего</th>
-                                            <th class="text-right">Действия</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(product, index) in order.products" v-if="!product.pivot.is_delete">
-                                            <td class="vertical-align-middle">
-                                                <router-link :to="{ path: '/product/' + product.pivot.product_id}">
-                                                    <img v-bind:src="'/uploads/products/' + product.pivot.product_id + '/' + product.photo" class="photo"/>
-                                                    {{ product.pivot.name }}
-                                                </router-link>
-                                                <p class="font-12"><b>SKU:</b> {{ product.pivot.sku }}</p>
-                                            </td>
-                                            <td class="vertical-align-middle">
-                                                <input disabled type="text" class="form-control pull-left product-price" :value="product.pivot.cost_price"/>
-                                                &nbsp;&nbsp;
-                                                <div class="pull-left product-price-tg">тг</div>
-                                            </td>
-                                            <td class="vertical-align-middle">
-                                                <input type="text" class="form-control pull-left product-price" v-model="product.pivot.price"/>
-                                                &nbsp;&nbsp;
-                                                <div class="pull-left product-price-tg">тг</div>
-                                            </td>
-                                            <td class="vertical-align-middle">
-                                                <input min="1" type="number" class="form-control product-quantity" v-model="product.pivot.quantity"/>
-                                            </td>
-                                            <td class="vertical-align-middle text-right">{{ product.pivot.quantity * product.pivot.price }} тг</td>
-                                            <td class="vertical-align-middle text-right">
-                                                <a class="btn btn-xs btn-default" @click="productDelete(index)">
-                                                    <i class="fa fa-remove red"></i> Удалить
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="vertical-align-middle text-right" colspan="4"><b>Доставка:</b></td>
-                                            <td class="vertical-align-middle text-right">{{ order.carrier ? order.carrier.price : 0 }} тг</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="vertical-align-middle text-right" colspan="4"><b>ИТОГО:</b></td>
-                                            <td class="vertical-align-middle text-right">{{ order.total }} тг</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        </a>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive1">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Товар</th>
+                                    <th>Себестоимость товара</th>
+                                    <th>Цена</th>
+                                    <th>Количество</th>
+                                    <th class="text-right">Всего</th>
+                                    <th class="text-right">Действия</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(product, index) in order.products" v-if="!product.pivot.is_delete">
+                                    <td class="vertical-align-middle">
+                                        <router-link :to="{ path: '/product/' + product.pivot.product_id}">
+                                            <img v-bind:src="'/uploads/products/' + product.pivot.product_id + '/' + product.photo" class="photo"/>
+                                            {{ product.pivot.name }}
+                                        </router-link>
+                                        <p class="font-12"><b>SKU:</b> {{ product.pivot.sku }}</p>
+                                    </td>
+                                    <td class="vertical-align-middle">
+                                        <input disabled type="text" class="form-control pull-left product-price" :value="product.pivot.cost_price"/>
+                                        &nbsp;&nbsp;
+                                        <div class="pull-left product-price-tg">тг</div>
+                                    </td>
+                                    <td class="vertical-align-middle">
+                                        <input type="text" class="form-control pull-left product-price" v-model="product.pivot.price"/>
+                                        &nbsp;&nbsp;
+                                        <div class="pull-left product-price-tg">тг</div>
+                                    </td>
+                                    <td class="vertical-align-middle">
+                                        <input min="1" type="number" class="form-control product-quantity" v-model="product.pivot.quantity"/>
+                                    </td>
+                                    <td class="vertical-align-middle text-right">{{ product.pivot.quantity * product.pivot.price }} тг</td>
+                                    <td class="vertical-align-middle text-right">
+                                        <a class="btn btn-xs btn-default" @click="productDelete(index)">
+                                            <i class="fa fa-remove red"></i> Удалить
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="vertical-align-middle text-right" colspan="4"><b>Доставка:</b></td>
+                                    <td class="vertical-align-middle text-right">{{ order.carrier ? order.carrier.price : 0 }} тг</td>
+                                </tr>
+                                <tr>
+                                    <td class="vertical-align-middle text-right" colspan="4"><b>ИТОГО:</b></td>
+                                    <td class="vertical-align-middle text-right">{{ order.total }} тг</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
 
 
-            <div class="row" v-if="order.status_history">
-                <div class="col-md-12" v-if="order.status_history.length > 0">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">
-                                <span><i class="fa fa-shopping-cart"></i> История статуса</span>
-                            </h3>
-                        </div>
+        <div class="row" v-if="order.status_history">
+            <div class="col-md-12" v-if="order.status_history.length > 0">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <span><i class="fa fa-shopping-cart"></i> История статуса</span>
+                        </h3>
+                    </div>
 
-                        <div class="box-body">
-                            <div class="table-responsive1">
-                                <table class="table table-striped table-hover" id="status-table">
+                    <div class="box-body">
+                        <div class="table-responsive1">
+                            <table class="table table-striped table-hover" id="status-table">
                                 <thead>
                                 <tr>
                                     <th>Статус</th>
@@ -434,59 +434,59 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
 
-<!--
-            <div class="row" v-if="order.user_id > 0">
-                <div class="col-md-12">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">
-                                <span><i class="fa fa-shopping-cart"></i> Другие заказы клиента</span>
-                            </h3>
+        <!--
+                    <div class="row" v-if="order.user_id > 0">
+                        <div class="col-md-12">
+                            <div class="box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <span><i class="fa fa-shopping-cart"></i> Другие заказы клиента</span>
+                                    </h3>
+                                </div>
+                                <div class="box-body">
+                                    <orders :filter_user_id="order.user_id" :no_show_order_id="order.id"></orders>
+                                </div>
+                            </div>
                         </div>
-                        <div class="box-body">
-                            <orders :filter_user_id="order.user_id" :no_show_order_id="order.id"></orders>
-                        </div>
-                    </div>
-                </div>
-            </div>--->
+                    </div>--->
 
 
-            <div class="row">
-                <div class="col-md-12 well">
-                    <a class="btn btn-success ladda-button pull-right" @click="saveOrder">
+        <div class="row">
+            <div class="col-md-12 well">
+                <a class="btn btn-success ladda-button pull-right" @click="saveOrder">
                         <span class="ladda-label">
                             <i class="fa fa-cart-arrow-down"></i> {{ order.id ? 'Сохранить заказ' : 'Создать заказ'}}
                         </span>
-                    </a>
-                </div>
+                </a>
             </div>
+        </div>
 
-            <div class="modal" role="dialog" id="search-products">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Поиск товара</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <searchProducts @productSelected="productAdd"/>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                        </div>
+        <div class="modal" role="dialog" id="search-products">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Поиск товара</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <searchProducts @productSelected="productAdd"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                     </div>
                 </div>
             </div>
+        </div>
 
 
 
@@ -558,38 +558,38 @@
                 var price      = product.price;
                 var photo      = product.photo;
 
-                    var self = this;
-                    var add  = true;
+                var self = this;
+                var add  = true;
 
-                    this.order.products.forEach(function (item, index)
+                this.order.products.forEach(function (item, index)
+                {
+                    if(item.pivot.product_id == product_id)
                     {
-                        if(item.pivot.product_id == product_id)
-                        {
-                            self.$set(self.order.products[index].pivot, 'quantity', self.order.products[index].pivot.quantity + 1);
-                            self.$delete(self.order.products[index].pivot, 'is_delete');
-                            add = false;
-                            return;
-                        }
-                    });
+                        self.$set(self.order.products[index].pivot, 'quantity', self.order.products[index].pivot.quantity + 1);
+                        self.$delete(self.order.products[index].pivot, 'is_delete');
+                        add = false;
+                        return;
+                    }
+                });
 
-                    if(add)
-                    {
-                        setTimeout(function () {
-                            this.order.products.push({
-                                photo: photo,
-                                pivot:{
-                                    name:       name,
-                                    order_id:   this.order.id,
-                                    price:      price,
-                                    product_id: product_id,
-                                    quantity:   1,
-                                    sku:        sku
-                                }
-                            });
-                        }.bind(this), 500);
-                        //$('#search-products').modal('hide');
-                    }else
-                        alert('Товар уже добавлен');
+                if(add)
+                {
+                    setTimeout(function () {
+                        this.order.products.push({
+                            photo: photo,
+                            pivot:{
+                                name:       name,
+                                order_id:   this.order.id,
+                                price:      price,
+                                product_id: product_id,
+                                quantity:   1,
+                                sku:        sku
+                            }
+                        });
+                    }.bind(this), 500);
+                    //$('#search-products').modal('hide');
+                }else
+                    alert('Товар уже добавлен');
 
 
             },
@@ -630,13 +630,13 @@
             },
             getOrder(order_id){
 
-               if(!order_id)
-               {
+                if(!order_id)
+                {
                     if(this.prop_order)
                         order_id = this.prop_order.id;
                     else if(this.$route.params.order_id)
                         order_id = this.$route.params.order_id
-               }
+                }
 
                 if(order_id > 0)
                 {

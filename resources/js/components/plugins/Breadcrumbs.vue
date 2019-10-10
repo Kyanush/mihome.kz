@@ -6,7 +6,7 @@
         <ol class="breadcrumb">
             <li v-for="(breadcrumb, idx) in breadcrumbList" :key="idx" :class="{'linked': !!breadcrumb.link}">
                 <router-link :to="{ path: breadcrumb.link}">
-                    {{ breadcrumb.name }}
+                    {{ breadcrumb.title }}
                 </router-link>
             </li>
             <li>
