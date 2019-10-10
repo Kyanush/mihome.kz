@@ -323,7 +323,7 @@ textarea.input {
 
 .section-title .title {
     display: inline-block;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     margin: 0px;
 }
 
