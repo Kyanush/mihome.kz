@@ -1016,13 +1016,13 @@
 
                         }else if(this.method_redirect == 'save_and_continue'){
 
-
-                            this.$router.go({
+                            this.$router.push({
                                 name: 'product_edit',
                                 params: {
                                     product_id: product_id
                                 }
                             });
+                            location.reload();
 
                         }else if(this.method_redirect == 'save_and_new'){
 
