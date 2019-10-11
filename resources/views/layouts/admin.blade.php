@@ -58,9 +58,7 @@
     <script src="{{ asset('vendor/backpack/nestedSortable/jquery.mjs.nestedSortable2.js') }}" type="text/javascript"></script>
 -->
 
-    <script src="https://cdn.ckeditor.com/4.10.1/full/ckeditor.js"></script>
-
-
+    <script src="/ckeditor-4.10.1/ckeditor.js"></script>
 
     <!--
         <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js'></script>
