@@ -240,12 +240,12 @@
                             <ul class="product-btns">
                                 <li>
                                     <a class="{{ $product->oneProductFeaturesWishlist ? 'active' : '' }}" onclick="productFeaturesWishlist(this, {{ $product->id }})">
-                                        <i class="fa fa-heart-o"></i> закладку
+                                        <i class="fa fa-heart-o"></i> Закладку
                                     </a>
                                 </li>
                                 <li>
                                     <a class="{{ $product->oneProductFeaturesCompare  ? 'active' : '' }}" onclick="productFeaturesCompare(this, {{ $product->id }})">
-                                        <i class="fa fa-exchange"></i> сравнить
+                                        <i class="fa fa-exchange"></i> Сравнить
                                     </a>
                                 </li>
                             </ul>
@@ -256,7 +256,7 @@
                             </ul>
 
                             <ul class="product-links">
-                                <li>поделиться:</li>
+                                <li>Поделиться:</li>
                                 <li>
                                     <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
                                     <script src="//yastatic.net/share2/share.js"></script>
@@ -267,10 +267,17 @@
                             @if($product->stock > 0)
                                 <br/>
                                 <ul class="add-to-cart">
-                                    <button class="add-to-cart-btn" onclick="modalShow('.one-click-order')">
-                                        <i class="fa fa-shopping-cart"></i>
-                                        Купить в 1 клик
-                                    </button>
+                                    <li>
+                                        <a class="cursor-pointer" onclick="modalShow('.one-click-order')">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            Купить в 1 клик
+                                        </a>
+                                        &nbsp; &nbsp;
+                                        <a title="Пишите на WhatsApp" target="_blank" href="https://api.whatsapp.com/send?phone=77075162636&text=Я заинтересован в покупке {{ $product->name }}, Подробнее: {{ $product->detailUrlProduct() }}">
+                                            <i class="fa fa-whatsapp"></i>
+                                            Пишите на WhatsApp
+                                        </a>
+                                    </li>
                                 </ul>
                             @else
                                 <div class="product-links">

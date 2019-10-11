@@ -102,6 +102,17 @@
                         <link itemprop="availability" href="http://schema.org/InStock">
                     </span>
                 </div>
+
+                <div class="item__instalment">
+                    @if($product->stock > 0)
+                            <span class="item__prices-title">В наличии</span>
+                            <span class="item__prices-price"><i class="fa fa-check"></i></span>
+                    @else
+                            <span class="item__prices-title">Товар отсутствует</span>
+                            <span class="item__prices-price"><i class="fa fa-close"></i></span>
+                            <span class="item__add-info">При поступлении товара, цена может отличаться</span>
+                    @endif
+                </div>
                 <!--
                 <div class="item__instalment">
                     <span class="item__prices-title">В кредит</span>
@@ -112,12 +123,44 @@
         </div>
 
         <div class="item__info container text-center">
-            <button
-                type="button"
-                class="button _white"
-                onclick="buyIn1Click({{ $product->id }})">
-                Купить в 1 клик
-            </button>
+            @if($product->stock > 0)
+                <button
+                    style="padding: 1.867vw 2vw;"
+                    type="button"
+                    class="button _white"
+                    onclick="buyIn1Click({{ $product->id }})">
+                    Купить в 1 клик
+                </button>
+                &nbsp;
+                <a style="padding: 1.867vw 2vw;"
+                   class="button _white"
+                   title="Пишите на WhatsApp"
+                   target="_blank"
+                   href="https://api.whatsapp.com/send?phone=77075162636&text=Я заинтересован в покупке {{ $product->name }}, Подробнее: {{ $product->detailUrlProduct() }}">
+                    <i class="fa fa-whatsapp"></i>
+                    Пишите на WhatsApp
+                </a>
+            @else
+                    <form action="javascript:void(null);" onsubmit="subscribe(this); return false;" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                        <p>Оставьте электронную почту, чтобы узнать о поступлении товара</p>
+                        <p>
+                            <input class="search__input"
+                                   type="text"
+                                   name="email"
+                                   @auth value="{{ Auth::user()->email }}" @endauth
+                                   placeholder="Ваша электронная почта"/>
+                        </p>
+                        <p>
+                            <button type="submit" class="button">
+                                <i class="fa fa-bell"></i>
+                                Подписаться
+                            </button>
+                        </p>
+                    </form>
+            @endif
         </div>
 
         <div class="item__info container">
@@ -294,9 +337,11 @@
 
             @include('mobile.includes.product_slider', ['products' => $youWatchedProducts,  'title' => 'Вы смотрели', 'url' => ''])
 
-            <button type="button" class="button _big-fixed button-sellers" onclick="_addToCart({{ $product->id }})">
-                Оформить заказ
-            </button>
+            @if($product->stock > 0)
+                <button type="button" class="button _big-fixed button-sellers" onclick="_addToCart({{ $product->id }})">
+                    Оформить заказ
+                </button>
+            @endif
 
         </div>
     </div>

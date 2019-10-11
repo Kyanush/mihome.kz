@@ -258,3 +258,64 @@ $(document).ready(function() {
     if($(".phone-mask").length > 0)
         $(".phone-mask").mask("+7(999) 999-9999");
 });
+
+
+function subscribe(self) {
+    var formData = getFormData(self);
+    ajaxLoader(self, true);
+
+    $.ajax({
+        type: 'POST',
+        url: '/subscribe',
+        data: formData,
+        success: function(data) {
+            if(data){
+                var html  = formData['product_id'] ? 'Вы успешно подписались на уведомление о поступлении товара' : 'Вы успешно подписались на наши новости!';
+                var title = formData['product_id'] ? 'Подписка на товары' : 'Подписка';
+                Swal({
+                    title: title,
+                    html: html
+                });
+            }else{
+                Swal({
+                    type: 'error',
+                    title: 'Подписка',
+                    html: 'Вы уже подписаны!'
+                });
+            }
+            clearFormData(self);
+            ajaxLoader(self, false);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            if(jqXHR.status == 422)
+            {
+                swalErrors(jqXHR.responseJSON.errors, 'Ошибка 422');
+            }
+            ajaxLoader(self, false);
+        }
+    });
+}
+
+
+function getFormData(self) {
+    var data_array = $(self).serializeArray();
+    var data = {};
+    data_array.forEach(function (item, index) {
+        data[item['name']] = item['value'];
+    });
+    return data;
+}
+
+function clearFormData(self){
+    $(self).find('input[type=text]').val('');
+    $(self).find('input[type=email]').val('');
+    $(self).find('input[type=password]').val('');
+    $(self).find('textarea').val('');
+}
+
+function ajaxLoader(self, active){
+    if(active)
+        $(self).find('.ajax-loader').addClass('active');
+    else
+        $(self).find('.ajax-loader').removeClass('active');
+}

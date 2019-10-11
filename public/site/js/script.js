@@ -21,90 +21,93 @@ function addToCartSite(self, product_id, quantity){
     }
 }
 
-var quickView = new Vue({
-    el: '#quickView',
-    data: {
-        product: [],
-        detailUrlProduct: '',
-        pathPhoto: '',
-        price: 0,
-        attributes: []
-    },
-    methods:{
-        getProduct(product_id){
-            var self = this;
-            getProduct(product_id, function(result){
-                self.product          = result.product;
-                self.detailUrlProduct = result.detailUrlProduct;
-                self.pathPhoto        = result.pathPhoto;
-                self.price            = result.price;
-                self.attributes       = result.attributes;
+if($('#quickView').length > 0)
+{
+    var quickView = new Vue({
+        el: '#quickView',
+        data: {
+            product: [],
+            detailUrlProduct: '',
+            pathPhoto: '',
+            price: 0,
+            attributes: []
+        },
+        methods:{
+            getProduct(product_id){
+                var self = this;
+                getProduct(product_id, function(result){
+                    self.product          = result.product;
+                    self.detailUrlProduct = result.detailUrlProduct;
+                    self.pathPhoto        = result.pathPhoto;
+                    self.price            = result.price;
+                    self.attributes       = result.attributes;
 
-                modalShow('#quickView');
-            });
-        }
-    }
-});
-
-
-
-var header = new Vue({
-    el: '#header',
-    data () {
-        return {
-            cart_total: {
-                sum: 0,
-                quantity: 0
-            },
-            list_cart:  null,
-            pfcc: 0,
-            pfwc: 0,
-            show_block: {
-                display: 'block'
+                    modalShow('#quickView');
+                });
             }
         }
-    },
-    methods:{
-        listCart(){
-            axios.post('/list-cart').then((res)=>{
-                this.list_cart = res.data;
-            });
-        },
-        deleteProductQuantity(product_id){
-            axios.post('/cart-delete/' + product_id).then((res)=>{
-                if(res.data)
-                {
-                    this.listCart();
-                    this.cartTotal();
-                    checkout.listCart();
-                    checkout.cartTotal();
+    });
+}
+
+if($('#header').length > 0)
+{
+    var header = new Vue({
+        el: '#header',
+        data() {
+            return {
+                cart_total: {
+                    sum: 0,
+                    quantity: 0
+                },
+                list_cart: null,
+                pfcc: 0,
+                pfwc: 0,
+                show_block: {
+                    display: 'block'
                 }
-            });
+            }
         },
-        getProductFeaturesCompareCount(){
-            axios.get('/product-features-compare-count').then((res)=>{
-                this.pfcc = res.data;
-            });
+        methods: {
+            listCart() {
+                axios.post('/list-cart').then((res) => {
+                    this.list_cart = res.data;
+                });
+            },
+            deleteProductQuantity(product_id) {
+                axios.post('/cart-delete/' + product_id).then((res) => {
+                    if (res.data) {
+                        this.listCart();
+                        this.cartTotal();
+                        checkout.listCart();
+                        checkout.cartTotal();
+                    }
+                });
+            },
+            getProductFeaturesCompareCount() {
+                axios.get('/product-features-compare-count').then((res) => {
+                    this.pfcc = res.data;
+                });
+            },
+            getProductFeaturesWishlistCount() {
+                axios.get('/product-features-wishlist-count').then((res) => {
+                    this.pfwc = res.data;
+                });
+            },
+            cartTotal() {
+                axios.get('/cart-total/0').then((res) => {
+                    this.cart_total.sum = res.data.sum;
+                    this.cart_total.quantity = res.data.quantity;
+                });
+            }
         },
-        getProductFeaturesWishlistCount(){
-            axios.get('/product-features-wishlist-count').then((res)=>{
-                this.pfwc = res.data;
-            });
-        },
-        cartTotal(){
-            axios.get('/cart-total/0').then((res)=>{
-                this.cart_total.sum      = res.data.sum;
-                this.cart_total.quantity = res.data.quantity;
-            });
+        created() {
+            this.listCart();
+            this.cartTotal();
+            this.getProductFeaturesCompareCount();
+            this.getProductFeaturesWishlistCount();
         }
-    },
-    created(){
-        this.listCart();
-        this.cartTotal();
-        this.getProductFeaturesCompareCount();
-        this.getProductFeaturesWishlistCount();
-    }
-});
+    });
+}
 
 function modalShow(element) {
     $(element).modal('show');
@@ -114,41 +117,6 @@ function modalHide(element) {
     $(element).modal('hide');
 }
 
-function subscribe(self) {
-    var formData = getFormData(self);
-    ajaxLoader(self, true);
-
-    $.ajax({
-        type: 'POST',
-        url: '/subscribe',
-        data: formData,
-        success: function(data) {
-            if(data){
-                var html  = formData['product_id'] ? 'Вы успешно подписались на уведомление о поступлении товара' : 'Вы успешно подписались на наши новости!';
-                var title = formData['product_id'] ? 'Подписка на товары' : 'Подписка';
-                Swal({
-                    title: title,
-                    html: html
-                });
-            }else{
-                Swal({
-                    type: 'error',
-                    title: 'Подписка',
-                    html: 'Вы уже подписаны!'
-                });
-            }
-            clearFormData(self);
-            ajaxLoader(self, false);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            if(jqXHR.status == 422)
-            {
-                swalErrors(jqXHR.responseJSON.errors, 'Ошибка 422');
-            }
-            ajaxLoader(self, false);
-        }
-    });
-}
 
 
 var callbackWait = false;
@@ -375,27 +343,4 @@ function oneClickOrder(self) {
 
     }
 
-}
-
-function getFormData(self) {
-    var data_array = $(self).serializeArray();
-    var data = {};
-    data_array.forEach(function (item, index) {
-        data[item['name']] = item['value'];
-    });
-    return data;
-}
-
-function clearFormData(self){
-    $(self).find('input[type=text]').val('');
-    $(self).find('input[type=email]').val('');
-    $(self).find('input[type=password]').val('');
-    $(self).find('textarea').val('');
-}
-
-function ajaxLoader(self, active){
-    if(active)
-        $(self).find('.ajax-loader').addClass('active');
-    else
-        $(self).find('.ajax-loader').removeClass('active');
 }
