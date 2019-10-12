@@ -1788,6 +1788,9 @@ textarea.input {
     overflow: hidden;
     position: relative;
 }
+#product-tab #description img{
+    max-width: 100%!important;
+}
 #product-tab #description.full{
     height: auto;
 }

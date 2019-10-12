@@ -38,58 +38,60 @@
                             <div class="table-responsive1">
                                 <table class="table table-bordered ">
                                     <tbody class="filter">
-                                    <tr class="odd even">
-                                        <td><b>Номер заказа №:</b></td>
-                                        <td>
-                                            <input type="text" class="form-control" v-model="filter.id"/>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd even">
-                                        <td><b>Тип заказа:</b></td>
-                                        <td>
-                                            <select class="form-control" v-model="filter.type_id">
-                                                <option value="">Все</option>
-                                                <option v-for="item in types" :value="item.id">
-                                                    {{ item.name }}
-                                                </option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd even">
-                                        <td><b>Клиент:</b></td>
-                                        <td>
-                                            <Select2 :settings="{multiple: true, disabled: (filter_user_id ? true : false)  }" v-model="filter.user_id" :options="convertDataSelect2(users)"/>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd even">
-                                        <td><b>Текущее состояние:</b></td>
-                                        <td>
-                                            <select class="selectpicker form-control" v-model="filter.status_id">
-                                                <option value="">Все</option>
-                                                <option v-for="os in order_statuses"
-                                                        v-bind:value="os.id"
-                                                        :data-icon="os.class">
-                                                    {{ os.name }}
-                                                </option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd even">
-                                        <td><b>Курьер:</b></td>
-                                        <td>
-                                            <Select2 :settings="{multiple: true}" v-model="filter.carrier_id" :options="convertDataSelect2(carriers)"/>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd even">
-                                        <td><b>Комментарии:</b></td>
-                                        <td>
-                                            <textarea class="form-control" v-model="filter.comment"></textarea>
-                                        </td>
-                                    </tr>
-
-
-
-
+                                        <tr class="odd even">
+                                            <td><b>Номер заказа №:</b></td>
+                                            <td>
+                                                <input type="text" class="form-control" v-model="filter.id"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="odd even">
+                                            <td><b>Тип заказа:</b></td>
+                                            <td>
+                                                <select class="form-control" v-model="filter.type_id">
+                                                    <option value="">Все</option>
+                                                    <option v-for="item in types" :value="item.id">
+                                                        {{ item.name }}
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="odd even">
+                                            <td><b>Клиент:</b></td>
+                                            <td>
+                                                <Select2 :settings="{multiple: true, disabled: (filter_user_id ? true : false)  }" v-model="filter.user_id" :options="convertDataSelect2(users)"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="odd even">
+                                            <td><b>Текущее состояние:</b></td>
+                                            <td>
+                                                <select class="selectpicker form-control" v-model="filter.status_id">
+                                                    <option value="">Все</option>
+                                                    <option v-for="os in order_statuses"
+                                                            v-bind:value="os.id"
+                                                            :data-icon="os.class">
+                                                        {{ os.name }}
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="odd even">
+                                            <td><b>Курьер:</b></td>
+                                            <td>
+                                                <Select2 :settings="{multiple: true}" v-model="filter.carrier_id" :options="convertDataSelect2(carriers)"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="odd even">
+                                            <td><b>Комментарии:</b></td>
+                                            <td>
+                                                <textarea class="form-control" v-model="filter.comment"></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr class="odd even">
+                                            <td><b>Поиск товара:</b></td>
+                                            <td>
+                                                <textarea class="form-control" v-model="filter.product_name"></textarea>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -331,7 +333,8 @@
                     created_at_start:     (this.$route.query.created_at_start   ? this.$route.query.created_at_start : ''),
                     created_at_end:       (this.$route.query.created_at_end   ? this.$route.query.created_at_end : ''),
                     page:                 (this.$route.query.page > 1 ? this.$route.query.page : ''),
-                    sort:                 this.$route.query.sort
+                    sort:                 this.$route.query.sort,
+                    product_name:         (this.$route.query.product_name   ? this.$route.query.product_name : ''),
                 }
             }
         },
