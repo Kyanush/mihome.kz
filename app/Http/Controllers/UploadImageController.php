@@ -36,8 +36,8 @@ class UploadImageController extends Controller
             $path = 'uploads/ckeditor/';
 
         $upload = new Upload();
-        $upload->setWidth(500);
-        $upload->setHeight(500);
+        //$upload->setWidth(500);
+        //$upload->setHeight(500);
         $upload->setPath($path);
         $upload->setFile($file);
 
