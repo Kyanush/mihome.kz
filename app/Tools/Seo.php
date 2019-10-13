@@ -63,18 +63,25 @@ class Seo
         if($category)
         {
             $city = ServiceCity::getCurrentCity();
+            $city_name = $city->name;
+
 
             if($category->seo_keywords)
-                $keywords = $category->seo_keywords;
+                $keywords = "$city_name, {$category->seo_keywords}";
             else
-                $keywords =  "{$category->name}, купить, казахстан, цена, характеристики, отзывы, обзоры, доставка";
+                $keywords =  "{$category->name}, $city_name, купить, казахстан, цена, характеристики, отзывы, обзоры, доставка";
+
 
             if($category->seo_description)
-                $description = $category->seo_description;
+                $description = "{$category->seo_description} в $city_name, Казахстан ✅. ★ По выгодной цене ★ Официальная гарантия ★ Сервисная поддержка ";
             else
-                $description = "{$category->name} купить в {$city->name}, Казахстан ✅. Цены ⭐, характеристики ⚡, отзывы, обзоры, доставка ☝.";
+                $description = "{$category->name} купить в $city_name, Казахстан ✅. ★ По выгодной цене ★ Официальная гарантия ★ Сервисная поддержка ";
 
-            $title = "{$category->name} купить в {$city->name}, Казахстан";
+
+            if($category->seo_title)
+                $title = "{$category->seo_title} в $city_name, Казахстан";
+            else
+                $title = "{$category->name} купить в $city_name, Казахстан";
         }
 
         return [

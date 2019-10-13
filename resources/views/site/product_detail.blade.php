@@ -298,6 +298,7 @@
                                         </button>
                                     </form>
                                 </div>
+                                <br/>
                             @endif
                         </span>
                     </div>

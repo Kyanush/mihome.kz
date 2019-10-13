@@ -305,6 +305,7 @@
                             @endphp
                             <li @if($categories2->isNotEmpty()) class="hassubs" @endif>
                                 <a href="{{ $category1->catalogUrl($currentCity->code) }}">
+                                    <img src="{{ $category1->pathImage(true) }}"/>
                                     {{ $category1->name }}
                                     <i class="fa fa-chevron-right"></i>
                                 </a>
@@ -316,6 +317,7 @@
                                             @endphp
                                             <li @if($categories3->isNotEmpty()) class="hassubs" @endif>
                                                     <a href="{{ $category2->catalogUrl($currentCity->code) }}">
+                                                        <img src="{{ $category2->pathImage(true) }}"/>
                                                         {{ $category2->name }}
                                                         <i class="fa fa-chevron-right"></i>
                                                     </a>
@@ -330,6 +332,7 @@
                                                                     @endphp
                                                                     <li @if($categories4->isNotEmpty()) class="hassubs" @endif>
                                                                         <a href="{{ $category3->catalogUrl($currentCity->code) }}">
+                                                                            <img src="{{ $category3->pathImage(true) }}"/>
                                                                             {{ $category3->name }}
                                                                             <i class="fa fa-chevron-right"></i>
                                                                         </a>
@@ -338,6 +341,7 @@
                                                                                @foreach($categories4 as $category4)
                                                                                <li>
                                                                                     <a href="{{ $category4->catalogUrl($currentCity->code) }}">
+                                                                                         <img src="{{ $category4->pathImage(true) }}"/>
                                                                                         {{ $category4->name }}
                                                                                     </a>
                                                                                </li>

@@ -94,7 +94,6 @@
         },
         data() {
             return {
-
                 total_orders: [],
                 total_callbacks: [],
                 config: {
@@ -126,6 +125,37 @@
                         agenda: {
                             eventLimit: 3// adjust to 6 only for agendaWeek/agendaDay
                         }
+                    },
+                    eventClick: function(event, jsEvent, view) {
+                        console.log(event);
+                    },
+                    eventMouseover: function(event, jsEvent, view) {
+                        if(event.products)
+                        {
+                                var products = event.products;
+                                var html = '<ul>';
+                                products.forEach(function (product, index) {
+                                    html += '<li>' + product.name + '</li>';
+                                });
+                                html += '</ul>';
+
+                                var tooltip = '<div class="tooltipevent">' + html + '</div>';
+
+                                var $tool = $(tooltip).appendTo('body');
+
+                                $(this).mouseover(function(e) {
+                                    $(this).css('z-index', 10000);
+                                    $tool.fadeIn('500');
+                                    $tool.fadeTo('10', 1.9);
+                                }).mousemove(function(e) {
+                                    $tool.css('top', e.pageY + 10);
+                                    $tool.css('left', e.pageX + 20);
+                                });
+                        }
+                    },
+                    eventMouseout: function(event, jsEvent, view) {
+                        $(this).css('z-index', 8);
+                        $('.tooltipevent').remove();
                     }
                 }
             }
@@ -181,5 +211,18 @@
   }
   .quantity{
       font-weight: 600;
+  }
+  .tooltipevent{
+      padding: 5px 10px;
+      background:#222d32;
+      position:absolute;
+      z-index:10001;
+      color: #fff;
+      border-radius: 5px;
+  }
+  .tooltipevent ul{
+      padding: 0;
+      margin: 0;
+      padding-left: 15px;
   }
 </style>

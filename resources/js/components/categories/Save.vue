@@ -169,7 +169,7 @@
                                          <tr>
                                              <td width="100%" colspan="2">
                                                  <div class="form-group col-md-12" v-bind:class="{'has-error' : IsError('category.description')}">
-                                                     <Ckeditor v-model="category.description"></Ckeditor>
+                                                     <Ckeditor v-model="category.description" :uploadFilePath="uploadFilePath"></Ckeditor>
 
                                                      <span v-if="IsError('category.description')" class="help-block" v-for="e in IsError('category.description')">
                                                         {{ e }}
@@ -250,11 +250,24 @@
                                      <tbody>
                                          <tr>
                                              <td width="25%" class="text-right">
+                                                 <label>Заголовок</label>
+                                             </td>
+                                             <td width="75%">
+                                                 <div class="form-group col-md-8" v-bind:class="{'has-error' : IsError('category.seo_title')}">
+                                                     <textarea rows="5" v-model="category.seo_title" class="form-control"></textarea>
+                                                     <span v-if="IsError('category.seo_title')" class="help-block" v-for="e in IsError('category.seo_title')">
+                                                             {{ e }}
+                                                     </span>
+                                                 </div>
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td width="25%" class="text-right">
                                                  <label>Keywords</label>
                                              </td>
                                              <td width="75%">
                                                  <div class="form-group col-md-8" v-bind:class="{'has-error' : IsError('category.seo_keywords')}">
-                                                     <textarea v-model="category.seo_keywords" class="form-control"></textarea>
+                                                     <textarea rows="5" v-model="category.seo_keywords" class="form-control"></textarea>
                                                      <span v-if="IsError('category.seo_keywords')" class="help-block" v-for="e in IsError('category.seo_keywords')">
                                                          {{ e }}
                                                      </span>
@@ -267,7 +280,7 @@
                                              </td>
                                              <td width="75%">
                                                  <div class="form-group col-md-8" v-bind:class="{'has-error' : IsError('category.seo_description')}">
-                                                     <textarea v-model="category.seo_description" class="form-control"></textarea>
+                                                     <textarea rows="5" v-model="category.seo_description" class="form-control"></textarea>
                                                      <span v-if="IsError('category.seo_description')" class="help-block" v-for="e in IsError('category.seo_description')">
                                                          {{ e }}
                                                      </span>
@@ -351,6 +364,7 @@
                     path_image: '',
                     type: '',
                     description: '',
+                    seo_title: '',
                     seo_keywords: '',
                     seo_description: '',
                     active: 1,
@@ -379,6 +393,7 @@
                     this.category.class = res.class;
                     this.category.type = res.type;
                     this.category.description = res.description;
+                    this.category.seo_title = res.seo_title;
                     this.category.seo_keywords = res.seo_keywords;
                     this.category.seo_description = res.seo_description;
                     this.category.active = res.active;
@@ -485,7 +500,13 @@
         computed:{
             ...mapGetters([
                 'IsError'
-            ])
+            ]),
+            uploadFilePath(){
+                if(this.category.id)
+                    return 'uploads/categories/' + this.category.id + '/';
+                else
+                    return '';
+            }
         }
     }
 </script>

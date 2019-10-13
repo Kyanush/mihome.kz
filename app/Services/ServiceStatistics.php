@@ -125,7 +125,7 @@ class ServiceStatistics
     {
         $calendar = $total_orders = $total_callbacks = [];
 
-        $orders = Order::with('status')
+        $orders = Order::with(['status', 'products'])
             ->whereDate('created_at', '>=', $start)
             ->whereDate('created_at', '<',  $end)
             ->get();
@@ -141,6 +141,7 @@ class ServiceStatistics
                 'textColor'   =>  '#222D32',
                 'allDay'      => false,
                 'url'         => '/admin/order/' . $item->id,
+                'products'    => $item->products,
                 'icon_class'  => $item->status->class,
                 'icon_title'  => $item->status->name
             ];

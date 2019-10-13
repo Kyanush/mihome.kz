@@ -60,7 +60,7 @@
                                         </div>
                                         <div class="checkbox-filter active {{ !isset($filters[$attribute->code]) ? '' : 'active' }}">
                                             @foreach($attribute->values as $k => $value)
-                                                <div class="input-checkbox {{ $k > 5 ? 'hide' : '' }}">
+                                                <div class="input-checkbox {{ $k > 3 ? 'hide' : '' }}">
 
                                                     <input onclick="urlParamsGenerate()"
                                                            value="{{ $value->code }}"
@@ -92,7 +92,7 @@
                                                         <!--<small>(578)</small>--->
                                                     </label>
                                                 </div>
-                                                @if($k == 5)
+                                                @if($k == 3)
                                                     <div class="input-checkbox show-more-filters">
                                                         <a>Показать еще <i class="fa fa-angle-down"></i></a>
                                                     </div>
@@ -116,7 +116,7 @@
                         @php
                             $detect = new \Mobile_Detect();
                         @endphp
-                        @if(!$detect->isMobile())
+                        @if(!$detect->isMobile() and false)
                             <!-- aside Widget -->
                             <div class="aside">
                                 <h3 class="aside-title">ВЫ СМОТРЕЛИ</h3>
@@ -196,29 +196,15 @@
                 </div>
                 <!-- /row -->
 
-                @include('site.includes.product_slider', ['products' => $productsHitViewed, 'title' => 'Хиты'])
-
-                @if(isset($category->description))
-                    <div>
-                        <br/>
-                        <h2>{{ $category->name }}</h2>
-                        <br/>
-                        @if($category->description)
-                            {!! $category->description  !!}
-                            <br/>
-                            <br/>
-                        @endif
-                        <h2>Где купить {{ $category->name }}</h2>
-                        <br/>
-                        <p>
-                            Заказать товар с доставкой на дом в пределах <b>{{ $currentCity->name }}</b>, <b>Казахстан</b> можно круглосуточно, через корзину на сайте.
-                            Интернет-магазин официальных товаров {{ env('APP_NO_URL') }} предлагает доставку заказов и в
-                            другие города Республики Казахстан. К оплате принимаются банковские карты и наличные средства.
-                        </p>
-                    </div>
+                @if(false)
+                    @include('site.includes.product_slider', ['products' => $productsHitViewed, 'title' => 'Хиты'])
                 @endif
 
-
+                @if(isset($category->description))
+                    @if($category->description)
+                        {!! $category->description  !!}
+                    @endif
+                @endif
 
             </div>
             <!-- /container -->

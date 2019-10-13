@@ -22,6 +22,7 @@ class Category extends Model
          'sort',
          'type',
          'description',
+         'seo_title',
          'seo_keywords',
          'seo_description',
          'active'

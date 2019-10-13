@@ -79,11 +79,6 @@ a:hover, a:focus {
     outline: none;
 }
 
-ul, ol {
-    margin: 0;
-    padding: 0;
-    list-style: none
-}
 
 /*----------------------------*\
 	Buttons
@@ -392,6 +387,8 @@ textarea.input {
 
 #breadcrumb .breadcrumb-tree {
     display: inline-block;
+    padding: 0;
+    margin: 0;
 }
 
 #breadcrumb .breadcrumb-tree li {
@@ -1592,6 +1589,11 @@ textarea.input {
     color: #999;
 }
 
+.product-details ul{
+    padding: 0;
+    margin: 0;
+}
+
 .product-details .product-name {
     /*text-transform: uppercase;*/
     font-size: 18px;
@@ -2608,6 +2610,8 @@ textarea.input {
 .cat_menu_container:hover .cat_menu {
     visibility: visible;
     opacity: 1;
+    padding: 0;
+    margin: 0;
 }
 .cat_menu_container ul
 {
@@ -2642,10 +2646,8 @@ textarea.input {
     display: block;
     position: relative;
     width: auto;
-    height: 46px;
     border-bottom: solid 1px #f2f2f2;
-    padding-left: 35px;
-    padding-right: 30px;
+    padding: 5px 30px 5px 20px;
     white-space: nowrap;
 }
 .cat_menu li.hassubs > a i
@@ -2665,6 +2667,11 @@ textarea.input {
     -ms-transition: all 200ms ease;
     -o-transition: all 200ms ease;
     transition: all 200ms ease;
+}
+.cat_menu li a img
+{
+    width: 35px;
+    max-height: 50px;
 }
 .cat_menu li a:hover
 {
@@ -2701,6 +2708,8 @@ textarea.input {
     top: 0;
     visibility: visible;
     opacity: 1;
+    padding: 0;
+    margin: 0;
 }
 @media only screen and (max-width: 575px)
 {
