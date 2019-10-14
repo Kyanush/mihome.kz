@@ -13,10 +13,10 @@ class CallbackController extends Controller
 
     public function callback(CallbackRequest $request){
 
-        Callback::create([
-            'phone' => $request->input('phone'),
-            'type'  => 'Обратный звонок'
-        ]);
+        $data = $request->all();
+        $data['type'] = 'Обратный звонок';
+
+        Callback::create($data);
 
         return $this->sendResponse(true);
     }

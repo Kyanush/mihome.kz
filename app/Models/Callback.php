@@ -18,6 +18,7 @@ class Callback extends Model
         'email',
         'status_id',
         'comment',
+        'url',
         'order_id'
 	];
 

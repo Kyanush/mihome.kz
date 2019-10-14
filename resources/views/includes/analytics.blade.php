@@ -6,14 +6,16 @@
         <meta name="msvalidate.01" content="FA2FCEE563AF49653FFF42334E7092CC" />
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145899417-1"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149875639-1"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
-            gtag('config', 'UA-145899417-1');
+            gtag('config', 'UA-149875639-1');
         </script>
+
+
 
         <!-- Yandex.Metrika counter -->
         <script type="text/javascript" >

@@ -18,6 +18,7 @@
                         <th>Комментарий<br/>администратора</th>
                         <th>Дата заявки</th>
                         <th>Дата изменения</th>
+                        <th>Ссылка</th>
                         <th>Действия</th>
                     </tr>
                 </thead>
@@ -35,6 +36,9 @@
                         <td>{{ item.comment }}</td>
                         <td>{{ dateFormatTodayYesterday(item.created_at) }}</td>
                         <td>{{ dateFormatTodayYesterday(item.updated_at) }}</td>
+                        <td>
+                            <a target="_blank" v-if="item.url" :href="item.url">{{ item.url }}</a>
+                        </td>
                         <td>
                             <router-link :to="{ name: 'callback', params: {callback_id: item.id} }" class="btn btn-xs btn-default" title="Изменить">
                                 <i class="fa fa-edit"></i> <!--Изменить-->
@@ -56,6 +60,7 @@
                         <th>Комментарий<br/>администратора</th>
                         <th>Дата заявки</th>
                         <th>Дата изменения</th>
+                        <th>Ссылка</th>
                         <th>Действия</th>
                     </tr>
                 </tfoot>

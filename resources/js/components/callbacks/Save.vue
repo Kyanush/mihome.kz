@@ -77,6 +77,10 @@
                                              {{ e }}
                                     </span>
                                 </div>
+                                <div class="form-group col-md-12">
+                                    <label>Ссылка:</label>
+                                    <a target="_blank" v-if="callback.url" :href="callback.url">{{ callback.url }}</a>
+                                </div>
                             </div>
                         </div>
                         <div v-bind:class="{'active' : tab_active == 'orders'}" role="tabpanel" class="tab-pane" id="orders">
@@ -154,7 +158,7 @@
                     email:   '',
                     comment: '',
                     order_id: 0,
-                    callback: ''
+                    url: ''
                 },
                 statuses: [],
                 orders_detail_show: false
@@ -165,16 +169,7 @@
             if(callback_id){
                 axios.get('/admin/callback-view/' + callback_id).then((res)=>{
                     var res = res.data;
-                    this.callback.id         = res.id;
-                    this.callback.type       = res.type;
-                    this.callback.status_id  = res.status_id;
-                    this.callback.phone      = res.phone;
-                    this.callback.message    = res.message;
-                    this.callback.email      = res.email;
-                    this.callback.comment    = res.comment;
-                    this.callback.order_id   = res.order_id;
-                    this.callback.created_at = res.created_at;
-
+                    this.callback = res;
                     this.orders_detail_show  = true;
                 });
             }

@@ -720,6 +720,7 @@
             </div>
             <form action="javascript:void(null);" onsubmit="callback(this); return false;" method="post" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="url" value="{{ url()->current() }}"/>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Введите номер телефона</label>
