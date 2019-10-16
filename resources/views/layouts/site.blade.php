@@ -289,8 +289,8 @@
 
 
             <!-- NAV -->
-            <ul class="main-nav nav navbar-nav cat_menu_container ">
-                <li>
+            <ul class="main-nav nav navbar-nav">
+                <li class="cat_menu_container">
                     <a class="catalog-products">
                         <i class="fa fa-bars firm-red"></i>
                         Каталог
@@ -543,12 +543,6 @@
 
                     <span class="copyright">
 	    				Copyright &copy;{{date('Y')}} Все права защищены.
-
-                        <p>
-                            <a href="http://beesoft.kz/" target="_blank">
-                                <img width="80" src="/site/images/beesoft.png" title="BeeSoft" alt="BeeSoft"/>
-                            </a>разработано BeeSoft
-                        </p>
     				</span>
                 </div>
             </div>
@@ -803,6 +797,8 @@
 <script src="/site/js/main.js"></script>
 
 @yield('add_in_end')
+
+@include('includes.analytics_body')
 
 </body>
 </html>

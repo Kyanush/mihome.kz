@@ -778,7 +778,7 @@ textarea.input {
     top: 0;
     bottom: 0;
     left: 0px;
-    width: 60%;
+    width: 25%;
     background: #3c92c3;
     opacity: 0.9;
     -webkit-transform: skewX(-45deg);
@@ -829,10 +829,10 @@ textarea.input {
 }
 
 .shop .shop-body h3 {
-    color: #FFF;
+    color: #fb8800;
 }
 .shop .shop-body .cta-btn {
-    color: #FFF;
+    color: #fb8800;
     text-transform: uppercase;
 }
 
@@ -1594,6 +1594,10 @@ textarea.input {
     margin: 0;
 }
 
+.product-details ul li{
+    list-style: none;
+}
+
 .product-details .product-name {
     /*text-transform: uppercase;*/
     font-size: 18px;
@@ -1850,7 +1854,13 @@ textarea.input {
 }
 
 /*-- Reviews --*/
-
+#reviews ul{
+    padding: 0;
+    margin: 0;
+}
+#reviews ul li{
+    list-style: none;
+}
 .reviews li {
     position: relative;
     padding-left: 145px;
@@ -2161,6 +2171,14 @@ textarea.input {
 #footer {
     background: #15161D;
     color: #B9BABC;
+}
+
+#footer ul{
+    margin: 0;
+    padding: 0;
+}
+#footer ul li{
+    list-style: none;
 }
 
 #bottom-footer {

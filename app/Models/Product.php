@@ -32,6 +32,7 @@ class Product extends Model
         'cost_price',
     	'sku',
     	'stock',
+        'seo_title',
         'seo_keywords',
         'seo_description',
     	'created_at',

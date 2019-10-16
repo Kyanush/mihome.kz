@@ -35,20 +35,13 @@ class Seo
 
         $city     = ServiceCity::getCurrentCity();
 
-        $siteName = env('APP_NAME');
-
-        if($product->seo_keywords)
-            $keywords = $product->seo_keywords;
-        else
-            $keywords =  "{$category->name}, {$product->name} , купить, НИЗКАЯ ЦЕНА, Скидки, Акции, {$siteName}, характеристики, описание, отзывы, рейтинг, цена, обзоры";
-
-        if($product->seo_description)
-            $description = $product->seo_description;
-        else
-            $description = "{$product->name} в {$city->name}, Казахстан. Сравнивайте цены всех продавцов ✅, читайте характеристики и отзывы покупаталей ⭐, покупайте по самым выгодным условиям ⚡, заказывайте доставку в любой город Казахстана ☝.";
+        $siteName    = env('APP_NAME');
+        $title       = $product->seo_title ? $product->seo_title : $product->name;
+        $keywords    = "{$product->seo_keywords}, {$category->name}, {$product->name} , купить, НИЗКАЯ ЦЕНА, Скидки, Акции, {$siteName}, характеристики, описание, отзывы, рейтинг, цена, обзоры";
+        $description = "{$product->seo_description}, {$product->name} в {$city->name}, Казахстан. Сравнивайте цены всех продавцов ✅, читайте характеристики и отзывы покупаталей ⭐, покупайте по самым выгодным условиям ⚡, заказывайте доставку в любой город Казахстана ☝.";
 
         return [
-            'title'       => "{$product->name} купить в {$city->name}, Казахстан",
+            'title'       => "{$title} цена, купить в {$city->name}, Казахстан",
             'keywords'    => $keywords,
             'description' => $description
         ];
@@ -63,25 +56,16 @@ class Seo
         if($category)
         {
             $city = ServiceCity::getCurrentCity();
-            $city_name = $city->name;
+            $city_name = $city->name ?? 'Алматы';
 
+            $keywords    = $category->seo_keywords ? $category->seo_keywords . ', ' : '';
+            $keywords    = "{$keywords}{$category->name} купить в $city_name, купить, казахстан, цена, характеристики, отзывы, обзоры, доставка";
 
-            if($category->seo_keywords)
-                $keywords = "$city_name, {$category->seo_keywords}";
-            else
-                $keywords =  "{$category->name}, $city_name, купить, казахстан, цена, характеристики, отзывы, обзоры, доставка";
+            $description = $category->seo_description ? $category->seo_description . ', '  : '';
+            $description = "{$description}{$category->name} купить в $city_name, Казахстан ✅. ★ По выгодной цене ★ Официальная гарантия ★ Сервисная поддержка ❗❗❗ Только оригинал ★ Гарантия 1 год ★ Бесплатная доставка по Алматы ✌";
 
-
-            if($category->seo_description)
-                $description = "{$category->seo_description} в $city_name, Казахстан ✅. ★ По выгодной цене ★ Официальная гарантия ★ Сервисная поддержка ";
-            else
-                $description = "{$category->name} купить в $city_name, Казахстан ✅. ★ По выгодной цене ★ Официальная гарантия ★ Сервисная поддержка ";
-
-
-            if($category->seo_title)
-                $title = "{$category->seo_title} в $city_name, Казахстан";
-            else
-                $title = "{$category->name} купить в $city_name, Казахстан";
+            $title = $category->seo_title ? $category->seo_title : $category->name;
+            $title = "{$title} цена, купить в $city_name, Казахстан";
         }
 
         return [

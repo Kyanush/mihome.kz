@@ -202,7 +202,7 @@
                 <tbody>
                     <tr class="odd even" v-for="(item, index) in products.data"
                         v-bind:class="{ 'deleted': !item.active || !item.stock }"
-                        title="Нажмите дважды чтобы изменить"
+                        title1="Нажмите дважды чтобы изменить"
                         v-on:dblclick="changeQuicklySelect(item)">
 
                         <td>
@@ -823,10 +823,6 @@
         list-style:none;
     }
     #products-attributes-filters ul li label{
-        cursor: pointer;
-    }
-    #products-list tbody tr:hover{
-        background-color: #ecf0f5;
         cursor: pointer;
     }
 </style>

@@ -669,6 +669,23 @@
                                     <tbody>
                                         <tr>
                                             <td width="25%" class="text-right">
+                                                <label>Название:</label>
+                                            </td>
+                                            <td width="75%">
+                                                <div class="col-md-12" v-bind:class="{'has-error' : IsError('product.seo_title')}">
+                                                    <textarea rows="4" v-model="product.seo_title" class="form-control"></textarea>
+                                                    <br/>
+                                                    <button type="button" @click="product.seo_title = product.name">
+                                                        Вставить название
+                                                    </button>
+                                                    <span v-if="IsError('product.seo_title')" class="help-block" v-for="e in IsError('product.seo_title')">
+                                                         {{ e }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="25%" class="text-right">
                                                 <label>Keywords:</label>
                                             </td>
                                             <td width="75%">
@@ -803,6 +820,7 @@
                     sku: '',
                     stock: 1,
                     active: 1,
+                    seo_title: '',
                     seo_keywords: '',
                     seo_description: '',
                     youtube: '',
@@ -1049,6 +1067,7 @@
                                 this.product.url              = product.url;
                                 this.product.description      = product.description;
                                 this.product.description_mini = product.description_mini;
+                                this.product.seo_title        = product.seo_title;
                                 this.product.seo_keywords     = product.seo_keywords;
                                 this.product.seo_description  = product.seo_description;
                                 this.product.photo            = product.photo;
