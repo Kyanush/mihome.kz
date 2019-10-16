@@ -105,6 +105,7 @@ $(document).ready(function() {
     });
 
     $('#write-review').click(function(e) {
+        app.product_id = $(this).data('product_id');
         app.componentDialog = 'write-review';
     });
 
@@ -491,7 +492,6 @@ Vue.component('write-review', {
             name: '',
             email: '',
             comment: '',
-
             focus:{
                 rating: 0,
                 plus:    0,
@@ -506,6 +506,7 @@ Vue.component('write-review', {
         <div class="dialog">
             <div class="dialog__content _topbar-off">
                 <form v-on:submit="writeReview" method="post" enctype="multipart/form-data">
+                
                     <div class="topbar container _filter-dialog">
                        <h1 class="topbar__heading">Написать отзыв</h1>
                        <div class="button _only-red-text" @click="close">Отмена</div>
@@ -513,7 +514,7 @@ Vue.component('write-review', {
                                     
                     <div>
                         <div class="input" :class="{ '_has-value': rating, '_focused': focus.rating == 1, '_invalid': focus.rating == 2 && !rating }">
-                            <label class="input__label">Оценка</label>
+                            <label class="input__label">Оценка *</label>
                             <select class="input__input" v-model="rating" name="rating">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -546,7 +547,7 @@ Vue.component('write-review', {
                     
                     <div>
                         <div class="input" :class="{ '_has-value': name, '_focused': focus.name == 1, '_invalid': focus.name == 2 && !name }">
-                            <label class="input__label">Ваше имя</label>
+                            <label class="input__label">Ваше имя *</label>
                             <textarea name="name" class="input__input" v-model="name" @focus="focus.name = 1" @blur="focus.name = 2"></textarea>
                         </div>
                         <div class="input__has-error" v-if="focus.name == 2">Пожалуйста, заполните это поле</div>
@@ -564,7 +565,7 @@ Vue.component('write-review', {
                     
                     <div>
                         <div class="input" :class="{ '_has-value': comment, '_focused': focus.comment == 1, '_invalid': focus.comment == 2 && !comment }">
-                            <label class="input__label">Комментарий</label>
+                            <label class="input__label">Комментарий *</label>
                             <textarea name="comment" class="input__input" v-model="comment" @focus="focus.comment = 1" @blur="focus.comment = 2"></textarea>
                         </div>
                         <div class="input__has-error" v-if="focus.comment == 2">Пожалуйста, заполните это поле</div>
@@ -587,7 +588,8 @@ Vue.component('write-review', {
 
             var self = this;
             let data = new FormData(event.target);
-            data.append('_token', getCsrfToken());
+            data.append('_token',     getCsrfToken());
+            data.append('product_id', app.product_id);
 
             axios.post('/write-review', data).then(function (response){
                 if(response){
@@ -596,6 +598,11 @@ Vue.component('write-review', {
                         html: 'Ваш отзыв успешно оставлен'
                     });
                     self.close();
+
+                    setInterval(function () {
+                        location.reload();
+                    }.bind(this), 1000);
+
                 }
             }).catch(function (error){
                 swalErrors(error.response.data.errors, 'Ошибка 422');

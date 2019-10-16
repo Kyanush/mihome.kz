@@ -255,6 +255,11 @@ function writeReview(self) {
                     html: 'Ваш отзыв успешно оставлен'
                 });
                 clearFormData(self);
+
+                setInterval(function () {
+                    location.reload();
+                }.bind(this), 1000);
+
             }else{
                 alert('Ошибка БД');
             }

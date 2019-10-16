@@ -29,6 +29,7 @@ class ReviewController extends Controller
     public function writeReview(WriteReviewRequestSite $request)
     {
         $req = $request->all();
+        $req['active'] = 1;
 
         $review = Review::create($req);
         $review->products()->attach($req['product_id']);

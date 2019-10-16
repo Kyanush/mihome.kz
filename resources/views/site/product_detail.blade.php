@@ -593,12 +593,12 @@
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{ $product->id }}"/>
                                                 <input  class="input" name="name" placeholder="Введите имя *" @auth value="{{ Auth::user()->name }}" @endauth type="text"/>
-                                                <input  class="input" name="email" placeholder="Введите e-mail *" @auth value="{{ Auth::user()->email }}" @endauth type="text"/>
+                                                <input  class="input" name="email" placeholder="Введите e-mail" @auth value="{{ Auth::user()->email }}" @endauth type="text"/>
                                                 <textarea class="input" name="plus" placeholder="Что вам понравилось"></textarea>
                                                 <textarea class="input" name="minus" placeholder="Опишите недостатки"></textarea>
                                                 <textarea class="input" name="comment" placeholder="Введите комментарий *"></textarea>
                                                 <div class="input-rating">
-                                                    <span>Оценка: </span>
+                                                    <span>Оценка *: </span>
                                                     <div class="stars">
                                                         <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
                                                         <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
