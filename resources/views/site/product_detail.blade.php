@@ -100,10 +100,10 @@
                             <meta itemprop="name" content="{{ $category->name }}" />
                         </div>
 
-                        @if(intval($product->avgRating[0]->avg_rating ?? 0) > 0 and $product->reviews_count > 0)
+                        @if(intval($product->reviews_rating_avg ?? 0) > 0 and $product->reviews_count > 0)
                             <div itemprop="aggregateRating" itemtype="http://schema.org/AggregateRating" itemscope>
                                 <meta itemprop="reviewCount" content="{{ $product->reviews_count }}" />
-                                <meta itemprop="ratingValue" content="{{ intval($product->avgRating[0]->avg_rating ?? 0) }}" />
+                                <meta itemprop="ratingValue" content="{{ intval($product->reviews_rating_avg ?? 0) }}" />
                             </div>
                         @endif
 
@@ -142,7 +142,7 @@
                             <div>
                                 <div class="product-rating">
                                     @for($i = 1; $i <= 5; $i++)
-                                        <i class="fa <?=(($product->avgRating[0]->avg_rating ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
+                                        <i class="fa <?=(($product->reviews_rating_avg ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
                                     @endfor
                                 </div>
                                 <a class="review-link" onclick="writeReviewShow()">
@@ -457,7 +457,17 @@
                                     <!-- /attributes  -->
                                 @endif
                             </span>
+                        <h2 class="text-center tab-title">Отзывы</h2>
+                        <div class="col-md-12">
+                            <div type="lis-comments"
+                                 lis-widget="reviews"
+                                 data-id="{{ $product->id }}"
+                                 data-title="{{ $product->name_short ? $product->name_short : $product->name }}">
+                            </div>
+                        </div>
 
+
+                        @if(false)
                             <h2 class="text-center tab-title">Отзывы({{$product->reviews_count}})</h2>
                             <!-- reviews  -->
                             <div id="reviews">
@@ -466,10 +476,10 @@
                                     <div class="col-md-3">
                                         <div id="rating">
                                             <div class="rating-avg">
-                                                <span>{{ $product->avgRating[0]->avg_rating ?? 0 }}</span>
+                                                <span>{{ $product->reviews_rating_avg ?? 0 }}</span>
                                                 <div class="rating-stars">
                                                     @for($i = 1; $i <= 5; $i++)
-                                                        <i class="fa <?=(($product->avgRating[0]->avg_rating ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
+                                                        <i class="fa <?=(($product->reviews_rating_avg ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
                                                     @endfor
                                                 </div>
                                             </div>
@@ -496,6 +506,9 @@
                                         </div>
                                     </div>
                                     <!-- /Rating -->
+
+
+
 
                                     <!-- Reviews -->
                                     <div class="col-md-6">
@@ -618,6 +631,8 @@
                                 </div>
                             </div>
                             <!-- /reviews  -->
+                        @endif
+
 
                             @if($product->youtube)
                                 <h2 class="text-center tab-title">Видео обзор</h2>
@@ -633,6 +648,8 @@
                                     </iframe>
                                 </div>
                             @endif
+
+
 
                         </div>
                         <!-- /product tab content  -->

@@ -319,3 +319,35 @@ function ajaxLoader(self, active){
     else
         $(self).find('.ajax-loader').removeClass('active');
 }
+
+
+$(document).ready(function() {
+
+    setInterval( function() {
+
+        var avg = $('.lis-sys-rating-average').text();
+        var count = $('.lis-sys-rating-votes-count').text();
+        var product_id = $('#product_id').val();
+
+        console.log({
+            avg, count, product_id
+        });
+
+        if(avg && count && product_id)
+        {
+
+            axios.post('/set-rating', {
+                reviews_rating_avg: avg,
+                reviews_count: count,
+                product_id: product_id
+            }).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+        }
+
+    }, 2000);
+
+});

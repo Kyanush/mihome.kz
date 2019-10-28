@@ -87,6 +87,9 @@
 
     <meta name="csrf-token"               content="{{ csrf_token() }}" />
 
+    <!-- commentbook -->
+    <script src="/commentbook/script.js" data-jv-id="d5ShOZJS9K" async></script>
+    <!-- commentbook -->
 
     @yield('add_in_head')
 

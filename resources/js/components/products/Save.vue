@@ -106,6 +106,19 @@
                                         </tr>
                                         <tr>
                                             <td width="25%" class="text-right">
+                                                <label>Сокращенное название:</label>
+                                            </td>
+                                            <td width="75%">
+                                                <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.name_short')}">
+                                                    <input type="text" v-model="product.name_short" class="form-control">
+                                                    <span v-if="IsError('product.name_short')" class="help-block" v-for="e in IsError('product.name_short')">
+                                                         {{ e }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="25%" class="text-right">
                                                 <label>
                                                     <i class="fa fa-link" aria-hidden="true"></i>
                                                     Ссылка:
@@ -720,7 +733,45 @@
                             </div>
 
                             <div v-bind:class="{'active' : tab_active == 'tab_reviews'}" role="tabpanel" class="tab-pane" id="tab_reviews" v-if="product.id > 0">
-                                    <reviews :product_id="product.id"></reviews>
+
+                                <table class="table table-bordered ">
+                                    <tbody>
+                                        <tr>
+                                            <td width="25%" class="text-right">
+                                                <label>
+                                                    <i class="fa fa-comment"></i>
+                                                    Средний рейтинг отзывов:
+                                                </label>
+                                            </td>
+                                            <td width="75%">
+                                                <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.reviews_rating_avg')}">
+                                                    <input type="text" v-model="product.reviews_rating_avg" class="form-control">
+                                                    <span v-if="IsError('product.reviews_rating_avg')" class="help-block" v-for="e in IsError('product.reviews_rating_avg')">
+                                                             {{ e }}
+                                                        </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="25%" class="text-right">
+                                                <label>
+                                                    <i class="fa fa-comment"></i>
+                                                    Количество отзывов:
+                                                </label>
+                                            </td>
+                                            <td width="75%">
+                                                <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.reviews_count')}">
+                                                    <input type="text" v-model="product.reviews_count" class="form-control">
+                                                    <span v-if="IsError('product.reviews_count')" class="help-block" v-for="e in IsError('product.reviews_count')">
+                                                         {{ e }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <reviews :product_id="product.id"></reviews>
                             </div>
 
                             <div v-bind:class="{'active' : tab_active == 'tab_questions_answers'}" role="tabpanel" class="tab-pane" id="tab_questions_answers" v-if="product.id > 0">
@@ -810,6 +861,7 @@
                     id: this.$route.params.product_id ? this.$route.params.product_id : 0,
                     attribute_set_id: 0,
                     name: '',
+                    name_short: '',
                     url: '',
                     description: '',
                     description_mini: '',
@@ -824,7 +876,9 @@
                     seo_keywords: '',
                     seo_description: '',
                     youtube: '',
-                    view_count: 0
+                    view_count: 0,
+                    reviews_rating_avg: 0,
+                    reviews_count: 0
                 },
                 product_photo_upload_type: 'file',
                 product_accessories: [],
@@ -1064,6 +1118,7 @@
                                 this.product.id               = product.id;
                                 this.product.attribute_set_id = product.attribute_set_id;
                                 this.product.name             = product.name;
+                                this.product.name_short       = product.name_short;
                                 this.product.url              = product.url;
                                 this.product.description      = product.description;
                                 this.product.description_mini = product.description_mini;
@@ -1079,6 +1134,8 @@
                                 this.product.active           = product.active;
                                 this.product.youtube          = product.youtube;
                                 this.product.view_count       = product.view_count;
+                                this.product.reviews_rating_avg = product.reviews_rating_avg;
+                                this.product.reviews_count      = product.reviews_count;
 
                                 this.groupProducts(product.group_id);
 

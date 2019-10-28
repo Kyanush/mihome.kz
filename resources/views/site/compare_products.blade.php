@@ -88,7 +88,7 @@
                                    ?>
                                    <td>
                                        @for($i = 1; $i <= 5; $i++)
-                                           <i class="fa <?=(($item->product->avgRating[0]->avg_rating ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
+                                           <i class="fa <?=(($item->product->reviews_rating_avg ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
                                        @endfor
                                        <p>На основе {{ $reviews_count }} {{ $reviews_count>1 ? 'отзывов' : 'отзыв' }}.</p>
                                    </td>

@@ -79,7 +79,7 @@
                 {{ $product->name }}
             </h1>
             <a class="item__rating">
-                <span class="rating _{{ ($product->avgRating[0]->avg_rating ?? 0) * 2}}"></span>
+                <span class="rating _{{ ($product->reviews_rating_avg ?? 0) * 2}}"></span>
                 <span class="rating-count">(<span> {{ $product->reviews_count }}</span>&nbsp;отзывов)</span>
             </a>
             <div class="item__sku">Код товара:&nbsp;{{ $product->sku }}</div>
@@ -297,30 +297,46 @@
 
 
             <div class="container-title">Отзывы</div>
-            <div class="reviews__rating container ">
-                <div class="reviews__rating-heading">Рейтинг товара</div>
-                <a href="{{ $product->detailUrlProduct() }}?view=reviews" class="reviews__rating-link">
-                    <span class="rating _big _{{ ($product->avgRating[0]->avg_rating ?? 0) * 2}}"></span>
-                    <span class="rating-count g-fl-r">
-                        <span>{{ $product->reviews_count }}</span>&nbsp;
-                        отзывов
-                    </span>
-                </a>
+            <div class="container">
+                <div type="lis-comments"
+                     lis-widget="reviews"
+                     data-id="{{ $product->id }}"
+                     data-title="{{ $product->name_short ? $product->name_short : $product->name }}"></div>
             </div>
-
-            @if($reviews->isEmpty())
-                <p class="padding-4vw">Нет отзывы</p>
-            @else
-                @foreach($reviews as $review)
-                    @include('mobile.product.review_item', ['review' => $review, 'like_show' => false, 'review_text_class' => '_short'])
-                @endforeach
-            @endif
-
             <div class="container g-pa0 g-bb-fat">
                 <a href="{{ $product->detailUrlProduct() }}?view=reviews" class="link-more _link-reviews">
-                    Еще {{ $product->reviews_count }}&nbsp;отзывов
+                    Еще отзывов
                 </a>
             </div>
+
+
+
+            @if(false)
+                <div class="reviews__rating container ">
+                    <div class="reviews__rating-heading">Рейтинг товара</div>
+                    <a href="{{ $product->detailUrlProduct() }}?view=reviews" class="reviews__rating-link">
+                        <span class="rating _big _{{ ($product->reviews_rating_avg ?? 0) * 2}}"></span>
+                        <span class="rating-count g-fl-r">
+                            <span>{{ $product->reviews_count }}</span>&nbsp;
+                            отзывов
+                        </span>
+                    </a>
+                </div>
+
+                @if($reviews->isEmpty())
+                    <p class="padding-4vw">Нет отзывы</p>
+                @else
+                    @foreach($reviews as $review)
+                        @include('mobile.product.review_item', ['review' => $review, 'like_show' => false, 'review_text_class' => '_short'])
+                    @endforeach
+                @endif
+
+                <div class="container g-pa0 g-bb-fat">
+                    <a href="{{ $product->detailUrlProduct() }}?view=reviews" class="link-more _link-reviews">
+                        Еще {{ $product->reviews_count }}&nbsp;отзывов
+                    </a>
+                </div>
+            @endif
 
 
             <div class="container-title">Описание</div>

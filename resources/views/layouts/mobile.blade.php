@@ -32,10 +32,10 @@
 
     <script src="/site/js/jquery.min.js"></script>
 
-
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&amp;subset=cyrillic" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="/mobile/css/style.css">
+
 
 
     <!-- swiper -->
@@ -66,6 +66,7 @@
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="/site/css/font-awesome.min.css">
 
+
     <meta name="yandex-verification" content="d9d1d901f0c53a09" />
     <meta name="google-site-verification" content="YOGU9Dh4gfT8os5uvRCSuQ_kwUhoUbXwqQFiNshBSHw" />
 
@@ -77,6 +78,11 @@
     @yield('schemas_product')
 
     @include('includes.analytics')
+
+    <!-- commentbook -->
+    <script src="/commentbook/script.js" data-jv-id="d5ShOZJS9K" async></script>
+    <!-- commentbook -->
+
 
 </head>
 

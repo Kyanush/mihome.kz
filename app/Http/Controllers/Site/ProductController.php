@@ -98,6 +98,7 @@ class ProductController extends Controller
         //seo
         $seo = Seo::productDetail($product, $category);
 
+
         return view(Helpers::isMobile() ? 'mobile.product.index' : 'site.product_detail', [
             'product'  => $product,
             'reviews' => $reviews,
@@ -138,6 +139,21 @@ class ProductController extends Controller
             'youtube' => $product->youtube,
             'photo'   => $product->pathPhoto(true)
         ]);
+    }
+
+    public function setRating(Request $request){
+
+        $product_id = $request->input('product_id');
+        $reviews_rating_avg = $request->input('reviews_rating_avg');
+        $reviews_count = $request->input('reviews_count');
+
+        $product = Product::findOrFail($product_id);
+        $product->reviews_rating_avg = $reviews_rating_avg;
+        $product->reviews_count = $reviews_count;
+        $product->save();
+
+        return  $this->sendResponse($request->all());
+
     }
 
     public function getProduct($product_id){

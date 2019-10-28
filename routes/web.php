@@ -75,6 +75,11 @@ Route::group(['namespace'  => 'Site'], function () {
     //мобильный получить картинки
     Route::post('product-images/{product_id}',   'ProductController@productImages')->where(['product_id' => '[0-9]+']);
 
+
+    Route::post('set-rating',   'ProductController@setRating');
+
+
+
     //лайк Отзывы
     Route::post('product-review-set-like', 'ReviewController@setLike');
     //отправка - Отзывы

@@ -66,7 +66,7 @@
                 <?php $reviews_count = $item->product->reviews_count;
                 ?>
                 <td>
-                    <img src="/site/images/stars-{{ $item->product->avgRating[0]->avg_rating ?? 0 }}.png" alt="На основе {{ $reviews_count }} отзывов.">
+                    <img src="/site/images/stars-{{ $item->product->reviews_rating_avg ?? 0 }}.png" alt="На основе {{ $reviews_count }} отзывов.">
                     <br>
                     На основе {{ $reviews_count }} отзывов.
                 </td>

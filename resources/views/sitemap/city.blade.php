@@ -21,7 +21,7 @@
             <loc>{{ $category->catalogUrl($city->code) }}</loc>
             <lastmod><?php echo date('c', strtotime($category->updated_at)); ?></lastmod>
             <changefreq>weekly</changefreq>
-            <priority>0.9</priority>
+            <priority>0.5</priority>
         </url>
     @endforeach
 

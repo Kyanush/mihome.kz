@@ -48,7 +48,7 @@ return [
 
     'address' => [
         [
-            "streetAddress" => "Жибек Жолы 115, 3 этаж, офис 301/1",
+            "streetAddress" => "Жибек Жолы 115, 1 этаж, офис 122",
             "addressLocality" => "г. Алматы",
             "postalCode" => "050004",
             "addressCountry" => "Казахстан",

@@ -7565,7 +7565,7 @@ a[class$=__rating]:hover .rating-count {
     vertical-align: middle;
     width: 7.2vw;
     height: auto;
-    margin: -1.067vw 1.867vw 0 0;
+    /*margin: -1.067vw 1.867vw 0 0;*/
 }
 
 .topbar__heading-logo._icon {
@@ -7574,7 +7574,7 @@ a[class$=__rating]:hover .rating-count {
     background-image: url('/favicon.ico');
     background-size: 25px;
     background-repeat: no-repeat;
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 
 .total-price {
@@ -8087,4 +8087,7 @@ div,h1,h2,h3,h4,h5,h6,label,p,span {
 }
 .company-text.full{
     height: auto;
+}
+.lis-service-provided{
+    display: none;
 }

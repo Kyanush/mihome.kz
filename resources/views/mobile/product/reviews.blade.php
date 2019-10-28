@@ -3,10 +3,19 @@
 <div class="reviews">
     <div class="reviews__inner">
 
+
+        <div type="lis-comments"
+             lis-widget="reviews"
+             data-id="{{ $product->id }}"
+             data-title="{{ $product->name_short ? $product->name_short : $product->name }}">
+        </div>
+
+
+        @if(false)
         <div class="reviews__rating container g-bb-fat">
             <div class="reviews__rating-heading">Рейтинг товара</div>
             <span class="reviews__rating-link">
-                <span class="rating _big _{{ ($product->avgRating[0]->avg_rating ?? 0) * 2}}"></span>
+                <span class="rating _big _{{ ($product->reviews_rating_avg ?? 0) * 2}}"></span>
                 <span class="rating-count g-fl-r">
                     <span>{{ $product->reviews_count }}</span>&nbsp;отзывов
                 </span>
@@ -47,9 +56,12 @@
             @endif
         </div>
 
+        @endif
+
     </div>
 </div>
 
+<!--
 <a id="write-review" class="button _big-fixed button-sellers" data-product_id="{{ $product->id }}">
     Написать отзыв
-</a>
+</a>--->

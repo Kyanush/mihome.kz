@@ -10,7 +10,7 @@
             </div>
         </h3>
         <div class="item-card__rating">
-            <span class="rating _{{ ($product->avgRating[0]->avg_rating ?? 0) * 2 }}"></span>
+            <span class="rating _{{ ($product->reviews_rating_avg ?? 0) * 2 }}"></span>
 
             <span class="rating-count">
                 @if($product->reviews_count > 0)

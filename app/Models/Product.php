@@ -24,6 +24,7 @@ class Product extends Model
     	'group_id',
     	'attribute_set_id',
     	'name',
+        'name_short',
         'url',
     	'description',
         'description_mini',
@@ -39,7 +40,9 @@ class Product extends Model
     	'updated_at',
         'active',
         'youtube',
-        'view_count'
+        'view_count',
+        'reviews_rating_avg',
+        'reviews_count'
 	];
 
     public function scopeIsActive($query){
@@ -397,9 +400,13 @@ class Product extends Model
             'inCart'
         ])
         ->isActive()
+
+            /*
         ->withCount(['reviews' => function($query){
             $query->isActive();
-        }]);
+        }])
+        */
+        ;
     }
 
 

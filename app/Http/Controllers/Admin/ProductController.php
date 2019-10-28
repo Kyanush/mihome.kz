@@ -95,8 +95,12 @@ class ProductController extends AdminController
 
         if($product->save())
         {
+
             //категория
-            $product->categories()->sync($request['categories']);
+            $categories = $request['categories'] ?? false;
+            if($categories)
+                $product->categories()->sync($categories);
+
 
             //Конкретная цена
             if(!empty($request['specific_price']['reduction']))
@@ -286,6 +290,7 @@ class ProductController extends AdminController
         $product = Product::find($id);
         $product->stock  = $stock;
         $product->price  = $price;
+        $product->name_short  = $request->input('name_short');
         $product->active = $active;
 
         return $this->sendResponse($product->save() ? true : false);

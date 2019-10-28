@@ -44,7 +44,7 @@
         </h4>
         <div class="product-rating">
             @for($i = 1; $i <= 5; $i++)
-                <i class="fa <?=(($product->avgRating[0]->avg_rating ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
+                <i class="fa <?=(($product->reviews_rating_avg ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
             @endfor
         </div>
         <div class="product-btns">
