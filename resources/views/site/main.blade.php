@@ -172,10 +172,12 @@
             <div class="company-text">
                 @include('includes.about_text')
             </div>
+            <!--
             <div class="show-full">
                 <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
                 Показать полностью
             </div>
+            --->
         </div>
     </div>
     <!-- /SECTION -->

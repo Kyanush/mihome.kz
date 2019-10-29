@@ -8081,7 +8081,7 @@ div,h1,h2,h3,h4,h5,h6,label,p,span {
 .company-text{
     height: 335px;
     font-size: 13px;
-    overflow: hidden;
+    overflow: scroll;
     position: relative;
     padding-bottom: 50px;
 }

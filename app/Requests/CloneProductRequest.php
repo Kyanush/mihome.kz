@@ -10,7 +10,7 @@ class CloneProductRequest extends FormRequest
         return [
             'clone_product.product_id' => 'exists:products,id',
             'clone_product.name'       => "max:255|required|unique:products,name",
-            'clone_product.sku'        => "max:100|required|unique:products,sku"
+            'clone_product.sku'        => "max:100"
         ];
     }
 

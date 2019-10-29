@@ -88,6 +88,7 @@ class CategoryController extends AdminController
     public function reorderSave(Request $request)
     {
         $data = $request->input('reorder_send');
+
         foreach ($data as $item)
         {
             $category = Category::find($item["id"]);

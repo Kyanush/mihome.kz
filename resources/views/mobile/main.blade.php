@@ -54,12 +54,13 @@
         <div class="container g-bb-fat g-bg-c0 company-text">
             @include('includes.about_text')
         </div>
+        <!--
         <div class="container g-bb-fat g-bg-c0">
             <a id="show-full">
                 Показать полностью
                 <br/>
             </a>
-        </div>
+        </div>-->
     </div>
 
     @include('mobile.includes.footer')

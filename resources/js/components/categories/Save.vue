@@ -359,6 +359,7 @@
                     parent_id: 0,
                     name: '',
                     url: '',
+                    sort: 0,
                     image: '',
                     class: '',
                     path_image: '',
@@ -389,6 +390,7 @@
                     this.category.parent_id = res.parent_id;
                     this.category.name = res.name;
                     this.category.url = res.url;
+                    this.category.sort = res.sort;
                     this.category.image = res.image;
                     this.category.class = res.class;
                     this.category.type = res.type;
