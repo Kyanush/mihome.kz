@@ -53,6 +53,10 @@
 
     <script src="/site/js/jquery.min.js"></script>
 
+    <!-- axios -->
+    <script type="text/javascript" src="/site/js/axios.min.js"></script>
+    <script src="/global/config-axios.js"></script>
+    <!-- axios -->
 
     @yield('add_in_head')
 
@@ -771,10 +775,6 @@
 
 
 
-<!-- axios -->
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/global/config-axios.js"></script>
-<!-- axios -->
 
 <!---- sweetalert2  ----->
 <script src="/site/sweetalert2/sweetalert2.all.min.js"></script>
@@ -784,7 +784,6 @@
 <!---- sweetalert2  ----->
 
 
-<script type="text/javascript" src="/site/js/axios.min.js"></script>
 <!-- Vue js -->
 
 <!-- commentbook -->

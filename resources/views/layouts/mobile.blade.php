@@ -41,6 +41,11 @@
 
     <script src="/site/js/jquery.min.js"></script>
 
+    <!-- axios -->
+    <script type="text/javascript" src="/site/js/axios.min.js"></script>
+    <script src="/global/config-axios.js"></script>
+    <!-- axios -->
+
     @yield('add_in_head')
 
     @include('schemas.business')
@@ -108,8 +113,6 @@
 
 
 
-<script type="text/javascript" src="/mobile/js/axios.min.js"></script>
-<!-- Vue js -->
 
 <!---- sweetalert2  ----->
 <script src="/site/sweetalert2/sweetalert2.all.min.js"></script>
