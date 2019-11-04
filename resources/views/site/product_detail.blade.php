@@ -31,7 +31,7 @@
                     <div id="product-main-img">
                         <div class="product-preview">
                             <a data-fancybox="gallery" href="{{ $product->pathPhoto(true) }}">
-                                <img itemprop="image" src="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                                <img class="lazy" itemprop="image" data-original="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
                             </a>
 
                             <?php ob_start();?>
@@ -59,7 +59,7 @@
                             @foreach($product->images as $image)
                                 <div class="product-preview">
                                     <a data-fancybox="gallery" href="{{ $image->imagePath(true) }}">
-                                        <img itemprop="image" src="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                                        <img class="lazy" itemprop="image" data-original="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
                                     </a>
                                     {!! $label !!}
                                 </div>
@@ -75,12 +75,12 @@
                 <div class="col-md-2  col-md-pull-5">
                     <div id="product-imgs">
                         <div class="product-preview">
-                            <img src="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                            <img class="lazy" data-original="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
                         </div>
                         @if(count($product->images) > 0)
                             @foreach($product->images as $image)
                                 <div class="product-preview">
-                                    <img src="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                                    <img class="lazy" data-original="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
                                 </div>
                             @endforeach
                         @endif
@@ -191,23 +191,27 @@
                                             @endif
                                         @endif
                                     @endforeach
-                                    @foreach($group_products as $group_product)
-                                        @foreach($group_product->attributes as $attribute)
-                                            @if($attribute->id == 50 and $attribute->pivot->value)
-                                                @php
-                                                    $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
-                                                        $query->where('value', $attribute->pivot->value);
-                                                        $query->orWhere('id',  $attribute->pivot->value);
-                                                    })->first();
-                                                @endphp
-                                                <a style="background-color: {{ $attributeValue->props ?? '#fff' }}"
-                                                   title="{{ $attribute->pivot->value }} - {{ $group_product->name }}"
-                                                   class="color"
-                                                   href="{{ $group_product->detailUrlProduct() }}">
-                                                </a>
-                                            @endif
+
+                                        @foreach($group_products as $group_product)
+                                            @foreach($group_product->attributes as $attribute)
+                                                @if($attribute->id == 50 and $attribute->pivot->value)
+                                                    @php
+                                                        $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
+                                                            $query->where('value', $attribute->pivot->value);
+                                                            $query->orWhere('id',  $attribute->pivot->value);
+                                                        })->first();
+                                                    @endphp
+
+                                                        <a style="background-color: {{ $attributeValue->props ?? '#fff' }}"
+                                                           title="{{ $attribute->pivot->value }} - {{ $group_product->name }}"
+                                                           class="color"
+                                                           href="{{ $group_product->detailUrlProduct() }}">
+                                                        </a>
+
+                                                @endif
+                                            @endforeach
                                         @endforeach
-                                    @endforeach
+
                                 </label>
                                 <label>Артикул: {{ $product->sku }}</label>
                             </div>

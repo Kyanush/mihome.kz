@@ -3,8 +3,8 @@
         <div class="media">
             <div class="media-left">
                 <a href="{{ $item->detailUrl() }}">
-                    <img src="{{ $item->pathImage(true) }}"
-                         class="media-object"
+                    <img data-original="{{ $item->pathImage(true) }}"
+                         class="media-object lazy"
                          style="width: 64px; height: 64px;"
                          title="{{ $item->title }}"
                          alt="{{ $item->title }}"/>

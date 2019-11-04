@@ -2,9 +2,10 @@
 <div class="product-widget">
     <div class="product-img">
         <a href="{{ $product->detailUrlProduct() }}">
-            <img title="{{ $product->name }}"
+            <img class="lazy"
+                 title="{{ $product->name }}"
                  alt="{{ $product->name }}"
-                 src="{{ $product->pathPhoto(true) }}">
+                 data-original="{{ $product->pathPhoto(true) }}"/>
         </a>
     </div>
     <div class="product-body">

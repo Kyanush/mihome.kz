@@ -175,7 +175,8 @@ $(document).ready(function() {
                         return {
                             name:  item.name,
                             photo: item.photo,
-                            url:   item.url
+                            url:   item.url,
+                            price: item.price
                         };
                     }));
                 }
@@ -184,7 +185,7 @@ $(document).ready(function() {
         var inner_html =
             '<a class="list_item_container" href="' + item.url + '">' +
                 '<div class="image"><img src="' + item.photo + '"/></div>' +
-                '<div class="name">' + item.name + '</div>'
+                '<div class="name">' + item.name + ' - <b>' + item.price + '</b></div>'
             '</div>';
 
         return $("<li></li>")

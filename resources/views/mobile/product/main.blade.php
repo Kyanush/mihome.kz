@@ -8,14 +8,27 @@
 
                     <div class="swiper-slide">
                         <div class="item__image-wrapper">
-                            <img itemprop="image" alt="{{ $product->name }}" title="{{ $product->name }}" class="item__image" src="{{ $product->pathPhoto(true) }}"/>
+                            <img
+                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+                                    itemprop="image"
+                                    alt="{{ $product->name }}"
+                                    title="{{ $product->name }}"
+                                    class="item__image  swiper-lazy"
+                                    data-src="{{ $product->pathPhoto(true) }}"/>
+                            <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                         </div>
                     </div>
 
                     @foreach($product->images as $image)
                         <div class="swiper-slide">
                             <div class="item__image-wrapper">
-                                <img itemprop="image" alt="{{ $product->name }}" title="{{ $product->name }}" class="item__image" src="{{ $image->imagePath(true) }}"/>
+                                <img
+                                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+                                        itemprop="image" alt="{{ $product->name }}"
+                                        title="{{ $product->name }}"
+                                        class="item__image  swiper-lazy"
+                                        data-src="{{ $image->imagePath(true) }}"/>
+                                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                             </div>
                         </div>
                     @endforeach
@@ -23,7 +36,11 @@
                     @if($product->youtube)
                         <div class="swiper-slide">
                             <div class="item__image-wrapper _video play-icon">
-                                <img class="item__image" src="https://i.ytimg.com/vi/{{ $product->youtube }}/mqdefault.jpg">
+                                <img
+                                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+                                        class="item__image  swiper-lazy"
+                                        data-src="https://i.ytimg.com/vi/{{ $product->youtube }}/mqdefault.jpg"/>
+                                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                             </div>
                         </div>
                     @endif
@@ -219,7 +236,7 @@
 
             <div class="container-title">Поховые товары</div>
             <div class="_sellers-offers">
-                <div class="container loan-selector g-bb-fat">
+                <div class="container loan-selector g-bb-fat" style="height: auto;">
                     <div class="loan-selector__text-before">Цвет</div>
                     <div class="loan-selector__els g-fl-r ">
                         <div class="loan-selector__els-row">

@@ -79,6 +79,7 @@ $(document).ready(function() {
 
 
     var main_slider = new Swiper ('#main-slider', {
+        lazy: true,
         direction: "horizontal",
         loop: !0,
         autoplay: 6e3,
@@ -92,6 +93,7 @@ $(document).ready(function() {
     });
 
     var product_slider = new Swiper ('#product-slider', {
+        lazy: true,
         direction: "horizontal",
         loop: !1,
         pagination: { el: '.swiper-pagination' },
@@ -111,6 +113,16 @@ $(document).ready(function() {
 
     $('#back-call').click(function(e) {
         app.componentDialog = 'back-call';
+    });
+
+
+    $('._scroll, .catalog-items').scroll(function(event) {
+
+        var allimages = $(this).find('img.lazy');
+
+        for (var i = 0; i < allimages.length; i++)
+            $( allimages[i] ).attr("src",  $(allimages[i]).data('original'));
+
     });
 
 });
@@ -633,7 +645,11 @@ Vue.component('search-dialog', {
                         
                             <a v-for="item in result" :href="item.url" class="catalog-item container _product-img">
                                 <img :src="item.photo" width="35">&nbsp;
-                                <span class="catalog-item__title">{{ item.name }}</span>
+                                <span class="catalog-item__title">
+                                    {{ item.name }}
+                                    <br/>
+                                    <b>{{ item.price }}</b>
+                                </span>
                                 <i class="catalog-item__icon icon icon_chevron"></i>
                             </a>
                         

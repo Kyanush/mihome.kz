@@ -26,7 +26,7 @@
         @foreach($categories as $category)
             <a href="/c/{{ $category->url }}" class="catalog-item container">
                 <span class="catalog-item__img">
-                    <img width="24" src="{{ $category->pathImage(true) }}">
+                    <img width="24" data-original="{{ $category->pathImage(true) }}" class="lazy"/>
                 </span>
                 <span class="catalog-item__title">
                    {{ $category->name }}

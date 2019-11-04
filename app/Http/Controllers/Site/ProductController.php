@@ -120,7 +120,8 @@ class ProductController extends Controller
                 'id'      => $item->id,
                 'name'    => $item->name,
                 'url'     => $item->detailUrlProduct(),
-                'photo'   => $item->pathPhoto(true)
+                'photo'   => $item->pathPhoto(true),
+                'price'   => Helpers::priceFormat($item->getReducedPrice()),
             ];
         });
 

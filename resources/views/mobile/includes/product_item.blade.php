@@ -1,7 +1,10 @@
 <a class="item-card ddl_product ddl_product_link" href="{{ $product->detailUrlProduct() }}">
     <div class="item-card__sticker"></div>
     <div class="item-card__image-wrapper ddl_product_link">
-        <img class="item-card__image" alt="{{ $product->name }}" src="{{ $product->pathPhoto(true) }}">
+          <img class="item-card__image lazy"
+               alt="{{ $product->name }}"
+               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+               data-original="{{ $product->pathPhoto(true) }}"/>
     </div>
     <div class="item-card__info">
         <h3 class="item-card__name">

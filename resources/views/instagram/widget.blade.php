@@ -43,7 +43,7 @@
                     alt="{{ $result->caption->text ?? '' }}"
                     title="{{ $result->caption->text ?? '' }}"
                     href="{{ $result->link }}">
-                    <img class="list-photo" src="{{ $result->images->thumbnail->url }}"/>
+                    <img class="list-photo lazy" data-original="{{ $result->images->thumbnail->url }}"/>
                 </a>
             @endforeach
         </div>

@@ -13,7 +13,6 @@
     <meta name="google-site-verification" content="YOGU9Dh4gfT8os5uvRCSuQ_kwUhoUbXwqQFiNshBSHw" />
 
 
-
     <title>@yield('title')</title>
     <meta name="description" content="@yield('description')">
     <meta name="keywords"    content="@yield('keywords')">
@@ -30,45 +29,17 @@
     <meta property="og:image:height" content="80">
 
 
-    <script src="/site/js/jquery.min.js"></script>
-
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&amp;subset=cyrillic" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="/mobile/css/style.css">
 
-
-
-    <!-- swiper -->
-    <link rel="stylesheet" href="/mobile/swiper/swiper.css">
-    <script src="/mobile/swiper/swiper.js"></script>
-    <!-- swiper -->
-
-
     <!-- Vue js -->
-    <script type="text/javascript" src="/mobile/js/vue.2.6.4.js"></script>
-    <script type="module">
-        import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.4/dist/vue.esm.browser.js'
-    </script>
-    <script type="text/javascript" src="/mobile/js/axios.min.js"></script>
-    <!-- Vue js -->
-
-    <!---- sweetalert2  ----->
-    <script src="/site/sweetalert2/sweetalert2.all.min.js"></script>
-    <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
-    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
-    <link rel="stylesheet" type="text/css" href="/site/sweetalert2/sweetalert2.min.css">
-    <!---- sweetalert2  ----->
-
-    <!-- Mask --->
-    <script type="text/javascript" src="/site/js/jquery.maskedinput.min.js"></script>
-    <!-- Mask --->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="/site/css/font-awesome.min.css">
 
-
-    <meta name="yandex-verification" content="d9d1d901f0c53a09" />
-    <meta name="google-site-verification" content="YOGU9Dh4gfT8os5uvRCSuQ_kwUhoUbXwqQFiNshBSHw" />
+    <script src="/site/js/jquery.min.js"></script>
 
     @yield('add_in_head')
 
@@ -76,12 +47,6 @@
     @include('schemas.organization')
     @yield('schemas_breadcrumb')
     @yield('schemas_product')
-
-    @include('includes.analytics')
-
-    <!-- commentbook -->
-    <script src="/commentbook/script.js" data-jv-id="d5ShOZJS9K" async></script>
-    <!-- commentbook -->
 
 
 </head>
@@ -130,9 +95,38 @@
     </div>
 @endif
 
+
+
+<!-- commentbook -->
+<script src="/commentbook/script.js" data-jv-id="d5ShOZJS9K" async></script>
+<!-- commentbook -->
+
+<!-- swiper -->
+<link rel="stylesheet" href="/mobile/swiper/swiper.css">
+<script src="/mobile/swiper/swiper.js"></script>
+<!-- swiper -->
+
+
+
+<script type="text/javascript" src="/mobile/js/axios.min.js"></script>
+<!-- Vue js -->
+
+<!---- sweetalert2  ----->
+<script src="/site/sweetalert2/sweetalert2.all.min.js"></script>
+<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+<link rel="stylesheet" type="text/css" href="/site/sweetalert2/sweetalert2.min.css">
+<!---- sweetalert2  ----->
+
+<!-- Mask --->
+<script type="text/javascript" src="/site/js/jquery.maskedinput.min.js"></script>
+<!-- Mask --->
+
+<script src="/site/js/jquery.lazyload.min.js"></script>
 <script src="/global/script.js"></script>
 <script type="text/javascript" src="/mobile/js/script.js"></script>
 
+@include('includes.analytics')
 
 </body>
 </html>

@@ -111,6 +111,7 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
 
     // Main slider
     $('.main-slider').slick({
+        //lazyLoad: 'ondemand',
         infinite: true,
         speed: 300,
         dots: true,
@@ -118,6 +119,7 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
         fade: true,
         autoplay: true,
     });
+
 
     // Product imgs Slick
   $('#product-imgs').slick({
@@ -141,10 +143,13 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
   });
 
 	// Product img zoom
+
 	var zoomMainProduct = document.getElementById('product-main-img');
 	if (zoomMainProduct) {
-	//	$('#product-main-img .product-preview').zoom();
+		//	$('#product-main-img .product-preview').zoom();
 	}
+
+
 
 	/////////////////////////////////////////
 

@@ -46,9 +46,9 @@
                                @foreach($productFeaturesCompareList as $item)
                                    <td>
                                        <img height="90"
-                                            class="product-image"
-                                            src="{{ $item->product->pathPhoto(true) }}"
-                                            alt="{{ $item->product->name }}">
+                                            class="product-image lazy"
+                                            data-original="{{ $item->product->pathPhoto(true) }}"
+                                            alt="{{ $item->product->name }}"/>
                                    </td>
                                @endforeach
                            </tr>

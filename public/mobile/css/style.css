@@ -1977,8 +1977,9 @@ img[data-src] {
 
 .catalog-item__title {
     text-align: left;
-    max-width: 62.133vw;
+    max-width: 82.133vw;
     font-size: 15px;
+    margin-left: 5px;
 }
 
 .catalog-items._grid {

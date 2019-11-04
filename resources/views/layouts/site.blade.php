@@ -2,7 +2,7 @@
     $currentCity = \App\Services\ServiceCity::getCurrentCity();
 @endphp
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
@@ -13,6 +13,8 @@
     <title>@yield('title')</title>
     <meta name="description" content="@yield('description')">
     <meta name="keywords"    content="@yield('keywords')">
+
+    <meta name="csrf-token"               content="{{ csrf_token() }}" />
 
     <meta property="og:locale"       content="ru_KZ" />
     <meta property="og:type"         content="website">
@@ -28,7 +30,6 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
 
-    <script src="/site/js/jquery.min.js"></script>
 
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="/site/css/bootstrap.min.css"/>
@@ -46,50 +47,12 @@
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="/site/css/style.css"/>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- jquery-ui --->
-    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <link href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
-    <!-- jquery-ui --->
-
-
-
-    <!-- axios -->
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="/global/config-axios.js"></script>
-    <!-- axios -->
-
-    <!---- sweetalert2  ----->
-    <script src="/site/sweetalert2/sweetalert2.all.min.js"></script>
-    <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
-    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
-    <link rel="stylesheet" type="text/css" href="/site/sweetalert2/sweetalert2.min.css">
-    <!---- sweetalert2  ----->
 
     <!-- Vue js -->
-    <script type="text/javascript" src="/site/js/vue.2.6.4.js"></script>
-    <script type="module">
-        import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.4/dist/vue.esm.browser.js'
-    </script>
-    <script type="text/javascript" src="/site/js/axios.min.js"></script>
-    <!-- Vue js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
-    <!-- jivosite -->
-    <script src="//code.jivosite.com/widget.js" data-jv-id="d5ShOZJS9K" async></script>
-    <!-- jivosite -->
+    <script src="/site/js/jquery.min.js"></script>
 
-    <meta name="csrf-token"               content="{{ csrf_token() }}" />
-
-    <!-- commentbook -->
-    <script src="/commentbook/script.js" data-jv-id="d5ShOZJS9K" async></script>
-    <!-- commentbook -->
 
     @yield('add_in_head')
 
@@ -98,7 +61,7 @@
     @yield('schemas_breadcrumb')
     @yield('schemas_product')
 
-    @include('includes.analytics')
+
 
 </head>
 <body>
@@ -167,7 +130,10 @@
                 <div class="col-md-3">
                     <div class="header-logo">
                         <a href="/" class="logo">
-                            <img src="{{ config('shop.logo') }}" title="{{ env('APP_NAME') }}" alt="{{ env('APP_NAME') }}">
+                            <img class="lazy"
+                                 data-original="{{ config('shop.logo') }}"
+                                 title="{{ env('APP_NAME') }}"
+                                 alt="{{ env('APP_NAME') }}"/>
                         </a>
                     </div>
                 </div>
@@ -422,7 +388,9 @@
                             @foreach(config('shop.social_network') as $item)
                                 <li>
                                     <a href="{{ $item['url'] }}" title="{{ $item['title'] }}" target="_blank">
-                                        <img height="30" src="{{ $item['icon'] }}"/>
+                                        <img height="30"
+                                             class="lazy"
+                                             data-original="{{ $item['icon'] }}"/>
                                     </a>
                                 </li>
                             @endforeach
@@ -785,9 +753,51 @@
 <!-- Быстрый просмотр -->
 
 
+
+
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<!-- jquery-ui --->
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<link href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+<!-- jquery-ui --->
+
+
+
+<!-- axios -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/global/config-axios.js"></script>
+<!-- axios -->
+
+<!---- sweetalert2  ----->
+<script src="/site/sweetalert2/sweetalert2.all.min.js"></script>
+<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+<link rel="stylesheet" type="text/css" href="/site/sweetalert2/sweetalert2.min.css">
+<!---- sweetalert2  ----->
+
+
+<script type="text/javascript" src="/site/js/axios.min.js"></script>
+<!-- Vue js -->
+
+<!-- commentbook -->
+<script src="/commentbook/script.js" data-jv-id="d5ShOZJS9K"></script>
+<!-- commentbook -->
+
+
+
 <!-- Mask --->
 <script type="text/javascript" src="/site/js/jquery.maskedinput.min.js"></script>
 <!-- Mask --->
+
+<script src="/site/js/jquery.lazyload.min.js"></script>
 
 <script src="/global/script.js"></script>
 <script src="/site/js/script.js"></script>
@@ -799,9 +809,16 @@
 <script src="/site/js/jquery.zoom.min.js"></script>
 <script src="/site/js/main.js"></script>
 
+<!-- jivosite -->
+<script src="//code.jivosite.com/widget.js" data-jv-id="d5ShOZJS9K"></script>
+<!-- jivosite -->
+
 @yield('add_in_end')
 
 @include('includes.analytics_body')
+
+@include('includes.analytics')
+
 
 </body>
 </html>

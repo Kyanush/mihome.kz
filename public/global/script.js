@@ -350,4 +350,10 @@ $(document).ready(function() {
 
     }, 2000);
 
+    $("img.lazy").lazyload({
+        effect: "fadeIn",
+        //threshold: -100
+    });
+
+
 });

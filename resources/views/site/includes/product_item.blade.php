@@ -3,9 +3,10 @@
     <div class="product-img">
 
         <a href="{{ $product->detailUrlProduct() }}">
-            <img title="{{ $product->name }}"
+            <img class="lazy"
+                 title="{{ $product->name }}"
                  alt="{{ $product->name }}"
-                 src="{{ $product->pathPhoto(true) }}">
+                 data-original="{{ $product->pathPhoto(true) }}"/>
         </a>
 
         <div class="product-label">
@@ -60,6 +61,26 @@
                 <i class="fa fa-eye"></i>
                 <span class="tooltipp">Быстрый просмотр</span>
             </button>
+
+            @foreach($product->attributes as $attribute)
+                @if($attribute->id == 50 and $attribute->pivot->value)
+                    @php
+                        $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
+                            $query->where('value', $attribute->pivot->value);
+                            $query->orWhere('id',  $attribute->pivot->value);
+                        })->first();
+                    @endphp
+                    @if($attributeValue)
+                        <button class="active" title="Цвет">
+                            <i class="fa fa-circle"
+                               style="font-size: 18px;color: {{ $attributeValue->props ?? '#fff' }}"></i>
+                        </button>
+                    @endif
+                @endif
+            @endforeach
+
+
+
         </div>
     </div>
     <div class="add-to-cart">

@@ -54,7 +54,8 @@
                                                 <tr>
                                                     <td>
                                                         <a href="{{ $item->product->detailUrlProduct() }}">
-                                                            <img src="{{ $item->product->pathPhoto(true) }}"
+                                                            <img data-original="{{ $item->product->pathPhoto(true) }}"
+                                                                 class="lazy"
                                                                  alt="{{ $item->product->name }}"
                                                                  width="50"
                                                                  title="{{ $item->product->name }}">

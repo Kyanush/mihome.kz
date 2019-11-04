@@ -14,7 +14,7 @@
                 @foreach($listSlidersHomePage as $item)
                     <a href="{{ $item->link }}" title="{{ $item->name }}" style="background-image: url('{{ $item->pathImage(true) }}')" title="{{ $item->name }}">
                         <!--
-                        <img src="{{ $item->pathImage(true) }}" alt="{{ $item->name }}">
+                        <img data-lazy="{{ $item->pathImage(true) }}" alt="{{ $item->name }}">
                         -->
                     </a>
                 @endforeach
@@ -30,54 +30,55 @@
     @include('site.includes.product_slider', ['products' => $products1, 'title' => 'Redmi Note 8 Pro'])
     @include('site.includes.product_slider', ['products' => $products2, 'title' => 'Redmi Note 8'])
 
+    @if(false)
+        <!-- HOT DEAL SECTION -->
+        <div id="hot-deal" class="section">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="hot-deal">
 
-    <!-- HOT DEAL SECTION -->
-    <div id="hot-deal" class="section">
-        <!-- container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="hot-deal">
+                            <ul class="hot-deal-countdown">
+                                <li>
+                                    <div>
+                                        <h3>1</h3>
+                                        <span>НИЗКАЯ ЦЕНА</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <h3>2</h3>
+                                        <span>Скидки </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <h3>3</h3>
+                                        <span>Акции </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <h3>4</h3>
+                                        <span>Нашли дешевле?</span>
+                                    </div>
+                                </li>
+                            </ul>
 
-                        <ul class="hot-deal-countdown">
-                            <li>
-                                <div>
-                                    <h3>1</h3>
-                                    <span>НИЗКАЯ ЦЕНА</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <h3>2</h3>
-                                    <span>Скидки </span>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <h3>3</h3>
-                                    <span>Акции </span>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <h3>4</h3>
-                                    <span>Нашли дешевле?</span>
-                                </div>
-                            </li>
-                        </ul>
-
-                        <h2 class="text-uppercase">Смартфоны</h2>
-                        <p>Успей купить!</p>
-                        <a class="primary-btn cta-btn" href="/catalog/smartfony">Посмотреть</a>
+                            <h2 class="text-uppercase">Смартфоны</h2>
+                            <p>Успей купить!</p>
+                            <a class="primary-btn cta-btn" href="/catalog/smartfony">Посмотреть</a>
+                        </div>
                     </div>
                 </div>
+                <!-- /row -->
             </div>
-            <!-- /row -->
+            <!-- /container -->
         </div>
-        <!-- /container -->
-    </div>
-    <!-- /HOT DEAL SECTION -->
+        <!-- /HOT DEAL SECTION -->
+    @endif
 
     @include('site.includes.product_slider', ['products' => $productsDiscount, 'title' => 'Акции'])
 
