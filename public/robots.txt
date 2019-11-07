@@ -1,2 +1,2 @@
 User-agent: *
-Disallow:
+Sitemap: https://mihome.kz/sitemap.xml

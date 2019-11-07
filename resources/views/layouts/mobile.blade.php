@@ -31,7 +31,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&amp;subset=cyrillic" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="/mobile/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/mobile/css/style.min.css">
 
     <!-- Vue js -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -53,6 +53,7 @@
     @yield('schemas_breadcrumb')
     @yield('schemas_product')
 
+    @include('includes.department_code')
 
 </head>
 
@@ -101,17 +102,15 @@
 @endif
 
 
-
 <!-- commentbook -->
 <script src="/commentbook/script.js" data-jv-id="d5ShOZJS9K" async></script>
 <!-- commentbook -->
 
+
 <!-- swiper -->
-<link rel="stylesheet" href="/mobile/swiper/swiper.css">
+<link rel="stylesheet" href="/mobile/swiper/swiper.min.css">
 <script src="/mobile/swiper/swiper.js"></script>
 <!-- swiper -->
-
-
 
 
 <!---- sweetalert2  ----->
@@ -121,13 +120,16 @@
 <link rel="stylesheet" type="text/css" href="/site/sweetalert2/sweetalert2.min.css">
 <!---- sweetalert2  ----->
 
+
 <!-- Mask --->
 <script type="text/javascript" src="/site/js/jquery.maskedinput.min.js"></script>
 <!-- Mask --->
 
+
 <script src="/site/js/jquery.lazyload.min.js"></script>
 <script src="/global/script.js"></script>
 <script type="text/javascript" src="/mobile/js/script.js"></script>
+
 
 @include('includes.analytics')
 

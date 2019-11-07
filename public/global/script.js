@@ -355,5 +355,10 @@ $(document).ready(function() {
         //threshold: -100
     });
 
+    $('.select-redirect').on('change', function(){
+        var link = $(this).val();
+        if(link)
+            window.location = link;
+    });
 
 });

@@ -32,30 +32,30 @@
 
 
     <!-- Bootstrap -->
-    <link type="text/css" rel="stylesheet" href="/site/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/bootstrap.min.css') }}"/>
 
     <!-- Slick -->
-    <link type="text/css" rel="stylesheet" href="/site/css/slick.css"/>
-    <link type="text/css" rel="stylesheet" href="/site/css/slick-theme.css"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/slick.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/slick-theme.min.css') }}"/>
 
     <!-- nouislider -->
-    <link type="text/css" rel="stylesheet" href="/site/css/nouislider.min.css"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/nouislider.min.css') }}"/>
 
     <!-- Font Awesome Icon -->
-    <link rel="stylesheet" href="/site/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('/site/css/font-awesome.min.css') }}">
 
-    <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="/site/css/style.css"/>
+    <!-- Custom stlylesheet sd -->
+    <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/style.css') }}"/>
 
 
     <!-- Vue js -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
-    <script src="/site/js/jquery.min.js"></script>
+    <script src="{{ asset('/site/js/jquery.min.js') }}"></script>
 
     <!-- axios -->
-    <script type="text/javascript" src="/site/js/axios.min.js"></script>
-    <script src="/global/config-axios.js"></script>
+    <script type="text/javascript" src="{{ asset('/site/js/axios.min.js') }}"></script>
+    <script src="{{ asset('/global/config-axios.js') }}"></script>
     <!-- axios -->
 
     @yield('add_in_head')
@@ -65,7 +65,7 @@
     @yield('schemas_breadcrumb')
     @yield('schemas_product')
 
-
+    @include('includes.department_code')
 
 </head>
 <body>
@@ -135,7 +135,7 @@
                     <div class="header-logo">
                         <a href="/" class="logo">
                             <img class="lazy"
-                                 data-original="{{ config('shop.logo') }}"
+                                 src="{{ config('shop.logo') }}"
                                  title="{{ env('APP_NAME') }}"
                                  alt="{{ env('APP_NAME') }}"/>
                         </a>
@@ -256,10 +256,7 @@
         <!-- responsive-nav -->
         <div id="responsive-nav">
 
-
             <i class="fa fa-remove fa-2x" id="close-menu"></i>
-
-
 
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
@@ -278,7 +275,7 @@
                             @endphp
                             <li @if($categories2->isNotEmpty()) class="hassubs" @endif>
                                 <a href="{{ $category1->catalogUrl($currentCity->code) }}">
-                                    <img src="{{ $category1->pathImage(true) }}"/>
+                                    <img data-original="{{ $category1->pathImage(true) }}" class="lazy-my"/>
                                     {{ $category1->name }}
                                     <i class="fa fa-chevron-right"></i>
                                 </a>
@@ -290,7 +287,7 @@
                                             @endphp
                                             <li @if($categories3->isNotEmpty()) class="hassubs" @endif>
                                                     <a href="{{ $category2->catalogUrl($currentCity->code) }}">
-                                                        <img src="{{ $category2->pathImage(true) }}"/>
+                                                        <img data-original="{{ $category2->pathImage(true) }}" class="lazy-my"/>
                                                         {{ $category2->name }}
                                                         <i class="fa fa-chevron-right"></i>
                                                     </a>
@@ -305,7 +302,7 @@
                                                                     @endphp
                                                                     <li @if($categories4->isNotEmpty()) class="hassubs" @endif>
                                                                         <a href="{{ $category3->catalogUrl($currentCity->code) }}">
-                                                                            <img src="{{ $category3->pathImage(true) }}"/>
+                                                                            <img data-original="{{ $category3->pathImage(true) }}"  class="lazy-my"/>
                                                                             {{ $category3->name }}
                                                                             <i class="fa fa-chevron-right"></i>
                                                                         </a>
@@ -314,7 +311,7 @@
                                                                                @foreach($categories4 as $category4)
                                                                                <li>
                                                                                     <a href="{{ $category4->catalogUrl($currentCity->code) }}">
-                                                                                         <img src="{{ $category4->pathImage(true) }}"/>
+                                                                                         <img data-original="{{ $category4->pathImage(true) }}"  class="lazy-my"/>
                                                                                         {{ $category4->name }}
                                                                                     </a>
                                                                                </li>
@@ -356,6 +353,7 @@
                 <li class="{{ Request::routeIs('checkout') ? 'active' : '' }}"><a href="{{ route('checkout') }}">Корзина</a></li>
             </ul>
             <!-- /NAV -->
+
         </div>
         <!-- /responsive-nav -->
     </div>
@@ -536,7 +534,7 @@
 </div>
 
 
-
+@if(false)
 <!-- Каталог товаров -->
 <div class="modal fade catalog-menu" role="dialog">
     <div class="modal-dialog">
@@ -618,7 +616,7 @@
     </div>
 </div>
 <!-- Каталог товаров -->
-
+@endif
 
 <!-- Выбор города -->
 @php
@@ -777,36 +775,37 @@
 
 
 <!---- sweetalert2  ----->
-<script src="/site/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="{{ asset('/site/sweetalert2/sweetalert2.all.min.js') }}"></script>
 <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
-<link rel="stylesheet" type="text/css" href="/site/sweetalert2/sweetalert2.min.css">
+<link rel="stylesheet" type="text/css" href="{{ asset('/site/sweetalert2/sweetalert2.min.css') }}">
 <!---- sweetalert2  ----->
 
 
 <!-- Vue js -->
 
 <!-- commentbook -->
-<script src="/commentbook/script.js" data-jv-id="d5ShOZJS9K"></script>
+<script src="{{ asset('/commentbook/script.js') }}" data-jv-id="d5ShOZJS9K"></script>
 <!-- commentbook -->
 
 
 
 <!-- Mask --->
-<script type="text/javascript" src="/site/js/jquery.maskedinput.min.js"></script>
+<script type="text/javascript" src="{{ asset('/site/js/jquery.maskedinput.min.js') }}"></script>
 <!-- Mask --->
 
-<script src="/site/js/jquery.lazyload.min.js"></script>
+<script src="{{ asset('/site/js/jquery.lazyload.min.js') }}"></script>
 
-<script src="/global/script.js"></script>
-<script src="/site/js/script.js"></script>
+<script src="{{ asset('/global/script.js') }}"></script>
+<script src="{{ asset('/site/js/script.js') }}"></script>
 
 <!-- jQuery Plugins -->
-<script src="/site/js/bootstrap.min.js"></script>
-<script src="/site/js/slick.min.js"></script>
-<script src="/site/js/nouislider.min.js"></script>
-<script src="/site/js/jquery.zoom.min.js"></script>
-<script src="/site/js/main.js"></script>
+<script src="{{ asset('/site/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('/site/js/slick.min.js') }}"></script>
+<script src="{{ asset('/site/js/nouislider.min.js') }}"></script>
+<script src="{{ asset('/site/js/jquery.zoom.min.js') }}"></script>
+<script src="{{ asset('/site/js/main.js') }}"></script>
+
 
 <!-- jivosite -->
 <script src="//code.jivosite.com/widget.js" data-jv-id="d5ShOZJS9K"></script>

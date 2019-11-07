@@ -23,6 +23,15 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
     	 $(this).remove();
     });
 
+    $('.cat_menu_container').hover(function(e) {
+
+        var allimages = $(this).find('img.lazy-my');
+
+        for (var i = 0; i < allimages.length; i++)
+            $( allimages[i] ).attr("src",  $(allimages[i]).data('original'));
+
+    });
+
     $('.show-more-filters').on('click', function (e){
         $(this).parents('.checkbox-filter').find('.hide').removeClass('hide');
         $(this).remove();
@@ -56,6 +65,9 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
 				$nav = $this.attr('data-nav');
 
 		$this.slick({
+            lazyLoad: 'ondemand',
+            ease : 'Pow4.easeIn',
+
 			slidesToShow: 4,
 			slidesToScroll: 1,
 			autoplay: false,
@@ -80,7 +92,13 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
 	      },
 	    ]
 		});
+
+        $this.on('beforeChange', function(event, slick, currentSlide, nextSlide){
+            $("img.lazy").lazyload();
+        });
+
 	});
+
 
 	// Products Widget Slick
 	$('.products-widget-slick').each(function() {
@@ -111,7 +129,7 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
 
     // Main slider
     $('.main-slider').slick({
-        //lazyLoad: 'ondemand',
+        lazyLoad: 'ondemand',
         infinite: true,
         speed: 300,
         dots: true,
@@ -119,6 +137,14 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
         fade: true,
         autoplay: true,
     });
+    $('.main-slider').on('lazyLoaded', function (e, slick, image, imageSource) {
+    	image.parent().css('background-image', 'url("' + imageSource + '")');
+    	image.remove();
+    });
+
+
+
+
 
 
     // Product imgs Slick

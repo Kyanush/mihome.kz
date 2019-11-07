@@ -6,16 +6,15 @@
 
 @section('content')
 
+
     <!-- SECTION -->
     <div class="section">
         <!-- container -->
         <div class="container">
             <div class="main-slider">
                 @foreach($listSlidersHomePage as $item)
-                    <a href="{{ $item->link }}" title="{{ $item->name }}" style="background-image: url('{{ $item->pathImage(true) }}')" title="{{ $item->name }}">
-                        <!--
-                        <img data-lazy="{{ $item->pathImage(true) }}" alt="{{ $item->name }}">
-                        -->
+                    <a href="{{ $item->link }}" title="{{ $item->name }}" title="{{ $item->name }}">
+                        <img data-lazy="{{ $item->pathImage(true) }}" alt="{{ $item->name }}"  class="lazy"/>
                     </a>
                 @endforeach
             </div>

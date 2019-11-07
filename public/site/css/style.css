@@ -1624,10 +1624,15 @@ textarea.input {
     cursor: pointer;
 }
 
+.select-redirect{
+    font-size: 13px;
+}
+
+/*
 .product-details .color{
     float: left;
-    width: 28px;
-    height: 28px;
+    width: 15px;
+    height: 15px;
     border: 1px solid #060606;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -1640,7 +1645,7 @@ textarea.input {
     text-decoration: none;
     margin-top: 3px;
 }
-
+*/
 .product-details .product-price {
     display: inline-block;
     font-size: 24px;
@@ -1677,6 +1682,7 @@ textarea.input {
 }
 
 .product-details .product-options label {
+    width: 100%;
     font-weight: 500;
     font-size: 14px;
     /*text-transform: uppercase;*/

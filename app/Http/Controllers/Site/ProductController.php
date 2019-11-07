@@ -63,7 +63,7 @@ class ProductController extends Controller
             ->get();
 
         //Похожие товары
-        $group_products = $product->groupProducts()->productInfoWith()->where('id', '<>', $product->id)->get();
+        $group_products = $product->groupProducts()->productInfoWith()->OrderBy('price')->get();
 
         //С этим товаром покупаю
         $products_interested = $product->productAccessories()->productInfoWith()->get();
