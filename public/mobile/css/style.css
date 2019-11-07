@@ -8092,3 +8092,14 @@ div,h1,h2,h3,h4,h5,h6,label,p,span {
 .lis-service-provided{
     display: none;
 }
+.select-redirect{
+    font-size: 13px;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+.select-redirect option{
+    font-size: 10px;
+    background-color: #ffffff;
+}

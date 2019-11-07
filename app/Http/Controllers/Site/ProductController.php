@@ -37,6 +37,27 @@ class ProductController extends Controller
 
     public function productDetailMain($city, $product_url, $category_url)
     {
+
+        /*
+        if(isset($_GET['dddyyyyd']))
+        {
+            $products = Product::WhereIn('id', [1293, 1294, 1295, 1296, 1297, 1307, 1308, 1309])->get();
+            foreach ($products as $product)
+            {
+
+                $product->attributes()->detach();
+
+                $t_attribute_product_value = DB::select('SELECT * FROM `t_attribute_product_value` WHERE `product_id` = 1292');
+                foreach ($t_attribute_product_value as $value) {
+
+                    if ($value->value)
+                        $product->attributes()->attach([$value->attribute_id => ['value' => $value->value]]);
+
+                }
+            }
+        }
+        */
+
         $product = Product::productInfoWith()
                             ->with(['images' => function($query){
                                     $query->OrderBy('order', 'ASC');
@@ -98,6 +119,14 @@ class ProductController extends Controller
         //seo
         $seo = Seo::productDetail($product, $category);
 
+        if(isset($_GET['dddd']))
+        {
+            $_product = Product::with('attributes')->find(1292);
+            if($_product)
+            {
+
+            }
+        }
 
         return view(Helpers::isMobile() ? 'mobile.product.index' : 'site.product_detail', [
             'product'  => $product,

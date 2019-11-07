@@ -1,6 +1,6 @@
 <div class="g-mb-gtn" itemscope itemtype="http://schema.org/Product">
-    <div class="item container g-pa0 g-bb0">
 
+    <div class="item container g-pa0 g-bb0">
 
         <div class="item__images">
             <div class="swiper-container" id="product-slider">
@@ -102,7 +102,7 @@
             <div class="item__sku">Код товара:&nbsp;{{ $product->sku }}</div>
         </div>
 
-        <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <div class="item__info container" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
             <div class="item__prices">
                 <div class="item__debet">
                     <span class="item__prices-price">
@@ -227,16 +227,51 @@
             </ul>
         </div>
 
-
     </div>
 
 
     <div class="mount-sellers-offers _short-list" id="sellers">
         <div class="sellers-offers _short-list">
 
-            <div class="container-title">Поховые товары</div>
+            <div class="container-title">Другие варианты</div>
             <div class="_sellers-offers">
                 <div class="container loan-selector g-bb-fat" style="height: auto;">
+
+
+                        <select class="select-redirect">
+                            <option value="">Другие варианты</option>
+                            @foreach($group_products as $group_product)
+                                <?php
+                                $attributes = [];
+                                foreach($group_product->attributes as $attribute)
+                                {
+                                    $attributes[ $attribute->id ] = $attribute;
+                                }
+                                $attribute = $attributes[50] ?? false;
+                                $ram_size  = $attributes[52] ?? false;
+                                $memory    = $attributes[53] ?? false;
+                                ?>
+                                @if($attribute)
+                                    @if($attribute->pivot->value)
+                                        @php
+                                            $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
+                                                $query->where('value', $attribute->pivot->value);
+                                                $query->orWhere('id',  $attribute->pivot->value);
+                                            })->first();
+                                        @endphp
+                                        <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected disabled @endif>
+                                            {{ $attribute->pivot->value }}
+                                            -
+                                            {{ $ram_size ? $ram_size->pivot->value : '' }}/{{ $memory ? $memory->pivot->value : '' }}
+                                            -
+                                            {{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }}
+                                        </option>
+                                    @endif
+                                @endif
+                            @endforeach
+                        </select>
+
+                    @if(false)
                     <div class="loan-selector__text-before">Цвет</div>
                     <div class="loan-selector__els g-fl-r ">
                         <div class="loan-selector__els-row">
@@ -277,10 +312,11 @@
 
                         </div>
                     </div>
+                    @endif
+
                 </div>
             </div>
 
-            @include('mobile.includes.product_slider', ['products' => $group_products,  'title' => 'Похожие товары', 'url' => ''])
             @include('mobile.includes.product_slider', ['products' => $products_interested, 'title' => 'С этим товаром покупаю', 'url' => ''])
 
             <div class="container-title">Характеристики</div>

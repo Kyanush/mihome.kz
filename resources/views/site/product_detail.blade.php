@@ -174,7 +174,7 @@
                                 <div class="product-options">
                                     <label>
                                         <select class="input select-redirect">
-                                            <option>Похожие товары</option>
+                                            <option value="">Другие варианты</option>
                                             @foreach($group_products as $group_product)
                                                 <?php
                                                 $attributes = [];
@@ -194,7 +194,7 @@
                                                                 $query->orWhere('id',  $attribute->pivot->value);
                                                             })->first();
                                                         @endphp
-                                                        <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected @endif>
+                                                        <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected disabled @endif>
                                                              {{ $attribute->pivot->value }}
                                                              -
                                                              {{ $ram_size ? $ram_size->pivot->value : '' }}/{{ $memory ? $memory->pivot->value : '' }}
@@ -342,7 +342,7 @@
             @if($group_products->isNotEmpty())
                 <div class="col-md-12">
                     <br/>
-                    <h3 class="aside-title">Похожие товары</h3>
+                    <h3 class="aside-title">Другие варианты</h3>
                     <br/>
                     <div class="row">
                         @foreach($group_products as $product_item)
