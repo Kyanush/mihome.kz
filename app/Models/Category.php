@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\ServiceCity;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use File;
@@ -100,22 +99,8 @@ class Category extends Model
         return File::delete($this->pathImage());
     }
 
-    public function catalogUrl($city_code = ''){
-
-        if(!$city_code)
-        {
-            $city = ServiceCity::getCurrentCity();
-            $city_code = $city->code;
-        }
-
-        if($city_code == 'almaty')
-            $city_code = '';
-
-        if($city_code){
-            return route('catalogCity', ['category' => $this->url, 'city' => $city_code]);
-        }else{
-            return route('catalog', ['category' => $this->url]);
-        }
+    public function catalogUrl(){
+        return route('catalog', ['category' => $this->url]);
     }
 
     public function typeValueDescription(){

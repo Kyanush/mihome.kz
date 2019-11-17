@@ -131,7 +131,10 @@
 <script type="text/javascript" src="/mobile/js/script.js"></script>
 
 
+@yield('add_in_end')
+@include('includes.analytics_body')
 @include('includes.analytics')
+
 
 </body>
 </html>

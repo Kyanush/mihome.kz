@@ -56,6 +56,7 @@ import banners_save from  '../components/banners/Save.vue';
 import news_list from  '../components/news/List.vue';
 import news_save from  '../components/news/Save.vue';
 
+import settings from  '../components/plugins/Settings.vue';
 
 import layout from  '../components/Layout.vue';
 import checkout from  '../components/checkout/Checkout.vue';
@@ -694,6 +695,20 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Новости', link: '/news' },
+                ]
+            }
+        },
+
+
+
+        {
+            path: '/settings',
+            name: 'settings',
+            component: settings,
+            meta: {
+                title: 'Настройки',
+                breadcrumb: [
+                    { title: 'Главная страница', link: '/main' }
                 ]
             }
         },

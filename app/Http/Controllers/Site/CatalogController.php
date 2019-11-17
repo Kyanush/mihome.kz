@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use App\Services\ServiceCategory;
-use App\Services\ServiceCity;
 use App\Services\ServiceProduct;
 use App\Services\ServiceYouWatchedProduct;
 use App\Tools\Helpers;
@@ -24,14 +23,11 @@ class CatalogController extends Controller
 
         }])->where('url', $category)->firstOrFail();
 
-        //город
-        $currentCity = ServiceCity::getCurrentCity();
         //seo
         $seo = Seo::catalog($category);
 
         return view('mobile.c', [
             'category'    => $category,
-            'currentCity' => $currentCity,
             'seo'         => $seo
         ]);
 
@@ -84,10 +80,6 @@ class CatalogController extends Controller
         if(!$seo)
             return abort(404);
 
-        //город
-        $currentCity = ServiceCity::getCurrentCity();
-        if(!$currentCity)
-            return abort(404);
 
         //Хлебная крошка
         $breadcrumbs = ServiceCategory::breadcrumbCategories($category->parent_id, $category->name);
@@ -102,7 +94,6 @@ class CatalogController extends Controller
             'priceMinMax' => $priceMinMax,
             'productsAttributesFilters' => $productsAttributesFilters,
             'seo' => $seo,
-            'currentCity' => $currentCity,
             'breadcrumbs' => $breadcrumbs
         ]);
     }

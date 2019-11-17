@@ -13,9 +13,8 @@ class SitemapController extends Controller
 {
 
     public function sitemap(){
-        $cities     = ServiceCity::listActiveSort();
         $siteUrl    = env('APP_URL');
-        return response()->view('sitemap.sitemap', compact(['cities', 'siteUrl']))->header('Content-Type', 'text/xml');
+        return response()->view('sitemap.sitemap', compact(['siteUrl']))->header('Content-Type', 'text/xml');
     }
 
     public function pages(){
@@ -28,15 +27,13 @@ class SitemapController extends Controller
         return response()->view('sitemap.news', compact(['news']))->header('Content-Type', 'text/xml');
     }
 
-    public function city(){
-        $city_code = \Route::currentRouteName();
-        $city_code = str_replace("sitemap.", "", $city_code);
+    public function products(){
 
-        $city = City::isActive()->where('code', $city_code)->firstOrFail();
         $products   = Product::with('categories')->filters(['active' => 1])->get();
         $categories = Category::isActive()->get();
+
         $siteUrl    = env('APP_URL');
-        return response()->view('sitemap.city', compact(['city', 'products', 'categories', 'siteUrl']))->header('Content-Type', 'text/xml');
+        return response()->view('sitemap.products', compact(['city', 'products', 'categories', 'siteUrl']))->header('Content-Type', 'text/xml');
     }
 
 }

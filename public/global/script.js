@@ -329,10 +329,6 @@ $(document).ready(function() {
         var count = $('.lis-sys-rating-votes-count').text();
         var product_id = $('#product_id').val();
 
-        console.log({
-            avg, count, product_id
-        });
-
         if(avg && count && product_id)
         {
 

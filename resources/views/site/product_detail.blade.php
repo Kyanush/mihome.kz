@@ -31,7 +31,7 @@
                 <div id="product-main-img">
                     <div class="product-preview">
                         <a data-fancybox="gallery" href="{{ $product->pathPhoto(true) }}">
-                            <img itemprop="image" src="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                            <img itemprop="image" data-lazy="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
                         </a>
 
                         <?php ob_start();?>
@@ -45,7 +45,7 @@
                                 @if($attribute->id == 49 and $attribute->pivot->value)
                                     <span class="new {{ str_slug($attribute->pivot->value)  }}">
                                              {{ $attribute->pivot->value  }}
-                                        </span>
+                                    </span>
                                 @endif
                             @endforeach
                         </div>
@@ -59,7 +59,7 @@
                         @foreach($product->images as $image)
                             <div class="product-preview">
                                 <a data-fancybox="gallery" href="{{ $image->imagePath(true) }}">
-                                    <img class="lazy" itemprop="image" data-original="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                                    <img itemprop="image" data-lazy="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
                                 </a>
                                 {!! $label !!}
                             </div>
@@ -75,12 +75,12 @@
             <div class="col-md-2  col-md-pull-5">
                 <div id="product-imgs">
                     <div class="product-preview">
-                        <img class="lazy" data-original="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                        <img data-lazy="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
                     </div>
                     @if(count($product->images) > 0)
                         @foreach($product->images as $image)
                             <div class="product-preview">
-                                <img class="lazy" data-original="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                                <img data-lazy="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
                             </div>
                         @endforeach
                     @endif
@@ -176,39 +176,16 @@
                                         <select class="input select-redirect">
                                             <option value="">Другие варианты</option>
                                             @foreach($group_products as $group_product)
-                                                <?php
-                                                $attributes = [];
-                                                foreach($group_product->attributes as $attribute)
-                                                {
-                                                    $attributes[ $attribute->id ] = $attribute;
-                                                }
-                                                $attribute = $attributes[50] ?? false;
-                                                $ram_size  = $attributes[52] ?? false;
-                                                $memory    = $attributes[53] ?? false;
-                                                ?>
-                                                @if($attribute)
-                                                    @if($attribute->pivot->value)
-                                                        @php
-                                                            $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
-                                                                $query->where('value', $attribute->pivot->value);
-                                                                $query->orWhere('id',  $attribute->pivot->value);
-                                                            })->first();
-                                                        @endphp
-                                                        <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected disabled @endif>
-                                                             {{ $attribute->pivot->value }}
-                                                             -
-                                                             {{ $ram_size ? $ram_size->pivot->value : '' }}/{{ $memory ? $memory->pivot->value : '' }}
-                                                             -
-                                                             {{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }}
-                                                        </option>
-                                                    @endif
-                                                @endif
+                                                <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected disabled @endif>
+                                                     {{ $group_product->name }}
+                                                     -
+                                                     {{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }}
+                                                </option>
                                             @endforeach
                                        </select>
                                     </label>
                                 </div>
                             @endif
-
 
                         @if($product->stock > 0)
                             <div class="add-to-cart">
@@ -371,293 +348,330 @@
 
 
 
-        <!-- Product tab -->
-            <div class="col-md-12">
-                <div id="product-tab">
-                            <span itemprop="description">
-                                @if($product->description)
-                                    <h2 class="text-center tab-title">Описание</h2>
-                                    <!-- description  -->
-                                    <div id="description">
-                                        {!! $product->description  !!}
-                                    </div>
-                                    <div class="show-full">
-                                        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-                                        Показать полностью
-                                    </div>
-                                    <!-- /description  -->
-                                @endif
-
-                                @php
-                                    $attributes = [];
-                                    foreach($product->attributes as $attribute)
-                                    {
-                                        if(empty($attribute->pivot->value) or $attribute->show_product_detail == 0)
-                                            continue;
-                                        $attributes[ (int)$attribute->attribute_group_id ][] = $attribute;
-                                    }
-                                @endphp
-                                @if(count($attributes) > 0)
-                                    <h2 class="text-center tab-title">Характеристики</h2>
-                                    <!-- attributes  -->
-                                    <div id="attributes">
-                                            <table class="table table-bordered">
-                                                @foreach(App\Models\AttributeGroup::OrderBy('sort')->get() as $attributeGroup)
-                                                    @if(!isset($attributes[$attributeGroup->id]))
-                                                        @continue
-                                                    @endif
-                                                    <tr>
-                                                            <td colspan="2">
-                                                                <b>{{ $attributeGroup->name }}</b>
-                                                            </td>
-                                                        </tr>
-                                                    @foreach($attributes[$attributeGroup->id] as $attribute)
-                                                        <tr>
-                                                                <td>
-                                                                    @if($attribute->description)
-                                                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
-                                                                    @endif
-                                                                    {{ $attribute->name }}:
-                                                                </td>
-                                                                <td>
-                                                                    {{ $attribute->pivot->value }}
-                                                                </td>
-                                                            </tr>
-                                                    @endforeach
-                                                    @unset($attributes[$attributeGroup->id])
-                                                @endforeach
-
-                                                @if(count($attributes) > 0)
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            <b>Другие</b>
-                                                        </td>
-                                                    </tr>
-                                                    @foreach($attributes as $attribute_items)
-                                                        @foreach($attribute_items as $attribute)
-                                                            <tr>
-                                                                <td>
-                                                                    @if($attribute->description)
-                                                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
-                                                                    @endif
-                                                                    {{ $attribute->name }}:
-                                                                </td>
-                                                                <td>
-                                                                    {{ $attribute->pivot->value }}
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    @endforeach
-                                                @endif
-                                            </table>
-
-                                    </div>
-                                    <!-- /attributes  -->
-                                @endif
-                            </span>
-                    <h2 class="text-center tab-title">Отзывы</h2>
-                    <div class="col-md-12">
-                        <div type="lis-comments"
-                             lis-widget="reviews"
-                             data-id="{{ $product->id }}"
-                             data-title="{{ $product->name_short ? $product->name_short : $product->name }}">
-                        </div>
-                    </div>
-
-
-                    @if(false)
-                        <h2 class="text-center tab-title">Отзывы({{$product->reviews_count}})</h2>
-                        <!-- reviews  -->
-                        <div id="reviews">
-                            <div class="row">
-                                <!-- Rating -->
-                                <div class="col-md-3">
-                                    <div id="rating">
-                                        <div class="rating-avg">
-                                            <span>{{ $product->reviews_rating_avg ?? 0 }}</span>
-                                            <div class="rating-stars">
-                                                @for($i = 1; $i <= 5; $i++)
-                                                    <i class="fa <?=(($product->reviews_rating_avg ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
-                                                @endfor
-                                            </div>
-                                        </div>
-                                        <ul class="rating">
-                                            @php
-                                                $total_all = collect($ratings_groups)->sum('total');
-                                            @endphp
-                                            @foreach($ratings_groups as $rating_group)
-                                                <li>
-                                                    <div class="rating-stars">
-                                                        <i class="fa {{ $rating_group->rating < 1 ? 'fa-star-o empty' : 'fa-star' }}"></i>
-                                                        <i class="fa {{ $rating_group->rating < 2 ? 'fa-star-o empty' : 'fa-star' }}"></i>
-                                                        <i class="fa {{ $rating_group->rating < 3 ? 'fa-star-o empty' : 'fa-star' }}"></i>
-                                                        <i class="fa {{ $rating_group->rating < 4 ? 'fa-star-o empty' : 'fa-star' }}"></i>
-                                                        <i class="fa {{ $rating_group->rating < 5 ? 'fa-star-o empty' : 'fa-star' }}"></i>
-                                                    </div>
-                                                    <div class="rating-progress">
-                                                        <div style="width: {{ ($rating_group->total / $total_all) * 100 }}%;"></div>
-                                                    </div>
-                                                    <span class="sum">{{ $rating_group->total }}</span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- /Rating -->
-
-
-
-
-                                <!-- Reviews -->
-                                <div class="col-md-6">
-                                    <div id="reviews">
-                                        @if($reviews->isEmpty())
-                                            <p>Нет отзывы</p>
-                                        @else
-                                            <ul class="reviews">
-                                                @foreach($reviews as $review)
-                                                    <li itemprop="review" itemtype="http://schema.org/Review" itemscope>
-                                                        <div class="review-heading">
-
-                                                            <div itemprop="author" itemtype="http://schema.org/Person" itemscope>
-                                                                <h5 class="name" itemprop="name">{{ $review->name }}</h5>
-                                                            </div>
-                                                            <p class="date" itemprop="datePublished" content="{{ date('Y-m-d', strtotime($review->created_at)) }}">
-                                                                {{ \App\Tools\Helpers::ruDateFormat($review->created_at) }}
-                                                            </p>
-                                                            <div class="review-rating">
-                                                                <i class="fa {{ $review->rating < 1 ? 'fa-star-o empty' : 'fa-star' }}"></i>
-                                                                <i class="fa {{ $review->rating < 2 ? 'fa-star-o empty' : 'fa-star' }}"></i>
-                                                                <i class="fa {{ $review->rating < 3 ? 'fa-star-o empty' : 'fa-star' }}"></i>
-                                                                <i class="fa {{ $review->rating < 4 ? 'fa-star-o empty' : 'fa-star' }}"></i>
-                                                                <i class="fa {{ $review->rating < 5 ? 'fa-star-o empty' : 'fa-star' }}"></i>
-                                                            </div>
-                                                            <div itemprop="reviewRating" itemtype="http://schema.org/Rating" itemscope>
-                                                                <meta itemprop="ratingValue" content="{{ $review->rating }}" />
-                                                                <meta itemprop="bestRating"  content="5" />
-                                                                <meta itemprop="worstRating" content="1" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="review-body">
-                                                                <span itemprop="reviewBody">
-                                                                    @if($review->plus)
-                                                                        <p>
-                                                                            <b>Достоинства</b>
-                                                                            <br/>
-                                                                            {{ $review->plus }}
-                                                                        </p>
-                                                                    @endif
-                                                                    @if($review->minus)
-                                                                        <p>
-                                                                            <b>Недостатки</b>
-                                                                            <br/>
-                                                                            {{ $review->minus }}
-                                                                        </p>
-                                                                    @endif
-                                                                    @if($review->comment)
-                                                                        <p>
-                                                                            <b>Комментарий</b>
-                                                                            <br/>
-                                                                            {{ $review->comment }}
-                                                                        </p>
-                                                                    @endif
-                                                                </span>
-
-                                                            <div class="review-like" id="review_{{ $review->id }}">
-                                                                <b>Вам понравился отзыв?</b>
-                                                                <span class="review_plus
-                                                                        @if(isset($review->isLike->like))
-                                                                @if($review->isLike->like == 1) active @endif
-                                                                @endif" review_id="{{ $review->id }}">
-                                                                        <i class="fa fa-thumbs-up"></i>
-                                                                        <span class="review_number">{{ $review->likes_count ?? 0 }}</span>
-                                                                    </span>
-                                                                <span class="review_minus
-                                                                        @if(isset($review->isLike->like))
-                                                                @if($review->isLike->like == 0) active @endif
-                                                                @endif" review_id="{{ $review->id }}">
-                                                                        <i class="fa fa-thumbs-down "></i>
-                                                                        <span class="review_number">{{ $review->dis_likes_count ?? 0 }}</span>
-                                                                    </span>
-                                                            </div>
-
-                                                        </div>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        @endif
-
-
-                                        @if($reviews->isNotEmpty())
-                                            {!! $reviews->links("pagination::default", ['class' => 'reviews-pagination']) !!}
-                                        @endif
-
-
-                                    </div>
-                                </div>
-                                <!-- /Reviews -->
-
-                                <!-- Review Form -->
-                                <div class="col-md-3">
-                                    <div id="review-form">
-                                        <form class="review-form" action="javascript:void(null);" onsubmit="writeReview(this); return false;" method="post" enctype="multipart/form-data">
-                                            @csrf
-                                            <input type="hidden" name="product_id" value="{{ $product->id }}"/>
-                                            <input  class="input" name="name" placeholder="Введите имя *" @auth value="{{ Auth::user()->name }}" @endauth type="text"/>
-                                            <input  class="input" name="email" placeholder="Введите e-mail" @auth value="{{ Auth::user()->email }}" @endauth type="text"/>
-                                            <textarea class="input" name="plus" placeholder="Что вам понравилось"></textarea>
-                                            <textarea class="input" name="minus" placeholder="Опишите недостатки"></textarea>
-                                            <textarea class="input" name="comment" placeholder="Введите комментарий *"></textarea>
-                                            <div class="input-rating">
-                                                <span>Оценка *: </span>
-                                                <div class="stars">
-                                                    <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
-                                                    <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
-                                                    <input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
-                                                    <input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
-                                                    <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
-                                                </div>
-                                            </div>
-                                            <button class="primary-btn" type="submit">
-                                                <img class="ajax-loader" src="/site/images/ajax-loader.gif"/>
-                                                Отправить отзыв
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <!-- /Review Form -->
-                            </div>
-                        </div>
-                        <!-- /reviews  -->
-                    @endif
-
-
-                    @if($product->youtube)
-                        <h2 class="text-center tab-title">Видео обзор</h2>
-                        <div class="text-center">
-                            <iframe
-                                    frameborder="0"
-                                    allowfullscreen="1"
-                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                    title="YouTube video player"
-                                    width="640"
-                                    height="360"
-                                    src="https://www.youtube.com/embed/{{ $product->youtube }}?rel=0&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fkaspi.kz&amp;widgetid=1">
-                            </iframe>
-                        </div>
-                    @endif
-
-
-
-                </div>
-                <!-- /product tab content  -->
-            </div>
-            <!-- /product tab -->
-
         </div>
         <!-- /row -->
     </div>
     <!-- /container -->
+
+    <!-- Product tab -->
+    <div id="product-tab">
+
+
+            <!-- product tab nav -->
+            <ul class="tab-nav">
+                <li class="active">
+                    <a data-toggle="tab" href="#description">Описание</a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#attributes">Характеристики</a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#reviews">Отзывы({{ $product->reviews_count }})</a>
+                </li>
+            </ul>
+            <!-- /product tab nav -->
+
+            <!-- product tab content -->
+            <div class="tab-content">
+                <div id="description" class="tab-pane fade in active" itemprop="description">
+
+
+                    <!-- container -->
+                    @if($product->description_full_screen)
+
+                        {!! $product->description  !!}
+
+                    @section('add_in_end')
+                        <link href="/css/uk.css" rel="stylesheet" />
+                        <script src="https://asuikit.com/app/assets/uikit/js/uikit.min.js?v=9b6b"></script>
+                        <script src="https://getuikit.com/v2/src/js/components/slideset.js"></script>
+                        <link rel="stylesheet" href="https://asuikit.com/app/assets/uikit/css/components/slideshow.min.css">
+                        <link rel="stylesheet" href="https://asuikit.com/app/assets/uikit/css/components/slidenav.min.css">
+                        <link rel="stylesheet" href="https://asuikit.com/app/assets/uikit/css/components/dotnav.min.css">
+                        <script src="https://asuikit.com/app/assets/uikit/js/components/slideshow.min.js"></script>
+                        <script src="https://asuikit.com/app/assets/uikit/js/components/slideshow-fx.min.js"></script>
+                    @stop
+
+                    @else
+                        <div class="container">
+                            <div class="row">
+                                    {!! $product->description  !!}
+                            </div>
+                        </div>
+                    @endif
+                </div>
+                <div id="attributes" class="tab-pane fade in">
+                    <div class="container">
+                        <div class="row">
+                            @php
+                                $attributes = [];
+                                foreach($product->attributes as $attribute)
+                                {
+                                    if(empty($attribute->pivot->value) or $attribute->show_product_detail == 0)
+                                        continue;
+                                    $attributes[ (int)$attribute->attribute_group_id ][] = $attribute;
+                                }
+                            @endphp
+                            @if(count($attributes) > 0)
+
+                                    <table class="table table-bordered">
+                                        @foreach(App\Models\AttributeGroup::OrderBy('sort')->get() as $attributeGroup)
+                                            @if(!isset($attributes[$attributeGroup->id]))
+                                                @continue
+                                            @endif
+                                            <tr>
+                                                <td colspan="2">
+                                                    <b>{{ $attributeGroup->name }}</b>
+                                                </td>
+                                            </tr>
+                                            @foreach($attributes[$attributeGroup->id] as $attribute)
+                                                <tr>
+                                                    <td>
+                                                        @if($attribute->description)
+                                                            <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
+                                                        @endif
+                                                        {{ $attribute->name }}:
+                                                    </td>
+                                                    <td>
+                                                        {{ $attribute->pivot->value }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            @unset($attributes[$attributeGroup->id])
+                                        @endforeach
+
+                                        @if(count($attributes) > 0)
+                                            <tr>
+                                                <td colspan="2">
+                                                    <b>Другие</b>
+                                                </td>
+                                            </tr>
+                                            @foreach($attributes as $attribute_items)
+                                                @foreach($attribute_items as $attribute)
+                                                    <tr>
+                                                        <td>
+                                                            @if($attribute->description)
+                                                                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
+                                                            @endif
+                                                            {{ $attribute->name }}:
+                                                        </td>
+                                                        <td>
+                                                            {{ $attribute->pivot->value }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endforeach
+                                        @endif
+                                    </table>
+
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <div id="reviews" class="tab-pane fade in">
+                    <div class="container">
+                        <div class="row">
+                                <div type="lis-comments"
+                                     lis-widget="reviews"
+                                     data-id="{{ $product->id }}"
+                                     data-title="{{ $product->name_short ? $product->name_short : $product->name }}">
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        @if(false)
+            <h2 class="text-center tab-title">Отзывы({{$product->reviews_count}})</h2>
+            <!-- reviews  -->
+            <div id="reviews">
+                <div class="row">
+                    <!-- Rating -->
+                    <div class="col-md-3">
+                        <div id="rating">
+                            <div class="rating-avg">
+                                <span>{{ $product->reviews_rating_avg ?? 0 }}</span>
+                                <div class="rating-stars">
+                                    @for($i = 1; $i <= 5; $i++)
+                                        <i class="fa <?=(($product->reviews_rating_avg ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
+                                    @endfor
+                                </div>
+                            </div>
+                            <ul class="rating">
+                                @php
+                                    $total_all = collect($ratings_groups)->sum('total');
+                                @endphp
+                                @foreach($ratings_groups as $rating_group)
+                                    <li>
+                                        <div class="rating-stars">
+                                            <i class="fa {{ $rating_group->rating < 1 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                            <i class="fa {{ $rating_group->rating < 2 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                            <i class="fa {{ $rating_group->rating < 3 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                            <i class="fa {{ $rating_group->rating < 4 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                            <i class="fa {{ $rating_group->rating < 5 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                        </div>
+                                        <div class="rating-progress">
+                                            <div style="width: {{ ($rating_group->total / $total_all) * 100 }}%;"></div>
+                                        </div>
+                                        <span class="sum">{{ $rating_group->total }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /Rating -->
+
+
+
+
+                    <!-- Reviews -->
+                    <div class="col-md-6">
+                        <div id="reviews">
+                            @if($reviews->isEmpty())
+                                <p>Нет отзывы</p>
+                            @else
+                                <ul class="reviews">
+                                    @foreach($reviews as $review)
+                                        <li itemprop="review" itemtype="http://schema.org/Review" itemscope>
+                                            <div class="review-heading">
+
+                                                <div itemprop="author" itemtype="http://schema.org/Person" itemscope>
+                                                    <h5 class="name" itemprop="name">{{ $review->name }}</h5>
+                                                </div>
+                                                <p class="date" itemprop="datePublished" content="{{ date('Y-m-d', strtotime($review->created_at)) }}">
+                                                    {{ \App\Tools\Helpers::ruDateFormat($review->created_at) }}
+                                                </p>
+                                                <div class="review-rating">
+                                                    <i class="fa {{ $review->rating < 1 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                    <i class="fa {{ $review->rating < 2 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                    <i class="fa {{ $review->rating < 3 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                    <i class="fa {{ $review->rating < 4 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                    <i class="fa {{ $review->rating < 5 ? 'fa-star-o empty' : 'fa-star' }}"></i>
+                                                </div>
+                                                <div itemprop="reviewRating" itemtype="http://schema.org/Rating" itemscope>
+                                                    <meta itemprop="ratingValue" content="{{ $review->rating }}" />
+                                                    <meta itemprop="bestRating"  content="5" />
+                                                    <meta itemprop="worstRating" content="1" />
+                                                </div>
+                                            </div>
+                                            <div class="review-body">
+                                                    <span itemprop="reviewBody">
+                                                        @if($review->plus)
+                                                            <p>
+                                                                <b>Достоинства</b>
+                                                                <br/>
+                                                                {{ $review->plus }}
+                                                            </p>
+                                                        @endif
+                                                        @if($review->minus)
+                                                            <p>
+                                                                <b>Недостатки</b>
+                                                                <br/>
+                                                                {{ $review->minus }}
+                                                            </p>
+                                                        @endif
+                                                        @if($review->comment)
+                                                            <p>
+                                                                <b>Комментарий</b>
+                                                                <br/>
+                                                                {{ $review->comment }}
+                                                            </p>
+                                                        @endif
+                                                    </span>
+
+                                                <div class="review-like" id="review_{{ $review->id }}">
+                                                    <b>Вам понравился отзыв?</b>
+                                                    <span class="review_plus
+                                                            @if(isset($review->isLike->like))
+                                                    @if($review->isLike->like == 1) active @endif
+                                                    @endif" review_id="{{ $review->id }}">
+                                                            <i class="fa fa-thumbs-up"></i>
+                                                            <span class="review_number">{{ $review->likes_count ?? 0 }}</span>
+                                                        </span>
+                                                    <span class="review_minus
+                                                            @if(isset($review->isLike->like))
+                                                    @if($review->isLike->like == 0) active @endif
+                                                    @endif" review_id="{{ $review->id }}">
+                                                            <i class="fa fa-thumbs-down "></i>
+                                                            <span class="review_number">{{ $review->dis_likes_count ?? 0 }}</span>
+                                                        </span>
+                                                </div>
+
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+
+
+                            @if($reviews->isNotEmpty())
+                                {!! $reviews->links("pagination::default", ['class' => 'reviews-pagination']) !!}
+                            @endif
+
+
+                        </div>
+                    </div>
+                    <!-- /Reviews -->
+
+                    <!-- Review Form -->
+                    <div class="col-md-3">
+                        <div id="review-form">
+                            <form class="review-form" action="javascript:void(null);" onsubmit="writeReview(this); return false;" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}"/>
+                                <input  class="input" name="name" placeholder="Введите имя *" @auth value="{{ Auth::user()->name }}" @endauth type="text"/>
+                                <input  class="input" name="email" placeholder="Введите e-mail" @auth value="{{ Auth::user()->email }}" @endauth type="text"/>
+                                <textarea class="input" name="plus" placeholder="Что вам понравилось"></textarea>
+                                <textarea class="input" name="minus" placeholder="Опишите недостатки"></textarea>
+                                <textarea class="input" name="comment" placeholder="Введите комментарий *"></textarea>
+                                <div class="input-rating">
+                                    <span>Оценка *: </span>
+                                    <div class="stars">
+                                        <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
+                                        <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
+                                        <input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
+                                        <input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
+                                        <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
+                                    </div>
+                                </div>
+                                <button class="primary-btn" type="submit">
+                                    <img class="ajax-loader" src="/site/images/ajax-loader.gif"/>
+                                    Отправить отзыв
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /Review Form -->
+                </div>
+            </div>
+            <!-- /reviews  -->
+        @endif
+
+
+        @if($product->youtube)
+            <h2 class="text-center tab-title">Видео обзор</h2>
+            <div class="text-center">
+                <iframe
+                        frameborder="0"
+                        allowfullscreen="1"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        title="YouTube video player"
+                        width="640"
+                        height="360"
+                        src="https://www.youtube.com/embed/{{ $product->youtube }}?rel=0&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fkaspi.kz&amp;widgetid=1">
+                </iframe>
+            </div>
+        @endif
+
+
+
+    </div>
+    <!-- /product tab content  -->
+
 </div>
 <!-- /SECTION -->
 

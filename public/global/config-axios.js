@@ -1,6 +1,6 @@
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
-    console.log(response);
+
     // Do something with response data
     return response;
 }, function (error) {

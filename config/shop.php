@@ -1,12 +1,12 @@
 <?php
 return [
     'attributes_path_file' => 'uploads/attributes/',
-    'products_path_file' => 'uploads/products/',
-    'carriers_path_file' => 'uploads/carriers/',
-    'payments_path_file' => 'uploads/payments/',
+    'products_path_file'   => 'uploads/products/',
+    'carriers_path_file'   => 'uploads/carriers/',
+    'payments_path_file'   => 'uploads/payments/',
     'categories_path_file' => 'uploads/categories/',
-    'sliders_path_file' => 'uploads/sliders/',
-    'news_path_file' => 'uploads/news/',
+    'sliders_path_file'    => 'uploads/sliders/',
+    'news_path_file'       => 'uploads/news/',
 
     'social_network' =>
         [
@@ -14,6 +14,11 @@ return [
                 'url'   => 'https://www.instagram.com/mihome.kz',
                 'token' => '4233405290.1677ed0.e5692138251945c9a0f76180a4885e49',
                 'icon'  => '/site/images/social-network/instagram.jpg',
+                'title' => 'Вы в Instagram'
+            ],
+            'vk' => [
+                'url'   => 'https://vk.com/mihome_kz',
+                'icon'  => '/site/images/social-network/vk.png',
                 'title' => 'Вы в Instagram'
             ],
             'yandex' => [

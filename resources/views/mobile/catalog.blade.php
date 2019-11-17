@@ -101,6 +101,14 @@
         <input id="productsAttributesFilters" type="hidden" value='<?=json_encode($productsAttributesFilters);?>'/>
         <input id="filters"                   type="hidden" value='<?=json_encode($filters);?>'/>
 
+
+        @if($category->description)
+            <div class="container description">
+                <h2 class="text-center">{{ $category->name }}</h2>
+                {!! $category->description  !!}
+            </div>
+        @endif
+
         @include('mobile.includes.footer')
 
 @endsection

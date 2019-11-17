@@ -4,7 +4,6 @@ namespace App\Models;
 
 
 use App\Services\ServiceCategory;
-use App\Services\ServiceCity;
 use App\Services\ServiceDB;
 use App\Services\ServiceUploadUrl;
 use Illuminate\Database\Eloquent\Model;
@@ -42,7 +41,8 @@ class Product extends Model
         'youtube',
         'view_count',
         'reviews_rating_avg',
-        'reviews_count'
+        'reviews_count',
+        'description_full_screen'
 	];
 
     public function scopeIsActive($query){
@@ -446,27 +446,8 @@ class Product extends Model
         return '';
     }
 
-
-
-
-
-    public function detailUrlProduct($city_code = ''){
-
-        if(!$city_code)
-        {
-            $city = ServiceCity::getCurrentCity();
-            $city_code = $city->code;
-        }
-
-        if($city_code == 'almaty')
-            $city_code = '';
-
-        if($city_code)
-        {
-            return route('productDetailCity',    ['product_url' => $this->url, 'city' => $city_code]);
-        }else{
-            return route('productDetailDefault', ['product_url' => $this->url]);
-        }
+    public function detailUrlProduct(){
+        return route('productDetailDefault', ['product_url' => $this->url]);
     }
 
     public function detailUrlProductAdmin(){

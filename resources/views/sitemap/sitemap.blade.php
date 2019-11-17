@@ -9,10 +9,8 @@
         <loc>{{ route('sitemap.news') }}</loc>
         <lastmod><?php echo date('c'); ?></lastmod>
     </sitemap>
-    @foreach($cities as $city)
-        <sitemap>
-            <loc>{{ route('sitemap.' . $city->code) }}</loc>
-            <lastmod><?php echo date('c'); ?></lastmod>
-        </sitemap>
-    @endforeach
+    <sitemap>
+        <loc>{{ route('sitemap.products') }}</loc>
+        <lastmod><?php echo date('c'); ?></lastmod>
+    </sitemap>
 </sitemapindex>

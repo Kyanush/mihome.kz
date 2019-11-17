@@ -38,16 +38,16 @@ class ProductController extends Controller
     public function productDetailMain($city, $product_url, $category_url)
     {
 
-        /*
-        if(isset($_GET['dddyyyyd']))
+
+        if(isset($_GET['dddyyyydffff']))
         {
-            $products = Product::WhereIn('id', [1293, 1294, 1295, 1296, 1297, 1307, 1308, 1309])->get();
+            $products = Product::WhereIn('id', [1284, 1285, 1286, 1287, 1288, 1289, 1290, 1291])->get();
             foreach ($products as $product)
             {
 
                 $product->attributes()->detach();
 
-                $t_attribute_product_value = DB::select('SELECT * FROM `t_attribute_product_value` WHERE `product_id` = 1292');
+                $t_attribute_product_value = DB::select('SELECT * FROM `t_attribute_product_value` WHERE `product_id` = 1283');
                 foreach ($t_attribute_product_value as $value) {
 
                     if ($value->value)
@@ -56,7 +56,7 @@ class ProductController extends Controller
                 }
             }
         }
-        */
+
 
         $product = Product::productInfoWith()
                             ->with(['images' => function($query){

@@ -297,6 +297,12 @@
                             </li>
                         </ul>
                     </li>
+                    <li v-bind:class="{'active' : menu_active('/settings/')}">
+                        <router-link :to="{ path: '/settings'}">
+                            <i class="fa fa-cogs"></i>
+                            <span>Настройки</span>
+                        </router-link>
+                    </li>
                     <!--
 
                                         <li><a href="http://estarter-ecommerce-for-laravel/admin/notification-templates"><i class="fa fa-list"></i> <span>Notification Templates</span></a></li>

@@ -325,7 +325,12 @@
                                             <td width="25%" class="text-right">
                                                 <label><span class="red">*</span> Описание:</label>
                                             </td>
-                                            <td width="75%"></td>
+                                            <td width="75%">
+                                                <select v-model="product.description_full_screen" class="form-control">
+                                                    <option value="1">На весь экран - да</option>
+                                                    <option value="0">На весь экран - нет</option>
+                                                </select>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td width="100%" colspan="2">
@@ -878,7 +883,8 @@
                     youtube: '',
                     view_count: 0,
                     reviews_rating_avg: 0,
-                    reviews_count: 0
+                    reviews_count: 0,
+                    description_full_screen: 0
                 },
                 product_photo_upload_type: 'file',
                 product_accessories: [],
@@ -1136,6 +1142,7 @@
                                 this.product.view_count       = product.view_count;
                                 this.product.reviews_rating_avg = product.reviews_rating_avg;
                                 this.product.reviews_count      = product.reviews_count;
+                                this.product.description_full_screen      = product.description_full_screen;
 
                                 this.groupProducts(product.group_id);
 

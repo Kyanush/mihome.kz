@@ -27,7 +27,7 @@
         <div class="catalog-sub-items">
             <ul class="catalog-sub-items__list">
                 <li class="catalog-sub-items__el">
-                    <a href="{{ $category->catalogUrl($currentCity->code) }}" class="catalog-sub-item">
+                    <a href="{{ $category->catalogUrl() }}" class="catalog-sub-item">
                         <img class="lazy" width="50px" data-original="{{ $category->pathImage(true) }}"/>
                         <b class="catalog-sub-item__title">Все {{ $category->name }}</b>
                         <span class="catalog-sub-item__icon icon icon_chevron"></span>
@@ -38,7 +38,7 @@
                         @php
                             $items = $item->children()->orderBy('sort')->get();
                         @endphp
-                        <a href="{{ $items->isNotEmpty() ? route('category_menu_mobile', ['category' => $item->url]) : $item->catalogUrl($currentCity->code) }}" class="catalog-sub-item">
+                        <a href="{{ $items->isNotEmpty() ? route('category_menu_mobile', ['category' => $item->url]) : $item->catalogUrl() }}" class="catalog-sub-item">
 
                             <img class="lazy" width="50px" data-original="{{ $item->pathImage(true) }}"/>
 

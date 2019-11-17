@@ -4,7 +4,7 @@
 
     @foreach($products as $product)
         <url>
-            <loc>{{ $product->detailUrlProduct($city->code) }}</loc>
+            <loc>{{ $product->detailUrlProduct() }}</loc>
             <lastmod><?php echo date('c', strtotime($product->updated_at)); ?></lastmod>
             <changefreq>weekly</changefreq>
             <priority>1.0</priority>
@@ -18,7 +18,7 @@
 
     @foreach($categories as $category)
         <url>
-            <loc>{{ $category->catalogUrl($city->code) }}</loc>
+            <loc>{{ $category->catalogUrl() }}</loc>
             <lastmod><?php echo date('c', strtotime($category->updated_at)); ?></lastmod>
             <changefreq>weekly</changefreq>
             <priority>0.5</priority>

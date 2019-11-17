@@ -1,7 +1,3 @@
-@php
-    $currentCity = \App\Services\ServiceCity::getCurrentCity();
-@endphp
-
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
@@ -102,12 +98,6 @@
                     <a href="#" onclick="modalShow('.callback')">
                         <i class="fa fa-phone"></i>
                         Обратный звонок
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="modalShow('.select-city')">
-                        <i class="fa fa-building-o" aria-hidden="true"></i>
-                        Город: {{ $currentCity->name }}
                     </a>
                 </li>
                 @guest
@@ -274,7 +264,7 @@
                                 $categories2 = $category1->children()->isActive()->orderBy('sort')->get();
                             @endphp
                             <li @if($categories2->isNotEmpty()) class="hassubs" @endif>
-                                <a href="{{ $category1->catalogUrl($currentCity->code) }}">
+                                <a href="{{ $category1->catalogUrl() }}">
                                     <img data-original="{{ $category1->pathImage(true) }}" class="lazy-my"/>
                                     {{ $category1->name }}
                                     <i class="fa fa-chevron-right"></i>
@@ -286,7 +276,7 @@
                                                 $categories3 = $category2->children()->isActive()->orderBy('sort')->get();
                                             @endphp
                                             <li @if($categories3->isNotEmpty()) class="hassubs" @endif>
-                                                    <a href="{{ $category2->catalogUrl($currentCity->code) }}">
+                                                    <a href="{{ $category2->catalogUrl() }}">
                                                         <img data-original="{{ $category2->pathImage(true) }}" class="lazy-my"/>
                                                         {{ $category2->name }}
                                                         <i class="fa fa-chevron-right"></i>
@@ -301,7 +291,7 @@
                                                                                 ->get();
                                                                     @endphp
                                                                     <li @if($categories4->isNotEmpty()) class="hassubs" @endif>
-                                                                        <a href="{{ $category3->catalogUrl($currentCity->code) }}">
+                                                                        <a href="{{ $category3->catalogUrl() }}">
                                                                             <img data-original="{{ $category3->pathImage(true) }}"  class="lazy-my"/>
                                                                             {{ $category3->name }}
                                                                             <i class="fa fa-chevron-right"></i>
@@ -310,7 +300,7 @@
                                                                             <ul>
                                                                                @foreach($categories4 as $category4)
                                                                                <li>
-                                                                                    <a href="{{ $category4->catalogUrl($currentCity->code) }}">
+                                                                                    <a href="{{ $category4->catalogUrl() }}">
                                                                                          <img data-original="{{ $category4->pathImage(true) }}"  class="lazy-my"/>
                                                                                         {{ $category4->name }}
                                                                                     </a>
@@ -445,19 +435,16 @@
                     </div>
                 </div>
 
-                @php
-                    $city = $currentCity['code'] == 'almaty' ? '' : '/' . $currentCity['code'];
-                @endphp
                 <div class="col-md-3 col-xs-12">
                     <div class="footer">
                         <h3 class="footer-title">Каталог</h3>
                         <ul class="footer-links">
-                            <li><a href="{{$city}}/catalog/smartfony-xiaomi">Смартфоны Xiaomi</a></li>
-                            <li><a href="{{$city}}/catalog/gadzhety">Гаджеты и устройства</a></li>
-                            <li><a href="{{$city}}/catalog/transport">Электронный транспорт</a></li>
-                            <li><a href="{{$city}}/catalog/naushniki-i-kolonki">Наушники и колонки</a></li>
-                            <li><a href="{{$city}}/catalog/aksessuary">Аксессуары</a></li>
-                            <li><a href="{{$city}}/catalog/zaryadnye-ustroystva">Зарядные устройства</a></li>
+                            <li><a href="/catalog/smartfony-xiaomi">Смартфоны Xiaomi</a></li>
+                            <li><a href="/catalog/gadzhety">Гаджеты и устройства</a></li>
+                            <li><a href="/catalog/transport">Электронный транспорт</a></li>
+                            <li><a href="/catalog/naushniki-i-kolonki">Наушники и колонки</a></li>
+                            <li><a href="/catalog/aksessuary">Аксессуары</a></li>
+                            <li><a href="/catalog/zaryadnye-ustroystva">Зарядные устройства</a></li>
                         </ul>
                     </div>
                 </div>
@@ -587,7 +574,7 @@
 
                             <ul>
                                 <li>
-                                    <a href="{{ $category->catalogUrl($currentCity->code) }}">
+                                    <a href="{{ $category->catalogUrl() }}">
                                                         <span>
                                                             <i class="{{ $category->class }} fa-3x"></i>
                                                         </span>
@@ -596,7 +583,7 @@
                                 </li>
                                 @foreach($categories as $key => $item)
                                     <li>
-                                        <a href="{{ $item->catalogUrl($currentCity->code) }}">
+                                        <a href="{{ $item->catalogUrl() }}">
                                                         <span>
                                                             @if($item->image)
                                                                 <img src="{{ $item->pathImage(true) }}"/>
@@ -812,9 +799,7 @@
 <!-- jivosite -->
 
 @yield('add_in_end')
-
 @include('includes.analytics_body')
-
 @include('includes.analytics')
 
 

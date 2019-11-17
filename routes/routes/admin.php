@@ -152,5 +152,9 @@ Route::group(['middleware' => ['role:admin'], 'prefix'     => 'admin', 'namespac
         Route::get('news-view/{id}',          'NewsController@view')->where(['id' => '[0-9]+']);
         Route::post('news-delete/{id}',       'NewsController@delete')->where(['id' => '[0-9]+']);
 
+        //Настройки
+        Route::post('save-settings',    'SettingController@saveSetting');
+        Route::get('get-settings',      'SettingController@getSetting');
+
     }
 });

@@ -233,89 +233,68 @@
     <div class="mount-sellers-offers _short-list" id="sellers">
         <div class="sellers-offers _short-list">
 
-            <div class="container-title">Другие варианты</div>
-            <div class="_sellers-offers">
-                <div class="container loan-selector g-bb-fat" style="height: auto;">
+            @if(count($group_products) > 1)
+                <div class="container-title">Другие варианты</div>
+                <div class="_sellers-offers">
+                    <div class="container loan-selector g-bb-fat" style="height: auto;">
 
+                            <select class="select-redirect">
+                                <option value="">Другие варианты</option>
+                                @foreach($group_products as $group_product)
+                                    <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected disabled @endif>
+                                        {{ $group_product->name }}
+                                        -
+                                        {{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }}
+                                    </option>
+                                @endforeach
+                            </select>
 
-                        <select class="select-redirect">
-                            <option value="">Другие варианты</option>
-                            @foreach($group_products as $group_product)
-                                <?php
-                                $attributes = [];
-                                foreach($group_product->attributes as $attribute)
-                                {
-                                    $attributes[ $attribute->id ] = $attribute;
-                                }
-                                $attribute = $attributes[50] ?? false;
-                                $ram_size  = $attributes[52] ?? false;
-                                $memory    = $attributes[53] ?? false;
-                                ?>
-                                @if($attribute)
-                                    @if($attribute->pivot->value)
-                                        @php
-                                            $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
-                                                $query->where('value', $attribute->pivot->value);
-                                                $query->orWhere('id',  $attribute->pivot->value);
-                                            })->first();
-                                        @endphp
-                                        <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected disabled @endif>
-                                            {{ $attribute->pivot->value }}
-                                            -
-                                            {{ $ram_size ? $ram_size->pivot->value : '' }}/{{ $memory ? $memory->pivot->value : '' }}
-                                            -
-                                            {{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }}
-                                        </option>
-                                    @endif
-                                @endif
-                            @endforeach
-                        </select>
+                        @if(false)
+                        <div class="loan-selector__text-before">Цвет</div>
+                        <div class="loan-selector__els g-fl-r ">
+                            <div class="loan-selector__els-row">
 
-                    @if(false)
-                    <div class="loan-selector__text-before">Цвет</div>
-                    <div class="loan-selector__els g-fl-r ">
-                        <div class="loan-selector__els-row">
+                                @foreach($group_products as $group_product)
+                                    @foreach($group_product->attributes as $attribute)
+                                        @if($attribute->id == 50 and $attribute->pivot->value)
+                                            <a title="{{ $attribute->pivot->value . '-' . $group_product->name }}" class="loan-selector__el" href="{{ $group_product->detailUrlProduct() }}">
 
-                            @foreach($group_products as $group_product)
-                                @foreach($group_product->attributes as $attribute)
+                                                @php
+                                                    $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
+                                                        $query->where('value', $attribute->pivot->value);
+                                                        $query->orWhere('id',  $attribute->pivot->value);
+                                                    })->first();
+                                                @endphp
+
+                                                <div style="background: {{ $attributeValue->props ?? '#fff' }}"></div>
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+
+                                @foreach($product->attributes as $attribute)
                                     @if($attribute->id == 50 and $attribute->pivot->value)
-                                        <a title="{{ $attribute->pivot->value . '-' . $group_product->name }}" class="loan-selector__el" href="{{ $group_product->detailUrlProduct() }}">
+                                            <a title="{{ $attribute->pivot->value . '-' . $product->name }}" class="loan-selector__el _active">
 
-                                            @php
-                                                $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
-                                                    $query->where('value', $attribute->pivot->value);
-                                                    $query->orWhere('id',  $attribute->pivot->value);
-                                                })->first();
-                                            @endphp
+                                                @php
+                                                    $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
+                                                        $query->where('value', $attribute->pivot->value);
+                                                        $query->orWhere('id',  $attribute->pivot->value);
+                                                    })->first();
+                                                @endphp
 
-                                            <div style="background: {{ $attributeValue->props ?? '#fff' }}"></div>
-                                        </a>
+                                                <div style="background: {{ $attributeValue->props ?? '#fff' }}"></div>
+                                            </a>
                                     @endif
                                 @endforeach
-                            @endforeach
 
-                            @foreach($product->attributes as $attribute)
-                                @if($attribute->id == 50 and $attribute->pivot->value)
-                                        <a title="{{ $attribute->pivot->value . '-' . $product->name }}" class="loan-selector__el _active">
-
-                                            @php
-                                                $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
-                                                    $query->where('value', $attribute->pivot->value);
-                                                    $query->orWhere('id',  $attribute->pivot->value);
-                                                })->first();
-                                            @endphp
-
-                                            <div style="background: {{ $attributeValue->props ?? '#fff' }}"></div>
-                                        </a>
-                                @endif
-                            @endforeach
-
+                            </div>
                         </div>
-                    </div>
-                    @endif
+                        @endif
 
+                    </div>
                 </div>
-            </div>
+            @endif
 
             @include('mobile.includes.product_slider', ['products' => $products_interested, 'title' => 'С этим товаром покупаю', 'url' => ''])
 
@@ -349,18 +328,7 @@
 
 
 
-            <div class="container-title">Отзывы</div>
-            <div class="container">
-                <div type="lis-comments"
-                     lis-widget="reviews"
-                     data-id="{{ $product->id }}"
-                     data-title="{{ $product->name_short ? $product->name_short : $product->name }}"></div>
-            </div>
-            <div class="container g-pa0 g-bb-fat">
-                <a href="{{ $product->detailUrlProduct() }}?view=reviews" class="link-more _link-reviews">
-                    Еще отзывов
-                </a>
-            </div>
+
 
 
 
@@ -395,12 +363,26 @@
             <div class="container-title">Описание</div>
             <div class="container">
                 <div class="short-description" itemprop="description">
-                    {!! strip_tags(\App\Tools\Helpers::closeTags(\App\Tools\Helpers::limitWords($product->description, 30))) !!}
+                    {!! strip_tags(\App\Tools\Helpers::closeTags(\App\Tools\Helpers::limitWords($product->description, 60))) !!}
                 </div>
             </div>
             <div class="container g-pa0 g-bb-fat">
                 <a href="{{ $product->detailUrlProduct() }}?view=descriptions" class="link-more _link-description">
                     Подробнее
+                </a>
+            </div>
+
+
+            <div class="container-title">Отзывы</div>
+            <div class="container">
+                <div type="lis-comments"
+                     lis-widget="reviews"
+                     data-id="{{ $product->id }}"
+                     data-title="{{ $product->name_short ? $product->name_short : $product->name }}"></div>
+            </div>
+            <div class="container g-pa0 g-bb-fat">
+                <a href="{{ $product->detailUrlProduct() }}?view=reviews" class="link-more _link-reviews">
+                    Еще отзывов
                 </a>
             </div>
 

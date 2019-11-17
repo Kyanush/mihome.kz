@@ -54,23 +54,24 @@ Route::group(['namespace'  => 'Site'], function () {
     Route::get('c/{category}', 'CatalogController@c')->where(['category'])->name('category_menu_mobile');
 
     //каталог
-    Route::get('{city}/catalog/{category}'   . $params,  'CatalogController@catalogCity')
-        ->where(['city'])
-        ->where(['category'])
-        ->name('catalogCity');
-
+    Route::get('{city}/catalog/{category}', function($city, $category) {
+        return redirect()->route('catalog', ['category' => $category]);
+    });
     Route::get('catalog/{category}'          . $params,  'CatalogController@catalog')
         ->where(['category'])
         ->name('catalog');
+
 
     //товар детально
     Route::get('p/{product_url}',         'ProductController@productDetailDefault')
         ->where(['product_url'])
         ->name('productDetailDefault');
-    Route::get('{city}/p/{product_url}',  'ProductController@productDetailCity')
-        ->where(['city'])
-        ->where(['product_url'])
-        ->name('productDetailCity');
+
+    Route::get('{city}/p/{product_url}', function($city, $product_url) {
+        return redirect()->route('productDetailDefault', ['product_url' => $product_url]);
+    });
+
+
 
     //мобильный получить картинки
     Route::post('product-images/{product_id}',   'ProductController@productImages')->where(['product_id' => '[0-9]+']);

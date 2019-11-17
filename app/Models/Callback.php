@@ -50,10 +50,19 @@ class Callback extends Model
 
             if(env('APP_TEST') == 0)
             {
-                $subject = env('APP_NAME') . ' - ' . $modal->type;
-                Mail::send('mails.callback', ['data' => $modal, 'subject' => $subject], function ($m) use ($subject) {
-                    $m->to(env('MAIL_ADMIN'))->subject($subject);
+
+                $settings = Setting::where('key', 'сallback_notification_email')->get();
+                $emails = $settings->map(function ($item) {
+                    return  [ $item->value ];
                 });
+
+                if(count($emails) > 0)
+                {
+                    $subject = env('APP_NAME') . ' - ' . $modal->type;
+                    Mail::send('mails.callback', ['data' => $modal, 'subject' => $subject], function ($m) use ($subject, $emails) {
+                        $m->to($emails)->subject($subject);
+                    });
+                }
             }
         });
 

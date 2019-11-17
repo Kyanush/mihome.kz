@@ -196,15 +196,7 @@
                 </div>
                 <!-- /row -->
 
-                @if(false)
-                    @include('site.includes.product_slider', ['products' => $productsHitViewed, 'title' => 'Хиты'])
-                @endif
-
-                @if(isset($category->description))
-                    @if($category->description)
-                        {!! $category->description  !!}
-                    @endif
-                @endif
+                {!! $category->description  !!}
 
             </div>
             <!-- /container -->

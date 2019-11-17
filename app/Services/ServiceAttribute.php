@@ -19,9 +19,14 @@ class ServiceAttribute
             {
                 foreach ($data['values'] as $key => $item)
                 {
-                    if (intval($item['is_delete'])){
+
+                    if(empty($item['id']) and empty($item['value']))
+                        continue;
+
+                    if (intval($item['is_delete']) or (!empty($item['id']) and empty($item['value']))){
                         AttributeValue::destroy($item['id']);
                     }else{
+
                         $value = $attribute->values()->findOrNew($item['id']);
 
                         if ($attribute->type == 'media') {
@@ -40,9 +45,6 @@ class ServiceAttribute
 
                                 $item['value'] = $upload->save();
                             }
-                        } else {
-                            if (empty($item['value']))
-                                continue;
                         }
 
                         if ($attribute->type != 'color') {

@@ -8,14 +8,14 @@
 
 namespace App\Tools;
 
-use App\Services\ServiceCity;
 
 class Seo
 {
 
+    public static $city = 'Алматы, Нур-Султане (Астана), Шымкенте, Караганде';
+
     public static function main(){
-        //$city     = ServiceCity::getCurrentCity();
-        //$siteName = env('APP_NAME');
+
 
 
 
@@ -33,15 +33,18 @@ class Seo
 
     public static function productDetail($product, $category){
 
-        $city     = ServiceCity::getCurrentCity();
+        $city = self::$city;
 
         $siteName    = env('APP_NAME');
         $title       = $product->seo_title ? $product->seo_title : $product->name;
         $keywords    = "{$product->seo_keywords}, {$category->name}, {$product->name} , купить, НИЗКАЯ ЦЕНА, Скидки, Акции, {$siteName}, характеристики, описание, отзывы, рейтинг, цена, обзоры";
-        $description = "{$product->seo_description}, {$product->name} в {$city->name}, Казахстан. Сравнивайте цены всех продавцов ✅, читайте характеристики и отзывы покупаталей ⭐, покупайте по самым выгодным условиям ⚡, заказывайте доставку в любой город Казахстана ☝.";
+
+        //$description = "{$product->seo_description}, {$product->name} в {$city}, Казахстан. Сравнивайте цены всех продавцов ✅, читайте характеристики и отзывы покупаталей ⭐, покупайте по самым выгодным условиям ⚡, заказывайте доставку в любой город Казахстана ☝.";
+
+        $description = "{$product->seo_description}【{$product->name}】; Только оригинал ✅; Гарантия 1 год ☝ Бесплатная доставка по Алматы ✌ Скидки и подарки ⭐; Адрес: Жибек Жолы 115. Доставка в Астану 1 ⚡ рабочий день. Доставка по Казахстану 1 ⚡ рабочих дня в Шымкент, Караганда, Актобе, Тараз, Павлодар, Усть-Каменогорск, Семей, Уральск, Костанай, Атырау, Кызылорда, Петропавловск, Актау, Кокшетау, Экибастуз";
 
         return [
-            'title'       => "{$title} цена, купить в {$city->name}, Казахстан",
+            'title'       => "{$title} цена, купить в {$city}, Казахстан",
             'keywords'    => $keywords,
             'description' => $description
         ];
@@ -55,17 +58,18 @@ class Seo
 
         if($category)
         {
-            $city = ServiceCity::getCurrentCity();
-            $city_name = $city->name ?? 'Алматы';
+            $city = self::$city;
 
             $keywords    = $category->seo_keywords ? $category->seo_keywords . ', ' : '';
-            $keywords    = "{$keywords}{$category->name} купить в $city_name, купить, казахстан, цена, характеристики, отзывы, обзоры, доставка";
+            $keywords    = "{$keywords}{$category->name} купить в $city, купить, казахстан, цена, характеристики, отзывы, обзоры, доставка";
 
-            $description = $category->seo_description ? $category->seo_description . ', '  : '';
-            $description = "{$description}{$category->name} купить в $city_name, Казахстан ✅. ★ По выгодной цене ★ Официальная гарантия ★ Сервисная поддержка ❗❗❗ Только оригинал ★ Гарантия 1 год ★ Бесплатная доставка по Алматы ✌";
+            $description = "{$category->seo_description}【{$category->name}】; Только оригинал ✅; Гарантия 1 год ☝ Бесплатная доставка по Алматы ✌ Скидки и подарки ⭐; Адрес: Жибек Жолы 115. Доставка в Астану 1 ⚡ рабочий день. Доставка по Казахстану 1 ⚡ рабочих дня в Шымкент, Караганда, Актобе, Тараз, Павлодар, Усть-Каменогорск, Семей, Уральск, Костанай, Атырау, Кызылорда, Петропавловск, Актау, Кокшетау, Экибастуз";
+
+            //$description = $category->seo_description ? $category->seo_description . ', '  : '';
+            //$description = "{$description}{$category->name} купить в $city, Казахстан ✅. ★ По выгодной цене ★ Официальная гарантия ★ Сервисная поддержка ❗❗❗ Только оригинал ★ Гарантия 1 год ★ Бесплатная доставка по Алматы ✌";
 
             $title = $category->seo_title ? $category->seo_title : $category->name;
-            $title = "{$title} цена, купить в $city_name, Казахстан";
+            $title = "{$title} цена, купить в $city, Казахстан";
         }
 
         return [
