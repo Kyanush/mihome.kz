@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://asuikit.com/app/assets/uikit/css/components/dotnav.min.css">
     <script src="https://asuikit.com/app/assets/uikit/js/components/slideshow.min.js"></script>
     <script src="https://asuikit.com/app/assets/uikit/js/components/slideshow-fx.min.js"></script>
+    <script src="https://getuikit.com/v2/src/js/components/slider.js"></script>
 @stop
 
 <div class="@if(!$product->description_full_screen) description container @endif" id="description">

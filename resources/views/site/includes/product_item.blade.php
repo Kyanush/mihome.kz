@@ -92,17 +92,10 @@
                 </button>
             </a>
         @else
-            @if($product->stock > 0)
-                <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }})">
-                    <i class="fa fa-shopping-cart"></i>
-                    Добавить в корзину
-                </button>
-            @else
-                <button class="add-to-cart-btn not-available" onclick="location.href = '{{ route('checkout') }}';">
-                    <i class="fa fa-shopping-cart"></i>
-                    Нет в наличии
-                </button>
-            @endif
+            <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }})">
+                <i class="fa fa-shopping-cart"></i>
+                {{ $product->stock > 0 ? 'Добавить в корзину' : 'Оформить предзаказ' }}
+            </button>
         @endif
     </div>
 </div>

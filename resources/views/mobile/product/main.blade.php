@@ -125,9 +125,10 @@
                             <span class="item__prices-title">В наличии</span>
                             <span class="item__prices-price"><i class="fa fa-check"></i></span>
                     @else
-                            <span class="item__prices-title">Товар отсутствует</span>
-                            <span class="item__prices-price"><i class="fa fa-close"></i></span>
-                            <span class="item__add-info">При поступлении товара, цена может отличаться</span>
+                            <span class="item__prices-title">Скоро в продаже</span>
+                            <span class="item__prices-price"><i class="fa fa-hourglass-half" aria-hidden="true"></i></span>
+                            <br/>
+                            <span class="item__add-info">Ориентировочная цена</span>
                     @endif
                 </div>
                 <!--
@@ -140,24 +141,25 @@
         </div>
 
         <div class="item__info container text-center">
-            @if($product->stock > 0)
+
                 <button
                     style="padding: 1.867vw 2vw;"
                     type="button"
                     class="button _white"
                     onclick="buyIn1Click({{ $product->id }})">
-                    Купить в 1 клик
+                    {{ $product->stock > 0 ? 'Купить в 1 клик' : 'Быстрый предзаказ' }}
                 </button>
                 &nbsp;
                 <a style="padding: 1.867vw 2vw;"
                    class="button _white"
                    title="Пишите на WhatsApp"
                    target="_blank"
-                   href="https://api.whatsapp.com/send?phone=77075162636&text=Я заинтересован в покупке {{ $product->name }}, Подробнее: {{ $product->detailUrlProduct() }}">
+                   href="https://api.whatsapp.com/send?phone=77075162636&text=Я заинтересован в покупке {{ $product->name }}{{ $product->stock > 0 ? '' : '(Оформить предзаказ)' }}, Подробнее: {{ $product->detailUrlProduct() }}">
                     <i class="fa fa-whatsapp"></i>
                     Пишите на WhatsApp
                 </a>
-            @else
+
+            @if(false)
                     <form action="javascript:void(null);" onsubmit="subscribe(this); return false;" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -388,11 +390,9 @@
 
             @include('mobile.includes.product_slider', ['products' => $youWatchedProducts,  'title' => 'Вы смотрели', 'url' => ''])
 
-            @if($product->stock > 0)
-                <button type="button" class="button _big-fixed button-sellers" onclick="_addToCart({{ $product->id }})">
-                    Оформить заказ
-                </button>
-            @endif
+            <button type="button" class="button _big-fixed button-sellers" onclick="_addToCart({{ $product->id }})">
+                {{ $product->stock > 0 ? 'Оформить заказ' : 'Оформить предзаказ' }}
+            </button>
 
         </div>
     </div>

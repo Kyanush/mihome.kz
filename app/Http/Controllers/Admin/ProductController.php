@@ -103,9 +103,12 @@ class ProductController extends AdminController
 
 
             //Конкретная цена
+            //Конкретная цена
             if(!empty($request['specific_price']['reduction']))
             {
-                $product->specificPrice()->firstOrCreate($request['specific_price']);
+                $SpecificPrice = SpecificPrice::firstOrNew(['product_id' => $product->id]);
+                $SpecificPrice->fill($request['specific_price']);
+                $SpecificPrice->save();
             }else{
                 $product->specificPrice()->delete();
             }

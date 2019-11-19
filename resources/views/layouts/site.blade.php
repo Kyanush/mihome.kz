@@ -41,7 +41,7 @@
     <link rel="stylesheet" href="{{ asset('/site/css/font-awesome.min.css') }}">
 
     <!-- Custom stlylesheet sd -->
-    <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/style.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/style.min.css') }}"/>
 
 
     <!-- Vue js -->

@@ -70,12 +70,11 @@ class ServiceOrder implements OrderInterface
             if (!$order)
                 return false;
 
+            $emails = [];
 
             $settings = Setting::where('key', 'order_notification_email')->get();
-            $emails = $settings->map(function ($item) {
-                return  [ $item->value ];
-            });
-
+            foreach ($settings as $setting)
+                $emails[] = $setting->value;
 
             if($order->user_email)
                 $emails[] = $order->user_email;

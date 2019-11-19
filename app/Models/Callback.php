@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Mail;
 use DB;
 use App\Models\Status;
+use App\Models\Setting;
 
 class Callback extends Model
 {
@@ -50,11 +51,10 @@ class Callback extends Model
 
             if(env('APP_TEST') == 0)
             {
-
+                $emails = [];
                 $settings = Setting::where('key', 'сallback_notification_email')->get();
-                $emails = $settings->map(function ($item) {
-                    return  [ $item->value ];
-                });
+                foreach ($settings as $setting)
+                    $emails[] = $setting->value;
 
                 if(count($emails) > 0)
                 {

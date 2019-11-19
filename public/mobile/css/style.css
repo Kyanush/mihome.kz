@@ -4077,9 +4077,12 @@ img[data-src] {
     margin: 10px 0 0 2.667vw;
 }
 
-.item-card .hit{
-    background: #ff5858;
-    color: #fff;
+.product-label{
+    position: absolute;
+    right: 2px;
+    top: 2px;
+}
+.product-label .label{
     width: 35px;
     text-align: center;
     -webkit-border-radius: 3px;
@@ -4088,29 +4091,22 @@ img[data-src] {
     line-height: 20px;
     font-size: 10px;
     height: 20px;
-    float: right;
     margin-right: 5px;
+    margin-top: 5px;
 }
-
-.item-card .hit img{
+.product-label .hit{
+    background: #ff5858;
+    color: #fff;
+}
+.product-label .hit img{
     margin-right: 3px;
     width: 7px;
 }
-
-.item-card .new{
-    width: 35px;
-    text-align: center;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    line-height: 20px;
-    font-size: 10px;
-    height: 20px;
+.product-label .new{
     background: #29b33a;
     color: #fff;
-    float: right;
-    margin-right: 5px;
 }
+
 
 ._scroll .hit, ._scroll .new{
     float: left;

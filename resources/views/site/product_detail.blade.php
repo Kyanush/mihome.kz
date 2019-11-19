@@ -164,9 +164,10 @@
                                     </span>
                                 @else
                                     <span class="product-no-available">
-                                        <i class="fa fa-close"></i> Товар отсутствует
+                                        <i class="fa fa-hourglass-half" aria-hidden="true"></i>
+                                        Скоро в продаже
                                     </span>
-                                    <p class="firm-red">При поступлении товара, цена может отличаться</p>
+                                    <p class="firm-red">Ориентировочная цена</p>
                                 @endif
                             </div>
 
@@ -187,7 +188,7 @@
                                 </div>
                             @endif
 
-                        @if($product->stock > 0)
+
                             <div class="add-to-cart">
                                     <div class="qty-label">
                                         <div class="input-number">
@@ -206,11 +207,11 @@
                                 @else
                                     <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }}, $('#quantity').val())">
                                             <i class="fa fa-shopping-cart"></i>
-                                            Добавить в корзину
+                                            {{ $product->stock > 0 ? 'Добавить в корзину' : 'Оформить предзаказ' }}
                                         </button>
                                 @endif
-                                </div>
-                        @endif
+                            </div>
+
 
                         <ul class="product-btns">
                                 <li>
@@ -239,22 +240,23 @@
                                 </li>
                             </ul>
 
-                        @if($product->stock > 0)
+
                             <br/>
                             <ul class="add-to-cart">
                                     <li>
                                         <a class="cursor-pointer" onclick="modalShow('.one-click-order')">
                                             <i class="fa fa-shopping-cart"></i>
-                                            Купить в 1 клик
+                                            {{ $product->stock > 0 ? 'Купить в 1 клик' : 'Быстрый предзаказ' }}
                                         </a>
                                         &nbsp; &nbsp;
-                                        <a title="Пишите на WhatsApp" target="_blank" href="https://api.whatsapp.com/send?phone=77075162636&text=Я заинтересован в покупке {{ $product->name }}, Подробнее: {{ $product->detailUrlProduct() }}">
+                                        <a title="Пишите на WhatsApp" target="_blank" href="https://api.whatsapp.com/send?phone=77075162636&text=Я заинтересован в покупке {{ $product->name }} {{ $product->stock > 0 ? '' : '(Оформить предзаказ)' }}, Подробнее: {{ $product->detailUrlProduct() }}">
                                             <i class="fa fa-whatsapp"></i>
                                             Пишите на WhatsApp
                                         </a>
                                     </li>
                                 </ul>
-                        @else
+
+                            @if(false)
                             <div class="product-links">
                                     <form action="javascript:void(null);" onsubmit="subscribe(this); return false;" method="post" enctype="multipart/form-data">
                                         @csrf
@@ -274,7 +276,8 @@
                                     </form>
                                 </div>
                             <br/>
-                        @endif
+                            @endif
+
                         </span>
                 </div>
             </div>
@@ -390,6 +393,7 @@
                         <link rel="stylesheet" href="https://asuikit.com/app/assets/uikit/css/components/dotnav.min.css">
                         <script src="https://asuikit.com/app/assets/uikit/js/components/slideshow.min.js"></script>
                         <script src="https://asuikit.com/app/assets/uikit/js/components/slideshow-fx.min.js"></script>
+                        <script src="https://getuikit.com/v2/src/js/components/slider.js"></script>
                     @stop
 
                     @else

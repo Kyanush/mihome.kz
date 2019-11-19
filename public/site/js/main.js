@@ -32,6 +32,9 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
 
     });
 
+
+
+
     $('.show-more-filters').on('click', function (e){
         $(this).parents('.checkbox-filter').find('.hide').removeClass('hide');
         $(this).remove();

@@ -70,7 +70,7 @@
                                                         {{ $item->product->sku }}
                                                     </td>
                                                     <td>
-                                                        {{ $item->product->stock > 0 ? 'В наличии' : 'Нет в наличии' }}
+                                                        {{ $item->product->stock > 0 ? 'В наличии' : 'Скоро в продаже' }}
                                                     </td>
                                                     <td>
                                                         {{ \App\Tools\Helpers::priceFormat($item->product->getReducedPrice()) }}

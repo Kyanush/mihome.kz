@@ -42,7 +42,7 @@
                                      <b>Артикул:</b> {{ $item->product->sku }}
                                   </div>
                                   <div class="header-cart__name-link">
-                                     <b>Наличие:</b> {{ $item->product->stock > 0 ? 'В наличии' : 'Нет в наличии' }}
+                                     <b>Наличие:</b> {{ $item->product->stock > 0 ? 'В наличии' : 'Скоро в продаже' }}
                                   </div>
                                   <div class="header-cart__name-link">
                                      <b>Цена:</b>

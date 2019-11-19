@@ -131,11 +131,13 @@ function getProduct(product_id, callback){
     axios.post('/get-product/' + product_id).then(function (response) {
         var data = response.data;
 
-        console.log(data);
+        //console.log(data);
 
         callback(data);
     }).catch(function (error) {
-        console.log(error);
+
+        //console.log(error);
+
         alert('error');
     });
 }
@@ -249,7 +251,7 @@ function setCity(city_code){
     axios.post('/set-city/' + city_code, {
         _token: getCsrfToken()
     }).then(function (response) {
-        console.log(response);
+        //console.log(response);
         location.href = '/';
     });
 }
@@ -337,19 +339,27 @@ $(document).ready(function() {
                 reviews_count: count,
                 product_id: product_id
             }).then(function (response) {
-                console.log(response);
+                //console.log(response);
             }).catch(function (error) {
-                console.log(error);
+                //console.log(error);
             });
 
         }
 
     }, 2000);
 
+
     $("img.lazy").lazyload({
         effect: "fadeIn",
-        //threshold: -100
+        threshold: 300
     });
+
+    if($('.uk-slider').length > 0)
+    {
+        var allimages = $('.uk-slider').find('img.lazy');
+        for (var i = 0; i < allimages.length; i++)
+            $( allimages[i] ).attr("src",  $(allimages[i]).data('original'));
+    }
 
     $('.select-redirect').on('change', function(){
         var link = $(this).val();
