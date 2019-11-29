@@ -48,12 +48,13 @@ class CatalogController extends Controller
         $filters = Helpers::filtersProductsDecodeUrl($category_code);
 
         $filters['active'] = 1;
+        $filters['main']   = 1;
 
         $orderBy = Helpers::getSortedToFilter($filters);
         $column  = $orderBy['sorting_product']['column'];
         $order   = $orderBy['sorting_product']['order'];
 
-        $priceMinMax = ServiceProduct::priceMinMax(['category' => $filters['category'], 'active' => 1]);
+        $priceMinMax = ServiceProduct::priceMinMax(['category' => $filters['category'], 'active' => 1, 'main' => 1]);
         $productsAttributesFilters = ServiceProduct::productsAttributesFilters($filters);
 
 

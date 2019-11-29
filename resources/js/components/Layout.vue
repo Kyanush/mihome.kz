@@ -231,26 +231,11 @@
                             <span>Импорт/Экспорт</span>
                         </router-link>
                     </li>
-                    <li class="treeview">
-                        <a href="#">
+                    <li v-bind:class="{'active' : menu_active('/attributes/')}">
+                        <router-link :to="{ path: '/attributes'}">
                             <i class="fa fa-tag"></i>
                             <span>Атрибуты</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu" style="display: none;">
-                            <li v-bind:class="{'active' : menu_active('/attributes/')}">
-                                <router-link :to="{ path: '/attributes'}">
-                                    <i class="fa fa-tag"></i>
-                                    <span>Атрибуты</span>
-                                </router-link>
-                            </li>
-                            <li v-bind:class="{'active' : menu_active('/attributes-sets/')}">
-                                <router-link :to="{ path: '/attributes-sets'}">
-                                    <i class="fa fa-tags"></i>
-                                    <span>Наборы атрибутов</span>
-                                </router-link>
-                            </li>
-                        </ul>
+                        </router-link>
                     </li>
                     <li v-bind:class="{'active' : menu_active('/users/')}">
                         <router-link :to="{ path: '/users'}">

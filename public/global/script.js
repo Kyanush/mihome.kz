@@ -361,10 +361,30 @@ $(document).ready(function() {
             $( allimages[i] ).attr("src",  $(allimages[i]).data('original'));
     }
 
-    $('.select-redirect').on('change', function(){
+    $('#select-model-product').on('change', function(){
         var link = $(this).val();
         if(link)
             window.location = link;
     });
 
 });
+
+function validSelectModelProduct() {
+
+    if($('#select-model-product').length)
+    {
+        var value = $('#select-model-product').val();
+        if(value){
+            return true;
+        }
+    }else{
+        return true;
+    }
+
+    Swal({
+        title: 'ВНИМАНИЕ',
+        html: 'Выберите модель товара (цвет, память), нажав на поле "Выберите варинат"'
+    });
+
+    return false;
+}

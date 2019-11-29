@@ -11,6 +11,7 @@ export default function(Vue){
                     disabled: false
                 });
 
+            if(values)
             values.forEach(function(item, index){
 
                 var disabled = false;

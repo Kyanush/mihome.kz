@@ -2,7 +2,6 @@
 namespace App\Services;
 
 use App\Models\Product;
-use App\Models\ProductGroup;
 use App\Tools\CopyFile;
 
 class ServiceProductClone
@@ -31,10 +30,6 @@ class ServiceProductClone
 
         // Create clone object
         $clone = $product->replicate();
-
-        //Группа товаров
-        if(!$this->clone_group)
-            $clone->group_id = ProductGroup::create()->id;
 
         //Save cloned product
         $clone->view_count = 0;
@@ -67,7 +62,14 @@ class ServiceProductClone
         if($this->clone_attributes)
         {
             foreach ($product->attributes as $item)
-                $clone->attributes()->attach([$item->pivot->attribute_id => ['value' =>  $item->pivot->value]]);
+            {
+                $clone->attributes()->attach([
+                    $item->pivot->attribute_id => [
+                        'value' =>  $item->pivot->value,
+                        'name'  =>  $item->pivot->name
+                    ]
+                ]);
+            }
         }
 
         //Скидки
@@ -116,16 +118,8 @@ class ServiceProductClone
             }
         }
 
-        //Вопросы-ответы
-        if($this->clone_questions_answers)
-        {
-            foreach($product->questionsAnswers()->get() as $item)
-            {
-                $data = $item->toArray();
-                unset($data['id']);
-                $clone->questionsAnswers()->create($data);
-            }
-        }
+
+
 
         return true;
     }

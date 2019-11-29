@@ -345,7 +345,6 @@
                                 <thead>
                                 <tr>
                                     <th>Товар</th>
-                                    <th>Себестоимость товара</th>
                                     <th>Цена</th>
                                     <th>Количество</th>
                                     <th class="text-right">Всего</th>
@@ -360,11 +359,6 @@
                                             {{ product.pivot.name }}
                                         </router-link>
                                         <p class="font-12"><b>SKU:</b> {{ product.pivot.sku }}</p>
-                                    </td>
-                                    <td class="vertical-align-middle">
-                                        <input disabled type="text" class="form-control pull-left product-price" :value="product.pivot.cost_price"/>
-                                        &nbsp;&nbsp;
-                                        <div class="pull-left product-price-tg">тг</div>
                                     </td>
                                     <td class="vertical-align-middle">
                                         <input type="text" class="form-control pull-left product-price" v-model="product.pivot.price"/>

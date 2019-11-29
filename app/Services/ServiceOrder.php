@@ -35,7 +35,6 @@ class ServiceOrder implements OrderInterface
                     $price = $product->price;
             }
 
-            $cost_price = $product->cost_price;
 
             //findOrNew
             $order = Order::find($order_id);
@@ -45,7 +44,6 @@ class ServiceOrder implements OrderInterface
                     'name'       => $product->name,
                     'sku'        => $product->sku,
                     'price'      => $price,
-                    'cost_price' => $cost_price,
                     'quantity'   => $quantity
                 ]
             ]);

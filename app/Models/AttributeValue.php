@@ -23,6 +23,7 @@ class AttributeValue extends Model
         parent::boot();
         //Событие после
         static::Deleting(function($model){
+
             $path =  config('shop.attributes_path_file') . $model->value;
             if($model->value and File::exists(public_path($path)))
                 File::delete($path);

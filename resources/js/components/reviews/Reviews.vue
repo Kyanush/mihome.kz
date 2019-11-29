@@ -370,7 +370,6 @@
                     data.append('products_ids[' + this.product_id + ']', this.product_id);
 
                 axios.post('/admin/review', data).then(response => {
-                    console.log(response.data);
                     if(response.data){
                         this.$helper.swalSuccess(this.review.id ? 'Отзыв изменен' : 'Отзыв создан' );
                         this.getReviews();
@@ -396,8 +395,6 @@
 
                 axios.get('/admin/reviews', {params:  params}).then(response => {
                     this.reviews = response.data;
-
-                    console.log(response.data);
 
                     if(!this.product_id && !this.$route.query.review_id)
                         this.$router.push({query: params});

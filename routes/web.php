@@ -63,12 +63,12 @@ Route::group(['namespace'  => 'Site'], function () {
 
 
     //товар детально
-    Route::get('p/{product_url}',         'ProductController@productDetailDefault')
+    Route::get('p/{product_url}',         'ProductController@productDetail')
         ->where(['product_url'])
-        ->name('productDetailDefault');
+        ->name('productDetail');
 
     Route::get('{city}/p/{product_url}', function($city, $product_url) {
-        return redirect()->route('productDetailDefault', ['product_url' => $product_url]);
+        return redirect()->route('productDetail', ['product_url' => $product_url]);
     });
 
 

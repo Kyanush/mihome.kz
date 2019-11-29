@@ -6,8 +6,8 @@
 
         <div type="lis-comments"
              lis-widget="reviews"
-             data-id="{{ $product->id }}"
-             data-title="{{ $product->name_short ? $product->name_short : $product->name }}">
+             data-id="{{    $product->parent_id ? $product->parent_id    : $product->id }}"
+             data-title="{{ $product->parent_id ? $product->parent->name : $product->name }}">
         </div>
 
 

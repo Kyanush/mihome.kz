@@ -6,9 +6,7 @@ use App\Models\Attribute;
 use App\Models\AttributeProductValue;
 use App\Models\Order;
 use App\Services\ServiceUploadUrl;
-use App\Tools\Helpers;
 use File;
-use App\Models\ProductGroup;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Tools\Upload;
@@ -34,20 +32,19 @@ class ServiceProduct implements ProductInterface
                 'success' => false
             ];
 
+        foreach ($product->children as $children_product)
+        {
+            self::productDelete($children_product->id);
+        }
+
         //папка товара
         File::deleteDirectory($product->productFileFolder());
 
         //категории
         $product->categories()->detach();
 
-        //арритуты
-        if($product->attributes)
-        {
-            foreach ($product->attributes as $item)
-                if($item->type == 'media')
-                    ServiceAttributeProductValue::deleteImage($item->pivot->attribute_id, $item->pivot->value);
-            $product->attributes()->detach();
-        }
+        //атритуты
+        $product->attributes()->detach();
 
         //картинки
         $product->images()->delete();
@@ -57,9 +54,6 @@ class ServiceProduct implements ProductInterface
 
         //Отзывы
         $product->reviews()->detach();
-
-        //Вопрос-ответ
-        $product->questionsAnswers()->delete();
 
         //подписка
         $product->subscribe()->delete();
@@ -79,16 +73,8 @@ class ServiceProduct implements ProductInterface
         //Вы смотрели продукты
         $product->youWatchedProducts()->delete();
 
-
-        $group_id = $product->group_id;
-
         if($product->delete())
         {
-            //Группа товаров
-            $countGroupProducts = Product::where('group_id', $group_id)->count();
-            if(!$countGroupProducts)
-                ProductGroup::destroy($group_id);
-
             return [
                 'message' => 'Ok',
                 'success' => true
@@ -102,37 +88,6 @@ class ServiceProduct implements ProductInterface
     }
 
 
-
-    //Группа товаров
-    public static function productGroupSave(int $product_id, int $product_group_id, array $product_ids)
-    {
-        if(!is_array($product_ids) or count($product_ids) == 0)
-            return false;
-
-        $products = Product::select('id')->where('group_id', $product_group_id)->whereNotIn('id', $product_ids)->get();
-        foreach ($products as $item)
-        {
-            if($item->id == $product_id) continue;
-
-            $productGroup = ProductGroup::create();
-            Product::where('id', $item->id)->update(['group_id' => $productGroup->id]);
-        }
-
-        foreach ($product_ids as $item_product_id)
-        {
-            if($item_product_id == $product_id) continue;
-
-            $productGroupId     = Product::find($item_product_id)->group_id;
-            $countGroupProducts = Product::where('group_id', $productGroupId)->count();
-
-            Product::where('id', $item_product_id)->update(['group_id' => $product_group_id]);
-
-            if($countGroupProducts == 1)
-                ProductGroup::destroy($productGroupId);
-        }
-
-        return true;
-    }
 
     //Картинки
     public static function productImagesSave(array $images, $product_id)
@@ -198,7 +153,7 @@ class ServiceProduct implements ProductInterface
         return true;
     }
 
-    public static function productAttributesSave(int $product_id, array $attributes, bool $new_attributes)
+    public static function productAttributesSave(int $product_id, array $attributes)
     {
         if(empty($product_id) or count($attributes) == 0)
             return false;
@@ -206,56 +161,23 @@ class ServiceProduct implements ProductInterface
         $product = Product::find($product_id);
         //Атрибуты
 
-        //старые атрибуты
-        $oldAttributes = $product->attributes;
-
         //удалить все атрибуты
         $product->attributes()->detach();
 
-        if($new_attributes)
-        {
-            foreach ($oldAttributes as $oldAttr)
-            {
-                ServiceAttributeProductValue::deleteImage($oldAttr->pivot->attribute_id, $oldAttr->pivot->value);
-            }
-        }
-
         foreach ($attributes as $k => $item)
         {
+
             $item['value'] = $item['value'] ?? '';
-
-            if(!is_array($item['value']))
-                if(is_uploaded_file($item['value']))
-                {
-                    $upload = new Upload();
-                    $upload->setWidth(460);
-                    $upload->setHeight(350);
-                    $upload->setPath(config('shop.attributes_path_file'));
-                    $upload->setFile($item['value']);
-
-                    $item['value'] = $upload->save();
-
-                    //delete old image
-                    if(!$new_attributes)
-                    {
-                        foreach ($oldAttributes as $oldAttr)
-                        {
-                            if($oldAttr->pivot->attribute_id == $item['attribute_id'])
-                            {
-                                ServiceAttributeProductValue::deleteImage($oldAttr->pivot->attribute_id, $oldAttr->pivot->value);
-                            }
-                        }
-                    }
-                }
-
             $item['value'] = (array)$item['value'];
+
+            $name = $item['name'] ?? '';
 
             foreach ($item['value'] as $value)
             {
                 if($value == 'null' or empty($value))
                     continue;
 
-                $product->attributes()->attach([$item['attribute_id'] => ['value' => $value]]);
+                $product->attributes()->attach([$item['attribute_id'] => ['value' => $value, 'name' => $name]]);
             }
 
         }

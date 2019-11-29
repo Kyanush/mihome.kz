@@ -10,9 +10,6 @@ import categories_save    from  '../components/categories/Save.vue';
 import attributes_list    from  '../components/attributes/List.vue';
 import attributes_save    from  '../components/attributes/Save.vue';
 
-import attributes_sets_list    from  '../components/attributes-sets/List.vue';
-import attributes_sets_save    from  '../components/attributes-sets/Save.vue';
-
 import products_list    from  '../components/products/List.vue';
 import products_save    from  '../components/products/Save.vue';
 
@@ -21,7 +18,6 @@ import import_export   from '../components/import-export/Import-export.vue';
 
 
 import reviews    from  '../components/reviews/reviews.vue';
-import questions_answers    from  '../components/questions-answers/QuestionsAnswers.vue';
 
 
 import users_list from  '../components/users/List.vue';
@@ -177,55 +173,6 @@ export default new Router({
         },
 
 
-
-
-
-
-
-        //Attribute Sets
-        {
-            path: '/attributes-sets',
-            name: 'attributes_sets',
-            component: attributes_sets_list,
-            meta: {
-                title: 'Наборы атрибутов',
-                breadcrumb: [
-                    { title: 'Главная страница', link: '/main' },
-                ]
-            }
-        },
-        {
-            path: '/attribute-set',
-            name: 'attribute_set_create',
-            component: attributes_sets_save,
-            meta: {
-                title: 'Добавить набор атрибутов',
-                breadcrumb: [
-                    { title: 'Главная страница', link: '/main' },
-                    { title: 'Наборы атрибутов', link: '/attributes-sets' },
-                ]
-            }
-        },
-        {
-            path: '/attribute-set/:attribute_set_id',
-            name: 'attribute_set_edit',
-            component: attributes_sets_save,
-            meta: {
-                title: 'Редактировать набор атрибутов',
-                breadcrumb: [
-                    { title: 'Главная страница', link: '/main' },
-                    { title: 'Наборы атрибутов', link: '/attributes-sets' },
-                ]
-            }
-
-        },
-
-
-
-
-
-
-
         //Товары
         {
             path: '/products',
@@ -289,18 +236,6 @@ export default new Router({
             }
         },
 
-        //Вопросы-ответы
-        {
-            path: '/questions-answers',
-            component: questions_answers,
-            meta: {
-                title: 'Вопросы-ответы',
-                breadcrumb: [
-                    { title: 'Главная страница', link: '/main' },
-                    { title: 'Товары', link: '/products' },
-                ]
-            }
-        },
 
 
         /**********************************************************************************************************************/

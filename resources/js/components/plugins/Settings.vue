@@ -23,7 +23,7 @@
                 <tr>
                     <td colspan="2" class="text-right">
                         <button class="btn btn-success" @click="orderAdd">
-                             <a class="fa fa-plus"></a>
+                             <i class="fa fa-plus"></i>
                         </button>
                     </td>
                 </tr>
@@ -55,7 +55,7 @@
                      <tr>
                          <td colspan="2" class="text-right">
                              <button class="btn btn-success" @click="callbackAdd">
-                                 <a class="fa fa-plus"></a>
+                                 <i class="fa fa-plus"></i>
                              </button>
                          </td>
                      </tr>

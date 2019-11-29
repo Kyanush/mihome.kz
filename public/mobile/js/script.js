@@ -136,8 +136,11 @@ function reviewLikeRating(review_id, like){
 }
 
 function buyIn1Click(product_id){
-    app.product_id = product_id;
-    app.componentDialog = 'buy-in-1-click';
+    if(validSelectModelProduct())
+    {
+        app.product_id = product_id;
+        app.componentDialog = 'buy-in-1-click';
+    }
 }
 
 function productSliderZoom(product_id){
@@ -146,22 +149,24 @@ function productSliderZoom(product_id){
 }
 
 function _addToCart(product_id){
-    if(addToCart(product_id))
+    if(validSelectModelProduct())
     {
-        Swal.fire({
-            title: 'Товар в корзине',
-            //text: "Товар в корзине",
-            type: 'success',
-            showCancelButton: true,
-            confirmButtonColor: '#4aa90b',
-            cancelButtonColor: '#0089d0',
-            confirmButtonText: 'Оформление заказа',
-            cancelButtonText: 'Продолжить покупки',
-        }).then((result) => {
-            if (result.value) {
-                location.href = '/checkout';
-            }
-        });
+        if (addToCart(product_id)) {
+            Swal.fire({
+                title: 'Товар в корзине',
+                //text: "Товар в корзине",
+                type: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#4aa90b',
+                cancelButtonColor: '#0089d0',
+                confirmButtonText: 'Оформление заказа',
+                cancelButtonText: 'Продолжить покупки',
+            }).then((result) => {
+                if (result.value) {
+                    location.href = '/checkout';
+                }
+            });
+        }
     }
 }
 

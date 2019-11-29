@@ -89,32 +89,6 @@
                         </span>
                     </div>
 
-                    <div class="form-group col-md-12 attr-field attr-type-media image" v-if="attribute.type == 'media'" v-bind:class="{'has-error' : IsError('attribute.values.0.value')}">
-                        <div>
-                            <label>Картина по умолчанию</label>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6" style="margin-bottom: 20px;">
-                                <img width="100"  class="img" id="mainImage" src="" v-bind:src="attribute.values[0].value ? '/uploads/attributes/' + attribute.values[0].value : ''">
-                            </div>
-                        </div>
-                        <div class="btn-group">
-                            <label class="btn btn-primary btn-file">
-                                Загрузить
-                                <input type="file" accept="image/*" id="uploadImage" class="hide" @change="setFile($event)"/>
-                            </label>
-                            <button class="btn btn-danger" id="remove" type="button" @click="clearImage">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </div>
-                        <div class="btn-group">
-                            <span v-if="IsError('attribute.values.0.value')" class="help-block" v-for="e in IsError('attribute.values.0.value')">
-                                    {{ e }}
-                            </span>
-                        </div>
-                    </div>
-
-
                     <div class="form-group attr-field attr-type-text col-md-12" v-if="attribute.type == 'text'" v-bind:class="{'has-error' : IsError('attribute.values.0.value')}">
                         <label>Текст по умолчанию</label>
                         <input type="text" name="text" class="form-control" v-model="attribute.values[0].value">
@@ -334,10 +308,6 @@
                         name: 'Выбор - Dropdown'
                     },
                     {
-                        value: 'media',
-                        name: 'Картинка - Image'
-                    },
-                    {
                         value: 'color',
                         name: 'Цвет товара - Color'
                     }
@@ -407,27 +377,6 @@
                         sort: 0,
                         is_delete: 0
                     }];
-
-                this.viewImageClear();
-            },
-            clearImage(){
-                if(this.attribute.id){
-                    this.attribute.values[0].value = '';
-                }else{
-                    this.attribute.values = [{
-                        id: 0,
-                        value: '',
-                        code: '',
-                        props: '',
-                        sort: 0,
-                        is_delete: 0
-                    }];
-                }
-                this.viewImageClear();
-            },
-            viewImageClear(){
-                $('#mainImage').attr('src', null);
-                $('#uploadImage').val(null);
             },
             addOption(){
                 this.attribute.values.push({
@@ -538,12 +487,6 @@
 </script>
 
 <style scoped>
-    #add_option, .remove-option{
-        cursor: pointer;
-    }
-    img {
-        max-width: 100%;
-    }
     .resize{
         cursor: all-scroll;
     }

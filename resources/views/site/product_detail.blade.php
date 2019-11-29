@@ -167,17 +167,17 @@
                                         <i class="fa fa-hourglass-half" aria-hidden="true"></i>
                                         Скоро в продаже
                                     </span>
-                                    <p class="firm-red">Ориентировочная цена</p>
+                                    <p class="firm-red"><b style="color: #fb8800;">Ориентировочная цена</b></p>
                                 @endif
                             </div>
 
-                            @if(count($group_products) > 1)
+                            @if(count($group_products) > 0)
                                 <div class="product-options">
                                     <label>
-                                        <select class="input select-redirect">
-                                            <option value="">Другие варианты</option>
+                                        <select class="input select-redirect" id="select-model-product">
+                                            <option value="{{ $product->parent_id ? $product->parent->detailUrlProduct() : '' }}">Выберите вариант</option>
                                             @foreach($group_products as $group_product)
-                                                <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected disabled @endif>
+                                                <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected  @endif>
                                                      {{ $group_product->name }}
                                                      -
                                                      {{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }}
@@ -199,16 +199,16 @@
                                     </div>
                                 @if($product->inCart)
                                     <a href="{{ route('checkout') }}">
-                                            <button class="add-to-cart-btn product-in-basket1">
-                                                <i class="fa fa-shopping-cart"></i>
-                                                Товар в корзине
-                                            </button>
-                                        </a>
+                                        <button class="add-to-cart-btn product-in-basket1">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            Товар в корзине
+                                        </button>
+                                    </a>
                                 @else
                                     <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }}, $('#quantity').val())">
-                                            <i class="fa fa-shopping-cart"></i>
-                                            {{ $product->stock > 0 ? 'Добавить в корзину' : 'Оформить предзаказ' }}
-                                        </button>
+                                        <i class="fa fa-shopping-cart"></i>
+                                        {{ $product->stock > 0 ? 'Добавить в корзину' : 'Оформить предзаказ' }}
+                                    </button>
                                 @endif
                             </div>
 
@@ -244,7 +244,7 @@
                             <br/>
                             <ul class="add-to-cart">
                                     <li>
-                                        <a class="cursor-pointer" onclick="modalShow('.one-click-order')">
+                                        <a class="cursor-pointer" id="buy-in-one-click">
                                             <i class="fa fa-shopping-cart"></i>
                                             {{ $product->stock > 0 ? 'Купить в 1 клик' : 'Быстрый предзаказ' }}
                                         </a>
@@ -337,7 +337,7 @@
             @if($products_interested->isNotEmpty())
                 <div class="col-md-12">
                     <br/>
-                    <h3 class="aside-title">С этим товаром покупаю</h3>
+                    <h3 class="aside-title">С этим товаром покупают</h3>
                     <br/>
                     <div class="row">
                         @foreach($products_interested as $product_item)
@@ -378,23 +378,22 @@
             <div class="tab-content">
                 <div id="description" class="tab-pane fade in active" itemprop="description">
 
-
                     <!-- container -->
                     @if($product->description_full_screen)
 
                         {!! $product->description  !!}
 
-                    @section('add_in_end')
-                        <link href="/css/uk.css" rel="stylesheet" />
-                        <script src="https://asuikit.com/app/assets/uikit/js/uikit.min.js?v=9b6b"></script>
-                        <script src="https://getuikit.com/v2/src/js/components/slideset.js"></script>
-                        <link rel="stylesheet" href="https://asuikit.com/app/assets/uikit/css/components/slideshow.min.css">
-                        <link rel="stylesheet" href="https://asuikit.com/app/assets/uikit/css/components/slidenav.min.css">
-                        <link rel="stylesheet" href="https://asuikit.com/app/assets/uikit/css/components/dotnav.min.css">
-                        <script src="https://asuikit.com/app/assets/uikit/js/components/slideshow.min.js"></script>
-                        <script src="https://asuikit.com/app/assets/uikit/js/components/slideshow-fx.min.js"></script>
-                        <script src="https://getuikit.com/v2/src/js/components/slider.js"></script>
-                    @stop
+                        @section('add_in_end')
+                            <link href="/css/uk.css" rel="stylesheet" />
+                            <script src="https://asuikit.com/app/assets/uikit/js/uikit.min.js?v=9b6b"></script>
+                            <script src="https://getuikit.com/v2/src/js/components/slideset.js"></script>
+                            <link rel="stylesheet" href="https://asuikit.com/app/assets/uikit/css/components/slideshow.min.css">
+                            <link rel="stylesheet" href="https://asuikit.com/app/assets/uikit/css/components/slidenav.min.css">
+                            <link rel="stylesheet" href="https://asuikit.com/app/assets/uikit/css/components/dotnav.min.css">
+                            <script src="https://asuikit.com/app/assets/uikit/js/components/slideshow.min.js"></script>
+                            <script src="https://asuikit.com/app/assets/uikit/js/components/slideshow-fx.min.js"></script>
+                            <script src="https://getuikit.com/v2/src/js/components/slider.js"></script>
+                        @stop
 
                     @else
                         <div class="container">
@@ -407,79 +406,34 @@
                 <div id="attributes" class="tab-pane fade in">
                     <div class="container">
                         <div class="row">
-                            @php
-                                $attributes = [];
-                                foreach($product->attributes as $attribute)
-                                {
-                                    if(empty($attribute->pivot->value) or $attribute->show_product_detail == 0)
-                                        continue;
-                                    $attributes[ (int)$attribute->attribute_group_id ][] = $attribute;
-                                }
-                            @endphp
-                            @if(count($attributes) > 0)
-
-                                    <table class="table table-bordered">
-                                        @foreach(App\Models\AttributeGroup::OrderBy('sort')->get() as $attributeGroup)
-                                            @if(!isset($attributes[$attributeGroup->id]))
-                                                @continue
-                                            @endif
+                                <table class="table table-bordered">
+                                    @foreach($product->attributes as $attribute)
+                                        @if($attribute->show_product_detail == 1)
                                             <tr>
-                                                <td colspan="2">
-                                                    <b>{{ $attributeGroup->name }}</b>
+                                                <td>
+                                                    @if($attribute->description and $attribute->description != 'null')
+                                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
+                                                    @endif
+                                                    {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}
+                                                </td>
+                                                <td>
+                                                    {{ $attribute->pivot->value }}
                                                 </td>
                                             </tr>
-                                            @foreach($attributes[$attributeGroup->id] as $attribute)
-                                                <tr>
-                                                    <td>
-                                                        @if($attribute->description)
-                                                            <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
-                                                        @endif
-                                                        {{ $attribute->name }}:
-                                                    </td>
-                                                    <td>
-                                                        {{ $attribute->pivot->value }}
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                            @unset($attributes[$attributeGroup->id])
-                                        @endforeach
-
-                                        @if(count($attributes) > 0)
-                                            <tr>
-                                                <td colspan="2">
-                                                    <b>Другие</b>
-                                                </td>
-                                            </tr>
-                                            @foreach($attributes as $attribute_items)
-                                                @foreach($attribute_items as $attribute)
-                                                    <tr>
-                                                        <td>
-                                                            @if($attribute->description)
-                                                                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
-                                                            @endif
-                                                            {{ $attribute->name }}:
-                                                        </td>
-                                                        <td>
-                                                            {{ $attribute->pivot->value }}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @endforeach
                                         @endif
-                                    </table>
-
-                            @endif
+                                    @endforeach
+                                </table>
                         </div>
                     </div>
                 </div>
                 <div id="reviews" class="tab-pane fade in">
                     <div class="container">
                         <div class="row">
-                                <div type="lis-comments"
-                                     lis-widget="reviews"
-                                     data-id="{{ $product->id }}"
-                                     data-title="{{ $product->name_short ? $product->name_short : $product->name }}">
-                                </div>
+                            <div type="lis-comments"
+                                 lis-widget="reviews"
+                                 data-id="{{    $product->parent_id ? $product->parent_id    : $product->id }}"
+                                 data-title="{{ $product->parent_id ? $product->parent->name : $product->name }}">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -684,7 +638,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade one-click-order" role="dialog">
+<div class="modal fade one-click-order" role="dialog" id="popup-buy-in-one-click">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">

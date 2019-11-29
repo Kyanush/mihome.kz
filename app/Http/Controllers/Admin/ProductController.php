@@ -56,6 +56,7 @@ class ProductController extends AdminController
                     $query->dateActive();
                 }
             ])
+            ->main()
             ->filters($filters)
             ->filtersAttributes($filters)
             ->OrderBy($column, $order)
@@ -77,11 +78,6 @@ class ProductController extends AdminController
         return  $this->sendResponse($list);
     }
 
-    public function AttributeSetsMoreInfo(){
-        $list =  AttributeSet::with(['attributes.values', 'attributes.attributeGroup'])->get();
-        return  $this->sendResponse($list);
-    }
-
     public function save(SaveProductRequest $req)
     {
 
@@ -91,7 +87,6 @@ class ProductController extends AdminController
         $product = Product::findOrNew($reqProduct['id']);
         $product->fill($reqProduct);
 
-        $old_attribute_set_id = $product->attribute_set_id;
 
         if($product->save())
         {
@@ -103,7 +98,6 @@ class ProductController extends AdminController
 
 
             //Конкретная цена
-            //Конкретная цена
             if(!empty($request['specific_price']['reduction']))
             {
                 $SpecificPrice = SpecificPrice::firstOrNew(['product_id' => $product->id]);
@@ -114,17 +108,17 @@ class ProductController extends AdminController
             }
 
             //Атрибуты
+            /*
             ServiceProduct::productAttributesSave(
                 $product->id,
                 $request['attributes'],
                 $old_attribute_set_id == $reqProduct['attribute_set_id'] ? false : true
             );
+            */
 
             //Картинки
             ServiceProduct::productImagesSave($request['product_images'] ?? [], $product->id);
 
-            //Группа товаров
-            ServiceProduct::productGroupSave($product->id, $product->group_id, $request['products_ids_group'] ?? []);
 
             //С этим товаром покупают
             if(isset($request['accessories_product_ids']))
@@ -140,7 +134,11 @@ class ProductController extends AdminController
             'attributes',
             'specificPrice',
             'images',
-            'productAccessories'
+            'productAccessories',
+            'parent',
+            'children' => function($query){
+                $query->OrderBy('price');
+            }
         ])->findOrFail($id);
 
         //фото товара
@@ -150,10 +148,6 @@ class ProductController extends AdminController
         $categories = $product->categories->pluck('id');
 
 
-        //атрибуты
-        $attributes = [];
-        foreach ($product->attributes as $item)
-            $attributes[$item->pivot->attribute_id][] = $item->pivot->value;
 
 
         //картинки
@@ -182,28 +176,11 @@ class ProductController extends AdminController
             'product'             => $product,
             'product_accessories' => $product_accessories,
             'images'              => $images,
-            'attributes'          => $attributes,
             'categories'          => $categories,
             'specific_price'      => $product->specificPrice
         ]);
     }
 
-    public function groupProducts($group_id)
-    {
-        $products = Product::where('group_id', $group_id)->get();
-
-        $products = $products->map(function ($item) {
-            return  [
-                'id'         => $item->id,
-                'name'       => $item->name,
-                'sku'        => $item->sku,
-                'price'      => $item->price,
-                'active'     => $item->active
-            ];
-        });
-
-        return  $this->sendResponse($products);
-    }
 
     public function delete($product_id)
     {
@@ -293,10 +270,10 @@ class ProductController extends AdminController
         $product = Product::find($id);
         $product->stock  = $stock;
         $product->price  = $price;
-        $product->name_short  = $request->input('name_short');
         $product->active = $active;
 
         return $this->sendResponse($product->save() ? true : false);
     }
+
 
 }

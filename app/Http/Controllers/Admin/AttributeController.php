@@ -16,7 +16,7 @@ class AttributeController extends AdminController
     {
         $list =  Attribute::search($request->input('search'))
                             ->OrderBy('id', 'DESC')
-                            ->with('attributeGroup')
+                            ->with(['attributeGroup', 'values'])
                             ->paginate($request->input('per_page', 100));
         return  $this->sendResponse($list);
     }

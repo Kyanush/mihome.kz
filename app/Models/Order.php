@@ -151,7 +151,7 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany('App\Models\Product')->withPivot(['name', 'sku', 'price', 'cost_price', 'quantity']);
+        return $this->belongsToMany('App\Models\Product')->withPivot(['name', 'sku', 'price', 'quantity']);
     }
 
 

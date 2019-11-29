@@ -10,6 +10,7 @@ class AttributeProductValue extends Model
     protected $fillable = [
     	'product_id',
     	'attribute_id',
+        'name',
     	'value'
 	];
 
@@ -17,16 +18,11 @@ class AttributeProductValue extends Model
     {
         parent::boot();
 
-        /*
         //Событие до
         static::Deleting(function($modal) {
 
-            $attributeValue = AttributeValue::where('attribute_id', $modal->attribute_id, 'value', $modal->value)->first();
-            if($modal->value and empty($attributeValue))
-                File::delete(config('shop.attributes_path_file') . $modal->value);
-
         });
-        */
+
     }
 
     public function product()

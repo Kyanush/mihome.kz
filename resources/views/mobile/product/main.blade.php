@@ -128,7 +128,7 @@
                             <span class="item__prices-title">Скоро в продаже</span>
                             <span class="item__prices-price"><i class="fa fa-hourglass-half" aria-hidden="true"></i></span>
                             <br/>
-                            <span class="item__add-info">Ориентировочная цена</span>
+                            <span class="item__add-info"><b style="color: #fb8800;">Ориентировочная цена</b></span>
                     @endif
                 </div>
                 <!--
@@ -139,6 +139,23 @@
                 </div>-->
             </div>
         </div>
+
+
+        @if(count($group_products) > 0)
+            <div class="item__info container">
+                <select class="select-redirect" id="select-model-product">
+                    <option value="{{ $product->parent_id ? $product->parent->detailUrlProduct() : '' }}">Выберите вариант</option>
+                    @foreach($group_products as $group_product)
+                        <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected @endif>
+                            {{ $group_product->name }}
+                            -
+                            {{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
+
 
         <div class="item__info container text-center">
 
@@ -235,86 +252,22 @@
     <div class="mount-sellers-offers _short-list" id="sellers">
         <div class="sellers-offers _short-list">
 
-            @if(count($group_products) > 1)
-                <div class="container-title">Другие варианты</div>
-                <div class="_sellers-offers">
-                    <div class="container loan-selector g-bb-fat" style="height: auto;">
-
-                            <select class="select-redirect">
-                                <option value="">Другие варианты</option>
-                                @foreach($group_products as $group_product)
-                                    <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected disabled @endif>
-                                        {{ $group_product->name }}
-                                        -
-                                        {{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }}
-                                    </option>
-                                @endforeach
-                            </select>
-
-                        @if(false)
-                        <div class="loan-selector__text-before">Цвет</div>
-                        <div class="loan-selector__els g-fl-r ">
-                            <div class="loan-selector__els-row">
-
-                                @foreach($group_products as $group_product)
-                                    @foreach($group_product->attributes as $attribute)
-                                        @if($attribute->id == 50 and $attribute->pivot->value)
-                                            <a title="{{ $attribute->pivot->value . '-' . $group_product->name }}" class="loan-selector__el" href="{{ $group_product->detailUrlProduct() }}">
-
-                                                @php
-                                                    $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
-                                                        $query->where('value', $attribute->pivot->value);
-                                                        $query->orWhere('id',  $attribute->pivot->value);
-                                                    })->first();
-                                                @endphp
-
-                                                <div style="background: {{ $attributeValue->props ?? '#fff' }}"></div>
-                                            </a>
-                                        @endif
-                                    @endforeach
-                                @endforeach
-
-                                @foreach($product->attributes as $attribute)
-                                    @if($attribute->id == 50 and $attribute->pivot->value)
-                                            <a title="{{ $attribute->pivot->value . '-' . $product->name }}" class="loan-selector__el _active">
-
-                                                @php
-                                                    $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
-                                                        $query->where('value', $attribute->pivot->value);
-                                                        $query->orWhere('id',  $attribute->pivot->value);
-                                                    })->first();
-                                                @endphp
-
-                                                <div style="background: {{ $attributeValue->props ?? '#fff' }}"></div>
-                                            </a>
-                                    @endif
-                                @endforeach
-
-                            </div>
-                        </div>
-                        @endif
-
-                    </div>
-                </div>
-            @endif
-
-            @include('mobile.includes.product_slider', ['products' => $products_interested, 'title' => 'С этим товаром покупаю', 'url' => ''])
+            @include('mobile.includes.product_slider', ['products' => $products_interested, 'title' => 'С этим товаром покупают', 'url' => ''])
 
             <div class="container-title">Характеристики</div>
             <div class="short-specifications container">
                 <ul class="short-specifications__list">
                     @php $i = 1; @endphp
                     @foreach($product->attributes as $k => $attribute)
-
-                        @if(empty($attribute->attribute_group_id) or empty($attribute->pivot->value) or $attribute->show_product_detail == 0)
-                            @continue
+                       @if($attribute->show_product_detail == 1)
+                            <li class="short-specifications__list-el">
+                                {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}: {{ $attribute->pivot->value }};
+                            </li>
+                            @if($i == 5)
+                                @php break; @endphp
+                            @endif
+                            @php $i++; @endphp
                         @endif
-
-                        <li class="short-specifications__list-el">{{ $attribute->name }}: {{ $attribute->pivot->value }};</li>
-                        @if($i == 5)
-                            @php break; @endphp
-                        @endif
-                        @php $i++; @endphp
                     @endforeach
                 </ul>
             </div>
@@ -379,8 +332,9 @@
             <div class="container">
                 <div type="lis-comments"
                      lis-widget="reviews"
-                     data-id="{{ $product->id }}"
-                     data-title="{{ $product->name_short ? $product->name_short : $product->name }}"></div>
+                     data-id="{{    $product->parent_id ? $product->parent_id    : $product->id }}"
+                     data-title="{{ $product->parent_id ? $product->parent->name : $product->name }}">
+                </div>
             </div>
             <div class="container g-pa0 g-bb-fat">
                 <a href="{{ $product->detailUrlProduct() }}?view=reviews" class="link-more _link-reviews">

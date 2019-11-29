@@ -61,42 +61,33 @@
                 <i class="fa fa-eye"></i>
                 <span class="tooltipp">Быстрый просмотр</span>
             </button>
-
-            @foreach($product->attributes as $attribute)
-                @if($attribute->id == 50 and $attribute->pivot->value)
-                    @php
-                        $attributeValue = $attribute->values()->where(function ($query) use ($attribute){
-                            $query->where('value', $attribute->pivot->value);
-                            $query->orWhere('id',  $attribute->pivot->value);
-                        })->first();
-                    @endphp
-                    @if($attributeValue)
-                        <button class="active" title="Цвет">
-                            <i class="fa fa-circle"
-                               style="font-size: 18px;color: {{ $attributeValue->props ?? '#fff' }}"></i>
-                        </button>
-                    @endif
-                @endif
-            @endforeach
-
-
-
         </div>
     </div>
     <div class="add-to-cart">
-        @if($product->inCart)
-            <a href="{{ route('checkout') }}">
-                <button class="add-to-cart-btn product-in-basket">
-                    <i class="fa fa-shopping-cart"></i>
-                    Товар в корзине
-                </button>
-            </a>
-        @else
-            <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }})">
-                <i class="fa fa-shopping-cart"></i>
-                {{ $product->stock > 0 ? 'Добавить в корзину' : 'Оформить предзаказ' }}
+
+        <a href="{{ $product->detailUrlProduct() }}">
+            <button class="add-to-cart-btn">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                Подробнее
             </button>
+        </a>
+
+        @if(false)
+            @if($product->inCart)
+                <a href="{{ route('checkout') }}">
+                    <button class="add-to-cart-btn product-in-basket">
+                        <i class="fa fa-shopping-cart"></i>
+                        Товар в корзине
+                    </button>
+                </a>
+            @else
+                <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }})">
+                    <i class="fa fa-shopping-cart"></i>
+                    {{ $product->stock > 0 ? 'Добавить в корзину' : 'Оформить предзаказ' }}
+                </button>
+            @endif
         @endif
+
     </div>
 </div>
 <!-- /product -->

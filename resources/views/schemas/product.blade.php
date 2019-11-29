@@ -94,7 +94,7 @@
                         "image"       : "{{ env('APP_URL') . $group_product->pathPhoto(true) }}",
                         "url"         : "{{ $group_product->detailUrlProduct() }}",
                         "name"        : "{{ $group_product->name }}",
-                        "description" : "{{ strip_tags($group_product->description_mini) }}",
+                        "description" : "",
                         "offers"      : {
                             "@type": "Offer",
                             "price": "{{ $group_product->getReducedPrice() }}",

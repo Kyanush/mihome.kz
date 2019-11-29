@@ -20,16 +20,13 @@ class Product extends Model
 
     protected $table = 'products';
     protected $fillable = [
-    	'group_id',
+        'parent_id',
     	'attribute_set_id',
     	'name',
-        'name_short',
         'url',
     	'description',
-        'description_mini',
         'photo',
     	'price',
-        'cost_price',
     	'sku',
     	'stock',
         'seo_title',
@@ -42,7 +39,7 @@ class Product extends Model
         'view_count',
         'reviews_rating_avg',
         'reviews_count',
-        'description_full_screen'
+        'description_full_screen',
 	];
 
     public function scopeIsActive($query){
@@ -53,9 +50,30 @@ class Product extends Model
         return $query->where('active', 0);
     }
 
+    public function scopeMain($query){
+        return $query->where('parent_id', 0);
+    }
+
+    public function scopeNotMain($query){
+        return $query->where('parent_id', '>', 0);
+    }
+
+
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id', 'id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id', 'id');
+    }
 
     public function scopeFilters($query, $filters)
     {
+
+        if(isset($filters['main']))
+            $query->main();
 
         if(isset($filters['created_at_start']))
             $query->whereDate('created_at', '>=', $filters['created_at_start']);
@@ -204,9 +222,6 @@ class Product extends Model
             if(!is_numeric($product->stock))
                 $product->stock = 1;
 
-            //группа товара
-            if(empty($product->group_id))
-                $product->group_id = ProductGroup::create()->id;
 
 
             //чпу
@@ -278,8 +293,13 @@ class Product extends Model
 	public function attributes()
 	{
 		return $this->belongsToMany('App\Models\Attribute', 'attribute_product_value', 'product_id', 'attribute_id')
-                    ->withPivot(['value']);
+                    ->withPivot(['name', 'value']);
 	}
+
+    public function attributeProductValue()
+    {
+        return $this->hasMany('App\Models\AttributeProductValue');
+    }
 
     //Картинка
 	public function images()
@@ -305,12 +325,6 @@ class Product extends Model
         return $this->belongsToMany('App\Models\Review', 'review_product', 'product_id', 'review_id');
     }
 
-    //Вопрос-ответ
-    public function questionsAnswers()
-    {
-        return $this->hasMany('App\Models\QuestionAnswer', 'product_id', 'id');
-    }
-
     //подписка
     public function subscribe()
     {
@@ -322,19 +336,6 @@ class Product extends Model
     {
         return $this->hasOne('App\Models\SpecificPrice', 'product_id', 'id');
     }
-
-
-
-    //Группа товаров
-    public function group()
-    {
-        return $this->belongsTo('App\Models\ProductGroup');
-    }
-    public function groupProducts()
-    {
-        return $this->hasMany('App\Models\Product', 'group_id', 'group_id');
-    }
-    //Группа товаров
 
     //товары в корзине
     public function cartItems()
@@ -447,7 +448,7 @@ class Product extends Model
     }
 
     public function detailUrlProduct(){
-        return route('productDetailDefault', ['product_url' => $this->url]);
+        return route('productDetail', ['product_url' => $this->url]);
     }
 
     public function detailUrlProductAdmin(){

@@ -407,13 +407,6 @@
                                                 Отзывы
                                             </label>
                                         </li>
-                                        <li>
-                                            <label>
-                                                <input type="checkbox" v-model="clone_product.questions_answers"/>
-                                                Вопросы-ответы
-                                            </label>
-                                        </li>
-
                                     </ul>
                                     <span v-if="IsError('clone_product.images')" class="help-block" v-for="e in IsError('clone_product.images')">
                                             {{ e }}
@@ -456,21 +449,6 @@
                                             <div class="col-md-6" v-bind:class="{'has-error' : IsError('change_quickly.stock')}">
                                                 <input required id="stock" type="number" v-model="change_quickly.stock" class="form-control"/>
                                                 <span v-if="IsError('change_quickly.stock')" class="help-block" v-for="e in IsError('change_quickly.stock')">
-                                                     {{ e }}
-                                                </span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="25%" class="text-right">
-                                            <label>
-                                                Сокращенное название:
-                                            </label>
-                                        </td>
-                                        <td width="75%">
-                                            <div class="col-md-12" v-bind:class="{'has-error' : IsError('change_quickly.name_short')}">
-                                                <input required id="name_short" type="text" v-model="change_quickly.name_short" class="form-control"/>
-                                                <span v-if="IsError('change_quickly.name_short')" class="help-block" v-for="e in IsError('change_quickly.name_short')">
                                                      {{ e }}
                                                 </span>
                                             </div>
@@ -614,7 +592,6 @@
                 change_quickly: {
                     id:     0,
                     name:   '',
-                    name_short: '',
                     price:  0,
                     stock:  0,
                     active: 1
@@ -665,7 +642,6 @@
             changeQuicklySelect(product){
                 this.change_quickly.id     = product.id;
                 this.change_quickly.name   = product.name;
-                this.change_quickly.name_short = product.name_short;
                 this.change_quickly.price  = product.price;
                 this.change_quickly.stock  = product.stock;
                 this.change_quickly.active = product.active;

@@ -7,7 +7,7 @@
             <loc>{{ $product->detailUrlProduct() }}</loc>
             <lastmod><?php echo date('c', strtotime($product->updated_at)); ?></lastmod>
             <changefreq>weekly</changefreq>
-            <priority>1.0</priority>
+            <priority>0.6</priority>
             <image:image>
                 <image:loc>
                     {{ $siteUrl . $product->pathPhoto(true) }}
@@ -21,7 +21,7 @@
             <loc>{{ $category->catalogUrl() }}</loc>
             <lastmod><?php echo date('c', strtotime($category->updated_at)); ?></lastmod>
             <changefreq>weekly</changefreq>
-            <priority>0.5</priority>
+            <priority>0.8</priority>
         </url>
     @endforeach
 

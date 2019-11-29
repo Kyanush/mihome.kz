@@ -90,5 +90,8 @@
 
             </div>
         </div>
+
+        <div class="button" style="margin-top: 20px;">Подробнее</div>
+
     </div>
 </a>

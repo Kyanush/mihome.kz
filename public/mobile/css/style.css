@@ -8094,6 +8094,7 @@ div,h1,h2,h3,h4,h5,h6,label,p,span {
     padding: 5px;
     border-radius: 5px;
     background-color: #ffffff;
+    border: 1px solid #fb8800;
 }
 .select-redirect option{
     font-size: 10px;

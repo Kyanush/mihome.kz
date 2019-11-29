@@ -16,28 +16,8 @@ use DB;
 class ProductController extends Controller
 {
 
-    public function cardSuccessPopup($product_id)
-    {
-        $product = Product::find($product_id);
 
-        return view('includes.card_success_popup', [
-            'product'  => $product
-        ]);
-    }
-
-    public function productDetailDefault($product_url){
-        return $this->productDetailMain('', $product_url, '');
-    }
-    public function productDetailCity($city, $product_url){
-        return $this->productDetailMain($city, $product_url, '');
-    }
-    public function productDetail($category_url, $product_url){
-        return $this->productDetailMain('', $product_url, $category_url);
-    }
-
-    public function productDetailMain($city, $product_url, $category_url)
-    {
-
+    public function productDetail($product_url){
 
         if(isset($_GET['dddyyyydffff']))
         {
@@ -84,7 +64,11 @@ class ProductController extends Controller
             ->get();
 
         //Похожие товары
-        $group_products = $product->groupProducts()->productInfoWith()->OrderBy('price')->get();
+        if($product->parent_id){
+            $group_products = Product::where('parent_id', $product->parent_id)->productInfoWith()->OrderBy('price')->get();
+        }else{
+            $group_products = $product->children()->productInfoWith()->OrderBy('price')->get();
+        }
 
         //С этим товаром покупаю
         $products_interested = $product->productAccessories()->productInfoWith()->get();
@@ -98,20 +82,16 @@ class ProductController extends Controller
 
 
         //Кол-во просмотров
-        $view_count = false;
-
-        if(Auth::check())
-            if(Auth::user()->hasRole('client'))
-                $view_count = true;
-        if(Auth::guest())
-            $view_count = true;
-        if($view_count)
+        if(!Helpers::isAdmin())
             $product->increment('view_count');
 
         //категория
-        $category = Category::where('url', $category_url)->first();
-        if(!$category)
+        if($product->parent_id)
+        {
+            $category = Category::find($product->parent->categories[0]->id);
+        }else{
             $category = Category::find($product->categories[0]->id);
+        }
 
         //Хлебная крошка
         $breadcrumbs = ServiceCategory::breadcrumbCategories($category->id, $product->name);
@@ -119,25 +99,41 @@ class ProductController extends Controller
         //seo
         $seo = Seo::productDetail($product, $category);
 
-        if(isset($_GET['dddd']))
+        if($product->parent_id)
         {
-            $_product = Product::with('attributes')->find(1292);
-            if($_product)
-            {
+            $product_parent = $product->parent;
+            $product->description = $product_parent->description;
+            $product->description_full_screen = $product_parent->description_full_screen;
 
+            foreach ($product_parent->attributes as $k1 => $attribute1)
+            {
+                $add = true;
+                foreach ($product->attributes as $k2 => $attribute2)
+                {
+                    if($attribute1->id == $attribute2->id)
+                    {
+                        $add = false;
+                        break;
+                    }
+                }
+                if($add)
+                {
+                    $product->attributes->push($attribute1);
+                }
             }
         }
 
+
         return view(Helpers::isMobile() ? 'mobile.product.index' : 'site.product_detail', [
-            'product'  => $product,
-            'reviews' => $reviews,
-            'ratings_groups' => $ratings_groups,
-            'group_products' => $group_products,
+            'product'             => $product,
+            'reviews'             => $reviews,
+            'ratings_groups'      => $ratings_groups,
+            'group_products'      => $group_products,
             'products_interested' => $products_interested,
-            'youWatchedProducts' => $youWatchedProducts,
-            'category' => $category,
-            'seo' => $seo,
-            'breadcrumbs' => $breadcrumbs,
+            'youWatchedProducts'  => $youWatchedProducts,
+            'category'            => $category,
+            'seo'                 => $seo,
+            'breadcrumbs'         => $breadcrumbs,
         ]);
     }
 
