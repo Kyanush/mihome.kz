@@ -137,12 +137,6 @@
                                         <span>Отзывы</span>
                                     </router-link>
                                 </li>
-                                <li v-bind:class="{'active' : menu_active('/questions-answers/')}">
-                                    <router-link :to="{ path: '/questions-answers'}">
-                                        <i class="fa fa-question-circle" aria-hidden="true"></i>
-                                        <span>Вопросы-ответы</span>
-                                    </router-link>
-                                </li>
                                 <li v-bind:class="{'active' : menu_active('/specific-prices/')}">
                                     <router-link :to="{ path: '/specific-prices'}">
                                         <i class="fa fa-money"></i>

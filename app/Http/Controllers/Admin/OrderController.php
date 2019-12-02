@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\AdminController;
 
-use App\Models\Callback;
 use App\Models\Order;
 use App\Requests\SaveOrderRequest;
 use App\Tools\Helpers;
@@ -74,13 +73,6 @@ class OrderController extends AdminController
         $order->fill($data);
         if($order->save())
         {
-
-            $callback_id = $request->input('callback_id');
-            if($callback_id)
-            {
-                Callback::where('id', $callback_id)->update(['order_id' => $order->id]);
-            }
-
             foreach ($data['products'] as $product)
             {
                 $pivot = $product['pivot'];

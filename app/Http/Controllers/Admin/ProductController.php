@@ -107,15 +107,6 @@ class ProductController extends AdminController
                 $product->specificPrice()->delete();
             }
 
-            //Атрибуты
-            /*
-            ServiceProduct::productAttributesSave(
-                $product->id,
-                $request['attributes'],
-                $old_attribute_set_id == $reqProduct['attribute_set_id'] ? false : true
-            );
-            */
-
             //Картинки
             ServiceProduct::productImagesSave($request['product_images'] ?? [], $product->id);
 

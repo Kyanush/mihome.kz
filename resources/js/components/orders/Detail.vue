@@ -159,9 +159,9 @@
                                         </td>
                                         <td>
                                             <input
-                                                @blur="order.user_phone = $event.target.value;"
-                                                v-model="order.user_phone"
-                                                class="form-control phone-mask"/>
+                                                    @blur="order.user_phone = $event.target.value;"
+                                                    v-model="order.user_phone"
+                                                    class="form-control phone-mask"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -498,7 +498,6 @@
     import searchProducts from '../plugins/SearchProducts';
 
     export default {
-        props: ['prop_order', 'prop_callback_id'],
         components:{
             datePicker, Select2, orders, searchProducts
         },
@@ -589,8 +588,7 @@
             },
             saveOrder(){
                 axios.post('/admin/order-save', {
-                    order:       this.order,
-                    callback_id: this.prop_callback_id
+                    order:       this.order
                 }).then((res)=>{
                     if(res.data)
                     {
@@ -598,13 +596,12 @@
 
                         this.$helper.swalSuccess(order_id > 0 ? 'Заказ изменен' : 'Заказ создан');
 
-                        if(!order_id && !this.prop_callback_id)
-                            this.$router.push({
-                                name: 'order_edit',
-                                params:{
-                                    order_id: res.data
-                                }
-                            });
+                        this.$router.push({
+                            name: 'order_edit',
+                            params:{
+                                order_id: res.data
+                            }
+                        });
                         this.getOrder(res.data);
                     }
                 });
@@ -626,9 +623,7 @@
 
                 if(!order_id)
                 {
-                    if(this.prop_order)
-                        order_id = this.prop_order.id;
-                    else if(this.$route.params.order_id)
+                    if(this.$route.params.order_id)
                         order_id = this.$route.params.order_id
                 }
 
@@ -676,18 +671,6 @@
         watch: {
             '$route'() {
                 this.getOrder();
-            },
-            prop_order: {
-                handler: function (val, oldVal) {
-                    if(!val.id)
-                    {
-                        this.order.type_id    = val.type_id;
-                        this.order.user_phone = val.phone;
-                        this.order.user_email = val.email;
-                        this.order.created_at = val.created_at;
-                    }
-                },
-                deep: true
             }
         }
     }

@@ -60,7 +60,7 @@
 
                              </div>
 
-                             <router-link :to="{path: '/payments'}" class="btn btn-default">
+                             <router-link :to="{ name: 'payments' }" class="btn btn-default">
                                  <span class="fa fa-ban"></span> &nbsp;
                                  Отменить
                              </router-link>

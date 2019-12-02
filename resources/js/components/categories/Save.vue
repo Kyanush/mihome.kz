@@ -325,7 +325,7 @@
 
                              </div>
 
-                             <router-link :to="{path: '/categories'}" class="btn btn-default">
+                             <router-link :to="{ name: 'categories' }" class="btn btn-default">
                                  <span class="fa fa-ban"></span> &nbsp;
                                  Отменить
                              </router-link>

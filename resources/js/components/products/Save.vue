@@ -34,7 +34,7 @@
                                             Описание и фото товара
                                         </a>
                                     </li>
-                                    <li v-bind:class="{'active' : tab_active == 'tab_attributes'}" @click="setTab('tab_attributes')">
+                                    <li v-if="product.id" v-bind:class="{'active' : tab_active == 'tab_attributes'}" @click="setTab('tab_attributes')">
                                         <a>
                                             <i class="fa fa-cogs" aria-hidden="true"></i>
                                             Характеристики
@@ -52,7 +52,7 @@
                                             Скидки
                                         </a>
                                     </li>
-                                    <li v-bind:class="{'active' : tab_active == 'tab_product_groups'}" @click="setTab('tab_product_groups')" v-if="!product.parent_id">
+                                    <li v-if="!product.parent_id && product.id" v-bind:class="{'active' : tab_active == 'tab_product_groups'}" @click="setTab('tab_product_groups')">
                                         <a>
                                             <i class="fa fa-users" aria-hidden="true"></i>
                                             Торговые предложения
@@ -70,7 +70,7 @@
                                             SEO
                                         </a>
                                     </li>
-                                    <li v-bind:class="{'active' : tab_active == 'tab_reviews'}" @click="setTab('tab_reviews')" v-if="!product.parent_id">
+                                    <li v-if="!product.parent_id && product.id" v-bind:class="{'active' : tab_active == 'tab_reviews'}" @click="setTab('tab_reviews')">
                                         <a>
                                             <i class="fa fa-comments" aria-hidden="true"></i>
                                             Отзывы
@@ -214,7 +214,6 @@
 
                             </div>
 
-
                             <div v-bind:class="{'active' : tab_active == 'tab_category'}" role="tabpanel" class="tab-pane" id="tab_category">
                                 <table class="table table-bordered ">
                                     <tbody>
@@ -229,7 +228,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
 
                             <div v-bind:class="{'active' : tab_active == 'tab_product_description_and_photo'}" role="tabpanel" class="tab-pane" id="tab_product_description_and_photo">
 
@@ -313,8 +311,8 @@
 
                             </div>
 
-                            <div v-bind:class="{'active' : tab_active == 'tab_attributes'}" role="tabpanel" class="tab-pane" id="tab_attributes">
-                                <Attributes v-if="product.id" :product_id="product.id"></Attributes>
+                            <div v-if="product.id" v-bind:class="{'active' : tab_active == 'tab_attributes'}" role="tabpanel" class="tab-pane" id="tab_attributes">
+                                <Attributes :product_id="product.id"></Attributes>
                             </div>
 
                             <div v-bind:class="{'active' : tab_active == 'tab_pictures'}" role="tabpanel" class="tab-pane" id="tab_pictures">
@@ -405,7 +403,7 @@
 
                             </div>
 
-                            <div v-bind:class="{'active' : tab_active == 'tab_product_groups'}" role="tabpanel" class="tab-pane" id="tab_product_groups" v-if="!product.parent_id > 0">
+                            <div  v-if="!product.parent_id && product.id" v-bind:class="{'active' : tab_active == 'tab_product_groups'}" role="tabpanel" class="tab-pane" id="tab_product_groups">
 
                                 <div class="col-md-12">
 
@@ -555,7 +553,7 @@
 
                             </div>
 
-                            <div v-bind:class="{'active' : tab_active == 'tab_reviews'}" role="tabpanel" class="tab-pane" id="tab_reviews" v-if="product.id > 0">
+                            <div v-if="!product.parent_id && product.id" v-bind:class="{'active' : tab_active == 'tab_reviews'}" role="tabpanel" class="tab-pane" id="tab_reviews">
 
                                 <table class="table table-bordered ">
                                     <tbody>
@@ -597,7 +595,6 @@
                                 <reviews :product_id="product.id"></reviews>
                             </div>
 
-
                         </div>
 
                     </div><!-- /.box-body -->
@@ -622,7 +619,7 @@
                                 Посмотреть товар
                             </a>
 
-                            <router-link :to="{path: '/products'}" class="btn btn-default">
+                            <router-link :to="{ name: 'products' }" class="btn btn-default">
                                 <span class="fa fa-ban"></span> &nbsp;
                                 Отменить
                             </router-link>
@@ -701,7 +698,7 @@
                 },
                 product_photo_upload_type: 'file',
                 product_accessories: [],
-                attributes: [],
+
                 product_images: [],
                 specific_price:{
                     reduction: 0,
@@ -720,17 +717,6 @@
         },
 
         methods:{
-            convertColorOptions(values){
-                var data = [];
-                values.forEach(function (item, index) {
-                    data.push({
-                        id:   item.value,
-                        hex:  item.props,
-                        name: item.value
-                    });
-                });
-                return data;
-            },
             deleteProductAccessory(index){
                  this.$delete(this.product_accessories, index);
             },
@@ -793,9 +779,6 @@
             setTab(tab){
                 this.tab_active = tab;
             },
-            convertDataSelect2(values, column_id, column_text){
-                return this.$helper.convertDataSelect2(values, column_id, column_text);
-            },
             productSave(event){
                 event.preventDefault();
                 this.SetErrors(null);
@@ -831,15 +814,7 @@
                     data.append('product_images[' + index + '][value]',     item.value);
                 });
 
-                $.each(this.attributes, function(index, item) {
-                    data.append('attributes[' + index + '][attribute_id]', item.attribute_id);
 
-                    if(Array.isArray(item.value)){
-                        for(var i = 0; i < item.value.length; i++)
-                            data.append('attributes[' + index + '][value][' + i + ']', item.value[i]);
-                    }else
-                        data.append('attributes[' + index + '][value]', item.value);
-                });
 
                 axios.post('/admin/product-save', data).then((res)=>{
                     var product_id = res.data;
@@ -872,7 +847,6 @@
             getProduct(product_id){
                 if(product_id > 0)
                 {
-
                             axios.get('/admin/product-view/' + product_id).then((res)=>{
                                 document.querySelector('input[type=file]').value = '';
 
@@ -899,28 +873,10 @@
                                 this.product.reviews_count      = product.reviews_count;
                                 this.product.description_full_screen      = product.description_full_screen;
 
-
                                 this.group_products = product.children;
-
                                 this.categories     = data.categories;
                                 this.product_images = data.images;
-
-                                console.log(data);
-
-                                setTimeout(function () {
-                                    var self = this;
-                                    $.each(data.attributes, function(attribute_id, value) {
-                                        self.attributes.forEach(function (item, index) {
-                                            if(attribute_id == item.attribute_id)
-                                            {
-                                                self.$set(self.attributes[index], 'value' , value);
-                                            }
-                                        });
-                                    });
-                                }.bind(this, data), 1000);
-
                                 this.product_accessories = data.product_accessories;
-
 
                                 if(data.specific_price)
                                 {
@@ -967,9 +923,7 @@
                 }else{
                     return '';
                 }
-            },
-
-
+            }
         },
         watch: {
             '$route'() {
