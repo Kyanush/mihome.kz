@@ -1,5 +1,4 @@
-
-@extends('layouts.site')
+@extends(\App\Tools\Helpers::isMobile() ? 'layouts.mobile' : 'layouts.site')
 
 @php
     $title = 'Страница не найдена';
@@ -10,7 +9,6 @@
 @section('keywords',    $title)
 
 @section('content')
-
 
     <div class="error-404" style="text-align: center;padding: 40px 0;">
         <h1>Страница не найдена</h1>

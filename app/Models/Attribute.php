@@ -76,10 +76,6 @@ class Attribute extends Model
         return $this->hasMany('App\Models\AttributeValue', 'attribute_id', 'id')->OrderBy('sort');
     }
 
-    public function sets()
-    {
-    	return $this->belongsToMany('App\Models\AttributeSet', 'attribute_attribute_set', 'attribute_id', 'attribute_set_id');
-    }
 
     public function attributeGroup()
     {

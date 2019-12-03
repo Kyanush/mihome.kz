@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\AdminController;
 
 use App\Models\Product;
-use App\Models\AttributeSet;
 use App\Models\SpecificPrice;
 use App\Requests\CloneProductRequest;
 use App\Requests\SaveProductRequest;
@@ -197,7 +196,6 @@ class ProductController extends AdminController
         $clone->clone_product_images      = $req['product_images'];
         $clone->clone_reviews             = $req['reviews'];
         $clone->clone_product_accessories = $req['product_accessories'];
-        $clone->clone_questions_answers   = $req['questions_answers'];
         $result = $clone->clone();
 
         return  $this->sendResponse($result);

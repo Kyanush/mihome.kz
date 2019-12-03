@@ -216,7 +216,7 @@ class Order extends Model
     public function whereOrdered(){
         switch ($this->where_ordered) {
             case 1:
-                $title = 'Компютер';
+                $title = 'Компьютер';
                 $class = 'fa fa-desktop';
                 break;
             case 2:

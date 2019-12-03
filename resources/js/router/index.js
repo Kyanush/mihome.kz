@@ -135,13 +135,13 @@ export default new Router({
 
 
 
-        //Атрибуты
+        //Характеристики
         {
             path: '/attributes',
             name: 'attributes',
             component: attributes_list,
             meta: {
-                title: 'Атрибуты',
+                title: 'Характеристики',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                 ]
@@ -155,7 +155,7 @@ export default new Router({
                 title: 'Создать атрибут',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                    { title: 'Атрибуты', link: '/attributes' },
+                    { title: 'Характеристики', link: '/attributes' },
                 ]
             }
         },
@@ -167,7 +167,7 @@ export default new Router({
                 title: 'Редактировать атрибут',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                    { title: 'Атрибуты', link: '/attributes' },
+                    { title: 'Характеристики', link: '/attributes' },
                 ]
             }
         },

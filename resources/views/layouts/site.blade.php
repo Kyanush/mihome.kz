@@ -6,26 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>@yield('title')</title>
-    <meta name="description" content="@yield('description')">
-    <meta name="keywords"    content="@yield('keywords')">
-
-    <meta name="csrf-token"               content="{{ csrf_token() }}" />
-
-    <meta property="og:locale"       content="ru_KZ" />
-    <meta property="og:type"         content="website">
-    <meta property="og:url"          content="{{ url()->current() }}"/>
-    <meta property="og:site_name"    content="{{ env('APP_NAME') }}" />
-    <meta property="og:title"        content="@yield('title')"/>
-    <meta property="og:description"  content="@yield('description')"/>
-    <meta property="og:image"        content="@yield('og_image')"/>
-    <meta property="og:image:width"  content="80">
-    <meta property="og:image:height" content="80">
-
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
-
-
 
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/bootstrap.min.css') }}"/>
@@ -43,24 +25,11 @@
     <!-- Custom stlylesheet sd -->
     <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/style.min.css') }}"/>
 
-
-    <!-- Vue js -->
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-
-    <script src="{{ asset('/site/js/jquery.min.js') }}"></script>
-
-    <!-- axios -->
-    <script type="text/javascript" src="{{ asset('/site/js/axios.min.js') }}"></script>
-    <script src="{{ asset('/global/config-axios.js') }}"></script>
-    <!-- axios -->
-
     @yield('add_in_head')
-
     @include('schemas.business')
     @include('schemas.organization')
     @yield('schemas_breadcrumb')
     @yield('schemas_product')
-
     @include('includes.department_code')
 
 </head>

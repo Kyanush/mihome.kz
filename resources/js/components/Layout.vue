@@ -225,12 +225,7 @@
                             <span>Импорт/Экспорт</span>
                         </router-link>
                     </li>
-                    <li v-bind:class="{'active' : menu_active('/attributes/')}">
-                        <router-link :to="{ path: '/attributes'}">
-                            <i class="fa fa-tag"></i>
-                            <span>Атрибуты</span>
-                        </router-link>
-                    </li>
+
                     <li v-bind:class="{'active' : menu_active('/users/')}">
                         <router-link :to="{ path: '/users'}">
                             <i class="fa fa-users"></i>
@@ -272,6 +267,12 @@
                                 <router-link :to="{ path: '/cities'}">
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                     <span>Город</span>
+                                </router-link>
+                            </li>
+                            <li v-bind:class="{'active' : menu_active('/attributes/')}">
+                                <router-link :to="{ path: '/attributes'}">
+                                    <i class="fa fa-tag"></i>
+                                    <span>Характеристики</span>
                                 </router-link>
                             </li>
                         </ul>
