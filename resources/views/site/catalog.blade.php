@@ -18,6 +18,7 @@
             <!-- container -->
             <div class="container">
 
+                <h1>{{ $category->name }}</h1>
 
                 <!-- row -->
                 <div class="row">

@@ -25,12 +25,13 @@
     <!-- Custom stlylesheet sd -->
     <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/style.min.css') }}"/>
 
+    @include('includes.department_code')
+
     @yield('add_in_head')
     @include('schemas.business')
     @include('schemas.organization')
     @yield('schemas_breadcrumb')
     @yield('schemas_product')
-    @include('includes.department_code')
 
 </head>
 <body>

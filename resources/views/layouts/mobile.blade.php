@@ -13,13 +13,13 @@
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="/site/css/font-awesome.min.css">
 
+    @include('includes.department_code')
 
     @yield('add_in_head')
     @include('schemas.business')
     @include('schemas.organization')
     @yield('schemas_breadcrumb')
     @yield('schemas_product')
-    @include('includes.department_code')
 
 </head>
 
