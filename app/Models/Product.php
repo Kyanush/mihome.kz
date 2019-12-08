@@ -276,8 +276,8 @@ class Product extends Model
                 }
             }
 
-            if(empty($product->sku))
-                $product->sku = $product->id ?? $product_id;
+            //if(empty($product->sku))
+                //$product->sku = $product->id ?? $product_id;
 
         });
     }

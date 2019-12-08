@@ -2,6 +2,12 @@
     <div class="swiper-container" id="main-slider">
         <div class="swiper-wrapper">
 
+            <div class="swiper-slide">
+                <a class="main-slider__image-wrapper">
+                    <video width="100%" uk-cover="" src="/video/videoplayback.mp4" loop="" autoplay="" muted="" playsinline=""></video>
+                </a>
+            </div>
+
             @foreach($listSlidersHomePage as $item)
                 <div class="swiper-slide">
                     <a title="{{ $item->name }}" class="main-slider__image-wrapper"  href="{{ $item->link }}">

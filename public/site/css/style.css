@@ -467,8 +467,8 @@ textarea.input {
 \*----------------------------*/
 
 #header {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    /*padding-top: 15px;*/
+    /*padding-bottom: 15px;*/
     background-color: #fff;
 }
 
@@ -480,6 +480,7 @@ textarea.input {
     display: block;
     max-width: 169px;
     max-height: 70px;
+    margin-top: 10px;
 }
 
 /*----------------------------*\
@@ -661,7 +662,7 @@ textarea.input {
 
 #navigation {
     background: #FFF;
-    border-bottom: 2px solid #E4E7ED;
+    /*border-bottom: 2px solid #E4E7ED;*/
     border-top: 3px solid #3c92c3;
 }
 
@@ -2600,7 +2601,7 @@ textarea.input {
 
 /**************** Слайдер главный *****************/
 .main-slider a{
-    height: 410px;
+    height: 550px;
     max-width: 100%;
     background-position: center;
     background-size: cover;
@@ -2942,4 +2943,92 @@ textarea.input {
 }
 .lis-service-provided{
     display: none;
+}
+/**************************************************************************************/
+
+.navbar.navbar-default {
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 0;
+    border-radius: 0;
+    background-color: #fff;
+}
+
+.navbar-nav>li>.dropdown-menu {
+    margin-top: 0px;
+    border-top: 0px;
+}
+
+.mega-dropdown { position: static !important;/*width:100%;*/
+
+}
+
+.mega-dropdown-menu {
+    padding: 20px 0px;
+    width: 100%;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.mega-dropdown-menu > li > ul {
+    padding: 0;
+    margin: 0;
+}
+
+.mega-dropdown-menu > li > ul > li { list-style: none; }
+
+.mega-dropdown-menu > li > ul > li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #000;
+    white-space: normal;
+}
+
+.mega-dropdown-menu > li ul > li > a:hover,
+.mega-dropdown-menu > li ul > li > a:focus {
+    text-decoration: none;
+    /*color: #444;*/
+    /*background-color: #f5f5f5;*/
+}
+
+.mega-dropdown-menu .dropdown-header,
+.mega-dropdown-menu .dropdown-header a
+{
+    color: #428bca;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.mega-dropdown-menu form {
+    margin: 3px 20px;
+}
+
+.mega-dropdown-menu .form-group {
+    margin-bottom: 3px;
+}
+
+.dropdown.mega-dropdown:hover > .dropdown-menu.mega-dropdown-menu.row {
+    display: block;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #000;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    color: #000;
+    background: #fff;
+}
+
+.dropdown-menu.mega-dropdown-menu.row a:hover{
+    text-decoration: underline;
+}
+
+.megamenu-headline { padding: 0 32px; }
+
+.navbar-nav{
+    width: 100%;
 }

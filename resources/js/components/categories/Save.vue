@@ -66,6 +66,19 @@
                                          </tr>
                                          <tr>
                                              <td width="25%" class="text-right">
+                                                 <label>Редирект url</label>
+                                             </td>
+                                             <td width="75%">
+                                                 <div class="form-group col-md-8" v-bind:class="{'has-error' : IsError('category.redirect_url')}">
+                                                     <input v-model="category.redirect_url" type="text" class="form-control">
+                                                     <span v-if="IsError('category.redirect_url')" class="help-block" v-for="e in IsError('category.redirect_url')">
+                                                         {{ e }}
+                                                     </span>
+                                                 </div>
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td width="25%" class="text-right">
                                                  <label>Сортировка <span class="red">*</span></label>
                                              </td>
                                              <td width="75%">
@@ -359,6 +372,7 @@
                     parent_id: 0,
                     name: '',
                     url: '',
+                    redirect_url: '',
                     sort: 0,
                     image: '',
                     class: '',
@@ -390,6 +404,7 @@
                     this.category.parent_id = res.parent_id;
                     this.category.name = res.name;
                     this.category.url = res.url;
+                    this.category.redirect_url = res.redirect_url;
                     this.category.sort = res.sort;
                     this.category.image = res.image;
                     this.category.class = res.class;

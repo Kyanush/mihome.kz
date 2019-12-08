@@ -16,6 +16,7 @@ class Category extends Model
          'parent_id',
          'name',
          'url',
+         'redirect_url',
          'image',
          'class',
          'sort',
@@ -30,7 +31,7 @@ class Category extends Model
     public function scopeSearch($query, $search){
         $search = trim(mb_strtolower($search));
         if($search)
-            $query->whereLike(['name', 'url', 'description'],   $search);
+            $query->whereLike(['name'],   $search);
 
         return $query;
     }
@@ -99,8 +100,14 @@ class Category extends Model
         return File::delete($this->pathImage());
     }
 
-    public function catalogUrl(){
-        return route('catalog', ['category' => $this->url]);
+    public function catalogUrl($redirect_url = false)
+    {
+        if($redirect_url and $this->redirect_url)
+        {
+            return $this->redirect_url;
+        }else{
+            return route('catalog', ['category' => $this->url]);
+        }
     }
 
     public function typeValueDescription(){

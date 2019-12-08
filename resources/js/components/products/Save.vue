@@ -147,6 +147,19 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        <tr v-if="product.price != discount_price.sum">
+                                            <td width="25%" class="text-right">
+                                                <label class="red">
+                                                    <i class="fa fa-percent" aria-hidden="true"></i>
+                                                    Цена со скидкой:
+                                                </label>
+                                            </td>
+                                            <td width="75%">
+                                                <div class="col-md-6 red">
+                                                    <b>{{ discount_price.format }} ( {{ discount_price.discount_type_info }} )</b>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td width="25%" class="text-right">
                                                 <label>
@@ -431,7 +444,16 @@
                                                 <td>{{ item.id }}</td>
                                                 <td>{{ item.name }}</td>
                                                 <td>{{ item.sku }}</td>
-                                                <td>{{ item.price }}</td>
+                                                <td>
+                                                    <span v-if="item.old_price != item.price">
+                                                         <del> {{ item.old_price }}</del>
+                                                         <br/>
+                                                         {{ item.price }}
+                                                    </span>
+                                                    <span v-else>
+                                                        {{ item.price }}
+                                                    </span>
+                                                </td>
                                                 <td>
                                                     <i class="fa fa-times-circle"
                                                        aria-hidden="true"
@@ -712,10 +734,14 @@
                 tab_active: 'tab_general',
                 categories_list: [],
                 group_products: [],
-                detail_url: ''
+                detail_url: '',
+                discount_price: {
+                    sum:    0,
+                    format: 0,
+                    discount_type_info: ''
+                }
             }
         },
-
         methods:{
             deleteProductAccessory(index){
                  this.$delete(this.product_accessories, index);
@@ -873,7 +899,7 @@
                                 this.product.reviews_count      = product.reviews_count;
                                 this.product.description_full_screen      = product.description_full_screen;
 
-                                this.group_products = product.children;
+                                this.group_products = data.children;
                                 this.categories     = data.categories;
                                 this.product_images = data.images;
                                 this.product_accessories = data.product_accessories;
@@ -887,7 +913,7 @@
                                 }
 
                                 this.detail_url = data.detail_url;
-
+                                this.discount_price = data.discount_price;
                             });
                 }
             },

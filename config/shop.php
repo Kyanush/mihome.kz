@@ -16,6 +16,11 @@ return [
                 'icon'  => '/site/images/social-network/instagram.jpg',
                 'title' => 'Вы в Instagram'
             ],
+            'facebook' => [
+                'url'   => 'https://web.facebook.com/mihome.kz',
+                'icon'  => '/site/images/social-network/facebook.png',
+                'title' => 'Вы в Facebook'
+            ],
             'vk' => [
                 'url'   => 'https://vk.com/mihome_kz',
                 'icon'  => '/site/images/social-network/vk.png',

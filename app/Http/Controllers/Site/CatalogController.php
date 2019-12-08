@@ -34,14 +34,14 @@ class CatalogController extends Controller
     }
 
     public function catalogCity($city, $category){
-        return $this->catalogMain($city, $category);
+        return $this->catalogMain($category);
     }
 
     public function catalog($category){
-        return $this->catalogMain('almaty', $category);
+        return $this->catalogMain($category);
     }
 
-    public function catalogMain($city, $category_code){
+    public function catalogMain($category_code){
         //категория
         $category = Category::isActive()->where('url', $category_code)->firstOrFail();
 
@@ -56,9 +56,6 @@ class CatalogController extends Controller
 
         $priceMinMax = ServiceProduct::priceMinMax(['category' => $filters['category'], 'active' => 1, 'main' => 1]);
         $productsAttributesFilters = ServiceProduct::productsAttributesFilters($filters);
-
-
-
 
         $catalog = Product::productInfoWith()
             ->filters($filters)

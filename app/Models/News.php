@@ -18,7 +18,10 @@ class News extends Model
         'preview_text',
         'detail_text',
         'active',
-        'created_at'
+        'created_at',
+        'seo_title',
+        'seo_description',
+        'seo_keywords'
 	];
 
     public function scopeIsActive($query){

@@ -138,7 +138,16 @@ class ProductController extends AdminController
         $categories = $product->categories->pluck('id');
 
 
-
+        $children = $product->children->map(function ($item) {
+            return  [
+                'id'             => $item->id,
+                'name'           => $item->name,
+                'sku'            => $item->sku,
+                'price'          => Helpers::priceFormat($item->getReducedPrice()),
+                'old_price'      => Helpers::priceFormat($item->price),
+                'active'         => $item->active
+            ];
+        });
 
         //картинки
         $images = $product->images->map(function ($item) {
@@ -162,12 +171,18 @@ class ProductController extends AdminController
 
 
         return $this->sendResponse([
+            'discount_price'      => [
+                 'sum'    => $product->getReducedPrice(),
+                 'format' => Helpers::priceFormat($product->getReducedPrice()),
+                 'discount_type_info' => $product->getDiscountTypeinfo()
+            ],
             'detail_url'          => $product->detailUrlProduct(),
             'product'             => $product,
             'product_accessories' => $product_accessories,
             'images'              => $images,
             'categories'          => $categories,
-            'specific_price'      => $product->specificPrice
+            'specific_price'      => $product->specificPrice,
+            'children'            => $children
         ]);
     }
 

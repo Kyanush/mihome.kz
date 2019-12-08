@@ -16,6 +16,12 @@
                                  {{ e }}
                              </span>
                          </div>
+
+
+
+
+
+
                          <div class="form-group col-md-12" v-bind:class="{'has-error' : IsError('news.code')}">
                              <label>Ссылка</label>
                              <input v-model="news.code" type="text" class="form-control">
@@ -69,6 +75,31 @@
                              </select>
                              <span v-if="IsError('news.active')" class="help-block" v-for="e in IsError('news.active')">
                                   {{ e }}
+                             </span>
+                         </div>
+
+
+
+
+                         <div class="form-group col-md-12" v-bind:class="{'has-error' : IsError('news.seo_title')}">
+                             <label>Seo Title</label>
+                             <input v-model="news.seo_title" type="text" class="form-control">
+                             <span v-if="IsError('news.seo_title')" class="help-block" v-for="e in IsError('news.seo_title')">
+                                 {{ e }}
+                             </span>
+                         </div>
+                         <div class="form-group col-md-12" v-bind:class="{'has-error' : IsError('news.seo_description')}">
+                             <label>Seo description</label>
+                             <textarea v-model="news.seo_description" class="form-control"></textarea>
+                             <span v-if="IsError('news.seo_description')" class="help-block" v-for="e in IsError('news.seo_description')">
+                                 {{ e }}
+                             </span>
+                         </div>
+                         <div class="form-group col-md-12" v-bind:class="{'has-error' : IsError('news.seo_keywords')}">
+                             <label>Seo Keywords</label>
+                             <textarea v-model="news.seo_keywords" class="form-control"></textarea>
+                             <span v-if="IsError('news.seo_keywords')" class="help-block" v-for="e in IsError('news.seo_keywords')">
+                                 {{ e }}
                              </span>
                          </div>
 
@@ -138,7 +169,10 @@
                     image: '',
                     preview_text: '',
                     detail_text: '',
-                    active: 1
+                    active: 1,
+                    seo_title: '',
+                    seo_description: '',
+                    seo_keywords: ''
                 },
                 datetimepicker: {
                     format: 'YYYY-MM-DD HH:mm:ss',
@@ -163,6 +197,9 @@
                     this.news.preview_text = data.preview_text;
                     this.news.detail_text  = data.detail_text;
                     this.news.active       = data.active;
+                    this.news.seo_title       = data.seo_title;
+                    this.news.seo_description = data.seo_description;
+                    this.news.seo_keywords    = data.seo_keywords;
                 });
             }
         },

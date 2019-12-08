@@ -70,7 +70,7 @@
                 <li>
                     <p>
                         @foreach(config('shop.social_network') as $item)
-                            <a href="{{ $item['url'] }}" title="{{ $item['title'] }}" target="_blank">
+                            <a href="{{ $item['url'] }}" title="{{ $item['title'] }}" target="_blank" rel="nofollow">
                                 <img height="30" src="{{ $item['icon'] }}"/>
                             </a>
                         @endforeach

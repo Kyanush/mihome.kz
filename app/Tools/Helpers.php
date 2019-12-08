@@ -105,7 +105,7 @@ class Helpers
     }
 
     public static function getSortedToFilter($filters){
-        $value   = 'sort_view_count-asc';
+        $value   = 'sort_created_at-desc';
         $default = true;
 
         foreach ($filters as $code => $filter_value)
@@ -169,6 +169,12 @@ class Helpers
             ],
             [
                 'column' => 'created_at',
+                'order'  => 'ASC',
+                'title'  => 'новинки',
+                'value'  => 'sort_created_at-asc'
+            ],
+            [
+                'column' => 'created_at',
                 'order'  => 'DESC',
                 'title'  => 'новинки',
                 'value'  => 'sort_created_at-desc'
@@ -187,7 +193,7 @@ class Helpers
                     break;
                 }
             }
-            return $result ? $result : self::listSortingProducts('sort_view_count-asc');
+            return $result ? $result : self::listSortingProducts('sort_created_at-desc');
         }
     }
 

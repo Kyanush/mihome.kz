@@ -99,7 +99,16 @@
                 <span class="rating _{{ ($product->reviews_rating_avg ?? 0) * 2}}"></span>
                 <span class="rating-count">(<span> {{ $product->reviews_count }}</span>&nbsp;отзывов)</span>
             </a>
-            <div class="item__sku">Код товара:&nbsp;{{ $product->sku }}</div>
+
+            @php
+                $sku = $product->sku;
+                if(!$sku and $product->parent_id)
+                    $sku = $product->parent->sku;
+            @endphp
+            @if($sku)
+                <div class="item__sku">Модель:&nbsp;{{ $sku }}</div>
+            @endif
+
         </div>
 
         <div class="item__info container" itemprop="offers" itemscope itemtype="http://schema.org/Offer">

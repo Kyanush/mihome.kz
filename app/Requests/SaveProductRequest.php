@@ -17,7 +17,7 @@ class SaveProductRequest extends FormRequest
             'product.name'        => 'max:255|required|unique:products,name' . ($product_id ? (',' . $product_id . ',id') : ''),
             'product.url'         => 'max:255|nullable|unique:products,url'  . ($product_id ? (',' . $product_id . ',id') : ''),
             'product.price'       => 'numeric|required|min:0',
-            'product.sku'         => 'max:100|unique:products,sku' . ($product_id ? (',' . $product_id . ',id') : ''),
+            'product.sku'         => 'max:100',
             'product.stock'       => 'integer',
             'product.active'      => 'required|integer|min:0|max:1',
             'specific_price.reduction'       => 'nullable|numeric|min:0',

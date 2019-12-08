@@ -135,9 +135,15 @@
                         @endif
                         <div itemprop="seller" itemtype="http://schema.org/Organization" itemscope>
                                 <meta itemprop="name" content="{{ env('APP_NAME') }}" />
-                            </div>
-
-
+                        </div>
+                            @php
+                                $sku = $product->sku;
+                                if(!$sku and $product->parent_id)
+                                    $sku = $product->parent->sku;
+                            @endphp
+                            @if($sku)
+                                <p>Модель: {{ $sku }} </p>
+                            @endif
 
                             <div>
                                 <div class="product-rating">

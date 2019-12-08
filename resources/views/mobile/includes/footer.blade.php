@@ -30,7 +30,7 @@
         <div class="footer__contacts-text">
             <b>Мы в соцсетях:</b>
             @foreach(config('shop.social_network') as $item)
-                <a href="{{ $item['url'] }}" title="{{ $item['title'] }}" target="_blank">
+                <a href="{{ $item['url'] }}" title="{{ $item['title'] }}" target="_blank" rel="nofollow">
                     <img height="30" data-original="{{ $item['icon'] }}" class="lazy"/>
                 </a>
             @endforeach

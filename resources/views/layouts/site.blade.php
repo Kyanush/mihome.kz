@@ -46,7 +46,7 @@
     @endphp
 
     <!-- TOP HEADER -->
-    <div id="top-header">
+        <div id="top-header">
         <div class="container">
             <ul class="header-links pull-left">
                 <li>
@@ -212,10 +212,88 @@
     <!-- NAVIGATION -->
 <nav id="navigation">
     <!-- container -->
-    <div class="container">
+    <div class="container1">
         <!-- responsive-nav -->
         <div id="responsive-nav">
 
+            <!--
+            https://www.jqueryscript.net/demo/Creating-A-Pretty-Mega-Menu-with-jQuery-Bootstrap/
+            --->
+
+            @include('site.includes.catalog_menu')
+
+            @if(false)
+            <nav class="navbar navbar-default">
+    <div class="collapse navbar-collapse js-navbar-collapse">
+      <ul class="nav navbar-nav">
+
+        @php
+            $categories1 = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
+        @endphp
+        @foreach($categories1 as $category1)
+        <li class="dropdown mega-dropdown">
+            <a href="{{ $category1->catalogUrl() }}" class="dropdown-toggle" data-toggle="">
+                {{ $category1->name }}
+            </a>
+          <ul class="dropdown-menu mega-dropdown-menu row">
+
+            <div class="megamenu-headline">
+              <h2>
+                  {{ $category1->name }}
+              </h2>
+            </div>
+
+            <li class="divider"></li>
+
+              <?php
+                  $categories = [];
+
+                  foreach($category1->children()->isActive()->orderBy('sort')->get() as $category_children){
+                      $categories[] = $category_children;
+
+                      $childrens_all = \App\Models\Category::orderBy('sort')
+                          ->isActive()
+                          ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category_children->id, false, true))
+                          ->get();
+
+                      foreach ($childrens_all as $item)
+                          $categories[] = $item;
+                  }
+              $row_br = 8;
+              ?>
+
+              <?php $row = 0; ?>
+              @foreach($categories as $key => $item)
+                  <?php $row++; ?>
+                  @if($row == 1)
+                          <li class="col-sm-3">
+                              <ul>
+                  @endif
+                        <li>
+                            <a href="{{ $item->catalogUrl() }}" class="link">
+                                {{ $item->name }}
+                            </a>
+                        </li>
+                  @if($row == $row_br or count($categories) == $key + 1)
+                              </ul>
+                          </li>
+                  <?php $row = 0; ?>
+                  @endif
+              @endforeach
+
+
+
+          </ul>
+        </li>
+        @endforeach
+
+      </ul>
+    </div>
+                <!-- /.nav-collapse -->
+  </nav>
+            @endif
+
+            @if(false)
             <i class="fa fa-remove fa-2x" id="close-menu"></i>
 
             <!-- NAV -->
@@ -251,37 +329,37 @@
                                                         {{ $category2->name }}
                                                         <i class="fa fa-chevron-right"></i>
                                                     </a>
-                                                    @if($categories3->isNotEmpty())
-                                                        <ul>
+                                                @if($categories3->isNotEmpty())
+                                                    <ul>
                                                                 @foreach($categories3 as $category3)
-                                                                    @php
-                                                                        $categories4 = \App\Models\Category::orderBy('sort')
-                                                                                ->isActive()
-                                                                                ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category3->id, false, true))
-                                                                                ->get();
-                                                                    @endphp
-                                                                    <li @if($categories4->isNotEmpty()) class="hassubs" @endif>
+                                                            @php
+                                                                $categories4 = \App\Models\Category::orderBy('sort')
+                                                                        ->isActive()
+                                                                        ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category3->id, false, true))
+                                                                        ->get();
+                                                            @endphp
+                                                            <li @if($categories4->isNotEmpty()) class="hassubs" @endif>
                                                                         <a href="{{ $category3->catalogUrl() }}">
                                                                             <img data-original="{{ $category3->pathImage(true) }}"  class="lazy-my"/>
                                                                             {{ $category3->name }}
                                                                             <i class="fa fa-chevron-right"></i>
                                                                         </a>
-                                                                        @if(count($categories4) > 0)
-                                                                            <ul>
+                                                                @if(count($categories4) > 0)
+                                                                    <ul>
                                                                                @foreach($categories4 as $category4)
-                                                                               <li>
+                                                                            <li>
                                                                                     <a href="{{ $category4->catalogUrl() }}">
                                                                                          <img data-original="{{ $category4->pathImage(true) }}"  class="lazy-my"/>
                                                                                         {{ $category4->name }}
                                                                                     </a>
                                                                                </li>
-                                                                               @endforeach
+                                                                        @endforeach
                                                                             </ul>
-                                                                        @endif
+                                                                @endif
                                                                     </li>
-                                                                @endforeach
+                                                        @endforeach
                                                         </ul>
-                                                    @endif
+                                                @endif
                                                 </li>
                                         @endforeach
                                     </ul>
@@ -313,6 +391,8 @@
                 <li class="{{ Request::routeIs('checkout') ? 'active' : '' }}"><a href="{{ route('checkout') }}">Корзина</a></li>
             </ul>
             <!-- /NAV -->
+
+            @endif
 
         </div>
         <!-- /responsive-nav -->
@@ -346,16 +426,16 @@
                     </form>
                     <ul class="newsletter-follow">
 
-                            <li><b>Мы в соцсетях.</b></li>
-                            @foreach(config('shop.social_network') as $item)
-                                <li>
-                                    <a href="{{ $item['url'] }}" title="{{ $item['title'] }}" target="_blank">
-                                        <img height="30"
-                                             class="lazy"
-                                             data-original="{{ $item['icon'] }}"/>
-                                    </a>
-                                </li>
-                            @endforeach
+                        <li><b>Мы в соцсетях.</b></li>
+                        @foreach(config('shop.social_network') as $item)
+                            <li>
+                                <a href="{{ $item['url'] }}" title="{{ $item['title'] }}" target="_blank" rel="nofollow">
+                                    <img height="30"
+                                         class="lazy"
+                                         data-original="{{ $item['icon'] }}"/>
+                                </a>
+                            </li>
+                        @endforeach
 
                     </ul>
                 </div>
@@ -492,87 +572,87 @@
 
 
 @if(false)
-<!-- Каталог товаров -->
-<div class="modal fade catalog-menu" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">
-                    Каталог товаров
-                </h4>
-            </div>
-            <div class="modal-body">
+    <!-- Каталог товаров -->
+    <div class="modal fade catalog-menu" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                        Каталог товаров
+                    </h4>
+                </div>
+                <div class="modal-body">
 
 
 
-                <?php
-                $categories = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
-                ?>
+                    <?php
+                    $categories = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
+                    ?>
 
-                <ul class="nav nav-tabs">
-                    @php $active = true; @endphp
-                    @foreach($categories as $k => $category)
-                        <li @if($active) class="active" @php $active = false; @endphp @endif>
-                            <a data-toggle="tab" href="#{{ $category->url }}">
-                                <i class="{{ $category->class }}"></i>
-                                {{ $category->name }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
+                    <ul class="nav nav-tabs">
+                        @php $active = true; @endphp
+                        @foreach($categories as $k => $category)
+                            <li @if($active) class="active" @php $active = false; @endphp @endif>
+                                <a data-toggle="tab" href="#{{ $category->url }}">
+                                    <i class="{{ $category->class }}"></i>
+                                    {{ $category->name }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
 
-                <div class="tab-content">
-                    @php $active = true; @endphp
-                    @foreach($categories as $k => $category)
-                        <div id="{{ $category->url }}" class="tab-pane fade @if($active) in active @php $active = false; @endphp @endif">
-                            <?php
-                            $categories = [];
-                            foreach($category->children()->isActive()->orderBy('sort')->get() as $category_children){
-                                $categories[] = $category_children;
+                    <div class="tab-content">
+                        @php $active = true; @endphp
+                        @foreach($categories as $k => $category)
+                            <div id="{{ $category->url }}" class="tab-pane fade @if($active) in active @php $active = false; @endphp @endif">
+                                <?php
+                                $categories = [];
+                                foreach($category->children()->isActive()->orderBy('sort')->get() as $category_children){
+                                    $categories[] = $category_children;
 
-                                $childrens_all = \App\Models\Category::orderBy('sort')
-                                    ->isActive()
-                                    ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category_children->id, false, true))
-                                    ->get();
+                                    $childrens_all = \App\Models\Category::orderBy('sort')
+                                        ->isActive()
+                                        ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category_children->id, false, true))
+                                        ->get();
 
-                                foreach ($childrens_all as $item)
-                                    $categories[] = $item;
-                            }
-                            ?>
+                                    foreach ($childrens_all as $item)
+                                        $categories[] = $item;
+                                }
+                                ?>
 
-                            <ul>
-                                <li>
-                                    <a href="{{ $category->catalogUrl() }}">
+                                <ul>
+                                    <li>
+                                        <a href="{{ $category->catalogUrl() }}">
                                                         <span>
                                                             <i class="{{ $category->class }} fa-3x"></i>
                                                         </span>
-                                        <span>Все {{ $category->name }}</span>
-                                    </a>
-                                </li>
-                                @foreach($categories as $key => $item)
-                                    <li>
-                                        <a href="{{ $item->catalogUrl() }}">
+                                            <span>Все {{ $category->name }}</span>
+                                        </a>
+                                    </li>
+                                    @foreach($categories as $key => $item)
+                                        <li>
+                                            <a href="{{ $item->catalogUrl() }}">
                                                         <span>
                                                             @if($item->image)
                                                                 <img src="{{ $item->pathImage(true) }}"/>
                                                             @endif
                                                         </span>
-                                            <span>{{ $item->name }}</span>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endforeach
-                </div>
+                                                <span>{{ $item->name }}</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endforeach
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Каталог товаров -->
+    <!-- Каталог товаров -->
 @endif
 
 <!-- Выбор города -->

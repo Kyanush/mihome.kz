@@ -6,12 +6,22 @@
 
 @section('content')
 
+    <style>
+        #responsive-nav{
+            position: absolute;
+            z-index: 10000000000000000000000;
+            width: 100%;
+        }
+    </style>
 
     <!-- SECTION -->
-    <div class="section">
+    <div class="section1">
         <!-- container -->
-        <div class="container">
+        <div class="container1">
             <div class="main-slider">
+                <a>
+                    <video width="100%" uk-cover="" src="/video/videoplayback.mp4" loop="" autoplay="" muted="" playsinline=""></video>
+                </a>
                 @foreach($listSlidersHomePage as $item)
                     <a href="{{ $item->link }}" title="{{ $item->name }}" title="{{ $item->name }}">
                         <img data-lazy="{{ $item->pathImage(true) }}" alt="{{ $item->name }}"  class="lazy"/>
@@ -103,15 +113,44 @@
         <!-- /SECTION -->
     @endif
 
+    @section('add_in_head')
+        <script type="text/javascript" src="https://vk.com/js/api/openapi.js?162"></script>
+        <script  src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v5.0&appId=373541409772772&autoLogAppEvents=1"></script>
+    @stop
+
     <!-- SECTION -->
     <div class="section" id="main-about">
         <!-- container -->
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    @include('instagram.widget')
+                    @include('social-network.instagram')
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-4">
+                    <!-- VK Widget -->
+                    <div id="vk_groups"></div>
+                    <script type="text/javascript">
+                        VK.Widgets.Group("vk_groups", {mode: 4, no_cover: 1, height: "400"}, 188528698);
+                    </script>
+                </div>
+                <div class="col-md-4">
+                    <div id="fb-root"></div>
+                    <div class="fb-page" data-href="https://web.facebook.com/mihome.kz/" data-tabs="timeline" data-width="" data-height="400" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true"><blockquote cite="https://web.facebook.com/mihome.kz/" class="fb-xfbml-parse-ignore"><a href="https://web.facebook.com/mihome.kz/">Интернет-магазин MiHome.kz</a></blockquote></div>
+                </div>
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /SECTION -->
+
+
+
+    <!-- SECTION -->
+    <div class="section" id="main-about">
+        <!-- container -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
                     <h3 class="title">Новости</h3>
                     <br/>
                     @include('site.news.widget', ['news' => $news])

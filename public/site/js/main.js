@@ -130,7 +130,7 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
         dots: true,
         arrows: true,
         fade: true,
-        autoplay: true,
+        autoplay: false
     });
     $('.main-slider').on('lazyLoaded', function (e, slick, image, imageSource) {
     	image.parent().css('background-image', 'url("' + imageSource + '")');
