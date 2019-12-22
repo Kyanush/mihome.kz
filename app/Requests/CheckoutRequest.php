@@ -15,7 +15,7 @@ class CheckoutRequest extends FormRequest
             'payment_id' => 'required|exists:payments,id',
             'user.email' => 'required|max:255',
             'user.name'  => 'required|max:255',
-            'user.phone' => 'required|phone'
+            'user.phone' => 'required'
         ];
 
         if($this->input('carrier_id', 0) == 1)

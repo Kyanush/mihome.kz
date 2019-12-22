@@ -131,13 +131,12 @@
 
                 <div class="item__instalment">
                     @if($product->stock > 0)
-                            <span class="item__prices-title">В наличии</span>
-                            <span class="item__prices-price"><i class="fa fa-check"></i></span>
+                        <span class="item__prices-title">В наличии</span>
+                        <span class="item__prices-price"><i class="fa fa-check"></i></span>
                     @else
-                            <span class="item__prices-title">Скоро в продаже</span>
-                            <span class="item__prices-price"><i class="fa fa-hourglass-half" aria-hidden="true"></i></span>
-                            <br/>
-                            <span class="item__add-info"><b style="color: #fb8800;">Ориентировочная цена</b></span>
+                        <span class="item__prices-title">Товар отсутствует</span>
+                        <span class="item__prices-price"><i class="fa fa-close"></i></span>
+                        <span class="item__add-info">При поступлении товара, цена может отличаться</span>
                     @endif
                 </div>
                 <!--
@@ -167,7 +166,7 @@
 
 
         <div class="item__info container text-center">
-
+            @if($product->stock > 0)
                 <button
                     style="padding: 1.867vw 2vw;"
                     type="button"
@@ -184,8 +183,7 @@
                     <i class="fa fa-whatsapp"></i>
                     Пишите на WhatsApp
                 </a>
-
-            @if(false)
+            @else
                     <form action="javascript:void(null);" onsubmit="subscribe(this); return false;" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -353,9 +351,11 @@
 
             @include('mobile.includes.product_slider', ['products' => $youWatchedProducts,  'title' => 'Вы смотрели', 'url' => ''])
 
-            <button type="button" class="button _big-fixed button-sellers" onclick="_addToCart({{ $product->id }})">
-                {{ $product->stock > 0 ? 'Оформить заказ' : 'Оформить предзаказ' }}
-            </button>
+            @if($product->stock > 0)
+                <button type="button" class="button _big-fixed button-sellers" onclick="_addToCart({{ $product->id }})">
+                    Оформить заказ
+                </button>
+            @endif
 
         </div>
     </div>

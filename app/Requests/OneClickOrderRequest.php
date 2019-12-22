@@ -17,7 +17,7 @@ class OneClickOrderRequest extends FormRequest
             ],
             'email' => 'required|email|max:255',
             'name'  => 'required|max:255',
-            'phone' => 'required|phone'
+            'phone' => 'required'
         ];
     }
 

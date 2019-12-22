@@ -9,7 +9,7 @@
     <style>
         #responsive-nav{
             position: absolute;
-            z-index: 10000000000000000000000;
+            z-index: 1;
             width: 100%;
         }
     </style>
@@ -18,13 +18,15 @@
     <div class="section1">
         <!-- container -->
         <div class="container1">
-            <div class="main-slider">
-                <a>
-                    <video width="100%" uk-cover="" src="/video/videoplayback.mp4" loop="" autoplay="" muted="" playsinline=""></video>
-                </a>
+            <div class="main-slider" style="width: 100%">
+
                 @foreach($listSlidersHomePage as $item)
                     <a href="{{ $item->link }}" title="{{ $item->name }}" title="{{ $item->name }}">
-                        <img data-lazy="{{ $item->pathImage(true) }}" alt="{{ $item->name }}"  class="lazy"/>
+                        @if($item->typeFile() == 'video')
+                            <video width="100%" uk-cover="" src="{{ $item->pathImage(true) }}" loop="" autoplay="" muted="" playsinline=""></video>
+                        @elseif($item->typeFile() == 'image')
+                            <img data-lazy="{{ $item->pathImage(true) }}" alt="{{ $item->name }}"  class="lazy"/>
+                        @endif
                     </a>
                 @endforeach
             </div>
@@ -182,7 +184,7 @@
                         <i class="fa fa-truck fa-3x"></i>
                     </p>
                     <b>Курьером по Алматы бесплатно</b>
-                    <p>Доставка по казахстану 1000 тг</p>
+                    <p>Доставка по казахстану 2000 тг</p>
                 </div>
                 <div class="col-md-3 col-xs-6">
                     <p>

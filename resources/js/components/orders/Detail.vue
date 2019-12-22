@@ -161,7 +161,7 @@
                                             <input
                                                     @blur="order.user_phone = $event.target.value;"
                                                     v-model="order.user_phone"
-                                                    class="form-control phone-mask"/>
+                                                    class="form-control phone-mask1"/>
                                         </td>
                                     </tr>
                                     <tr>

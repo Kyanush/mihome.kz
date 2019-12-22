@@ -12,7 +12,7 @@ class SaveSliderRequest extends FormRequest
             'slider.id'    => ($slider_id ? 'exists:sliders,id' : 'nullable'),
             'slider.name'  => 'required|max:255',
             'slider.link'  => 'max:255',
-            'slider.image' => $this->file('slider.image')  ? 'image|mimes:jpeg,jpg,png|max:5000' : 'nullable',
+            'slider.image' => $this->file('slider.image')  ? 'max:10000' : 'nullable',
             'slider.sort'  => 'required|integer',
             'slider.show_where'  => 'required|max:20',
         ];
@@ -24,7 +24,7 @@ class SaveSliderRequest extends FormRequest
             'slider.id'    => "'Слайдер ID'",
             'slider.name'  => "'Название'",
             'slider.link'  => "'Ссылка'",
-            'slider.image' => "'Картина'",
+            'slider.image' => "'Файл'",
             'slider.sort'  => "'Сортировка'",
             'slider.show_where'  => "'Где отображать'",
         ];

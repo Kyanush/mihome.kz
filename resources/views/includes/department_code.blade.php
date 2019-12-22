@@ -23,6 +23,7 @@
 
 <!-- Vue js -->
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script type="text/javascript" src="https://unpkg.com/vue-the-mask@0.11.1/dist/vue-the-mask.js"></script>
 
 <!-- axios -->
 <script type="text/javascript" src="/site/js/axios.min.js"></script>

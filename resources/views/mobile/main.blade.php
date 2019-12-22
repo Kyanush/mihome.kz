@@ -24,7 +24,7 @@
     <div class="catalog-items _grid">
         <?php $categories = \App\Models\Category::orderBy('sort')->where('parent_id', 0)->get();?>
         @foreach($categories as $category)
-            <a href="/c/{{ $category->url }}" class="catalog-item container">
+            <a href="{{ $category->redirect_url ? $category->redirect_url : route('category_menu_mobile',['category' => $category->url]) }}" class="catalog-item container">
                 <span class="catalog-item__img">
                     <img width="24" data-original="{{ $category->pathImage(true) }}" class="lazy"/>
                 </span>

@@ -42,11 +42,11 @@
                                 <h3 class="title">Покупатель</h3>
                             </div>
                             <div class="form-group">
-                                <input type="text"
+                                <the-mask
                                        v-model="user.phone"
-                                       class="input phone-mask"
-                                       @blur="user.phone = $event.target.value;"
-                                       placeholder="Мобильный телефон *"/>
+                                       class="input"
+                                       mask="+7(###)###-##-##"
+                                       placeholder="+7(777)777-77-77 *"/>
                             </div>
                             <div class="form-group">
                                 <input class="input" type="email"  v-model="user.email"  id="customer_email" placeholder="Электронная почта *">
@@ -330,10 +330,6 @@
                     }
                 },
                 created(){
-
-                    setTimeout(function() {
-                        $(".phone-mask").mask("+7(999) 999-9999");
-                    }, 2000);
 
                     this.listCart();
                     this.cartTotal();

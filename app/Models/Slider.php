@@ -37,6 +37,16 @@ class Slider extends Model
         return $query;
     }
 
+    public function typeFile(){
+        $path_parts = pathinfo($this->image);
+
+        if (in_array($path_parts['extension'], array("png", "jpeg", "gif"))){
+            return 'image';
+        }else{
+            return 'video';
+        }
+    }
+
  	public static function boot()
     {
 

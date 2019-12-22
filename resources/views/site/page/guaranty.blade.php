@@ -22,6 +22,9 @@
        <div class="section">
            <!-- container -->
            <div class="container">
+
+               <h1>Гарантия</h1>
+
                @include('includes.guaranty_text')
            </div>
        </div>

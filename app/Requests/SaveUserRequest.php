@@ -13,7 +13,7 @@ class SaveUserRequest extends FormRequest
             'user.id'      => ($data['id'] ? 'exists:users,id' : 'nullable'),
             'user.name'    => 'required|max:255',
             'user.surname' => 'max:255',
-            'user.phone'   => 'max:255|phone',
+            'user.phone'   => 'max:255',
             "user.email"   => 'required|email|unique:users,email' . ($data['id'] ? (',' . $data['id'] . ',id') : ''),
             'user.role_id' => 'required|exists:roles,id',
         ];

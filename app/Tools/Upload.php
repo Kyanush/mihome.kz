@@ -64,10 +64,13 @@ class Upload
 
         if(is_uploaded_file($file))
         {
-
-            $fileName = ($this->fileName ? $this->fileName : md5(uniqid('', true)));
             $ext = $file->extension();
-            $fileName.= '.' . $ext;
+
+            if($this->fileName){
+                $fileName = $this->fileName . '.' . $ext;
+            }else{
+                $fileName = $file->getClientOriginalName();
+            }
 
             if($file->move($path, $fileName)){
 

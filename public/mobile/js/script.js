@@ -293,7 +293,7 @@ Vue.component('back-call', {
         return{
             phone: user_info.phone,
             focus:{
-                phone: 0,
+                phone: 1,
             },
             wait: false
         }
@@ -314,12 +314,13 @@ Vue.component('back-call', {
                         <div>
                             <div class="input" :class="{ '_has-value': phone, '_focused': focus.phone == 1, '_invalid': focus.phone == 2 && !phone }">
                                 <label class="input__label">Введите номер телефона</label>
-                                <input 
-                                       type="tel"
-                                       class="input__input phone-mask" 
-                                       v-model="phone" 
+                                <the-mask 
                                        @focus="focus.phone = 1" 
-                                       @blur="focus.phone = 2;phone = $event.target.value;"/>
+                                       @blur="focus.phone = 2"
+                                       placeholder="+7(777)777-77-77 *"
+                                       mask="+7(###)###-##-##"
+                                       class="input__input" 
+                                       v-model="phone"/>
                             </div>
                             <div class="input__has-error" v-if="focus.phone == 2">Пожалуйста, заполните это поле</div>
                         </div>                      
@@ -372,9 +373,6 @@ Vue.component('back-call', {
         }
     },
     created(){
-        setTimeout(function() {
-            $(".phone-mask").mask("+7(999) 999-9999");
-        }, 2000);
     },
 });
 
@@ -389,7 +387,7 @@ Vue.component('buy-in-1-click', {
             focus:{
                 name: 0,
                 email: 0,
-                phone: 0,
+                phone: 1,
             },
             wait: false
         }
@@ -429,12 +427,13 @@ Vue.component('buy-in-1-click', {
                         <div>
                             <div class="input" :class="{ '_has-value': phone, '_focused': focus.phone == 1, '_invalid': focus.phone == 2 && !phone }">
                                 <label class="input__label">Введите номер телефона</label>
-                                <input 
-                                       type="tel"
-                                       class="input__input phone-mask" 
-                                       v-model="phone" 
+                                <the-mask 
                                        @focus="focus.phone = 1" 
-                                       @blur="focus.phone = 2;phone = $event.target.value;"/>
+                                       @blur="focus.phone = 2"
+                                       placeholder="+7(777)777-77-77 *"
+                                       mask="+7(###)###-##-##"
+                                       class="input__input" 
+                                       v-model="phone"/>
                             </div>
                             <div class="input__has-error" v-if="focus.phone == 2">Пожалуйста, заполните это поле</div>
                         </div>                      
@@ -494,9 +493,6 @@ Vue.component('buy-in-1-click', {
         }
     },
     created(){
-        setTimeout(function() {
-            $(".phone-mask").mask("+7(999) 999-9999");
-        }, 2000);
     },
 });
 
@@ -892,13 +888,13 @@ Vue.component('checkout', {
                                 <div>
                                         <div class="input" :class="{ '_has-value': user.phone, '_focused': focus.phone == 1, '_invalid': focus.phone == 2 && !user.phone }">
                                             <label class="input__label">Телефон *</label>
-                                           
-                                            <input 
-                                                type="tel"
-                                                class="input__input phone-mask" 
-                                                v-model="user.phone" 
+                                            <the-mask 
                                                 @focus="focus.phone = 1" 
-                                                @blur="focus.phone = 2;user.phone = $event.target.value;"/>
+                                                @blur="focus.phone = 2"
+                                                placeholder="+7(777)777-77-77 *"
+                                                mask="+7(###)###-##-##"
+                                                class="input__input" 
+                                                v-model="user.phone" >
                                         </div>
                                         <div class="input__has-error" v-if="focus.phone == 2">Пожалуйста, заполните это поле</div>
                                 </div>
@@ -1078,7 +1074,7 @@ Vue.component('checkout', {
             checkout_wait: false,
 
             focus:{
-                phone: 0,
+                phone: 1,
                 email: 0,
                 name: 0,
                 address: 0,
@@ -1201,9 +1197,6 @@ Vue.component('checkout', {
             this.payment = this.list_payments[0];
         });
 
-        setTimeout(function() {
-            $(".phone-mask").mask("+7(999) 999-9999");
-        }, 2000);
 
     },
     updated(){

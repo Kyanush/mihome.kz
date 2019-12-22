@@ -258,7 +258,7 @@ function setCity(city_code){
 
 $(document).ready(function() {
     if($(".phone-mask").length > 0)
-        $(".phone-mask").mask("+7(999) 999-9999");
+        $(".phone-mask").mask("+7(999)999-99-99");
 });
 
 

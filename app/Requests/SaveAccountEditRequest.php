@@ -11,7 +11,7 @@ class SaveAccountEditRequest extends FormRequest
         $rules = [
             'account.name'    => 'required|max:255',
             'account.surname' => 'max:255',
-            'account.phone'   => 'required|max:25|phone',
+            'account.phone'   => 'required|max:25',
             "account.email"   => 'required|email|unique:users,email,' . Auth::user()->id . ',id'
         ];
 

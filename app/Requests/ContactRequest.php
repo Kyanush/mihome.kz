@@ -10,7 +10,7 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'phone'   => 'max:255|required|phone',
+            'phone'   => 'max:255|required',
             'email'   => 'max:255|required',
             'message' => 'max:1000|required'
         ];

@@ -170,10 +170,9 @@
                                     </span>
                                 @else
                                     <span class="product-no-available">
-                                        <i class="fa fa-hourglass-half" aria-hidden="true"></i>
-                                        Скоро в продаже
+                                        <i class="fa fa-close"></i> Товар отсутствует
                                     </span>
-                                    <p class="firm-red"><b style="color: #fb8800;">Ориентировочная цена</b></p>
+                                    <p class="firm-red">При поступлении товара, цена может отличаться</p>
                                 @endif
                             </div>
 
@@ -194,30 +193,30 @@
                                 </div>
                             @endif
 
-
-                            <div class="add-to-cart">
-                                    <div class="qty-label">
-                                        <div class="input-number">
-                                            <input type="number" value="1" id="quantity"/>
-                                            <span class="qty-up">+</span>
-                                            <span class="qty-down">-</span>
+                            @if($product->stock > 0)
+                                <div class="add-to-cart">
+                                        <div class="qty-label">
+                                            <div class="input-number">
+                                                <input type="number" value="1" id="quantity"/>
+                                                <span class="qty-up">+</span>
+                                                <span class="qty-down">-</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                @if($product->inCart)
-                                    <a href="{{ route('checkout') }}">
-                                        <button class="add-to-cart-btn product-in-basket1">
+                                    @if($product->inCart)
+                                        <a href="{{ route('checkout') }}">
+                                            <button class="add-to-cart-btn product-in-basket1">
+                                                <i class="fa fa-shopping-cart"></i>
+                                                Товар в корзине
+                                            </button>
+                                        </a>
+                                    @else
+                                        <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }}, $('#quantity').val())">
                                             <i class="fa fa-shopping-cart"></i>
-                                            Товар в корзине
+                                            Добавить в корзину
                                         </button>
-                                    </a>
-                                @else
-                                    <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }}, $('#quantity').val())">
-                                        <i class="fa fa-shopping-cart"></i>
-                                        {{ $product->stock > 0 ? 'Добавить в корзину' : 'Оформить предзаказ' }}
-                                    </button>
-                                @endif
-                            </div>
-
+                                    @endif
+                                </div>
+                            @endif
 
                         <ul class="product-btns">
                                 <li>
@@ -247,8 +246,9 @@
                             </ul>
 
 
-                            <br/>
-                            <ul class="add-to-cart">
+                            @if($product->stock > 0)
+                                <br/>
+                                <ul class="add-to-cart">
                                     <li>
                                         <a class="cursor-pointer" id="buy-in-one-click">
                                             <i class="fa fa-shopping-cart"></i>
@@ -261,27 +261,26 @@
                                         </a>
                                     </li>
                                 </ul>
-
-                            @if(false)
-                            <div class="product-links">
-                                    <form action="javascript:void(null);" onsubmit="subscribe(this); return false;" method="post" enctype="multipart/form-data">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                        <div class="form-group">
-                                            <label>Оставьте электронную почту, чтобы узнать о поступлении товара</label>
-                                            <input class="form-control"
-                                                   type="text"
-                                                   name="email"
-                                                   @auth value="{{ Auth::user()->email }}" @endauth
-                                                   placeholder="Ваша электронная почта"/>
-                                        </div>
-                                        <button type="submit" class="btn btn-firm">
-                                            <i class="fa fa-bell"></i>
-                                            Подписаться
-                                        </button>
-                                    </form>
-                                </div>
-                            <br/>
+                            @else
+                                <div class="product-links">
+                                        <form action="javascript:void(null);" onsubmit="subscribe(this); return false;" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <div class="form-group">
+                                                <label>Оставьте электронную почту, чтобы узнать о поступлении товара</label>
+                                                <input class="form-control"
+                                                       type="text"
+                                                       name="email"
+                                                       @auth value="{{ Auth::user()->email }}" @endauth
+                                                       placeholder="Ваша электронная почта"/>
+                                            </div>
+                                            <button type="submit" class="btn btn-firm">
+                                                <i class="fa fa-bell"></i>
+                                                Подписаться
+                                            </button>
+                                        </form>
+                                    </div>
+                                <br/>
                             @endif
 
                         </span>

@@ -24,7 +24,7 @@ class SaveOrderRequest extends FormRequest
             'order.address'             => 'max:255',
             'order.city'                => 'max:255',
             'order.user_name'           => 'max:255',
-            'order.user_phone'          => 'max:255' . ($order['user_phone'] ? '|phone' : 'nullable'),
+            'order.user_phone'          => 'max:255',
             'order.user_email'          => 'max:255' . ($order['user_email'] ? '|email' : 'nullable'),
 
             'order.products'            => 'required'

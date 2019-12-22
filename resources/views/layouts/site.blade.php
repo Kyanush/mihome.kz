@@ -485,6 +485,7 @@
                     </div>
                 </div>
 
+                <!--
                 <div class="col-md-3 col-xs-12">
                     <div class="footer">
                         <h3 class="footer-title">Каталог</h3>
@@ -497,7 +498,7 @@
                             <li><a href="/catalog/zaryadnye-ustroystva">Зарядные устройства</a></li>
                         </ul>
                     </div>
-                </div>
+                </div>--->
 
                 <div class="clearfix visible-xs"></div>
 

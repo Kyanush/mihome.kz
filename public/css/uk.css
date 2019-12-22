@@ -1,3 +1,6 @@
+#description{
+    font-size: 15px;
+}
 #description *+p,
 #description *+ul,
 #description *+ol,
@@ -9299,7 +9302,7 @@ a.uk-thumbnail:focus {
 
 .uk-align-left {
     margin-right: 25px;
-    float: left
+    float: left;
 }
 
 .uk-align-right {
@@ -9338,7 +9341,7 @@ a.uk-thumbnail:focus {
 .uk-vertical-align-bottom {
     display: inline-block;
     max-width: 100%;
-    font-size: 1rem
+    font-size: 15px;
 }
 
 .uk-vertical-align-middle {
