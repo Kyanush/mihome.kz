@@ -19,6 +19,7 @@ class Order extends Model
         'status_id',
         'carrier_id',
         'comment',
+        'comment_admin',
         'delivery_date',
         'total',
         'payment_id',

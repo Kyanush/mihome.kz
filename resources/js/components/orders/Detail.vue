@@ -102,12 +102,18 @@
                             <div class="table-responsive1">
                                 <table class="table table-striped table-hover">
                                     <tbody>
-                                    <tr>
-                                        <td>Комментарии</td>
-                                        <td colspan="3">
-                                            <textarea class="form-control" v-model="order.comment"></textarea>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>Комментарии к заказу</td>
+                                            <td colspan="3">
+                                                <textarea disabled class="form-control" v-model="order.comment"></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Комментарии<br/>администратора</td>
+                                            <td colspan="3">
+                                                <textarea  class="form-control" v-model="order.comment_admin"></textarea>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -518,6 +524,7 @@
                     status_id: 1,
                     carrier_id: 2,
                     comment: '',
+                    comment_admin: '',
                     delivery_date: '',
                     payment_id: 1,
                     paid: 0,
