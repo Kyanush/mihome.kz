@@ -138,6 +138,7 @@ Route::group(['middleware' => ['role:admin'], 'prefix'     => 'admin', 'namespac
         Route::group(['prefix'     => 'status'], function () {
             Route::get('callbacks-status-id', 'StatusController@callbacksStatusId');
             Route::get('orders-type',         'StatusController@ordersType');
+            Route::get('list',                'StatusController@list');
         });
 
         //Новости

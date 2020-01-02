@@ -301,9 +301,11 @@
                                                 <label><span class="red">*</span> Описание:</label>
                                             </td>
                                             <td width="75%">
-                                                <select v-model="product.description_full_screen" class="form-control">
-                                                    <option value="1">На весь экран - да</option>
-                                                    <option value="0">На весь экран - нет</option>
+                                                <select v-model="product.description_style_id" class="form-control">
+                                                    <option></option>
+                                                    <option v-for="item in description_style_id" :value="item.id">
+                                                        @{{ item.name }}
+                                                    </option>
                                                 </select>
                                             </td>
                                         </tr>
@@ -716,7 +718,7 @@
                     view_count: 0,
                     reviews_rating_avg: 0,
                     reviews_count: 0,
-                    description_full_screen: 0
+                    description_style_id: 0
                 },
                 product_photo_upload_type: 'file',
                 product_accessories: [],
@@ -739,7 +741,8 @@
                     sum:    0,
                     format: 0,
                     discount_type_info: ''
-                }
+                },
+                description_style_id: []
             }
         },
         methods:{
@@ -897,7 +900,7 @@
                                 this.product.view_count       = product.view_count;
                                 this.product.reviews_rating_avg = product.reviews_rating_avg;
                                 this.product.reviews_count      = product.reviews_count;
-                                this.product.description_full_screen      = product.description_full_screen;
+                                this.product.description_style_id      = product.description_style_id;
 
                                 this.group_products = data.children;
                                 this.categories     = data.categories;
@@ -924,6 +927,10 @@
             var params = {per_page: 100};
             axios.get('/admin/categories-list', {params:  params}).then((res)=>{
                 this.categories_list = res.data.data;
+            });
+
+            axios.get('/admin/status/list?where_use=products_description_style_id').then((res)=>{
+                this.description_style_id = res.data;
             });
 
             setTimeout(function () {

@@ -13048,3 +13048,8 @@ ul.zoo-list {
 .uk-dotnav>li.uk-active>a {
     background: rgba(255, 255, 255, 0.5)
 }
+@media (min-width: 960px){
+    .uk-hidden\@m {
+        display: none!important;
+    }
+}

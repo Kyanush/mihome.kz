@@ -235,6 +235,11 @@
                                 Смартфоны Realme
                             </li>
                             <li>
+                                <a href="/p/realme-5">
+                                    Realme 5
+                                </a>
+                            </li>
+                            <li>
                                 <a href="/p/realme-5-pro">
                                     Realme 5 Pro
                                 </a>
@@ -242,6 +247,16 @@
                             <li>
                                 <a href="/p/realme-x2">
                                     Realme X2
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/p/realme-x2-pro">
+                                    Realme X2 Pro
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/p/realme-xt">
+                                    Realme XT
                                 </a>
                             </li>
                         </ul>

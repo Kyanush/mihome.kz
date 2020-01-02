@@ -25,6 +25,7 @@ class Product extends Model
     	'name',
         'url',
     	'description',
+        'description_style_id',
         'photo',
     	'price',
     	'sku',
@@ -39,7 +40,6 @@ class Product extends Model
         'view_count',
         'reviews_rating_avg',
         'reviews_count',
-        'description_full_screen',
 	];
 
     public function scopeIsActive($query){
@@ -58,6 +58,10 @@ class Product extends Model
         return $query->where('parent_id', '>', 0);
     }
 
+    public function descriptionStyle()
+    {
+        return $this->belongsTo('App\Models\Status', 'description_style_id', 'id');
+    }
 
     public function parent()
     {
