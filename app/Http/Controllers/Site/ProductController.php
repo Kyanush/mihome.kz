@@ -19,25 +19,6 @@ class ProductController extends Controller
 
     public function productDetail($product_url){
 
-        if(isset($_GET['dddyyyydffff']))
-        {
-            $products = Product::WhereIn('id', [1284, 1285, 1286, 1287, 1288, 1289, 1290, 1291])->get();
-            foreach ($products as $product)
-            {
-
-                $product->attributes()->detach();
-
-                $t_attribute_product_value = DB::select('SELECT * FROM `t_attribute_product_value` WHERE `product_id` = 1283');
-                foreach ($t_attribute_product_value as $value) {
-
-                    if ($value->value)
-                        $product->attributes()->attach([$value->attribute_id => ['value' => $value->value]]);
-
-                }
-            }
-        }
-
-
         $product = Product::productInfoWith()
                             ->with(['images' => function($query){
                                     $query->OrderBy('order', 'ASC');
@@ -46,6 +27,8 @@ class ProductController extends Controller
                             ->where('url', $product_url)
                             ->firstOrFail();
 
+        $reviews = $ratings_groups = false;
+/*
         if(Helpers::isMobile()){
             $view = $_GET['view'] ?? false;
             if($view == 'reviews')
@@ -62,6 +45,7 @@ class ProductController extends Controller
             ->groupBy('rating')
             ->orderBy('rating')
             ->get();
+*/
 
         //Похожие товары
         if($product->parent_id){
@@ -74,11 +58,6 @@ class ProductController extends Controller
         $products_interested = $product->productAccessories()->productInfoWith()->get();
         if($products_interested->isEmpty())
             $products_interested = $product->productAccessoriesBack()->productInfoWith()->get();
-
-        //Вы смотрели
-        ServiceYouWatchedProduct::youWatchedProduct($product->id);
-        $youWatchedProducts = ServiceYouWatchedProduct::listProducts($product->id, 10);
-
 
 
         //Кол-во просмотров
@@ -102,25 +81,9 @@ class ProductController extends Controller
         if($product->parent_id)
         {
             $product_parent = $product->parent;
-            $product->description = $product_parent->description;
-            $product->description_full_screen = $product_parent->description_full_screen;
 
-            foreach ($product_parent->attributes as $k1 => $attribute1)
-            {
-                $add = true;
-                foreach ($product->attributes as $k2 => $attribute2)
-                {
-                    if($attribute1->id == $attribute2->id)
-                    {
-                        $add = false;
-                        break;
-                    }
-                }
-                if($add)
-                {
-                    $product->attributes->push($attribute1);
-                }
-            }
+            $product->description = $product_parent->description;
+            $product->attributes  = $product_parent->attributes;
         }
 
 
@@ -130,7 +93,6 @@ class ProductController extends Controller
             'ratings_groups'      => $ratings_groups,
             'group_products'      => $group_products,
             'products_interested' => $products_interested,
-            'youWatchedProducts'  => $youWatchedProducts,
             'category'            => $category,
             'seo'                 => $seo,
             'breadcrumbs'         => $breadcrumbs,

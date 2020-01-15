@@ -35,6 +35,25 @@
                 </a>
             @endforeach
         </div>
+        <div class="footer__contacts-text">
+            <b>Наши магазины:</b>
+
+            <p>
+                <a href="https://mihome.kz/" title="MiHome.kz - магазин электроники">
+                    <img width="169" src="https://mihome.kz/site/images/logo.png" alt="MiHome.kz - магазин электроники"/>
+                    <br/>
+                    MiHome.kz - магазин электроники
+                </a>
+            </p>
+            <p>
+                <a href="https://xiaomi-market.kz/" title="Магазин Xiaomi">
+                    <img width="250" src="https://xiaomi-market.kz/site/images/logo.png" alt="Магазин Xiaomi"/>
+                    <br/>
+                    Магазин Xiaomi
+                </a>
+            </p>
+
+        </div>
     </div>
     <div class="footer__links">
         <a class="footer__link" href="/login">Вход в кабинет</a>

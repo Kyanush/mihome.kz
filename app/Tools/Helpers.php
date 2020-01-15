@@ -105,7 +105,7 @@ class Helpers
     }
 
     public static function getSortedToFilter($filters){
-        $value   = 'sort_created_at-desc';
+        $value   = 'sort_sort-desc';
         $default = true;
 
         foreach ($filters as $code => $filter_value)
@@ -168,16 +168,16 @@ class Helpers
                 'value'  => 'sort_price-desc'
             ],
             [
-                'column' => 'created_at',
+                'column' => 'sort',
                 'order'  => 'ASC',
                 'title'  => 'новинки',
-                'value'  => 'sort_created_at-asc'
+                'value'  => 'sort_sort-asc'
             ],
             [
-                'column' => 'created_at',
+                'column' => 'sort',
                 'order'  => 'DESC',
                 'title'  => 'новинки',
-                'value'  => 'sort_created_at-desc'
+                'value'  => 'sort_sort-desc'
             ]
         ];
 
@@ -193,7 +193,7 @@ class Helpers
                     break;
                 }
             }
-            return $result ? $result : self::listSortingProducts('sort_created_at-desc');
+            return $result ? $result : self::listSortingProducts('sort_sort-desc');
         }
     }
 

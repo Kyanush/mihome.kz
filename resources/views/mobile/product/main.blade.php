@@ -134,7 +134,7 @@
                         <span class="item__prices-title">В наличии</span>
                         <span class="item__prices-price"><i class="fa fa-check"></i></span>
                     @else
-                        <span class="item__prices-title">Товар отсутствует</span>
+                        <span class="item__prices-title">Нет в наличии</span>
                         <span class="item__prices-price"><i class="fa fa-close"></i></span>
                         <span class="item__add-info">При поступлении товара, цена может отличаться</span>
                     @endif
@@ -349,7 +349,6 @@
                 </a>
             </div>
 
-            @include('mobile.includes.product_slider', ['products' => $youWatchedProducts,  'title' => 'Вы смотрели', 'url' => ''])
 
             @if($product->stock > 0)
                 <button type="button" class="button _big-fixed button-sellers" onclick="_addToCart({{ $product->id }})">

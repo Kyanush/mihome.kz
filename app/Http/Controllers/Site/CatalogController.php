@@ -33,19 +33,17 @@ class CatalogController extends Controller
 
     }
 
-    public function catalogCity($city, $category){
-        return $this->catalogMain($category);
-    }
 
-    public function catalog($category){
-        return $this->catalogMain($category);
-    }
+    public function catalog($code){
 
-    public function catalogMain($category_code){
+        if($code == 'xiaomi-mi-note-10')
+            return redirect()->route('productDetail', ['product_url' => 'xiaomi-mi-note-10']);
+
+
         //категория
-        $category = Category::isActive()->where('url', $category_code)->firstOrFail();
+        $category = Category::isActive()->where('url', $code)->firstOrFail();
 
-        $filters = Helpers::filtersProductsDecodeUrl($category_code);
+        $filters = Helpers::filtersProductsDecodeUrl($code);
 
         $filters['active'] = 1;
         $filters['main']   = 1;
@@ -63,36 +61,22 @@ class CatalogController extends Controller
             ->OrderBy($column, $order)
             ->paginate(15);
 
-        $productsHitViewed = Product::productInfoWith()
-            ->filters($category_code ? ['category' => $category_code] : [])
-            ->OrderBy('view_count', 'DESC')
-            ->limit(10)
-            ->get();
-
-
-        //Вы смотрели
-        $youWatchedProducts = ServiceYouWatchedProduct::listProducts(false, 7);
-
         //seo
         $seo = Seo::catalog($category);
         if(!$seo)
             return abort(404);
 
-
         //Хлебная крошка
         $breadcrumbs = ServiceCategory::breadcrumbCategories($category->parent_id, $category->name);
 
-
         return view(Helpers::isMobile() ? 'mobile.catalog' : 'site.catalog', [
-            'catalog' => $catalog,
-            'youWatchedProducts' => $youWatchedProducts,
-            'productsHitViewed' => $productsHitViewed,
-            'filters' => $filters,
-            'category' => $category,
-            'priceMinMax' => $priceMinMax,
+            'catalog'                   => $catalog,
+            'filters'                   => $filters,
+            'category'                  => $category,
+            'priceMinMax'               => $priceMinMax,
             'productsAttributesFilters' => $productsAttributesFilters,
-            'seo' => $seo,
-            'breadcrumbs' => $breadcrumbs
+            'seo'                       => $seo,
+            'breadcrumbs'               => $breadcrumbs
         ]);
     }
 

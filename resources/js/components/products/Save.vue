@@ -100,6 +100,19 @@
                                         </tr>
                                         <tr>
                                             <td width="25%" class="text-right">
+                                                <label>Сортировка:</label>
+                                            </td>
+                                            <td width="75%">
+                                                <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.sort')}">
+                                                    <input type="text" v-model="product.sort" class="form-control">
+                                                    <span v-if="IsError('product.sort')" class="help-block" v-for="e in IsError('product.sort')">
+                                                         {{ e }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="25%" class="text-right">
                                                 <label>
                                                     <i class="fa fa-link" aria-hidden="true"></i>
                                                     Ссылка:
@@ -130,6 +143,25 @@
                                                 </div>
                                             </td>
                                         </tr>
+
+                                        <tr>
+                                            <td width="25%" class="text-right">
+                                                <label><span class="red">*</span> Статус:</label>
+                                            </td>
+                                            <td width="75%">
+                                                <div class="col-md-6">
+                                                    <select v-model="product.status_id" class="form-control">
+                                                        <option v-for="item in statuses"
+                                                                :selected="item.default === 1"
+                                                                :value="item.id"
+                                                                v-if="item.where_use == 'products_status_id'">
+                                                             {{ item.name }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                        </tr>
+
                                         <tr>
                                             <td width="25%" class="text-right">
                                                 <label>
@@ -164,14 +196,14 @@
                                             <td width="25%" class="text-right">
                                                 <label>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
-                                                    Статус:
+                                                    Показать товар:
                                                 </label>
                                             </td>
                                             <td width="75%">
                                                 <div class="col-md-4" v-bind:class="{'has-error' : IsError('product.active')}">
                                                     <select v-model="product.active" class="form-control">
-                                                        <option value="1">Активный</option>
-                                                        <option value="0">Неактивный</option>
+                                                        <option value="1">Да</option>
+                                                        <option value="0">Нет</option>
                                                     </select>
                                                     <span v-if="IsError('product.active')" class="help-block" v-for="e in IsError('product.active')">
                                                          {{ e }}
@@ -181,7 +213,7 @@
                                         </tr>
                                         <tr>
                                             <td width="25%" class="text-right">
-                                                <label for="stock">Количество просмотров:</label>
+                                                <label>Количество просмотров:</label>
                                             </td>
                                             <td width="75%">
                                                 <div class="col-md-6">
@@ -303,8 +335,11 @@
                                             <td width="75%">
                                                 <select v-model="product.description_style_id" class="form-control">
                                                     <option></option>
-                                                    <option v-for="item in description_style_id" :value="item.id">
-                                                        @{{ item.name }}
+                                                    <option v-for="item in statuses"
+                                                            :selected="item.default === 1"
+                                                            :value="item.id"
+                                                            v-if="item.where_use == 'products_description_style_id'">
+                                                        {{ item.name }}
                                                     </option>
                                                 </select>
                                             </td>
@@ -703,6 +738,7 @@
                     id:        this.$route.params.product_id ? this.$route.params.product_id : 0,
                     parent_id: this.$route.query.parent_id   ? this.$route.query.parent_id   : 0,
                     name: '',
+                    sort: 0,
                     url: '',
                     description: '',
                     photo: '',
@@ -710,6 +746,7 @@
                     price: 0,
                     sku: '',
                     stock: 1,
+                    status_id: 0,
                     active: 1,
                     seo_title: '',
                     seo_keywords: '',
@@ -742,7 +779,7 @@
                     format: 0,
                     discount_type_info: ''
                 },
-                description_style_id: []
+                statuses: []
             }
         },
         methods:{
@@ -885,6 +922,7 @@
                                 this.product.id               = product.id;
                                 this.product.parent_id        = product.parent_id;
                                 this.product.name             = product.name;
+                                this.product.sort             = product.sort;
                                 this.product.url              = product.url;
                                 this.product.description      = product.description;
                                 this.product.seo_title        = product.seo_title;
@@ -895,6 +933,7 @@
                                 this.product.price            = parseInt(product.price);
                                 this.product.sku              = product.sku;
                                 this.product.stock            = product.stock;
+                                this.product.status_id        = product.status_id;
                                 this.product.active           = product.active;
                                 this.product.youtube          = product.youtube;
                                 this.product.view_count       = product.view_count;
@@ -929,8 +968,8 @@
                 this.categories_list = res.data.data;
             });
 
-            axios.get('/admin/status/list?where_use=products_description_style_id').then((res)=>{
-                this.description_style_id = res.data;
+            axios.get('/admin/status/list').then((res)=>{
+                this.statuses = res.data;
             });
 
             setTimeout(function () {

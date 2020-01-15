@@ -555,7 +555,7 @@
                 var product_id = product.id;
                 var name       = product.name;
                 var sku        = product.sku;
-                var price      = product.price;
+                var price      = product.reduced_price;
                 var photo      = product.photo;
 
                 var self = this;

@@ -85,9 +85,9 @@
                 <div style="font-weight:bold;color:#fff;">О компании</div>
 
                 <div style="color:#636363;margin-top:8px;font-size:12px;">
-                    Вы предпочитаете покупать исключительно качественную электронную технику, имеющую все необходимые сертификаты? Значит,
-                    магазин «{{env('APP_NO_URL')}}» – то, что вам нужно! Мы рады приветствовать на этом сайте каждого покупателя и готовы
-                    предложить вам только подлинные устройства популярных брендов.
+                    <p>Что же объединяет три таких разных производителя? Ответ один - {{env('APP_NO_URL')}}.</p>
+                    <p>Основатели {{env('APP_NO_URL')}} прекрасно понимают, как важен временной ресурс. Поэтому мы делаем все, чтобы вы сэкономили деньги и драгоценные часы.</p>
+                    <p>Опытные специалисты с удовольствием подскажут вам, на что стоит обратить внимание, какие характеристики будут помогать вам в работе, и даже подскажут ту самую модель!</p>
                 </div>
 
                 <div style="margin-top:20px;overflow:hidden;">
@@ -116,16 +116,20 @@
 
                 <div style="color:#afafaf;margin-top:8px;font-size:12px;margin-top:15px;">
                     <div style="color:#fff;text-decoration:underline;font-size:12px;">E-mail:
-                        <a href="mailto:{{ env('MAIL_ADMIN') }}" style="color:#fff;font-size:12px;" class="ns-action">
-                            {{ env('MAIL_ADMIN') }}
+                        <a href="mailto:{{ config('shop.site_email') }}" style="color:#fff;font-size:12px;" class="ns-action">
+                            {{ config('shop.site_email') }}
                         </a>
                     </div>
 
                     <div style="color:#fff;text-decoration:underline;font-size:12px;margin-top:5px;">Позвоните нам:
                         <span class="wmi-callto">
-                            <a href="tel: {{ $number_phones[0]['number'] }}" style="color: #ffffff;">
-                                {{ $number_phones[0]['format'] }}
-                            </a>
+                            @foreach($number_phones as $phone)
+                                <p>
+                                    <a href="tel: {{ $phone['number'] }}" style="color: #ffffff;">
+                                        {{ $phone['format'] }}
+                                    </a>
+                                </p>
+                            @endforeach
                         </span>
                     </div>
                 </div>

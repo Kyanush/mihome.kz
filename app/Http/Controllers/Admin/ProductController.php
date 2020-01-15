@@ -16,36 +16,33 @@ use DB;
 class ProductController extends AdminController
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
+
 
     public function searchProducts(Request $request){
-        $data = [];
         $search = $request->input('search');
         if($search)
         {
             $products = Product::filters(['name' => $request->input('search')])
                             ->limit(10)
                             ->get();
-            $data = $products->map(function ($item) {
-                return  [
-                    'product'    => $item,
-                    'photo_path' => $item->pathPhoto(true),
-                    'price'      => Helpers::priceFormat($item->getReducedPrice()),
-                ];
-            });
+
+            foreach ($products as $key => $product)
+            {
+                $products[$key]->reduced_price        = $product->getReducedPrice();
+                $products[$key]->reduced_price_format = Helpers::priceFormat($product->getReducedPrice());
+                $products[$key]->photo_path           = $product->pathPhoto(true);
+            }
+
         }
 
-        return $this->sendResponse($data);
+        return $this->sendResponse($products ?? []);
     }
 
     public function list(Request $request)
     {
         $filters = $request->all();
 
-        $sort = Helpers::sortConvert($filters['sort'] ?? false);
+        $sort = Helpers::sortConvert($filters['sort'] ?? 'sort-DESC');
         $column = $sort['column'];
         $order  = $sort['order'];
 

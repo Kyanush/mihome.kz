@@ -529,6 +529,29 @@
                         </ul>
                     </div>
                 </div>
+
+                <div class="col-md-3 col-xs-6">
+                    <div class="footer">
+                        <h3 class="footer-title">Наши магазины</h3>
+                        <ul class="footer-links">
+                            <li>
+                                <a href="https://mihome.kz/" title="MiHome.kz - магазин электроники">
+                                    <img width="169" src="https://mihome.kz/site/images/logo.png" alt="MiHome.kz - магазин электроники"/>
+                                    <br/>
+                                    MiHome.kz - магазин электроники
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://xiaomi-market.kz/" title="Магазин Xiaomi">
+                                    <img width="250" src="https://xiaomi-market.kz/site/images/logo.png" alt="Магазин Xiaomi"/>
+                                    <br/>
+                                    Магазин Xiaomi
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
             <!-- /row -->
         </div>

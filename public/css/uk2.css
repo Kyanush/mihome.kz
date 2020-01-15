@@ -1,4 +1,19 @@
-
+@media (max-width:760px) {
+    #description img {
+        max-width: 100% !important;
+        min-width: auto !important;
+    }
+    #description ul{
+        padding: 0;
+        margin: 0;
+    }
+    #description ul li{
+        list-style: none;
+    }
+}
+video{
+    max-width: 100%;
+}
 
 .uk-tab li {
     flex-wrap: wrap !important;
@@ -8,6 +23,7 @@
 .vm_cart_products {
     font-size: 10px
 }
+
 
 @media (min-width:960px) {
     .uk-modal-dialog {

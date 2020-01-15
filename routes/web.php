@@ -54,12 +54,7 @@ Route::group(['namespace'  => 'Site'], function () {
     Route::get('c/{category}', 'CatalogController@c')->where(['category'])->name('category_menu_mobile');
 
     //каталог
-    Route::get('{city}/catalog/{category}', function($city, $category) {
-        return redirect()->route('catalog', ['category' => $category]);
-    });
-    Route::get('catalog/{category}'          . $params,  'CatalogController@catalog')
-        ->where(['category'])
-        ->name('catalog');
+    Route::get('catalog/{code}' . $params,  'CatalogController@catalog')->where(['code'])->name('catalog');
 
 
     //товар детально
@@ -67,9 +62,6 @@ Route::group(['namespace'  => 'Site'], function () {
         ->where(['product_url'])
         ->name('productDetail');
 
-    Route::get('{city}/p/{product_url}', function($city, $product_url) {
-        return redirect()->route('productDetail', ['product_url' => $product_url]);
-    });
 
 
 

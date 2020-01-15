@@ -5,6 +5,7 @@
 @section('keywords',    $seo['keywords'])
 @section('og_image',    env('APP_URL') . $product->pathPhoto(true))
 
+
 @section('content')
 
     @include('schemas.product', [
@@ -31,7 +32,7 @@
                 <div id="product-main-img">
                     <div class="product-preview">
                         <a data-fancybox="gallery" href="{{ $product->pathPhoto(true) }}">
-                            <img itemprop="image" data-lazy="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                            <img itemprop="image" data-lazy="{{ $product->pathPhoto(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
                         </a>
 
                         <?php ob_start();?>
@@ -59,7 +60,7 @@
                         @foreach($product->images as $image)
                             <div class="product-preview">
                                 <a data-fancybox="gallery" href="{{ $image->imagePath(true) }}">
-                                    <img itemprop="image" data-lazy="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                                    <img itemprop="image" data-lazy="{{ $image->imagePath(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
                                 </a>
                                 {!! $label !!}
                             </div>
@@ -75,12 +76,12 @@
             <div class="col-md-2  col-md-pull-5">
                 <div id="product-imgs">
                     <div class="product-preview">
-                        <img data-lazy="{{ $product->pathPhoto(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                        <img data-lazy="{{ $product->pathPhoto(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
                     </div>
                     @if(count($product->images) > 0)
                         @foreach($product->images as $image)
                             <div class="product-preview">
-                                <img data-lazy="{{ $image->imagePath(true) }}" title="{{ $seo['title'] }}" alt="{{ $seo['title'] }}"/>
+                                <img data-lazy="{{ $image->imagePath(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
                             </div>
                         @endforeach
                     @endif
@@ -164,16 +165,15 @@
                                         </del>
                                     @endif
                                 </h3>
-                                @if($product->stock > 0)
-                                    <span class="product-available">
-                                        <i class="fa fa-check"></i> В наличии
-                                    </span>
-                                @else
-                                    <span class="product-no-available">
-                                        <i class="fa fa-close"></i> Товар отсутствует
-                                    </span>
-                                    <p class="firm-red">При поступлении товара, цена может отличаться</p>
-                                @endif
+
+                                <span class="product-available">
+                                    {!! $product->status->class !!}
+                                    {{ $product->status->name }}
+                                    @if($product->status_id != 10)
+                                        <p class="firm-red">При поступлении товара, цена может отличаться</p>
+                                    @endif
+                                </span>
+
                             </div>
 
                             @if(count($group_products) > 0)
@@ -183,9 +183,10 @@
                                             <option value="{{ $product->parent_id ? $product->parent->detailUrlProduct() : '' }}">Выберите вариант</option>
                                             @foreach($group_products as $group_product)
                                                 <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected  @endif>
-                                                     {{ $group_product->name }}
-                                                     -
-                                                     {{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }}
+                                                    {{ $group_product->name }}
+                                                    ({{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }})
+                                                    {!! $group_product->status->class !!}
+                                                    {{ $group_product->status->name }}
                                                 </option>
                                             @endforeach
                                        </select>
@@ -630,7 +631,6 @@
 </div>
 <!-- /SECTION -->
 
-@include('site.includes.product_slider', ['products' => $youWatchedProducts, 'title' => 'Вы смотрели'])
 
 
 

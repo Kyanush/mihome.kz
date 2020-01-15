@@ -18,26 +18,6 @@
                                 Смартфоны Xiaomi
                             </li>
                             <li>
-                                <a href="/catalog/xiaomi-pocophone-f1">
-                                    Xiaomi Pocophone F1
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/catalog/xiaomi-redmi-go">
-                                    Xiaomi Redmi Go
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/p/xiaomi-redmi-note-6-pro">
-                                    Xiaomi Redmi Note 6 Pro
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/p/xiaomi-redmi-note-7">
-                                    Xiaomi Redmi Note 7
-                                </a>
-                            </li>
-                            <li>
                                 <a href="/p/xiaomi-redmi-note-8">
                                     Xiaomi Redmi Note 8
                                 </a>
@@ -53,16 +33,6 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="/p/xiaomi-redmi-6">
-                                    Xiaomi Redmi 6
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/p/xiaomi-redmi-7">
-                                    Xiaomi Redmi 7
-                                </a>
-                            </li>
-                            <li>
                                 <a href="/p/xiaomi-redmi-8">
                                     Xiaomi Redmi 8
                                 </a>
@@ -72,20 +42,15 @@
                                     Xiaomi Redmi 8A
                                 </a>
                             </li>
+                            <li>
+                                <a href="/p/xiaomi-redmi-k30">
+                                    Xiaomi Redmi K30 (5G, Скоро)
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="col-sm-3">
                         <ul>
-                            <li>
-                                <a href="/p/xiaomi-mi-play-464-gb-black">
-                                    Xiaomi Mi Play
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/p/xiaomi-mi-a2-lite">
-                                    Xiaomi Mi A2
-                                </a>
-                            </li>
                             <li>
                                 <a href="/p/xiaomi-mi-a3">
                                     Xiaomi Mi A3
@@ -101,16 +66,7 @@
                                     Xiaomi Mi Max 3
                                 </a>
                             </li>
-                            <li>
-                                <a href="/p/xiaomi-mi-8">
-                                    Xiaomi Mi 8
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/p/xiaomi-mi-8-lite">
-                                    Xiaomi Mi 8 Lite
-                                </a>
-                            </li>
+
                             <li>
                                 <a href="/p/xiaomi-mi-9">
                                     Xiaomi Mi 9
@@ -141,6 +97,7 @@
                                     Xiaomi Mi Note 10
                                 </a>
                             </li>
+
                         </ul>
                     </li>
                     <li class="col-sm-3">
@@ -300,7 +257,7 @@
             @endforeach
 
 
-            <li class="dropdown mega-dropdown"><a href="http://mihome/catalog/transport" data-toggle="" class="dropdown-toggle">
+            <li class="dropdown mega-dropdown"><a href="/catalog/transport" data-toggle="" class="dropdown-toggle">
                     Транспорт
                 </a> <ul class="dropdown-menu mega-dropdown-menu row">
                     <div class="megamenu-headline">
@@ -331,6 +288,12 @@
                                 <a href="/p/elektricheskiy-samokat-ninebot-kickscooter-es2">
                                     <img src="/uploads/products/1431/elektricheskiy-samokat-ninebot-kickscooter-es2.jpg" width="40"/>
                                     Электрический самокат Ninebot KickScooter ES2
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/p/elektrosamokat-ninebot-kickscooter-max">
+                                    <img src="/uploads/products/1442/elektrosamokat-ninebot-kickscooter-max.jpg" width="40"/>
+                                    Электросамокат Ninebot Kickscooter MAX
                                 </a>
                             </li>
                         </ul>

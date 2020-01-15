@@ -112,21 +112,6 @@
                         </div>
                         <!-- /aside Widget -->
 
-                        <br/>
-
-                        @php
-                            $detect = new \Mobile_Detect();
-                        @endphp
-                        @if(!$detect->isMobile() and false)
-                            <!-- aside Widget -->
-                            <div class="aside">
-                                <h3 class="aside-title">ВЫ СМОТРЕЛИ</h3>
-                                @foreach($youWatchedProducts as $product)
-                                    @include('site.includes.product-widget', ['product' => $product])
-                                @endforeach
-                            </div>
-                            <!-- /aside Widget -->
-                        @endif
                     </div>
                     <!-- /ASIDE -->
 

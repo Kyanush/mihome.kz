@@ -24,7 +24,11 @@ class StatusController extends AdminController
 
         $where_use = $request->input('where_use');
 
-        $statuses = Status::where('where_use', $where_use)->OrderBy('sort')->get();
+        if($where_use)
+            $statuses = Status::where('where_use', $where_use)->OrderBy('sort')->get();
+        else
+            $statuses = Status::OrderBy('sort')->get();
+
         return  $this->sendResponse($statuses);
     }
 

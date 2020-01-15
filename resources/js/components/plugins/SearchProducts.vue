@@ -9,19 +9,41 @@
 
         <br/>
 
-        <ul>
-            <li v-for="item in results">
-                <router-link target="_blank" :to="{ name: 'product_edit', params: { product_id: item.product.id} }" title="Изменить">
-                    <img :src="item.photo_path" width="30"/>
-                </router-link>
-
-                <router-link target="_blank" :to="{ name: 'product_edit', params: { product_id: item.product.id} }" title="Изменить" :class="{ 'red': (!item.product.active || !item.product.stock)}">
-                    ID:{{ item.product.id }}, {{ item.product.name }}, {{ item.price }}
-                </router-link>
-
-                <a class="pull-right" @click="selected(item.product)">Выбрать</a>
-            </li>
-        </ul>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Фото</th>
+                    <th>Название</th>
+                    <th width="70">Цена</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in results">
+                    <td>{{ item.id }}</td>
+                    <td>
+                        <router-link target="_blank" :to="{ name: 'product_edit', params: { product_id: item.id} }" title="Изменить">
+                            <img :src="item.photo_path" width="30"/>
+                        </router-link>
+                    </td>
+                    <td>
+                        <router-link target="_blank" :to="{ name: 'product_edit', params: { product_id: item.id} }" title="Изменить" :class="{ 'red': (!item.active || !item.stock)}">
+                            {{ item.name }},
+                        </router-link>
+                    </td>
+                    <td width="70">
+                        {{ item.reduced_price_format }}
+                    </td>
+                    <td>
+                        <button class="btn btn-success" @click="selected(item)">
+                            <i class="fa fa-plus"></i>
+                            Выбрать
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
     </span>
 </template>
@@ -61,8 +83,5 @@
 </script>
 
 <style scoped>
-    ul li{
-        border-bottom: 1px solid #d6d2d2;
-        padding: 5px 0;
-    }
+
 </style>

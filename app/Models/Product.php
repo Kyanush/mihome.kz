@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use App\Services\ServiceCategory;
 use App\Services\ServiceDB;
 use App\Services\ServiceUploadUrl;
@@ -21,8 +20,8 @@ class Product extends Model
     protected $table = 'products';
     protected $fillable = [
         'parent_id',
-    	'attribute_set_id',
     	'name',
+        'sort',
         'url',
     	'description',
         'description_style_id',
@@ -30,6 +29,7 @@ class Product extends Model
     	'price',
     	'sku',
     	'stock',
+        'status_id',
         'seo_title',
         'seo_keywords',
         'seo_description',
@@ -61,6 +61,11 @@ class Product extends Model
     public function descriptionStyle()
     {
         return $this->belongsTo('App\Models\Status', 'description_style_id', 'id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo('App\Models\Status', 'status_id', 'id');
     }
 
     public function parent()
@@ -226,7 +231,8 @@ class Product extends Model
             if(!is_numeric($product->stock))
                 $product->stock = 1;
 
-
+            if(!$product->status_id)
+                $product->status_id = Status::where('where_use', 'products_status_id')->defaultValue()->first()->id;
 
             //чпу
             $product->url = str_slug(empty($product->url) ? $product->name : $product->url);
@@ -280,8 +286,10 @@ class Product extends Model
                 }
             }
 
-            //if(empty($product->sku))
-                //$product->sku = $product->id ?? $product_id;
+            if($product->parent_id == 0)
+            {
+                 $product->children()->update(['stock' => $product->stock]);
+            }
 
         });
     }
