@@ -11,8 +11,8 @@ $(document).ready(function() {
     });
 
     $('.icon_menu').click(function(e){
-            $('.wrapper').addClass('g-ttl-move')
-            $('.kaspi-menu').addClass('_opened')
+        $('.wrapper').addClass('g-ttl-move')
+        $('.kaspi-menu').addClass('_opened')
     });
 
     $('.wrapper').click(function(e){
@@ -22,32 +22,32 @@ $(document).ready(function() {
         }
     });
 
-/*
-    $('.catalog-sub-item.catalog-main1').click(function(e) {
+    /*
+        $('.catalog-sub-item.catalog-main1').click(function(e) {
 
-        if($(this).parent('.catalog-sub-items__el').find('.catalog-sub-items__list').length > 0)
-        {
-            e.preventDefault();
-            if ($(this).parent('.catalog-sub-items__el').hasClass('_active')) {
-                $(this).parent('.catalog-sub-items__el').removeClass('_active');
-                $(this).parent('.catalog-sub-items__el').find('._active').removeClass('_active');
-            } else {
-                $(this).parent('.catalog-sub-items__el').addClass('_active');
+            if($(this).parent('.catalog-sub-items__el').find('.catalog-sub-items__list').length > 0)
+            {
+                e.preventDefault();
+                if ($(this).parent('.catalog-sub-items__el').hasClass('_active')) {
+                    $(this).parent('.catalog-sub-items__el').removeClass('_active');
+                    $(this).parent('.catalog-sub-items__el').find('._active').removeClass('_active');
+                } else {
+                    $(this).parent('.catalog-sub-items__el').addClass('_active');
+                }
             }
-        }
 
-    });
-    $('.catalog-sub-item.catalog-main2').click(function(e) {
-        if($(this).parent('.catalog-sub-items__el').find('.catalog-sub-items__list').length > 0)
-        {
-            e.preventDefault();
-            if ($(this).parent('.catalog-sub-items__el').hasClass('_active')) {
-                $(this).parent('.catalog-sub-items__el').removeClass('_active');
-            } else {
-                $(this).parent('.catalog-sub-items__el').addClass('_active');
+        });
+        $('.catalog-sub-item.catalog-main2').click(function(e) {
+            if($(this).parent('.catalog-sub-items__el').find('.catalog-sub-items__list').length > 0)
+            {
+                e.preventDefault();
+                if ($(this).parent('.catalog-sub-items__el').hasClass('_active')) {
+                    $(this).parent('.catalog-sub-items__el').removeClass('_active');
+                } else {
+                    $(this).parent('.catalog-sub-items__el').addClass('_active');
+                }
             }
-        }
-    });*/
+        });*/
 
     $('#go-back').click(function(e){
         parent.history.back();
@@ -292,6 +292,7 @@ Vue.component('back-call', {
     data: function() {
         return{
             phone: user_info.phone,
+            url: location.href,
             focus:{
                 phone: 1,
             },
@@ -347,10 +348,10 @@ Vue.component('back-call', {
             if(!this.wait) {
                 this.wait = true;
 
-
                 let data = new FormData();
                 data.append('_token', getCsrfToken());
                 data.append('phone', this.phone);
+                data.append('url', this.url);
 
                 axios.post('/callback', data).then(function (response) {
                     if (response.data)
@@ -674,10 +675,10 @@ Vue.component('search-dialog', {
                     maxResults: 10,
                 }
             })
-            .then(function (response) {
-                console.log(response.data);
-                self.result = response.data;
-            });
+                .then(function (response) {
+                    console.log(response.data);
+                    self.result = response.data;
+                });
         }
     },
     watch: {

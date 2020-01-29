@@ -1,6 +1,40 @@
 <template>
     <div class="row">
 
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-cart-arrow-down"></i>
+                        Статусы
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th v-for="item in order_statuses">
+                                    <i :class="item.class"></i>
+                                    {{ item.name }}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td v-for="item in order_statuses">
+                                    <ul>
+                                        <li v-for="order in orders" v-if="order.status_id == item.id">
+                                            {{ order.id }}
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-8">
             <div class="box">
                 <div class="box-header with-border">
@@ -94,8 +128,12 @@
         },
         data() {
             return {
+                order_statuses: [],
                 total_orders: [],
                 total_callbacks: [],
+                orders:[],
+
+
                 config: {
                     showNonCurrentDates: false,
                     firstDay: 1,
@@ -177,6 +215,11 @@
             }
         },
         created(){
+            axios.get('/admin/order-statuses-list?perPage=100').then((res)=>{
+                console.log(res.data);
+                this.order_statuses = res.data.data;
+            });
+
             axios.get('/admin/highcharts-monthly-amount').then((res)=>{
                 var data = res.data;
 
@@ -186,6 +229,11 @@
                     highchartsMonthlyAmount(data.categories, data.series, 'highcharts-monthly-amount', 'Сумма по месяцам', 'Сумма(тг)');
                 }, 2000);
             });
+
+            axios.get('/admin/orders-list?perPage=100000000000').then((res)=>{
+                this.orders = res.data.data;
+            });
+
             axios.get('/admin/highcharts-monthly-amount-callbacks').then((res)=>{
                 var data = res.data;
 

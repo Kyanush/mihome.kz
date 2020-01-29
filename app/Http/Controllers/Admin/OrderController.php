@@ -14,6 +14,7 @@ use DB;
 class OrderController extends AdminController
 {
 
+
     public function list(Request $request)
     {
         $filters = $request->all();
