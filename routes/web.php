@@ -84,8 +84,12 @@ Route::group(['namespace'  => 'Site'], function () {
     Route::get('guaranty',                 'PageController@guaranty')->name('guaranty');
     Route::get('contact',                  'PageController@contact')->name('contact');
     Route::get('about',                    'PageController@about')->name('about');
+    Route::get('cashback',                 'PageController@cashback')->name('cashback');
+
     //выбор города
     Route::post('set-city/{city_code}',    'CityController@setCity');
+
+    Route::get('electric-scooter-service',  'PageController@electricScooterService')->name('electricScooterService');
 
     //новости
     Route::get('news',                    'NewsController@newsList')->name('news_list');

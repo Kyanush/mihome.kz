@@ -16,8 +16,8 @@
     @include('includes.department_code')
 
     @yield('add_in_head')
-    @include('schemas.business')
     @include('schemas.organization')
+    @include('schemas.search')
     @yield('schemas_breadcrumb')
     @yield('schemas_product')
 
@@ -67,6 +67,10 @@
     </div>
 @endif
 
+<!-- Slick -->
+<link type="text/css" rel="stylesheet" href="{{ asset('/site/css/slick.min.css') }}"/>
+<link type="text/css" rel="stylesheet" href="{{ asset('/site/css/slick-theme.min.css') }}"/>
+<script src="{{ asset('/site/js/slick.min.js') }}"></script>
 
 <!-- commentbook -->
 <script src="/commentbook/script.js" data-jv-id="d5ShOZJS9K" async></script>

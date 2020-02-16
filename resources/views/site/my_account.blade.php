@@ -12,7 +12,7 @@
        <?php $breadcrumbs = [
            [
                'title' => 'Главная',
-               'link'  => '/'
+               'link'  => env('APP_URL')
            ],
            [
                'title' => $title,

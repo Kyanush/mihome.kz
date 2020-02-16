@@ -1,0 +1,307 @@
+@media screen and (min-width:1920px){
+    .repairs {background-size: 100% 112%;}
+
+    .advantages {background-size: 100% 100%;}
+
+    .reviews {background-size: 100% 100%;}
+}
+@media screen and (max-width:1919px){
+
+    .repairs {padding-bottom: 140px; padding-top: 60px;background-size: 100% 112%;}
+    .advantages {background-size: 100% 100%;}
+    .reviews {padding-top: 200px; background-size: 100% 100%;}
+}
+@media screen and (max-width:1500px) and (min-width:1000px){
+    .footer .block{height:400px;}
+    #header .address:after{height:43px;}
+    #header .address.fright{width:auto; font-size:15px; line-height:21px; padding-top:10px;}
+    #header .inner{max-width:1100px;}
+    .inner {max-width: 976px;}
+    #header .button_block {width: 188px;}
+    #header .button_block .button {line-height: 41px; font-size: 13px;}
+    #header .fright{margin-right: 20px;}
+    #header .fright {width: 146px;}
+    #header .fright a {font-size: 15px;line-height: 21px;}
+    #header .fleft a {height: 42px;}
+    #header .fleft {width: 209px;margin-left: 1px;}
+    #header {padding-top: 26px;padding-bottom: 26px;}
+    .problem {padding-bottom: 70px;}
+    .repairs .h2 {font-size: 39px; line-height: 48px;}
+    .repairs .row .item span.db {font-size: 16px; line-height: 32px;}
+    .repairs .row .item img {width: 70px;}
+    .repairs .row {margin-bottom: 90px;margin-top: 60px;}
+    .repairs .button {font-size: 25px;line-height: 95px;max-width: 397px;}
+    .repairs .button:before{width: 67px;height: 38px;margin-right: 37px;}
+    .repairs {padding-bottom: 140px; padding-top: 60px;background-size: 100% 112%;}
+    .repairs:before {width: 332px;height: 553px;background-size: contain;left: 0px;}
+    .problem .h2 {font-size: 34px; line-height: 57px;margin-bottom: 30px;}
+    .problem .nice-select {font-size: 21px;line-height: 57px;padding-top: 0px; padding-bottom: 0px;margin-bottom: 50px;}
+    .problem .nice-select .list li {font-size: 21px;line-height: 57px;}
+    .problem .fleft .button {font-size: 20px;}
+    .problem .fleft .button:before {width: 43px; height: 40px;margin-right: 19px;}
+    .problem .inner div:nth-child(4) .button:before {width: 41px;height: 41px;}
+    .advantages {padding-bottom: 170px;padding-top: 100px;}
+    .advantages .row .item p {font-size: 18px;line-height: 24px;}
+    .advantages .row .item span.db {font-size: 15px; line-height: 24px;}
+    .advantages .row .item img {width: 44px;}
+    .advantages .row {margin-bottom: 90px;}
+    .advantages .button {font-size: 25px; line-height: 95px;max-width: 397px;}
+    .advantages .button:before {width: 43px;height: 42px; margin-right:20px;}
+    .evacuation .inner {border-width: 14px; padding: 48px 20px;}
+    .evacuation {margin-top: 40px;}
+    .evacuation span.h2 {font-size: 34px; line-height: 42px;margin-bottom: 10px;}
+    .evacuation p {font-size: 21px; line-height: 42px;}
+    .evacuation p {margin-bottom: 70px;}
+    .evacuation .button {font-size: 24px; line-height: 96px; max-width: 397px;}
+    .evacuation .button:before {width: 66px;height: 38px;}
+    .catalog {margin-top: 80px;}
+    .catalog .row {margin-right: -23px;}
+    .catalog .row .item .block p {font-size: 20px; line-height: 23px;margin-top: 20px;}
+    .catalog .row .item {height: 250px; padding-right: 23px;}
+    .catalog .row .item .block a {height: 125px;}
+    .catalog .h2 {font-size: 34px; line-height: 42px;}
+    .catalog .search {font-size: 20px; line-height: 66px;}
+    .catalog .search:before {height: 39px;width: 38px;}
+    .warranty .h2 {font-size: 34px; line-height: 34px;}
+    .warranty p {font-size: 21px; line-height: 34px;}
+    .warranty .block .tb .tr .tbc {font-size: 25px; line-height: 64px;}
+    .warranty {margin-bottom: 40px;}
+    .reviews{padding-top: 160px;}
+    .reviews .h2 {font-size: 34px;line-height: 34px;}
+    .reviews .slider_clients .item .block .review {font-size: 14px; line-height: 28px;}
+    .reviews .slider_clients .item .block .review {margin-top: 30px;}
+    .reviews:before {width: 285px; background-size: contain;height: 675px;}
+    .reviews .button {font-size: 21px; line-height: 95px;max-width: 397px;}
+    .reviews .button:before {width: 39px;height: 39px;margin-right: 30px;}
+    .footer .fright .h2{font-size: 34px; line-height: 37px;margin-top: 30px;}
+    .footer .fright p{font-size: 20px;margin-bottom: 30px;}
+    .footer .fright .fon a{font-size: 20px; line-height: 30px;}
+    .footer .fright .rights{font-size: 15px;}
+}
+
+@media screen and (max-width: 1340px){
+    .reviews .inner{padding-left: 0px;}
+
+
+}
+@media screen and (max-width: 1300px){
+    .repairs {background-position: center bottom;}
+    .repairs:before {display: none;}
+    .repairs .row .item {width: 33.333333333%;}
+    .repairs .button {margin:0 auto;float: none;}
+}
+@media screen and (max-width: 1700px){
+    .advantages:after {display: none;}
+}
+@media screen and (max-width: 1050px){
+    .footer .fright{padding-left: 20px;}
+    .footer .fright .h2 {margin-bottom: 30px;}
+    .footer .fright p {margin-bottom: 20px;}
+    .footer .fright p:before{margin-right: 19px;}
+    .footer .fright .fon a:before{margin-right: 19px;}
+
+}
+@media screen and (max-width: 1150px){
+    .reviews .slider_clients{padding-left:70px; padding-right:70px;}
+    .reviews .slider_clients .owl-next{right:0; margin-right:0;}
+    .reviews .slider_clients .owl-prev{left:0; margin-left:0;}
+}
+@media screen and (max-width: 1000px){
+    #header .address.fright{display:none;}
+    .b-modal_close {right: -1px; top: -1px;}
+
+    .advantages .row .item {width: 100%;margin-top: 41px;}
+    .advantages {background-image: url(../img/fon2mobile.png); background-size: cover;padding-bottom: 110px;padding-top: 0px;}
+    .advantages .row {margin-top: 0px;}
+    .advantages:after {width: 111px;height: 460px;background-image: url(../img/fon2_aftermobile.png);display: block;bottom: 50%;margin-bottom: -55px;}
+
+    .catalog .row .item {width: 33.333333333%;}
+
+    .reviews:before {display: none;}
+    .reviews .slider_clients .item .block .review {margin-top: 0px;}
+    .reviews .slider_clients .item .block .review {padding: 0px;}
+}
+@media screen and (max-width: 890px){
+    #header .button_block {display: none;}
+
+    .footer .block {height:288px;}
+    .footer .fright .h2 {font-size: 24px; line-height: 27px;}
+    .footer .fright p {font-size: 15px; line-height: 18px;}
+    .footer .fright .fon{margin-bottom: 40px;}
+    .footer .fright .fon a{font-size: 15px; line-height: 30px;}
+    .footer .fright .rights{font-size: 11px; line-height: 36px;}
+    .footer .fright p:before {height: 13px;width: 9px;margin-right: 18px;}
+    .footer .fright .fon a:before {width: 9px;height: 9px;margin-right: 18px;}
+
+    .block_modal2 {padding: 20px;}
+}
+
+@media screen and (max-width: 775px){
+    .problem {padding-top: 50px;padding-bottom: 50px; background-color:#fff;}
+    .problem .fleft {width: 100%; float: none; margin-top: 20px;text-align: center;}
+    .problem .h2 {font-size: 21px; line-height: 24px;}
+    .problem .nice-select {font-size: 14px; line-height: 14px;}
+    .problem .nice-select .option {font-size: 14px; line-height: 50px;}
+    .problem .fleft .button {font-size: 14px; line-height: 17px;}
+    .problem .fleft .button:before {width: 24px;height: 22px;margin-right: 10px;}
+    .problem .inner div:nth-child(4) .button:before {width: 24px;height: 25px;margin-right: 10px;}
+    .problem .nice-select {margin-bottom: 0px;}
+}
+
+@media screen and (max-width: 750px){
+    .reviews .slider_clients{padding-left:30px; padding-right:30px;}
+    #header {padding: 15px 0px;}
+    #header .fleft {width: 107px;margin-left: 0px;}
+    #header .fleft a {height: 22px;}
+    #header .fright {width: 92px;margin-right: 0px;margin-top: 10px;}
+    #header .fright a {font-size: 10px; line-height: 14px;}
+
+    .repairs {padding-top: 24px; padding-bottom: 87px; background-image: url(../img/mobile_banner.png);background-size: cover;}
+    .repairs .h2 {font-size: 21px; line-height: 24px;}
+    .repairs .h2 b.hide {display: block;}
+    .repairs .row {margin-bottom: 80px;margin-top: 40px;}
+    .repairs .row .item img:not(.hide) {display: none;}
+    .repairs .row .item img.hide {display: block;}
+    .repairs .row .item span.db {font-size: 13px; line-height: 25px;}
+    .repairs .button {font-size: 18px; line-height: 70px; border-radius: 35px; max-width: 290px;}
+    .repairs .button:before {width: 41px;height: 24px;margin-right: 24px;}
+
+    .advantages .button {font-size: 18px; line-height: 70px; border-radius: 35px;max-width: 290px;}
+    .advantages .button:before {width: 25px;height: 25px;margin-right: 24px;}
+    .advantages .row {margin-bottom: 50px;}
+    .advantages .row .item img {height: 40px;}
+    .advantages .row .item p {font-size: 15px; line-height:19px;}
+    .advantages .row .item span.db {font-size: 12px; line-height:19px;}
+    .advantages:after {bottom: 28%;margin-bottom: 0px;}
+
+    .evacuation {margin-top: 45px;}
+    .evacuation .inner {border-width: 4px;padding: 30px 18px;}
+    .evacuation span.h2 {font-size: 18px; line-height: 21px;}
+    .evacuation p {font-size: 14px; line-height: 24px;}
+    .evacuation .button {font-size: 18px; line-height: 70px; border-radius: 35px;max-width: 290px;}
+    .evacuation .button:before {width: 41px;height: 24px;margin-right: 22px;}
+
+    .catalog {margin-top: 50px;}
+    .catalog .row {margin-bottom: 0px;}
+    .catalog .row .item {width: 50%;margin-bottom: 16px;}
+    .catalog .h2 {font-size: 24px; line-height: 27px;}
+    .catalog .search {font-size: 12px; line-height: 15px;margin-top: 25px;}
+    .catalog .search:before {width: 22px;height: 22px;margin-right: 13px;}
+
+    .warranty {margin-top: 50px;margin-bottom: 50px;}
+    .warranty .h2 {font-size: 24px; line-height: 27px;}
+    .warranty p {font-size: 12px; line-height: 21px;margin-bottom: 35px;}
+    .warranty .block{padding-left: 5px; padding-right: 16px;}
+    .warranty .block .tb .tr .tbc {font-size: 11px; line-height: 27px;}
+
+    .reviews {padding-top: 32px;background-image: url(../img/fon3mobile.png);background-size: cover;}
+    .reviews .h2 {font-size: 24px; line-height: 48px; margin-bottom: 30px;}
+    .reviews .slider_clients .item .block .user_block {width: 160px;}
+    .reviews .slider_clients .item .block .user_block .fleft {width: 49px;height: 49px; margin-right:15px;}
+    .reviews .slider_clients .item .block .user_block .fright {width: 93px;}
+    .reviews .slider_clients .item .block .user_block .fright p {font-size: 14px; line-height: 21px;}
+    .reviews .slider_clients .item .block .user_block .fright ul li {width: 9px;height: 8px;margin-left: 3px;}
+    .reviews .slider_clients .item .block .user_block .fright ul li:first-child{margin-left: 0px;}
+    .reviews .slider_clients .item .block .review {font-size: 12px; line-height: 20px;}
+    .reviews .slider_clients .item .block {padding: 22px;}
+    .reviews .slider_clients .owl-prev {height: 30px;width: 30px;background-image: url(../img/navmobile.png);background-position: 49% 50%;margin-left: -10px;margin-top: -15px;}
+    .reviews .slider_clients .owl-next {height: 30px;width: 30px;background-image: url(../img/navmobile.png);background-position: 49% 50%;margin-right: -10px;margin-top: -15px;}
+    .reviews .button {margin-top: 26px;font-size: 14px;line-height: 65px;max-width: 290px;}
+    .reviews .button:before {width: 26px;height: 26px;margin-right: 25px;}
+
+    .footer {overflow: visible;}
+    .footer .fright {padding: 0px 15px;float: none;padding-top: 324px;width: 100%;}
+    .footer .rL.hid {overflow: visible;position: absolute;top: 0;width: 100%;}
+    .footer .rL.hid .block {width: 100%;border-width: 8px;}
+
+    .block_modal{border-width: 5px;padding: 10px;}
+    .block_modal span.db {font-size: 24px; line-height: 27px;}
+    .block_modal p {font-size: 24px; line-height: 27px;margin-bottom: 30px;}
+    .block_modal a.button {font-size: 18px; line-height: 70px; border-radius: 35px; max-width: 290px;font-size: 15px; line-height: 50px;}
+    .block_modal a.button:before {width: 25px;height: 24px;margin-right: 24px;}
+    .b-modal_close {width: 20px;height: 20px;font-size: 0px!important;right: -20px;}
+
+    .block_modal2 span.db {font-size: 24px; line-height: 27px;}
+    .block_modal2 p {font-size: 20px; line-height: 23px;margin-bottom: 20px;}
+    .block_modal2 div input {font-size: 20px; line-height: 23px;padding-left: 70px;}
+    .block_modal2 div {margin-bottom: 15px;}
+    .block_modal2 div:before {width: 35px;height: 41px;left: 15px;}
+    .block_modal2 .div {max-width: 220px;margin: 0 auto;}
+    .block_modal2 .div button {font-size: 15px; line-height: 50px;}
+    .block_modal2 .div button:before {width: 20px; height: 20px;margin-right: 18px;}
+}
+@media screen and (max-width: 480px){
+    .catalog .row .item {height: 150px;}
+    .catalog .row .item .block {padding: 15px 10px 21px 10px;}
+    .catalog .row .item .block a {height: 76px;background-size:auto 100%;}
+    .catalog .row .item .block p {font-size: 12px; line-height: 15px;margin-top: 17px;}
+
+    .block_modal2 span.db {font-size: 18px; line-height: 21px; margin-bottom: 10px;}
+    .block_modal2 p {font-size: 10px; line-height: 13px;margin-bottom: 10px;}
+    .block_modal2 div {margin-bottom: 10px;}
+    .block_modal2 .div button {font-size: 10px;}
+    .block_modal2 div input {font-size: 15px;}
+
+
+
+
+
+    .inner {width: 91%;}
+    .repairs {padding-top: 19px; padding-bottom: 110px;}
+    .repairs .row {display: none;}
+    .repairs .row.hide{display: block;}
+    .repairs .row .item span.db {margin-top: 10px;}
+    .repairs .inner {width: 100%;}
+    .repairs .row {margin-bottom: 69px;}
+
+    .problem .h2 {font-size: 25px;}
+    .problem {padding-top: 35px;}
+
+    .problem .nice-select {font-size: 11px; padding: 12px;border-radius: 4px;}
+    .problem .h2 {margin-bottom: 30px;}
+    .problem .nice-select:after {right: 11px; width: 7px; height: 7px;}
+    .problem .nice-select .option {font-size: 11px;}
+    .problem .fleft .button {font-size: 12px;}
+
+    .advantages {padding-bottom: 62px;}
+    .advantages .row .item {width: 66%;}
+    .advantages .row .item:nth-child(2) p {margin-top: 10px;}
+    .advantages .row {margin-bottom: 43px;}
+    .evacuation {margin-top: 25px;}
+    .evacuation span.h2 {margin-bottom: 15px;}
+    .evacuation p {margin-bottom: 45px;}
+    .evacuation .button:before {width: 33px;height: 17px;}
+    .catalog .h2 {font-size: 25px;}
+    .catalog {margin-top: 46px;}
+    .catalog .row .item .block a {height: 80px;}
+    .catalog .search {margin-top: 2px;}
+    .warranty .h2 {font-size: 25px;}
+    .warranty p {margin-bottom: 23px;}
+    .reviews .h2 {margin-bottom: 16px;}
+    .reviews {padding-top: 36px;}
+    .reviews .slider_clients .item .block .review {font-size: 13px;}
+    .reviews .h2 {font-size: 25px;}
+    .warranty {margin-bottom: 54px;}
+    .reviews .slider_clients .item .block .user_block .fright p {margin-top: 6px;}
+    .reviews .slider_clients .item .block .user_block .fright ul li {vertical-align: top;}
+    .reviews .slider_clients .item .block .review {margin-top: 16px;}
+    .reviews .slider_clients .item .block {padding-bottom: 15px;}
+    .footer .fright {padding-top: 267px;}
+    .footer .fright p {font-size: 16px;margin-bottom: 15px;}
+    .footer .fright .h2 {margin-bottom: 13px;}
+    .footer .fright .fon a{font-size: 16px;}
+    .footer .fright .fon{margin-bottom: 27px;}
+
+
+}
+@media screen and (max-width: 340px){
+    .problem .nice-select {border-width:1px;}
+    .problem .nice-select.open .list {border-width:1px;}
+    .advantages {padding-bottom: 62px;padding-top: 14px;}
+    .advantages:after {bottom: 23%;}
+    .advantages .row .item {width: 66%;}
+    .problem .nice-select .list {top: 87%;margin-left: -1px;}
+    .reviews {padding-top: 31px;}
+    .reviews .slider_clients .owl-prev {margin-top: -8px;}
+    .reviews .slider_clients .owl-next {margin-top: -8px;}
+}

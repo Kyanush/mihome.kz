@@ -35,6 +35,9 @@
                 {{ $product->name }}
             </a>
         </h3>
+        @if($product->description_short)
+            <p class="text-center">{!! $product->description_short !!}</p>
+        @endif
         <h4 class="product-price">
             {{ \App\Tools\Helpers::priceFormat($product->getReducedPrice()) }}
             @if($product->specificPrice)

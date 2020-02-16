@@ -35,6 +35,11 @@
                        'link'  => route('index')
                    ],
                    [
+                       'title' => '<img src="/mobile/images/sticker_hit.png"> Кэшбэк за отзыв',
+                       'link'  => route('cashback'),
+                       'class' => 'cashback'
+                   ],
+                   [
                        'title' => 'Мои заказы',
                        'link'  => route('order_history')
                    ],
@@ -83,8 +88,8 @@
 
             @foreach($menu as $item)
                 <li class="kaspi-menu__item @if(strpos(url()->current(), $item['link']) !== false and $item['link'] != env('APP_URL')) _active @endif">
-                    <a class="kaspi-menu__itemLink" href="{{ $item['link'] }}">
-                        {{ $item['title'] }}
+                    <a class="kaspi-menu__itemLink {{ $item['class'] ?? '' }}" href="{{ $item['link'] }}">
+                        {!! $item['title'] !!}
                     </a>
                 </li>
             @endforeach

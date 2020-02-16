@@ -42,7 +42,6 @@
 
     @include('mobile.includes.product_slider', ['products' => $products1, 'title' => 'Redmi Note 8 Pro', 'url' => ''])
     @include('mobile.includes.product_slider', ['products' => $products2, 'title' => 'Redmi Note 8', 'url' => ''])
-
     @include('mobile.includes.product_slider', ['products' => $productsDiscount,  'title' => 'Акции', 'url' => ''])
 
 

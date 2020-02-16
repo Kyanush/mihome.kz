@@ -8,7 +8,7 @@
                 </a>
             @endif
         </h2>
-        <div class="container g-pa0 g-bb-fat g-bg-c0 _scroll">
+        <div class="container g-pa0 g-bb-fat g-bg-c0 _scroll1 product-slider">
 
             @foreach($products as $product)
                 @include('mobile.includes.product_item', ['product' => $product])

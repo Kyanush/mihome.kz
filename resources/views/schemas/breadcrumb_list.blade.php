@@ -15,10 +15,12 @@
         @foreach($breadcrumbs_new as $key => $item)
             @if(!empty($item['link']))
                   {
-                        "@type": "ListItem",
-                        "position": "{{ $key + 1 }}",
-                        "name": "{{ $item['title'] }}",
-                        "item": "{{ $item['link'] }}"
+                        "@type":"ListItem",
+                        "position": {{ $key + 1 }},
+                        "item": {
+                            "@id": "{{ $item['link'] }}",
+                            "name": "{{ $item['title'] }}"
+                        }
                   }<?=(count($breadcrumbs_new) > $key + 1) ? ',' : '';?>
             @endif
         @endforeach

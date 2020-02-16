@@ -167,41 +167,42 @@ $(document).ready(function() {
 
     });
 
-    $('.product-search').autocomplete({
-        source: function (request, response) {
-            $.ajax({
-                url: "/product-search",
-                data: {
-                    searchText: request.term,
-                    maxResults: 10,
-                   // _token: getCsrfToken()
-                },
-                dataType: "json",
-                success: function (data) {
+    if($('.product-search').length > 0)
+        $('.product-search').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/product-search",
+                    data: {
+                        searchText: request.term,
+                        maxResults: 10,
+                       // _token: getCsrfToken()
+                    },
+                    dataType: "json",
+                    success: function (data) {
 
-                    response($.map(data, function (item) {
-                        return {
-                            name:  item.name,
-                            photo: item.photo,
-                            url:   item.url,
-                            price: item.price
-                        };
-                    }));
-                }
-            })
-        }}).data("ui-autocomplete")._renderItem = function (ul, item) {
-        var inner_html =
-            '<a class="list_item_container" href="' + item.url + '">' +
-                '<div class="image"><img src="' + item.photo + '"/></div>' +
-                '<div class="name">' + item.name + ' - <b>' + item.price + '</b></div>'
-            '</div>';
+                        response($.map(data, function (item) {
+                            return {
+                                name:  item.name,
+                                photo: item.photo,
+                                url:   item.url,
+                                price: item.price
+                            };
+                        }));
+                    }
+                })
+            }}).data("ui-autocomplete")._renderItem = function (ul, item) {
+            var inner_html =
+                '<a class="list_item_container" href="' + item.url + '">' +
+                    '<div class="image"><img src="' + item.photo + '"/></div>' +
+                    '<div class="name">' + item.name + ' - <b>' + item.price + '</b></div>'
+                '</div>';
 
-        return $("<li></li>")
-            .data("ui-autocomplete-item", item)
-            .append(inner_html)
-            .appendTo(ul);
+            return $("<li></li>")
+                .data("ui-autocomplete-item", item)
+                .append(inner_html)
+                .appendTo(ul);
 
-    };
+        };
 
     /******************** Лайк отзыва ******************/
     $('.review_plus').on('click', function () {

@@ -15,9 +15,9 @@
     </style>
 
     <!-- SECTION -->
-    <div class="section1">
+    <div class="section">
         <!-- container -->
-        <div class="container1">
+        <div class="container">
             <div class="main-slider" style="width: 100%">
 
                 @foreach($listSlidersHomePage as $item)

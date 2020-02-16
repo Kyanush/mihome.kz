@@ -3032,3 +3032,22 @@ textarea.input {
 .navbar-nav{
     width: 100%;
 }
+
+#news-detail img{
+    width: auto!important;
+    max-width: 100%!important;
+    height: auto!important;
+}
+
+#description video{
+    max-width: 100%!important;
+}
+
+.cashback{
+    color: #ff0000!important;
+    font-weight: bold;
+}
+
+.cashback .fa{
+    color: #ff0000;
+}

@@ -13,32 +13,32 @@ return [
             'instagram' => [
                 'url'   => 'https://www.instagram.com/mihome.kz',
                 'token' => '4233405290.1677ed0.e5692138251945c9a0f76180a4885e49',
-                'icon'  => '/site/images/social-network/instagram.jpg',
+                'icon'  => env('APP_URL') . '/site/images/social-network/instagram.jpg',
                 'title' => 'Вы в Instagram'
             ],
             'facebook' => [
                 'url'   => 'https://web.facebook.com/mihome.kz',
-                'icon'  => '/site/images/social-network/facebook.png',
+                'icon'  => env('APP_URL') . '/site/images/social-network/facebook.png',
                 'title' => 'Вы в Facebook'
             ],
             'vk' => [
                 'url'   => 'https://vk.com/mihome_kz',
-                'icon'  => '/site/images/social-network/vk.png',
+                'icon'  => env('APP_URL') . '/site/images/social-network/vk.png',
                 'title' => 'Вы в Instagram'
             ],
             'yandex' => [
                 'url'   => 'https://yandex.kz/profile/64393237639?lr=162',
-                'icon'  => '/site/images/social-network/yandex.png',
+                'icon'  => env('APP_URL') . '/site/images/social-network/yandex.png',
                 'title' => 'Вы в Yandex'
             ],
             'google' => [
                 'url'   => 'https://www.google.kz/maps/place/MiHome+kz/@43.2616711,76.9359425,15z/data=!4m5!3m4!1s0x0:0x703fb3eb297a72d3!8m2!3d43.2616711!4d76.9359425?hl=ru-KZ',
-                'icon'  => '/site/images/social-network/google.png',
+                'icon'  => env('APP_URL') . '/site/images/social-network/google.png',
                 'title' => 'Вы в Google'
             ],
             '2gis' => [
                 'url'   => 'https://2gis.kz/almaty/firm/70000001037819003',
-                'icon'  => '/site/images/social-network/2gis.png',
+                'icon'  => env('APP_URL') . '/site/images/social-network/2gis.png',
                 'title' => 'Вы в 2gis'
             ]
         ],

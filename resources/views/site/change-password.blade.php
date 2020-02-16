@@ -10,11 +10,11 @@
        <?php $breadcrumbs = [
            [
                'title' => 'Главная',
-               'link'  => '/'
+               'link'  => env('APP_URL')
            ],
            [
                'title' => 'Личный кабинет',
-               'link'  => '/my-account'
+               'link'  => route('my_account')
            ],
            [
                'title' => $title,

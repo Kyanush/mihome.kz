@@ -44,7 +44,7 @@
                             </li>
                             <li>
                                 <a href="/p/xiaomi-redmi-k30">
-                                    Xiaomi Redmi K30 (5G, Скоро)
+                                    Xiaomi Redmi K30 (5G, Скоро, New)
                                 </a>
                             </li>
                         </ul>
@@ -90,6 +90,11 @@
                             <li>
                                 <a href="/p/xiaomi-mi-9t-pro">
                                     Xiaomi Mi 9T Pro
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/p/xiaomi-mi-10">
+                                    Xiaomi Mi 10 (Скоро, New)
                                 </a>
                             </li>
                             <li>

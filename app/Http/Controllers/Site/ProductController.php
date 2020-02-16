@@ -48,16 +48,16 @@ class ProductController extends Controller
 */
 
         //Похожие товары
-        if($product->parent_id){
-            $group_products = Product::where('parent_id', $product->parent_id)->productInfoWith()->OrderBy('price')->get();
-        }else{
-            $group_products = $product->children()->productInfoWith()->OrderBy('price')->get();
-        }
+            if($product->parent_id){
+                $group_products = Product::where('parent_id', $product->parent_id)->productInfoWith()->OrderBy('price')->get();
+            }else{
+                $group_products = $product->children()->productInfoWith()->OrderBy('price')->get();
+            }
 
         //С этим товаром покупаю
-        $products_interested = $product->productAccessories()->productInfoWith()->get();
+        $products_interested = $product->productAccessories()->productInfoWith()->limit(10)->get();
         if($products_interested->isEmpty())
-            $products_interested = $product->productAccessoriesBack()->productInfoWith()->get();
+            $products_interested = $product->productAccessoriesBack()->productInfoWith()->limit(10)->get();
 
 
         //Кол-во просмотров

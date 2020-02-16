@@ -18,8 +18,7 @@
     <div class="item-card__image-wrapper ddl_product_link">
           <img class="item-card__image lazy"
                alt="{{ $product->name }}"
-               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
-               data-original="{{ $product->pathPhoto(true) }}"/>
+               src="{{ $product->pathPhoto(true) }}"/>
     </div>
     <div class="item-card__info">
         <h3 class="item-card__name">
@@ -27,6 +26,9 @@
                 {{ $product->name }}
             </div>
         </h3>
+        @if($product->description_short)
+            <p>{!! $product->description_short !!}</p>
+        @endif
         <div class="item-card__rating">
             <span class="rating _{{ ($product->reviews_rating_avg ?? 0) * 2 }}"></span>
 

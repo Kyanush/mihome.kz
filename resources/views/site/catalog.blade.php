@@ -156,17 +156,20 @@
                         <!-- /store top filter -->
 
                         <!-- store products -->
-                        <div class="row">
-
-                            @foreach($catalog as $product)
-                                <!-- product -->
-                                    <div class="col-md-4 col-xs-12">
-                                        @include('site.includes.product_item', ['product' => $product])
+                        @php $row = 1; @endphp
+                            @foreach($catalog as $k => $product)
+                                @if($row == 1)
+                                    <div class="row">
+                                        @endif
+                                        <div class="col-md-4 col-xs-12">
+                                            @include('site.includes.product_item', ['product' => $product])
+                                        </div>
+                                        @php $row++; @endphp
+                                        @if($row == 4 or $k+1 == count($catalog))
                                     </div>
-                               <!-- /product -->
-                            @endforeach
-
-                        </div>
+                                @php $row = 1; @endphp
+                            @endif
+                        @endforeach
                         <!-- /store products -->
 
                         <!-- store bottom filter -->

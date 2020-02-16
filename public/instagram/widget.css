@@ -91,7 +91,7 @@
     margin:0 auto;
     display: table;
     font-weight: bold;
-    font-size:8px;
+    font-size: 14px;
     color:#c3cfd9;
 }
 .instagram-data{
@@ -120,7 +120,7 @@
     padding: 1px;
 }
 .widget_block{
-    max-width:305px;
+    max-width: 305px;
     min-height:316px;
     background-color: #fafafa;
     border-radius: 4px;
@@ -150,5 +150,6 @@
 @media (max-width: 900px) {
     .widget_block{
         margin:0 auto;
+        max-width: 100%;
     }
 }

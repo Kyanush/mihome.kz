@@ -29,4 +29,14 @@ class PageController extends Controller
         return view(Helpers::isMobile() ? 'mobile.page.about' : 'site.page.about', ['seo' => $seo]);
     }
 
+    public function electricScooterService(){
+        $seo = Seo::pageSeo('electricScooterService');
+        return view('site.page.electric-scooter-service', ['seo' => $seo]);
+    }
+
+    public function cashback(){
+        $seo = Seo::pageSeo('cashback');
+        return view(Helpers::isMobile() ? 'mobile.page.cashback' : 'site.page.cashback', ['seo' => $seo]);
+    }
+
 }

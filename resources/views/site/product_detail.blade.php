@@ -22,7 +22,7 @@
 @include('site.includes.breadcrumb', ['breadcrumbs' => $breadcrumbs])
 
 <!-- SECTION -->
-<div class="section" id="product-detail" itemtype="http://schema.org/Product" itemscope>
+<div class="section" id="product-detail" >
     <!-- container -->
     <div class="container">
         <!-- row -->
@@ -32,7 +32,7 @@
                 <div id="product-main-img">
                     <div class="product-preview">
                         <a data-fancybox="gallery" href="{{ $product->pathPhoto(true) }}">
-                            <img itemprop="image" data-lazy="{{ $product->pathPhoto(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
+                            <img data-lazy="{{ $product->pathPhoto(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
                         </a>
 
                         <?php ob_start();?>
@@ -60,7 +60,7 @@
                         @foreach($product->images as $image)
                             <div class="product-preview">
                                 <a data-fancybox="gallery" href="{{ $image->imagePath(true) }}">
-                                    <img itemprop="image" data-lazy="{{ $image->imagePath(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
+                                    <img data-lazy="{{ $image->imagePath(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
                                 </a>
                                 {!! $label !!}
                             </div>
@@ -92,51 +92,15 @@
             <!-- Product details -->
             <div class="col-md-5">
                 <div class="product-details">
-                    <h1 class="product-name" itemprop="name" >
+                    <h1 class="product-name">
                         {{ $product->name }}
                     </h1>
-                    <meta itemprop="mpn" content="{{ $product->sku }}" />
-                    <meta itemprop="sku" content="{{ $product->sku }}" />
-                    <div itemprop="brand" itemtype="http://schema.org/Thing" itemscope>
-                        <meta itemprop="name" content="{{ $category->name }}" />
-                    </div>
 
-                    @if(intval($product->reviews_rating_avg ?? 0) > 0 and $product->reviews_count > 0)
-                        <div itemprop="aggregateRating" itemtype="http://schema.org/AggregateRating" itemscope>
-                            <meta itemprop="reviewCount" content="{{ $product->reviews_count }}" />
-                            <meta itemprop="ratingValue" content="{{ intval($product->reviews_rating_avg ?? 0) }}" />
-                        </div>
-                    @endif
 
-                    <span itemprop="offers" itemtype="http://schema.org/Offer" itemscope>
 
-                            <link itemprop="url" href="{{ $product->detailUrlProduct() }}" />
-                        @if($product->stock > 0)
-                            <meta itemprop="availability"  content="https://schema.org/InStock" />
-                            <meta itemprop="itemCondition" content="http://schema.org/NewCondition" />
-                        @else
-                            <meta itemprop="availability" content="https://schema.org/OutOfStock" />
-                        @endif
-                        <meta itemprop="priceCurrency" content="KZT" />
-                            <meta itemprop="itemCondition" content="https://schema.org/UsedCondition" />
-                        @php
-                            $specificPrice = $product->specificPrice(function ($query){
-                                                          $query->DateActive();
-                                                     })
-                                                     ->first();
-                        @endphp
-                        @if($specificPrice)
-                            @if($specificPrice->expiration_date)
-                                <meta itemprop="priceValidUntil" content="{{ date('Y-m-d', strtotime($specificPrice->expiration_date)) }}" />
-                            @else
-                                <meta itemprop="priceValidUntil" content="{{date('Y')+1}}-12-31" />
-                            @endif
-                        @else
-                            <meta itemprop="priceValidUntil" content="{{date('Y')+1}}-12-31" />
-                        @endif
-                        <div itemprop="seller" itemtype="http://schema.org/Organization" itemscope>
-                                <meta itemprop="name" content="{{ env('APP_NAME') }}" />
-                        </div>
+                    <span>
+
+
                             @php
                                 $sku = $product->sku;
                                 if(!$sku and $product->parent_id)
@@ -144,6 +108,10 @@
                             @endphp
                             @if($sku)
                                 <p>Модель: {{ $sku }} </p>
+                            @endif
+
+                            @if($product->description_short)
+                                <p class="text-center">{!! $product->description_short !!}</p>
                             @endif
 
                             <div>
@@ -157,7 +125,7 @@
                                 </a>
                             </div>
                             <div>
-                                <h3 class="product-price" itemprop="price" content="{{ $product->getReducedPrice() }}">
+                                <h3 class="product-price">
                                     {{ \App\Tools\Helpers::priceFormat($product->getReducedPrice()) }}
                                     @if($product->specificPrice)
                                         <del class="product-old-price">
@@ -382,7 +350,7 @@
 
             <!-- product tab content -->
             <div class="tab-content">
-                <div id="description" class="tab-pane fade in active" itemprop="description">
+                <div id="description" class="tab-pane fade in active">
 
                     <!-- container -->
                     @if($product->description_style_id)

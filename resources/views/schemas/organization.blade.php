@@ -1,54 +1,36 @@
 @php
-    //социальные сети
-    $sameAs = '';
-    $social_network = config('shop.social_network');
-    foreach ($social_network as $item)
-        $sameAs.= '"' . $item['url'] . '",';
-
-    $sameAs = mb_substr($sameAs, 0, -1);
-
-    //контакты
-    $contactPoint = [];
     $number_phones = config('shop.number_phones');
-
-    //адресы
-    $address_data = [];
-    $address = config('shop.address');
-
-    //seo
-    $seo = \App\Tools\Seo::main();
 @endphp
 
-<script type="application/ld+json">
-    {
-       "@context"     : "https://schema.org",
-       "@type"        : "Organization",
-       "name"         : "{{ $seo["title"] }}",
-       "description"  : "{{ $seo["description"] }}",
-       "url"          : "{{ env('APP_URL') }}",
-       "logo"         : "{{ config('shop.logo') }}",
-       "image"        : "{{ config('shop.logo') }}",
-       "telephone"    : "{{ $number_phones[0]['format'] }}",
-       "contactPoint" : [
+<script type=application/ld+json> {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "url": "{{ env('APP_URL') }}",
+        "name": "{{ env('APP_NAME') }}",
+        "sameAs": [
+            "{{ config('shop.social_network.instagram.url') }}",
+            "{{ config('shop.social_network.facebook.url') }}",
+            "{{ config('shop.social_network.vk.url') }}"
+         ]
+    }
+</script>
+
+<script type=application/ld+json> {
+        "@context":"http://schema.org",
+        "@type":"Organization",
+        "url":"{{ env('APP_URL') }}",
+        "logo":"{{ config('shop.logo') }}",
+        "contactPoint": [
             @foreach($number_phones as $k => $v)
                 {
-                    "@type"       : "ContactPoint",
-                    "telephone"   : "{{ $v['format'] }}",
-                    "contactType" : "customer service"
+                     "@type": "ContactPoint",
+                     "telephone": "{{ $v['format'] }}",
+                     "contactType": "sales",
+                     "contactOption": [""],
+                     "areaServed": ["Казахстан"],
+                     "availableLanguage": ["Русский"]
                 }<?=(count($number_phones) > $k + 1) ? ',' : '';?>
             @endforeach
-       ],
-       "sameAs"       : [ {!! $sameAs !!} ],
-       "address"      : [
-            @foreach ($address as $k => $v)
-                {
-                    "@type"           : "PostalAddress",
-                    "streetAddress"   : "{{ $v["streetAddress"] }}",
-                    "addressLocality" : "{{ $v["addressLocality"] }}",
-                    "postalCode"      : "{{ $v["postalCode"] }}",
-                    "addressCountry"  : "{{ $v["addressCountry"] }}"
-                }<?=(count($address) > $k + 1) ? ',' : '';?>
-            @endforeach
-       ]
- }
+        ]
+    }
 </script>

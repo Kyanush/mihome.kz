@@ -9,7 +9,7 @@
         <?php $breadcrumbs = [
             [
                 'title' => 'Главная',
-                'link'  => '/'
+                'link'  => env('APP_URL')
             ],
             [
                 'title' =>  $seo['title'],

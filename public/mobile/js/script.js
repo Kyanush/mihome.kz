@@ -92,6 +92,12 @@ $(document).ready(function() {
         },
     });
 
+    if($('.product-slider').length > 0)
+        $('.product-slider').slick({
+            slidesToShow: 2.1,
+            slidesToScroll: 2.1
+        });
+
     var product_slider = new Swiper ('#product-slider', {
         lazy: true,
         direction: "horizontal",

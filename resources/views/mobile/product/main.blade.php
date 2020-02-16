@@ -95,6 +95,9 @@
             <h1 class="item__name" itemprop="name">
                 {{ $product->name }}
             </h1>
+            @if($product->description_short)
+                <p>{!! $product->description_short !!}</p>
+            @endif
             <a class="item__rating">
                 <span class="rating _{{ ($product->reviews_rating_avg ?? 0) * 2}}"></span>
                 <span class="rating-count">(<span> {{ $product->reviews_count }}</span>&nbsp;отзывов)</span>

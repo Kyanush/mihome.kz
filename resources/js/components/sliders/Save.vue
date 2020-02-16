@@ -47,6 +47,7 @@
                              <label>Где отображать</label>
                              <select v-model="slider.show_where" class="form-control">
                                  <option value="home_page">На главную страницу</option>
+                                 <option value="garderobnye">Гардеробные</option>
                              </select>
                              <span v-if="IsError('slider.show_where')" class="help-block" v-for="e in IsError('slider.show_where')">
                                   {{ e }}
