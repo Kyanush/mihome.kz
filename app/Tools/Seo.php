@@ -12,7 +12,7 @@ namespace App\Tools;
 class Seo
 {
 
-    public static $city = 'Алматы, Нур-Султане (Астана), Шымкенте, Караганде, Казахстан';
+    public static $city = 'Алматы, Казахстан';
 
     public static function main(){
 

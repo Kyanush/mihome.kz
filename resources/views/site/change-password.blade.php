@@ -27,6 +27,7 @@
        <div class="section" id="checkout">
            <!-- container -->
            <div class="container">
+               <h1>{{ $title }}</h1>
                <!-- row -->
                <div class="row">
                    <div class="col-md-3">

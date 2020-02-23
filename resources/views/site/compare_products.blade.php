@@ -23,6 +23,8 @@
            <!-- container -->
            <div class="container">
 
+               <h1>Сравнение товаров</h1>
+
                @if(count($productFeaturesCompareList) == 0)
                    <div class="content">Вы не выбрали ни одного товара для сравнения.</div>
                @else

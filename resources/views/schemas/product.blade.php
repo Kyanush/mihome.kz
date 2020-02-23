@@ -35,9 +35,11 @@
                 "availability": "http://schema.org/PreOrder"
             @elseif($product->status_id == 12)
                 "availability":"http://schema.org/OutOfStock"
+            @else
+                "availability":"http://schema.org/InStock"
             @endif
         }
-        @if($product->reviews_rating_avg and $product->reviews_count)
+        @if($product->reviews_rating_avg > 0 and $product->reviews_count > 0)
         ,
         "aggregateRating": {
             "ratingValue": "{{ $product->reviews_rating_avg }}.0",

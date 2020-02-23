@@ -90,7 +90,7 @@ class ServiceProduct implements ProductInterface
 
 
     //Картинки
-    public static function productImagesSave(array $images, $product_id)
+    public static function productImagesSave(array $images, $product_id, $original_name = false)
     {
         //id
         //value
@@ -108,10 +108,13 @@ class ServiceProduct implements ProductInterface
             {
                 if(is_uploaded_file($item['value'])){
 
+                    if($original_name)
+                        $name =  self::getBaseNameUrl($item['value']);
+                    else
+                        $name = str_slug($product->name) . '-' . ServiceDB::tableNextId('product_images');
+
                     $upload = new Upload();
-                    $upload->fileName = str_slug($product->name) . '-' . ServiceDB::tableNextId('product_images');
-                    //$upload->setWidth(460);
-                    //$upload->setHeight(350);
+                    $upload->fileName = $name;
                     $upload->setPath($product->productFileFolder());
                     $upload->setFile($item['value']);
 
@@ -125,8 +128,14 @@ class ServiceProduct implements ProductInterface
 
                 elseif(ServiceUploadUrl::validUrlImage($item['value']))
                 {
+
+                    if($original_name)
+                        $name =  self::getBaseNameUrl($item['value']);
+                    else
+                        $name = str_slug($product->name) . '-' . ServiceDB::tableNextId('product_images');
+
                     $serviceUploadUrl = new ServiceUploadUrl();
-                    $serviceUploadUrl->name = str_slug($product->name) . '-' . ServiceDB::tableNextId('product_images');
+                    $serviceUploadUrl->name = $name;
                     $serviceUploadUrl->url = $item['value'];
                     $serviceUploadUrl->path_save = $product->productFileFolder();
                     $filename = $serviceUploadUrl->copy();
@@ -151,6 +160,11 @@ class ServiceProduct implements ProductInterface
             }
         }
         return true;
+    }
+
+    public static function getBaseNameUrl($url){
+        $info = pathinfo($url);
+        return $info['basename'];
     }
 
     public static function productAttributesSave(int $product_id, array $attributes)

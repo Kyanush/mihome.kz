@@ -27,6 +27,7 @@
     <div class="section">
         <!-- container -->
         <div class="container">
+            <h1>{{ $seo['title'] }}</h1>
             <div class="contact">
                 <p>
                     Остались вопросы? Наш call center к вашим услугам ежедневно с 11:00 до 19:00.

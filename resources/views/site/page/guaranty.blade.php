@@ -22,9 +22,7 @@
        <div class="section">
            <!-- container -->
            <div class="container">
-
-               <h1>Гарантия</h1>
-
+               <h1>{{ $seo['title'] }}</h1>
                @include('includes.guaranty_text')
            </div>
        </div>

@@ -22,6 +22,7 @@
        <div class="section">
            <!-- container -->
            <div class="container">
+               <h1>{{ $seo['title'] }}</h1>
                @include('includes.delivery_payment_text')
            </div>
        </div>

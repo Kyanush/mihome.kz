@@ -28,7 +28,7 @@ class ProductFeaturesCompareController extends Controller
 
         $attributeGroups = AttributeGroup::with('attributes')->OrderBy('sort')->get();
         $productFeaturesCompareList = ServiceProductFeaturesCompare::productFeaturesCompareList();
-        $seo = Seo::pageSeo('compare-products');
+        $seo = Seo::pageSeo('compare_products');
 
         return view(Helpers::isMobile() ? 'mobile.compare_products' : 'site.compare_products', [
             'attributeGroups' => $attributeGroups,

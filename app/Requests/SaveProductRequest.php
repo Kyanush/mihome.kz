@@ -28,7 +28,7 @@ class SaveProductRequest extends FormRequest
         if(!$parent_id)
         {
             $rules['product.youtube']          = 'max:25';
-            $rules['product.description']      = 'required';
+            //$rules['product.description']      = 'required';
             $rules['categories']               = 'required|exists:categories,id';
             $rules['categories.*']             = 'required|exists:categories,id';
         }

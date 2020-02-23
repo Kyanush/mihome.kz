@@ -18,11 +18,10 @@
         ];?>
         @include('site.includes.breadcrumb', ['breadcrumbs' => $breadcrumbs])
 
-        <!-- SECTION -->
         <div class="section" id="checkout">
-            <!-- container -->
             <div class="container">
-                <!-- row -->
+
+                <h1>Оформление заказа</h1>
 
                 <span v-if="list_cart.length == 0">
                     <p v-if="order_id > 0">

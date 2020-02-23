@@ -10,7 +10,7 @@ class PageController extends Controller
 {
 
     public function deliveryPayment(){
-        $seo = Seo::pageSeo('delivery-payment');
+        $seo = Seo::pageSeo('delivery_payment');
         return view(Helpers::isMobile() ? 'mobile.page.delivery_payment' : 'site.page.delivery_payment', ['seo' => $seo]);
     }
 

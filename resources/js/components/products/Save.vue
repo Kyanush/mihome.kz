@@ -354,6 +354,21 @@
                                                 </div>
                                             </td>
                                         </tr>
+
+                                        <tr v-if="!product.parent_id">
+                                            <td  width="25%" class="text-right">
+                                                <label >Краткое описание:</label>
+                                            </td>
+                                            <td  width="75%">
+                                                <div  class="form-group col-md-12">
+                                                    <textarea v-model="product.description_short" class="form-control"></textarea>
+                                                    <span v-if="IsError('product.description_short')" class="help-block" v-for="e in IsError('product.description_short')">
+                                                         {{ e }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+
                                     </tbody>
                                 </table>
 

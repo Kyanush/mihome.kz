@@ -20,6 +20,7 @@
 
     <div class="section">
         <div class="container">
+            <h1>{{ $seo['title'] }}</h1>
             @include('includes.cashback_text')
         </div>
     </div>

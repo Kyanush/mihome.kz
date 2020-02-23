@@ -27,6 +27,7 @@
     <div class="section">
         <!-- container -->
         <div class="container">
+            <h1>Мои закладки</h1>
             <!-- row -->
             <div class="row">
                 <div class="col-md-3">

@@ -17,6 +17,11 @@
 @section('add_in_head')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+    @if($product->parent_id > 0)
+        <meta name="robots" content="noindex, nofollow" />
+    @endif
+
 @stop
 
 @include('site.includes.breadcrumb', ['breadcrumbs' => $breadcrumbs])
@@ -336,11 +341,13 @@
 
             <!-- product tab nav -->
             <ul class="tab-nav">
-                <li class="active">
-                    <a data-toggle="tab" href="#description">Описание</a>
-                </li>
-                <li>
-                    <a data-toggle="tab" href="#attributes">Характеристики</a>
+                @if($product->description)
+                    <li class="active">
+                        <a data-toggle="tab" href="#description">Описание</a>
+                    </li>
+                @endif
+                <li @if(!$product->description) class="active" @endif>
+                    <a @if(!$product->description) class="active" @endif data-toggle="tab" href="#attributes">Характеристики</a>
                 </li>
                 <li>
                     <a data-toggle="tab" href="#reviews">Отзывы({{ $product->reviews_count }})</a>
@@ -350,26 +357,27 @@
 
             <!-- product tab content -->
             <div class="tab-content">
-                <div id="description" class="tab-pane fade in active">
+                @if($product->description)
+                    <div id="description" class="tab-pane fade in active">
+                        <!-- container -->
+                        @if($product->description_style_id)
 
-                    <!-- container -->
-                    @if($product->description_style_id)
+                            {!! $product->description  !!}
 
-                        {!! $product->description  !!}
+                            @section('add_in_end')
+                                {!! $product->descriptionStyle->name !!}
+                            @stop
 
-                        @section('add_in_end')
-                            {!! $product->descriptionStyle->name !!}
-                        @stop
-
-                    @else
-                        <div class="container">
-                            <div class="row">
-                                    {!! $product->description  !!}
+                        @else
+                            <div class="container">
+                                <div class="row">
+                                        {!! $product->description  !!}
+                                </div>
                             </div>
-                        </div>
-                    @endif
-                </div>
-                <div id="attributes" class="tab-pane fade in">
+                        @endif
+                    </div>
+                @endif
+                <div id="attributes" class="tab-pane fade in @if(!$product->description) active @endif">
                     <div class="container">
                         <div class="row">
                                 <table class="table table-bordered">

@@ -159,8 +159,9 @@
                     @foreach($group_products as $group_product)
                         <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected @endif>
                             {{ $group_product->name }}
-                            -
-                            {{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }}
+                            ({{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }})
+                            {!! $group_product->status->class !!}
+                            {{ $group_product->status->name }}
                         </option>
                     @endforeach
                 </select>
@@ -324,19 +325,19 @@
                 </div>
             @endif
 
-
-            <div class="container-title">Описание</div>
-            <div class="container">
-                <div class="short-description" itemprop="description">
-                    {!! strip_tags(\App\Tools\Helpers::closeTags(\App\Tools\Helpers::limitWords($product->description, 60))) !!}
+            @if($product->description)
+                <div class="container-title">Описание</div>
+                <div class="container">
+                    <div class="short-description" itemprop="description">
+                        {!! strip_tags(\App\Tools\Helpers::closeTags(\App\Tools\Helpers::limitWords($product->description, 60))) !!}
+                    </div>
                 </div>
-            </div>
-            <div class="container g-pa0 g-bb-fat">
-                <a href="{{ $product->detailUrlProduct() }}?view=descriptions" class="link-more _link-description">
-                    Подробнее
-                </a>
-            </div>
-
+                <div class="container g-pa0 g-bb-fat">
+                    <a href="{{ $product->detailUrlProduct() }}?view=descriptions" class="link-more _link-description">
+                        Подробнее
+                    </a>
+                </div>
+            @endif
 
             <div class="container-title">Отзывы</div>
             <div class="container">
