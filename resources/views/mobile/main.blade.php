@@ -39,11 +39,34 @@
 
     @include('mobile.includes.main-slider')
 
+    <div class="mount-catalog-grid">
+        <div class="catalog-grid _list _top">
+            <h3 class="container-title">Хит продаж</h3>
+            @foreach($products1 as $product)
+                @include('mobile.includes.product_item', ['product' => $product])
+            @endforeach
+        </div>
 
-    @include('mobile.includes.product_slider', ['products' => $products1, 'title' => 'Redmi Note 8 Pro', 'url' => ''])
-    @include('mobile.includes.product_slider', ['products' => $products2, 'title' => 'Redmi Note 8', 'url' => ''])
-    @include('mobile.includes.product_slider', ['products' => $productsDiscount,  'title' => 'Акции', 'url' => ''])
+        <div class="catalog-grid _list _top">
+            <h3 class="container-title">Рекомендуем</h3>
+            @foreach($products2 as $product)
+                @include('mobile.includes.product_item', ['product' => $product])
+            @endforeach
+        </div>
 
+        <div class="catalog-grid _list _top">
+            <h3 class="container-title">Акции</h3>
+            @foreach($productsDiscount as $product)
+                @include('mobile.includes.product_item', ['product' => $product])
+            @endforeach
+        </div>
+    </div>
+
+    @if(false)
+        @include('mobile.includes.product_slider', ['products' => $products1, 'title' => 'Хит продаж', 'url' => ''])
+        @include('mobile.includes.product_slider', ['products' => $products2, 'title' => 'Рекомендуем', 'url' => ''])
+        @include('mobile.includes.product_slider', ['products' => $productsDiscount,  'title' => 'Акции', 'url' => ''])
+    @endif
 
     <div class="mount-item-teaser">
         <h2 class="container-title">Мы в социальных сетях</h2>

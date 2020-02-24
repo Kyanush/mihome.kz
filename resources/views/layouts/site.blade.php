@@ -9,18 +9,9 @@
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
+
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/bootstrap.min.css') }}"/>
-
-    <!-- Slick -->
-    <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/slick.min.css') }}"/>
-    <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/slick-theme.min.css') }}"/>
-
-    <!-- nouislider -->
-    <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/nouislider.min.css') }}"/>
-
-    <!-- Font Awesome Icon -->
-    <link rel="stylesheet" href="{{ asset('/site/css/font-awesome.min.css') }}">
 
     <!-- Custom stlylesheet sd -->
     <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/style.min.css') }}"/>
@@ -221,185 +212,7 @@
     <div class="container1">
         <!-- responsive-nav -->
         <div id="responsive-nav">
-
-            <!--
-            https://www.jqueryscript.net/demo/Creating-A-Pretty-Mega-Menu-with-jQuery-Bootstrap/
-            --->
-
             @include('site.includes.catalog_menu')
-
-            @if(false)
-            <nav class="navbar navbar-default">
-    <div class="collapse navbar-collapse js-navbar-collapse">
-      <ul class="nav navbar-nav">
-
-        @php
-            $categories1 = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
-        @endphp
-        @foreach($categories1 as $category1)
-        <li class="dropdown mega-dropdown">
-            <a href="{{ $category1->catalogUrl() }}" class="dropdown-toggle" data-toggle="">
-                {{ $category1->name }}
-            </a>
-          <ul class="dropdown-menu mega-dropdown-menu row">
-
-            <div class="megamenu-headline">
-              <h2>
-                  {{ $category1->name }}
-              </h2>
-            </div>
-
-            <li class="divider"></li>
-
-              <?php
-                  $categories = [];
-
-                  foreach($category1->children()->isActive()->orderBy('sort')->get() as $category_children){
-                      $categories[] = $category_children;
-
-                      $childrens_all = \App\Models\Category::orderBy('sort')
-                          ->isActive()
-                          ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category_children->id, false, true))
-                          ->get();
-
-                      foreach ($childrens_all as $item)
-                          $categories[] = $item;
-                  }
-              $row_br = 8;
-              ?>
-
-              <?php $row = 0; ?>
-              @foreach($categories as $key => $item)
-                  <?php $row++; ?>
-                  @if($row == 1)
-                          <li class="col-sm-3">
-                              <ul>
-                  @endif
-                        <li>
-                            <a href="{{ $item->catalogUrl() }}" class="link">
-                                {{ $item->name }}
-                            </a>
-                        </li>
-                  @if($row == $row_br or count($categories) == $key + 1)
-                              </ul>
-                          </li>
-                  <?php $row = 0; ?>
-                  @endif
-              @endforeach
-
-
-
-          </ul>
-        </li>
-        @endforeach
-
-      </ul>
-    </div>
-                <!-- /.nav-collapse -->
-  </nav>
-            @endif
-
-            @if(false)
-            <i class="fa fa-remove fa-2x" id="close-menu"></i>
-
-            <!-- NAV -->
-            <ul class="main-nav nav navbar-nav">
-                <li class="cat_menu_container">
-                    <a class="catalog-products">
-                        <i class="fa fa-bars firm-red"></i>
-                        Каталог
-                    </a>
-                    @php
-                        $categories1 = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
-                    @endphp
-                    <ul class="cat_menu">
-                        @foreach($categories1 as $category1)
-                            @php
-                                $categories2 = $category1->children()->isActive()->orderBy('sort')->get();
-                            @endphp
-                            <li @if($categories2->isNotEmpty()) class="hassubs" @endif>
-                                <a href="{{ $category1->catalogUrl() }}">
-                                    <img data-original="{{ $category1->pathImage(true) }}" class="lazy-my"/>
-                                    {{ $category1->name }}
-                                    <i class="fa fa-chevron-right"></i>
-                                </a>
-                                @if($categories2->isNotEmpty())
-                                    <ul>
-                                            @foreach($categories2 as $category2)
-                                            @php
-                                                $categories3 = $category2->children()->isActive()->orderBy('sort')->get();
-                                            @endphp
-                                            <li @if($categories3->isNotEmpty()) class="hassubs" @endif>
-                                                    <a href="{{ $category2->catalogUrl() }}">
-                                                        <img data-original="{{ $category2->pathImage(true) }}" class="lazy-my"/>
-                                                        {{ $category2->name }}
-                                                        <i class="fa fa-chevron-right"></i>
-                                                    </a>
-                                                @if($categories3->isNotEmpty())
-                                                    <ul>
-                                                                @foreach($categories3 as $category3)
-                                                            @php
-                                                                $categories4 = \App\Models\Category::orderBy('sort')
-                                                                        ->isActive()
-                                                                        ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category3->id, false, true))
-                                                                        ->get();
-                                                            @endphp
-                                                            <li @if($categories4->isNotEmpty()) class="hassubs" @endif>
-                                                                        <a href="{{ $category3->catalogUrl() }}">
-                                                                            <img data-original="{{ $category3->pathImage(true) }}"  class="lazy-my"/>
-                                                                            {{ $category3->name }}
-                                                                            <i class="fa fa-chevron-right"></i>
-                                                                        </a>
-                                                                @if(count($categories4) > 0)
-                                                                    <ul>
-                                                                               @foreach($categories4 as $category4)
-                                                                            <li>
-                                                                                    <a href="{{ $category4->catalogUrl() }}">
-                                                                                         <img data-original="{{ $category4->pathImage(true) }}"  class="lazy-my"/>
-                                                                                        {{ $category4->name }}
-                                                                                    </a>
-                                                                               </li>
-                                                                        @endforeach
-                                                                            </ul>
-                                                                @endif
-                                                                    </li>
-                                                        @endforeach
-                                                        </ul>
-                                                @endif
-                                                </li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
-                <li class="{{ Request::routeIs('delivery_payment') ? 'active' : '' }}"><a href="{{ route('delivery_payment') }}">Доставка/Оплата</a></li>
-                <li class="{{ Request::routeIs('guaranty') ? 'active' : '' }}"><a href="{{ route('guaranty') }}">Гарантия</a></li>
-                <li class="{{ Request::routeIs('wishlist') ? 'active' : '' }}">
-                    <a href="{{ route('wishlist') }}">
-                        Мои закладки
-                        <span class="badge badge-error" v-if="pfwc > 0">
-                            @{{  pfwc }}
-                        </span>
-                    </a>
-                </li>
-                <li class="{{ Request::routeIs('compare_products') ? 'active' : '' }}">
-                    <a href="{{ route('compare_products') }}">
-                        Сравнение товаров
-                        <span class="badge badge-error" v-if="pfwc > 0">
-                            @{{  pfwc }}
-                        </span>
-                    </a>
-                </li>
-                <li class="{{ Request::routeIs('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}">Контакты</a></li>
-                <li class="{{ Request::routeIs('about') ? 'active' : '' }}"><a href="{{ route('about') }}">О нас</a></li>
-                <li class="{{ Request::routeIs('checkout') ? 'active' : '' }}"><a href="{{ route('checkout') }}">Корзина</a></li>
-            </ul>
-            <!-- /NAV -->
-
-            @endif
-
         </div>
         <!-- /responsive-nav -->
     </div>
@@ -604,144 +417,7 @@
 </div>
 
 
-@if(false)
-    <!-- Каталог товаров -->
-    <div class="modal fade catalog-menu" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">
-                        Каталог товаров
-                    </h4>
-                </div>
-                <div class="modal-body">
 
-
-
-                    <?php
-                    $categories = \App\Models\Category::orderBy('sort')->isActive()->where('parent_id', 0)->get();
-                    ?>
-
-                    <ul class="nav nav-tabs">
-                        @php $active = true; @endphp
-                        @foreach($categories as $k => $category)
-                            <li @if($active) class="active" @php $active = false; @endphp @endif>
-                                <a data-toggle="tab" href="#{{ $category->url }}">
-                                    <i class="{{ $category->class }}"></i>
-                                    {{ $category->name }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-
-                    <div class="tab-content">
-                        @php $active = true; @endphp
-                        @foreach($categories as $k => $category)
-                            <div id="{{ $category->url }}" class="tab-pane fade @if($active) in active @php $active = false; @endphp @endif">
-                                <?php
-                                $categories = [];
-                                foreach($category->children()->isActive()->orderBy('sort')->get() as $category_children){
-                                    $categories[] = $category_children;
-
-                                    $childrens_all = \App\Models\Category::orderBy('sort')
-                                        ->isActive()
-                                        ->whereIn('id', \App\Services\ServiceCategory::categoryChildIds($category_children->id, false, true))
-                                        ->get();
-
-                                    foreach ($childrens_all as $item)
-                                        $categories[] = $item;
-                                }
-                                ?>
-
-                                <ul>
-                                    <li>
-                                        <a href="{{ $category->catalogUrl() }}">
-                                                        <span>
-                                                            <i class="{{ $category->class }} fa-3x"></i>
-                                                        </span>
-                                            <span>Все {{ $category->name }}</span>
-                                        </a>
-                                    </li>
-                                    @foreach($categories as $key => $item)
-                                        <li>
-                                            <a href="{{ $item->catalogUrl() }}">
-                                                        <span>
-                                                            @if($item->image)
-                                                                <img src="{{ $item->pathImage(true) }}"/>
-                                                            @endif
-                                                        </span>
-                                                <span>{{ $item->name }}</span>
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endforeach
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Каталог товаров -->
-@endif
-
-<!-- Выбор города -->
-@php
-    $cities = \App\Services\ServiceCity::groupingFirstLetters();
-@endphp
-<div class="modal fade select-city" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">
-                    Выбор города
-                </h4>
-            </div>
-            <div class="modal-body">
-                <ul>
-                    @foreach($cities as $key => $item_cities)
-                        @if(count($item_cities) == 1)
-                            <li>
-                                <ul>
-                                    <li class="first_char">{{ $key }}</li>
-                                    @foreach($item_cities as $city)
-                                        <li>
-                                            <a onclick="setCity('{{$city->code}}')" @if(in_array($city->id, [4,20])) class="special_town_a" @endif>
-                                                {{ $city->name }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                        @else
-                            <li>
-                                <ul>
-                                    <li class="first_char">{{ $key }}</li>
-                                    @foreach($item_cities as $city)
-                                        <li>
-                                            <a onclick="setCity('{{$city->code}}')" @if(in_array($city->id, [4,20])) class="special_town_a" @endif>
-                                                {{ $city->name }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                        @endif
-                    @endforeach
-                </ul>
-            </div>
-            <div class="modal-footer">
-                Не нашли свой город? У нас есть доставка по <a href="{{ route('delivery_payment') }}">Казахстан</a>.
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Выбор города -->
 
 
 <!-- Обратный звонок -->
@@ -827,13 +503,15 @@
 
 
 
+<!-- Slick -->
+<link type="text/css" rel="stylesheet" href="{{ asset('/site/css/slick.min.css') }}"/>
+<link type="text/css" rel="stylesheet" href="{{ asset('/site/css/slick-theme.min.css') }}"/>
 
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+
+<!-- Font Awesome Icon -->
+<link rel="stylesheet" href="{{ asset('/site/css/font-awesome.min.css') }}">
+
+
 
 <!-- jquery-ui --->
 <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -854,9 +532,6 @@
 
 <!-- Vue js -->
 
-<!-- commentbook -->
-<script src="{{ asset('/commentbook/script.js') }}" data-jv-id="d5ShOZJS9K"></script>
-<!-- commentbook -->
 
 
 
@@ -866,15 +541,14 @@
 
 <script src="{{ asset('/site/js/jquery.lazyload.min.js') }}"></script>
 
-<script src="{{ asset('/global/script.js') }}"></script>
-<script src="{{ asset('/site/js/script.js') }}"></script>
+<script src="{{ asset('/global/script.min.js') }}"></script>
+<script src="{{ asset('/site/js/script.min.js') }}"></script>
 
 <!-- jQuery Plugins -->
 <script src="{{ asset('/site/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('/site/js/slick.min.js') }}"></script>
-<script src="{{ asset('/site/js/nouislider.min.js') }}"></script>
-<script src="{{ asset('/site/js/jquery.zoom.min.js') }}"></script>
-<script src="{{ asset('/site/js/main.js') }}"></script>
+
+<script src="{{ asset('/site/js/main.min.js') }}"></script>
 
 
 <!-- jivosite -->

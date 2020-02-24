@@ -2607,6 +2607,10 @@ textarea.input {
     background-size: cover;
     background-repeat: no-repeat;
 }
+.main-slider img{
+    max-width: 100%;
+}
+
 @media only screen and (max-width: 767px) {
     .main-slider a{
         height: 200px;

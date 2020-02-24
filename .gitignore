@@ -6,6 +6,7 @@
 /public/video
 /storage/*.key
 /vendor
+/parsing
 /.idea
 /.vscode
 /.vagrant

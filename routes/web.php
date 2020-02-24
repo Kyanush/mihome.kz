@@ -119,7 +119,6 @@ Route::group(['middleware' => 'auth', 'namespace'  => 'Site'], function () {
 Route::get('/parsing1', function (){
 
 
-
     include '../parsing/simple_html_dom.php';
 
     $urls = [
@@ -128,123 +127,143 @@ Route::get('/parsing1', function (){
         ]
 
     ];
-    $base = 'https://mi-home.kz';
-
-    foreach ($urls as $item)
-    {
-
-        $page = file_get_html($item['url']);
-        $center_products = $page->find('div#center-products', 0);
-
-        foreach ($center_products->find('h3') as $element) {
-            $product_url = $element->find('a', 0)->href;
-
-            $product_html = file_get_html($base . $product_url);
-            if($product_html)
-            {
-
-                $name 			     = trim($product_html->find('h1#product-name', 0)->plaintext);
-                $sku 			     = trim($product_html->find('span[itemprop=sku]', 0)->plaintext);
-                $status 		     = trim($product_html->find('div.product-price', 0)->children(0)->plaintext);
 
 
-                $price 			     = trim($product_html->find('div.PricesalesPrice', 0)->plaintext);
-                $price              = preg_replace("/[^0-9]/", '', $price);
+    function parse($product_url, $parent_id = 0){
+        $base = 'https://mi-home.kz';
+        $product_html = file_get_html($base . $product_url);
+        if($product_html)
+        {
 
-                if($price < 10000){
-                    $price += 2000;
-                }elseif ($price < 20000){
-                    $price += 3000;
-                }elseif ($price < 40000){
-                    $price += 5000;
-                }elseif ($price < 50000){
-                    $price += 8000;
-                }elseif ($price < 100000){
-                    $price += 10000;
-                }elseif ($price < 200000){
-                    $price += 20000;
-                }elseif ($price < 300000){
-                    $price += 20000;
-                }
+            $name 			     = trim($product_html->find('h1#product-name', 0)->plaintext);
+            $sku 			     = trim($product_html->find('span[itemprop=sku]', 0)->plaintext);
+            $status 		     = trim($product_html->find('div.product-price', 0)->children(0)->plaintext);
 
 
+			if($product_html->find('div.PricesalesPrice', 0))
+			{
+				$price 			     = trim($product_html->find('div.PricesalesPrice', 0)->plaintext);
+				$price              = preg_replace("/[^0-9]/", '', $price);
 
-                $product = \App\Models\Product::where(function($query) use ($name, $sku){
-                    $query->OrWhere('name', $name);
-                    $query->OrWhere('sku',  $sku);
-                })->first();
+				if($price < 10000){
+					$price += 2000;
+				}elseif ($price < 20000){
+					$price += 3000;
+				}elseif ($price < 40000){
+					$price += 5000;
+				}elseif ($price < 50000){
+					$price += 8000;
+				}elseif ($price < 100000){
+					$price += 10000;
+				}elseif ($price < 200000){
+					$price += 20000;
+				}elseif ($price < 300000){
+					$price += 20000;
+				}
+			}else{
+				$price = 0;
+			}
+			
 
 
-                $new = false;
-                if(!$product){
-                    $new = true;
-                    $product = new \App\Models\Product();
-                }
 
-                //10 - В наличии
-                //11 - Скоро в продаже
-                //12 - Нет в наличии
 
-                if($status == 'Товар в наличии'){
-                    $status_id = 10;
-                    $stock = 1;
-                }elseif ($status == 'Ожидаем поступление'){
-                    $status_id = 11;
-                    $stock = 0;
-                }else{
-                    $status_id = 12;
-                    $stock = 0;
-                }
 
-                $product->price     = $price;
-                $product->status_id = $status_id;
-                $product->stock     = $stock;
 
-                if(!$new){
-                    $product->save();
-                }else{
+            $product = \App\Models\Product::where(function($query) use ($name, $sku){
+                $query->Where('name', $name);
+                //$query->OrWhere('sku',  $sku);
+            })->first();
 
-                    $images = [];
-                    $thumbnails = $product_html->find('ul#thumbnails', 0);
-                    if($thumbnails)
+
+            $new = false;
+            if(!$product){
+                $new = true;
+                $product = new \App\Models\Product();
+            }
+
+            //10 - В наличии
+            //11 - Скоро в продаже
+            //12 - Нет в наличии
+
+            if($status == 'Товар в наличии'){
+                $status_id = 10;
+                $stock = 1;
+            }elseif ($status == 'Ожидаем поступление'){
+                $status_id = 11;
+                $stock = 0;
+            }else{
+                $status_id = 12;
+                $stock = 0;
+            }
+
+            $product->price     = $price;
+            $product->status_id = $status_id;
+            $product->stock     = $stock;
+
+            if($parent_id)
+                $product->parent_id = $parent_id;
+
+            if(!$new){
+                $product->save();
+            }else{
+
+                $images = [];
+                $thumbnails = $product_html->find('ul#thumbnails', 0);
+                if($thumbnails)
+                {
+
+                    $images[] = [
+                        'id' => 0,
+                        'value' => $base .  $thumbnails->find('img', 0)->{'data-src'},
+                        'is_delete' => 0
+                    ];
+
+                    /*
+                    if($thumbnails->find('img'))
                     {
-                        if($thumbnails->find('img'))
+                        foreach ($thumbnails->find('img') as $element)
                         {
-                            foreach ($thumbnails->find('img') as $element)
-                            {
-                                $src = $element->{'data-src'};
-                                if (strpos($src, '.jpg') !== false or
-                                    strpos($src, '.png') !== false or
-                                    strpos($src, '.jpeg') !== false) {
-                                    $images[] = [
-                                        'id' => 0,
-                                        'value' => $base . $element->{'data-src'},
-                                        'is_delete' => 0
-                                    ];
-                                }
+                            $src = $element->{'data-src'};
+                            if (strpos($src, '.jpg') !== false or
+                                strpos($src, '.png') !== false or
+                                strpos($src, '.jpeg') !== false) {
+                                $images[] = [
+                                    'id' => 0,
+                                    'value' => $base . $element->{'data-src'},
+                                    'is_delete' => 0
+                                ];
                             }
                         }
                     }
+                    */
+                }
 
-                    $product->name = $name;
-                    $product->sku = $sku;
+                $product->name = $name;
+                $product->sku = $sku;
 
+                if(!$parent_id){
                     $description_short   = trim($product_html->find('div[itemprop=description]', 0)->plaintext ?? '');
                     $product->description_short = $description_short;
+                }
 
-                    if($images[0]['value'] ?? false)
-                        $product->photo = $images[0]['value'];
+                if($images[0]['value'] ?? false)
+                    $product->photo = $images[0]['value'];
 
-                    $description = $product_html->find('div.product-description', 0)->innertext ?? '';
-                    if($description)
+                /*
+                $description = $product_html->find('div.product-description', 0)->innertext ?? '';
+                if($description)
+                {
+                    $description = str_replace('jch-lazyload', "lazy", $description);
+                    $description = str_replace('data-src', "data-original", $description);
+                    $product->description = $description;
+                }
+                */
+
+                if ($product->save())
+                {
+                    if(!$parent_id)
                     {
-                        $description = str_replace('jch-lazyload', "lazy", $description);
-                        $description = str_replace('data-src', "data-original", $description);
-                        $product->description = $description;
-                    }
-
-                    if ($product->save()) {
-
                         $thumbnails = $product_html->find('ul.uk-breadcrumb', 0);
                         $category_name = trim($thumbnails->find('li', count($thumbnails->find('li')) - 2)->plaintext);
 
@@ -261,8 +280,8 @@ Route::get('/parsing1', function (){
 
                         unset($images[0]);
 
-//                        if (count($images))
-                           // \App\Services\ServiceProduct::productImagesSave($images, $product->id);
+                        //if (count($images))
+                        // \App\Services\ServiceProduct::productImagesSave($images, $product->id);
 
 
                         $attributes = [];
@@ -286,6 +305,9 @@ Route::get('/parsing1', function (){
 
                         if (count($attributes) > 0)
                             \App\Services\ServiceProduct::productAttributesSave($product->id, $attributes);
+
+
+
 
                         /*
                         $description_object = $product_html->find('div.product-description', 0);
@@ -317,23 +339,49 @@ Route::get('/parsing1', function (){
                                 }
                             }
                         }*/
+                    }
+
+                }
+            }
 
 
+
+            if(!$parent_id)
+            {
+                $avselection = $product_html->find('select.avselection', 0);
+                if ($avselection) {
+                    foreach ($avselection->find('option') as $k => $option) {
+                        if ($k > 0) {
+                            $url2 = $option->value;
+                            parse($url2, $product->id);
+                        }
                     }
                 }
-
-
-
-
-
-
-
-
-
-
             }
+
+
+
+
         }
     }
+
+    /*
+    foreach ($urls as $item)
+    {
+
+        $page = file_get_html($item['url']);
+        $center_products = $page->find('div#center-products', 0);
+
+        foreach ($center_products->find('h3') as $element)
+        {
+            $product_url = $element->find('a', 0)->href;
+            parse($product_url);
+        }
+    }
+    */
+
+    parse('/store/stil-zhizni/xiaomi-90-points-multitasker-backpack');
+
 });
 
 Auth::routes();

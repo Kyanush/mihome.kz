@@ -406,12 +406,12 @@ class Product extends Model
             'specificPrice' => function($query){
                 $query->dateActive();
             },
-            'attributes',
-            'categories',
-            'avgRating',
-            'oneProductFeaturesCompare',
-            'oneProductFeaturesWishlist',
-            'inCart'
+            //'attributes',
+            //'categories',
+            //'avgRating',
+            //'oneProductFeaturesCompare',
+            //'oneProductFeaturesWishlist',
+            //'inCart'
         ])
         ->isActive()
 

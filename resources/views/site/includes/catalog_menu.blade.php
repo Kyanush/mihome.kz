@@ -249,7 +249,9 @@
                                 <ul>
                                     <li>
                                         <a href="{{ $category2->catalogUrl() }}">
-                                            <img src="{{ $category2->pathImage(true) }}" width="40"/>
+                                            @if(false)
+                                                <img src="{{ $category2->pathImage(true) }}" width="40"/>
+                                            @endif
                                             {{ $category2->name }}
                                         </a>
                                     </li>

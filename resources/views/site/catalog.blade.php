@@ -192,5 +192,9 @@
         </div>
         <!-- /SECTION -->
 
+        <!-- nouislider -->
+        <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/nouislider.min.css') }}"/>
+        <script src="{{ asset('/site/js/nouislider.min.js') }}"></script>
+
 
 @endsection

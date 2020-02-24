@@ -72,10 +72,6 @@
 <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/slick-theme.min.css') }}"/>
 <script src="{{ asset('/site/js/slick.min.js') }}"></script>
 
-<!-- commentbook -->
-<script src="/commentbook/script.js" data-jv-id="d5ShOZJS9K" async></script>
-<!-- commentbook -->
-
 
 <!-- swiper -->
 <link rel="stylesheet" href="/mobile/swiper/swiper.min.css">
@@ -97,9 +93,9 @@
 
 
 <script src="/site/js/jquery.lazyload.min.js"></script>
-<script src="/global/script.js"></script>
+<script src="/global/script.min.js"></script>
 
-<script type="text/javascript" src="/mobile/js/script.js"></script>
+<script type="text/javascript" src="/mobile/js/script.min.js"></script>
 
 
 

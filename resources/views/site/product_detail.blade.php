@@ -17,14 +17,12 @@
 @section('add_in_head')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-
-    @if($product->parent_id > 0)
-        <meta name="robots" content="noindex, nofollow" />
-    @endif
-
 @stop
 
 @include('site.includes.breadcrumb', ['breadcrumbs' => $breadcrumbs])
+
+
+
 
 <!-- SECTION -->
 <div class="section" id="product-detail" >
@@ -584,7 +582,7 @@
         @endif
 
 
-        @if($product->youtube)
+        @if($product->youtube and false)
             <h2 class="text-center tab-title">Видео обзор</h2>
             <div class="text-center">
                 <iframe
@@ -648,5 +646,8 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('/site/js/jquery.zoom.min.js') }}"></script>
+
 
 @endsection

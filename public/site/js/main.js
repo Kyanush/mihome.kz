@@ -132,10 +132,11 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
         fade: true,
         autoplay: false
     });
+    /*
     $('.main-slider').on('lazyLoaded', function (e, slick, image, imageSource) {
     	image.parent().css('background-image', 'url("' + imageSource + '")');
     	image.remove();
-    });
+    });*/
 
 
 

@@ -61,6 +61,7 @@
     </div>
 </div>
 
+
 <!--
 <a id="write-review" class="button _big-fixed button-sellers" data-product_id="{{ $product->id }}">
     Написать отзыв

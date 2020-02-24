@@ -22,7 +22,7 @@ class MainController extends Controller
                     $query->dateActive();
                 })
                 ->withCount('reviews')
-                ->limit(10)
+                ->limit(4)
                 ->where('stock', '>', 0)
                 //->OrderBy('id', 'DESC')
                 ->inRandomOrder()
@@ -31,7 +31,7 @@ class MainController extends Controller
 
         $products1 =Product::productInfoWith()
             ->filters(['category' => 'redmi-note-8-pro'])
-            ->limit(10)
+            ->limit(4)
             ->where('stock', '>', 0)
             ->get();
 
@@ -39,7 +39,7 @@ class MainController extends Controller
 
         $products2 = Product::productInfoWith()
                     ->filters(['category' => 'redmi-note-8'])
-                    ->limit(10)
+                    ->limit(4)
                     ->where('stock', '>', 0)
                     ->get();
 
