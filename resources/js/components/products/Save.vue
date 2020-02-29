@@ -369,6 +369,22 @@
                                             </td>
                                         </tr>
 
+                                        <tr v-if="!product.parent_id">
+                                            <td  width="25%" class="text-right">
+                                                <label >Описание schema:</label>
+                                            </td>
+                                            <td  width="75%">
+                                                <div  class="form-group col-md-12">
+                                                    <textarea v-model="product.description_schema" class="form-control"></textarea>
+                                                    <span v-if="IsError('product.description_schema')" class="help-block" v-for="e in IsError('product.description_schema')">
+                                                         {{ e }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+
                                     </tbody>
                                 </table>
 
@@ -756,6 +772,9 @@
                     sort: 0,
                     url: '',
                     description: '',
+                    description_style_id: 0,
+                    description_short: '',
+                    description_schema: '',
                     photo: '',
                     pathPhoto: '',
                     price: 0,
@@ -770,7 +789,7 @@
                     view_count: 0,
                     reviews_rating_avg: 0,
                     reviews_count: 0,
-                    description_style_id: 0
+
                 },
                 product_photo_upload_type: 'file',
                 product_accessories: [],
@@ -940,6 +959,11 @@
                                 this.product.sort             = product.sort;
                                 this.product.url              = product.url;
                                 this.product.description      = product.description;
+
+                                this.product.description_style_id   = product.description_style_id;
+                                this.product.description_short      = product.description_short;
+                                this.product.description_schema     = product.description_schema;
+
                                 this.product.seo_title        = product.seo_title;
                                 this.product.seo_keywords     = product.seo_keywords;
                                 this.product.seo_description  = product.seo_description;
@@ -954,7 +978,7 @@
                                 this.product.view_count       = product.view_count;
                                 this.product.reviews_rating_avg = product.reviews_rating_avg;
                                 this.product.reviews_count      = product.reviews_count;
-                                this.product.description_style_id      = product.description_style_id;
+
 
                                 this.group_products = data.children;
                                 this.categories     = data.categories;

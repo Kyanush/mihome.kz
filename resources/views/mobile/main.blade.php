@@ -25,9 +25,11 @@
         <?php $categories = \App\Models\Category::orderBy('sort')->where('parent_id', 0)->get();?>
         @foreach($categories as $category)
             <a href="{{ $category->redirect_url ? $category->redirect_url : route('category_menu_mobile',['category' => $category->url]) }}" class="catalog-item container">
-                <span class="catalog-item__img">
-                    <img width="24" data-original="{{ $category->pathImage(true) }}" class="lazy"/>
-                </span>
+                @if(false)
+                    <span class="catalog-item__img">
+                        <img width="24" data-original="{{ $category->pathImage(true) }}" class="lazy"/>
+                    </span>
+                @endif
                 <span class="catalog-item__title">
                    {{ $category->name }}
                 </span>

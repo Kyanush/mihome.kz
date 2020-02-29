@@ -18,7 +18,47 @@
             <!-- container -->
             <div class="container">
 
-                <h1>{{ $category->name }}</h1>
+
+
+                @php
+                    $subcategories = $category->children()->isActive()->orderBy('sort')->get();
+                @endphp
+                @if(count($subcategories) > 0)
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="text-center">Подкатегории</h3>
+                            <br/>
+                            @foreach($subcategories as $children_sub)
+                                <div class="col-md-3">
+                                    <div class="product-widget">
+                                        <div class="product-img">
+                                            <img class="lazy"
+                                                 title="{{ $children_sub->name }}"
+                                                 alt="{{ $children_sub->name }}"
+                                                 data-original="{{ $children_sub->pathImage(true) }}"/>
+                                        </div>
+                                        <div class="product-body">
+                                            <h3 class="product-name">
+                                                <a href="{{ $children_sub->catalogUrl() }}">
+                                                    {{ $children_sub->name }}
+                                                </a>
+                                            </h3>
+                                            <!--
+                                            <p class="product-category">Category</p>
+                                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                                            --->
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <br/>
+                @endif
+
+
+                <h1 class="text-center">{{ $category->name }}</h1>
+
 
                 <!-- row -->
                 <div class="row">

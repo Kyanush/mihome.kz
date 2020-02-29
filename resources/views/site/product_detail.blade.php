@@ -9,19 +9,27 @@
 @section('content')
 
     @include('schemas.product', [
-        'product'          => $product,
-        'group_products'   => $group_products,
-        'category'         => $category
+        'product'            => $product,
+        'group_products'     => $group_products,
+        'category'           => $category,
+        'description_schema' => $seo['description']
     ])
 
 @section('add_in_head')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <!-- commentbook -->
+    <script src="{{ asset('/commentbook/script.js') }}" data-jv-id="d5ShOZJS9K"></script>
+    <!-- commentbook -->
 @stop
 
 @include('site.includes.breadcrumb', ['breadcrumbs' => $breadcrumbs])
 
 
+@php
+    $attributes = $product->attributes;
+    $images     = $product->images
+@endphp
 
 
 <!-- SECTION -->
@@ -45,7 +53,7 @@
                                         {{ $product->getDiscountTypeinfo() }}
                                     </span>
                             @endif
-                            @foreach($product->attributes as $attribute)
+                            @foreach($attributes as $attribute)
                                 @if($attribute->id == 49 and $attribute->pivot->value)
                                     <span class="new {{ str_slug($attribute->pivot->value)  }}">
                                              {{ $attribute->pivot->value  }}
@@ -59,8 +67,8 @@
                         ?>
                         {!! $label !!}
                     </div>
-                    @if(count($product->images) > 0)
-                        @foreach($product->images as $image)
+                    @if(count($images) > 0)
+                        @foreach($images as $image)
                             <div class="product-preview">
                                 <a data-fancybox="gallery" href="{{ $image->imagePath(true) }}">
                                     <img data-lazy="{{ $image->imagePath(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
@@ -81,8 +89,8 @@
                     <div class="product-preview">
                         <img data-lazy="{{ $product->pathPhoto(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
                     </div>
-                    @if(count($product->images) > 0)
-                        @foreach($product->images as $image)
+                    @if(count($images) > 0)
+                        @foreach($images as $image)
                             <div class="product-preview">
                                 <img data-lazy="{{ $image->imagePath(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
                             </div>
@@ -379,7 +387,7 @@
                     <div class="container">
                         <div class="row">
                                 <table class="table table-bordered">
-                                    @foreach($product->attributes as $attribute)
+                                    @foreach($attributes as $attribute)
                                         @if($attribute->show_product_detail == 1)
                                             <tr>
                                                 <td>

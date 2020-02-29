@@ -1,4 +1,9 @@
-<div class="g-mb-gtn" itemscope itemtype="http://schema.org/Product">
+@php
+    $attributes = $product->attributes;
+    $images     = $product->images;
+@endphp
+
+<div class="g-mb-gtn">
 
     <div class="item container g-pa0 g-bb0">
 
@@ -10,7 +15,6 @@
                         <div class="item__image-wrapper">
                             <img
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
-                                    itemprop="image"
                                     alt="{{ $product->name }}"
                                     title="{{ $product->name }}"
                                     class="item__image  swiper-lazy"
@@ -19,12 +23,12 @@
                         </div>
                     </div>
 
-                    @foreach($product->images as $image)
+                    @foreach($images as $image)
                         <div class="swiper-slide">
                             <div class="item__image-wrapper">
                                 <img
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
-                                        itemprop="image" alt="{{ $product->name }}"
+                                        alt="{{ $product->name }}"
                                         title="{{ $product->name }}"
                                         class="item__image  swiper-lazy"
                                         data-src="{{ $image->imagePath(true) }}"/>
@@ -47,7 +51,7 @@
 
                 </div>
 
-                @if(count($product->images) > 0)
+                @if(count($images) > 0)
                     <div class="swiper-pagination"></div>
                 @endif
             </div>
@@ -69,7 +73,7 @@
             </div>
 
             <div class="item__badges _left">
-                @foreach($product->attributes as $attribute)
+                @foreach($attributes as $attribute)
                     @if($attribute->id == 49 and $attribute->pivot->value)
                         @if($attribute->pivot->value == 'Хит')
                             <div class="hit"><img src="/mobile/images/sticker_hit.png"> Хит</div>
@@ -92,7 +96,7 @@
         </div>
 
         <div class="item__info container">
-            <h1 class="item__name" itemprop="name">
+            <h1 class="item__name">
                 {{ $product->name }}
             </h1>
             @if($product->description_short)
@@ -114,7 +118,7 @@
 
         </div>
 
-        <div class="item__info container" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <div class="item__info container">
             <div class="item__prices">
                 <div class="item__debet">
                     <span class="item__prices-price">
@@ -124,23 +128,22 @@
                             </span>
                             &nbsp;
                         @endif
-                        <span itemprop="price">
+                        <span>
                             {{ \App\Tools\Helpers::priceFormat($product->getReducedPrice()) }}
                         </span>
-                        <span itemprop="priceCurrency" content="KZT"></span>
-                        <link itemprop="availability" href="http://schema.org/InStock">
                     </span>
                 </div>
 
                 <div class="item__instalment">
-                    @if($product->stock > 0)
-                        <span class="item__prices-title">В наличии</span>
-                        <span class="item__prices-price"><i class="fa fa-check"></i></span>
-                    @else
-                        <span class="item__prices-title">Нет в наличии</span>
-                        <span class="item__prices-price"><i class="fa fa-close"></i></span>
-                        <span class="item__add-info">При поступлении товара, цена может отличаться</span>
-                    @endif
+                        <span class="item__prices-title">
+                            {{ $product->status->name }}
+                        </span>
+                        <span class="item__prices-price">
+                            {!! $product->status->class !!}
+                        </span>
+                        @if($product->status_id != 10)
+                            <span class="item__add-info">При поступлении товара, цена может отличаться</span>
+                        @endif
                 </div>
                 <!--
                 <div class="item__instalment">
@@ -269,7 +272,7 @@
             <div class="short-specifications container">
                 <ul class="short-specifications__list">
                     @php $i = 1; @endphp
-                    @foreach($product->attributes as $k => $attribute)
+                    @foreach($attributes as $k => $attribute)
                        @if($attribute->show_product_detail == 1)
                             <li class="short-specifications__list-el">
                                 {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}: {{ $attribute->pivot->value }};
@@ -328,7 +331,7 @@
             @if($product->description)
                 <div class="container-title">Описание</div>
                 <div class="container">
-                    <div class="short-description" itemprop="description">
+                    <div class="short-description">
                         {!! strip_tags(\App\Tools\Helpers::closeTags(\App\Tools\Helpers::limitWords($product->description, 60))) !!}
                     </div>
                 </div>

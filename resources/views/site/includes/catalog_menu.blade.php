@@ -226,8 +226,194 @@
                 </ul>
             </li>
 
+
+            <li class="dropdown mega-dropdown">
+                <a href="/catalog/umnyy-dom" data-toggle="" class="dropdown-toggle">
+                    Умный дом
+                </a>
+                <ul class="dropdown-menu mega-dropdown-menu row">
+                <div class="megamenu-headline">
+                    <h2>
+                        Умный дом
+                    </h2>
+                </div>
+                <li class="divider"></li>
+
+                    <li class="col-sm-3">
+                        <ul>
+                            <li class="dropdown-header">
+                                <a href="/catalog/tovary-dlya-doma-xiaomi" style="padding: 0px;">
+                                    Товары для дома
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/catalog/roboty-pylesosy-xiaomi-mijia-roborock-roidmi">
+                                    Роботы и пылесосы
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/catalog/obogrevateli-xiaomi-heater-i-smartmi">
+                                    Обогреватели
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/catalog/tovary-dlya-vlazhnoy-uborki-xiaomi-deerma-swdk">
+                                    Влажная уборка
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/catalog/aksessuary-dlya-pylesosov-xiaomi-i-roborock">
+                                    Аксессуары для пылесосов
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/catalog/ochistiteli-vozdukha-xiaomi-air-purifier">
+                                    Очистители и фильтра
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/catalog/otvertki-i-instrumenty-xiaomi-wiha">
+                                    Отвертки и инструменты
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/catalog/uvlazhniteli-vozdukha-xiaomi-deerma-smartmi">
+                                    Увлажнители
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                <li class="col-sm-3">
+                    <ul>
+                        <li class="dropdown-header">
+                            <a href="/catalog/stil-zhizni-xiaomi" style="padding: 0px;">
+                                Стиль жизни
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/catalog/chemodany-xiaomi-90-points">
+                                Надежные чемоданы
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/catalog/ryukzaki-xiaomi">
+                                Сумки и рюкзаки
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/catalog/ochki-xiaomi-turok-steinhardt-ts">
+                                Солнцезащитные очки
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/catalog/mekhanicheskie-chasy-xiaomi-ciga">
+                                Механические часы
+                            </a>
+                        </li>
+                        <li class="dropdown-header" style="padding: 0px;">
+                            <a href="/catalog/krasota-i-zdorove-xiaomi">
+                                Красота и здоровье
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/catalog/zubnye-shchetki-xiaomi-soocas">
+                                Зубные щетки
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/catalog/elektrobritvy-xiaomi">
+                                Электробритвы
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="col-sm-3">
+                    <ul>
+                        <li class="dropdown-header">
+                            <a href="/catalog/tovary-dlya-kukhni-xiaomi" style="padding: 0px;">
+                                Товары для кухни
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/catalog/chayniki-xiaomi-kettle">
+                                Чайники
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/catalog/blendery-xiaomi">
+                                Блендеры
+                            </a>
+                        </li>
+
+
+                        <li class="dropdown-header">
+                                Другие
+                        </li>
+
+                        <li>
+                            <a href="/catalog/datchiki">
+                                Датчики
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/catalog/aksessuary-dlya-smartfona-xiaomi">
+                                Аксессуары для смартфонов
+                            </a>
+                        </li>
+                        <li >
+                            <a href="/catalog/sport-i-fitness-xiaomi">
+                                Спорт и фитнесс
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/catalog/igrushki-i-konstruktory-xiaomi-mitu">
+                                Игрушки и конструкторы
+                            </a>
+                        </li>
+                        <li><a href="/catalog/aksessuary-v-avto-xiaomi">
+                                Аксессуары в авто
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/catalog/podushki-xiaomi">
+                                Текстиль и подушки
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="col-sm-3">
+                    <ul>
+                        <li class="dropdown-header"><a href="/catalog/lampy-nochniki-svetilniki-xiaomi-yeelight" style="padding: 0px;">
+                                Освещение
+                            </a>
+                        </li>
+                        <li><a href="/catalog/vyklyuchateli-xiaomi-aqara">
+                                Выключатели
+                            </a>
+                        </li>
+                        <li><a href="/catalog/nochniki-xiaomi">
+                                Прикроватные ночники
+                            </a>
+                        </li>
+                        <li><a href="/catalog/potolochnye-svetilniki-xiaomi">
+                                Потолочные светильники
+                            </a>
+                        </li>
+                        <li><a href="/catalog/nastolnye-lampy-xiaomi">
+                                Настольные лампы
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+            </li>
+
             @php
-                $categories = \App\Models\Category::orderBy('sort')->whereNotIn('url', ['smartfony', 'transport'])->isActive()->where('parent_id', 0)->get();
+                $categories = \App\Models\Category::orderBy('sort')->whereNotIn('url', ['smartfony', 'elektrosamokaty', 'umnyy-dom'])->isActive()->where('parent_id', 0)->get();
             @endphp
             @foreach($categories as $category)
                 <li class="dropdown mega-dropdown">
@@ -265,11 +451,11 @@
 
 
             <li class="dropdown mega-dropdown"><a href="/catalog/transport" data-toggle="" class="dropdown-toggle">
-                    Транспорт
+                    Электросамокаты
                 </a> <ul class="dropdown-menu mega-dropdown-menu row">
                     <div class="megamenu-headline">
                         <h2>
-                            Транспорт
+                            Электросамокаты
                         </h2>
                     </div>
                     <li class="divider"></li>

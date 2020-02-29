@@ -49,9 +49,9 @@ class ProductController extends Controller
 
         //Похожие товары
             if($product->parent_id){
-                $group_products = Product::where('parent_id', $product->parent_id)->productInfoWith()->OrderBy('price')->get();
+                $group_products = Product::with('status')->where('parent_id', $product->parent_id)->productInfoWith()->OrderBy('price')->get();
             }else{
-                $group_products = $product->children()->productInfoWith()->OrderBy('price')->get();
+                $group_products = $product->children()->with('status')->productInfoWith()->OrderBy('price')->get();
             }
 
         //С этим товаром покупаю
@@ -84,6 +84,11 @@ class ProductController extends Controller
 
             $product->description = $product_parent->description;
             $product->attributes  = $product_parent->attributes;
+
+            $product->description_short  = $product_parent->description_short;
+            $product->description_schema = $product_parent->description_schema;
+            $product->reviews_rating_avg = $product_parent->reviews_rating_avg;
+            $product->reviews_count      = $product_parent->reviews_count;
         }
 
 

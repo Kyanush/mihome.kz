@@ -8,9 +8,10 @@
 @section('content')
 
     @include('schemas.product', [
-        'product'          => $product,
-        'group_products'   => $group_products,
-        'category'         => $category
+        'product'            => $product,
+        'group_products'     => $group_products,
+        'category'           => $category,
+        'description_schema' => $seo['description']
     ])
 
     @php $view = $_GET['view'] ?? false; @endphp

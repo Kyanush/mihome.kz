@@ -5,6 +5,8 @@ use App\Contracts\ProductInterface;
 use App\Models\Attribute;
 use App\Models\AttributeProductValue;
 use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\ProductAccessory;
 use App\Services\ServiceUploadUrl;
 use File;
 use App\Models\Product;
@@ -17,13 +19,14 @@ class ServiceProduct implements ProductInterface
 
     public static function productDelete($product_id)
     {
+        /*
         if(Order::whereHas('products', function ($query) use ($product_id){
             $query->where('product_id', $product_id);
         })->first())
             return [
                 'message' => 'Вы не можете удалить, есть привязанные заказы!',
                 'success' => false
-            ];
+            ];*/
 
         $product = Product::find($product_id);
         if(!$product)
@@ -51,6 +54,11 @@ class ServiceProduct implements ProductInterface
 
         //аксессуары
         $product->productAccessories()->detach();
+        ProductAccessory::where('accessory_product_id', $product->id)->delete();
+        ProductAccessory::where('product_id', $product->id)->delete();
+
+        //Заказ
+        OrderProduct::where('product_id', $product->id)->delete();
 
         //Отзывы
         $product->reviews()->detach();

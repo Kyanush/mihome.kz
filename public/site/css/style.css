@@ -2972,6 +2972,7 @@ textarea.input {
     width: 100%;
     box-shadow: none;
     -webkit-box-shadow: none;
+    top: 40px;
 }
 
 .mega-dropdown-menu > li > ul {

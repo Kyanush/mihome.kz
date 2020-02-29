@@ -10,12 +10,11 @@ class ServiceUploadUrl
 
     public function copy(){
 
-        $pathinfo = pathinfo($this->url);
-
-        $filename = trim($this->name) . '.' . trim(mb_strtolower($pathinfo['extension']));
+        $this->url = str_replace(' ', "%20", $this->url);
+        $pathinfo  = pathinfo($this->url);
+        $filename  = trim($this->name) . '.' . trim(mb_strtolower($pathinfo['extension']));
 
         $downloadedFileContents = @file_get_contents($this->url);
-
         if($downloadedFileContents === false)
             return false;
 
@@ -28,14 +27,20 @@ class ServiceUploadUrl
     }
 
     public static function validUrlImage($image_full_path){
-        $is = @getimagesize($image_full_path);
-        if (!$is)
-            return false;
-        elseif ( !in_array($is[2], array(1,2,3))   )
-            return false;
-        elseif ( ($is['bits']>=8) )
-            return true;
-        return false;
+
+        $image_full_path = mb_strtolower($image_full_path);
+
+        $count = 0;
+        $format_img  = ['.jpeg', '.jpg', '.png', 'https://', 'http://'];
+        foreach ($format_img as $format)
+        {
+            if(strpos($image_full_path, $format) !== false)
+            {
+                $count++;
+            }
+        }
+
+        return $count == 2 ? true : false;
     }
 
 }

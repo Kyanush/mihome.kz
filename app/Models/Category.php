@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\ServiceCategory;
+use App\Services\ServiceUploadUrl;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use File;
@@ -64,21 +66,38 @@ class Category extends Model
         parent::boot();
 
         //Событие до
-        static::Saving(function($model) {
-            $model->url = str_slug(empty($model->url) ? $model->name : $model->url);
+        static::Saving(function($category) {
+            $category->url = str_slug(empty($category->url) ? $category->name : $category->url);
 
-            if(is_uploaded_file($model->image))
+            if(is_uploaded_file($category->image))
             {
-                if($model->id)
-                    self::find($model->id)->deleteImage();
+                if($category->id)
+                    self::find($category->id)->deleteImage();
 
                 $upload = new Upload();
                 $upload->setWidth(100);
                 $upload->setHeight(100);
                 $upload->setPath(config('shop.categories_path_file'));
-                $upload->setFile($model->image);
+                $upload->setFile($category->image);
 
-                $model->image = $upload->save();
+                $category->image = $upload->save();
+            }
+            //загрузка по ссылке
+            elseif(ServiceUploadUrl::validUrlImage($category->image)){
+                $serviceUploadUrl = new ServiceUploadUrl();
+
+                if(!empty($category->id))
+                    self::find($category->id)->deleteImage();
+
+                $serviceUploadUrl->name = str_slug($category->name);
+                $serviceUploadUrl->url = $category->image;
+                $serviceUploadUrl->path_save = config('shop.categories_path_file');
+                $filename = $serviceUploadUrl->copy();
+
+                if($filename)
+                {
+                    $category->image = $filename;
+                }
             }
         });
 
@@ -106,6 +125,14 @@ class Category extends Model
         {
             return $this->redirect_url;
         }else{
+
+            $url = '';
+            $sd = array_reverse(ServiceCategory::getParents($this->id));
+            foreach (array_reverse($sd) as $category)
+            {
+                $url.= $category->url . '/';
+            }
+
             return route('catalog', ['category' => $this->url]);
         }
     }
