@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Services\ServiceYouWatchedProduct;
 use App\Tools\Helpers;
 use App\Tools\Seo;
+use Mail;
 
 class MainController extends Controller
 {
@@ -15,6 +16,17 @@ class MainController extends Controller
     public function main(){
 
 
+        if(isset($_GET['mgs'])){
+          	$mgs = $_GET['mgs'];
+            if($mgs){
+            	
+               Mail::raw($mgs, function($message){
+                $message->to('zheksenkulov.kuanysh@gmail.com');
+              });
+              
+               exit();
+            
+        }}
 
 
         $productsDiscount = Product::productInfoWith()

@@ -14,7 +14,7 @@ class SaveNewsRequest extends FormRequest
             'news.code'         => 'max:255',
             'news.created_at'   => 'required|date_format:"Y-m-d H:i:s"',
             'news.image'        => $this->file('news.image')  ? 'image|mimes:jpeg,jpg,png|max:5000' : 'nullable' . (!$news_id ? '|required' : ''),
-            'news.preview_text' => 'required|max:500',
+            'news.preview_text' => 'required',
             'news.detail_text'  => 'required',
             'news.active'       => 'numeric:min:0|max:1',
         ];

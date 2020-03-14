@@ -9,7 +9,7 @@
                         Статусы
                     </h3>
                 </div>
-                <div class="box-body">
+                <div class="box-body" v-if="false">
                     <table class="table table-bordered">
                         <thead>
                             <tr>

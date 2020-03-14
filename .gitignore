@@ -4,6 +4,7 @@
 /public/uploads
 /public/images
 /public/video
+/parsing
 /storage/*.key
 /vendor
 /parsing

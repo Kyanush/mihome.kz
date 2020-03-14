@@ -52,6 +52,8 @@ class CatalogController extends Controller
         $column  = $orderBy['sorting_product']['column'];
         $order   = $orderBy['sorting_product']['order'];
 
+
+
         $priceMinMax = ServiceProduct::priceMinMax(['category' => $filters['category'], 'active' => 1, 'main' => 1]);
         $productsAttributesFilters = ServiceProduct::productsAttributesFilters($filters);
 
