@@ -115,5 +115,8 @@ Route::group(['middleware' => 'auth', 'namespace'  => 'Site'], function () {
 
 });
 
+Route::get('/parsing', function(){
+
+});
 
 Auth::routes();

@@ -13,6 +13,8 @@ import attributes_save    from  '../components/attributes/Save.vue';
 import products_list    from  '../components/products/List.vue';
 import products_save    from  '../components/products/Save.vue';
 
+import subscriptions    from  '../components/products/Subscriptions.vue';
+
 
 import import_export   from '../components/import-export/Import-export.vue';
 
@@ -642,6 +644,17 @@ export default new Router({
             component: settings,
             meta: {
                 title: 'Настройки',
+                breadcrumb: [
+                    { title: 'Главная страница', link: '/main' }
+                ]
+            }
+        },
+        {
+            path: '/subscriptions',
+            name: 'subscriptions',
+            component: subscriptions,
+            meta: {
+                title: 'Подписки',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' }
                 ]

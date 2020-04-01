@@ -21,4 +21,9 @@ class Subscribe extends Model
         return $query;
     }
 
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product', 'product_id', 'id');
+    }
+
 }

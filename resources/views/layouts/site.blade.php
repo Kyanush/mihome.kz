@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
+    <base href="{{ url()->current() }}">
+    <link href="{{ url()->current() }}" rel="canonical">
+
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
@@ -365,7 +368,7 @@
                             </li>
                             <li>
                                 <a href="https://xiaomi-market.kz/" title="Магазин Xiaomi">
-                                    <img width="250" src="https://xiaomi-market.kz/site/images/logo.png" alt="Магазин Xiaomi"/>
+                                    <img width="250" src="/images/xiaomi-market.png" alt="Магазин Xiaomi"/>
                                     <br/>
                                     Магазин Xiaomi
                                 </a>

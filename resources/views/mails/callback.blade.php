@@ -14,6 +14,12 @@
             {{ $data->email }}
         </a>
     </p>
+    <p>
+        URL:
+        <a href="{{ $data->url }}">
+            {{ $data->url }}
+        </a>
+    </p>
     <p>Сообщение: {{ $data->message }}</p>
     <p>Дата: {{ $data->created_at }}</p>
 

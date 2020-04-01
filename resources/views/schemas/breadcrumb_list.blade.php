@@ -19,6 +19,7 @@
                         "position": {{ $key + 1 }},
                         "item": {
                             "@id": "{{ $item['link'] }}",
+                            "@type": "WebPage",
                             "name": "{{ $item['title'] }}"
                         }
                   }<?=(count($breadcrumbs_new) > $key + 1) ? ',' : '';?>

@@ -47,7 +47,7 @@
             </p>
             <p>
                 <a href="https://xiaomi-market.kz/" title="Магазин Xiaomi">
-                    <img width="250" src="https://xiaomi-market.kz/site/images/logo.png" alt="Магазин Xiaomi"/>
+                    <img width="250" src="https://xiaomi-market.kz/images/logo.png" alt="Магазин Xiaomi"/>
                     <br/>
                     Магазин Xiaomi
                 </a>

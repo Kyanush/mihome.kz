@@ -44,7 +44,17 @@
                             </li>
                             <li>
                                 <a href="/p/xiaomi-redmi-k30">
-                                    Xiaomi Redmi K30 (5G, Скоро, New)
+                                    Xiaomi Pocophone X2 (Redmi K30)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/p/xiaomi-redmi-note-9-pro">
+                                    Xiaomi Redmi Note 9 Pro
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/p/xiaomi-redmi-note-9-pro-max">
+                                    Xiaomi Redmi Note 9 Pro Max
                                 </a>
                             </li>
                         </ul>
@@ -95,6 +105,11 @@
                             <li>
                                 <a href="/p/xiaomi-mi-10">
                                     Xiaomi Mi 10 (Скоро, New)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/p/xiaomi-mi-10-pro">
+                                    Xiaomi Mi 10 Pro (Скоро, New)
                                 </a>
                             </li>
                             <li>
@@ -450,7 +465,7 @@
             @endforeach
 
 
-            <li class="dropdown mega-dropdown"><a href="/catalog/transport" data-toggle="" class="dropdown-toggle">
+            <li class="dropdown mega-dropdown"><a href="/catalog/elektrosamokaty" data-toggle="" class="dropdown-toggle">
                     Электросамокаты
                 </a> <ul class="dropdown-menu mega-dropdown-menu row">
                     <div class="megamenu-headline">

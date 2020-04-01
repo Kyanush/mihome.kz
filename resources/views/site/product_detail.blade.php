@@ -117,15 +117,15 @@
                                 if(!$sku and $product->parent_id)
                                     $sku = $product->parent->sku;
                             @endphp
-                            @if($sku)
-                                <p>Модель: {{ $sku }} </p>
-                            @endif
+                        @if($sku)
+                            <p>Модель: {{ $sku }} </p>
+                        @endif
 
-                            @if($product->description_short)
-                                <p class="text-center">{!! $product->description_short !!}</p>
-                            @endif
+                        @if($product->description_short)
+                            <p class="text-center">{!! $product->description_short !!}</p>
+                        @endif
 
-                            <div>
+                        <div>
                                 <div class="product-rating">
                                     @for($i = 1; $i <= 5; $i++)
                                         <i class="fa <?=(($product->reviews_rating_avg ?? 0) >= $i) ? 'fa-star' : 'fa-star-o';?>"></i>
@@ -155,8 +155,8 @@
 
                             </div>
 
-                            @if(count($group_products) > 0)
-                                <div class="product-options">
+                        @if(count($group_products) > 0)
+                            <div class="product-options">
                                     <label>
                                         <select class="input select-redirect" id="select-model-product">
                                             <option value="{{ $product->parent_id ? $product->parent->detailUrlProduct() : '' }}">Выберите вариант</option>
@@ -171,10 +171,10 @@
                                        </select>
                                     </label>
                                 </div>
-                            @endif
+                        @endif
 
-                            @if($product->stock > 0)
-                                <div class="add-to-cart">
+                        @if($product->stock > 0)
+                            <div class="add-to-cart">
                                         <div class="qty-label">
                                             <div class="input-number">
                                                 <input type="number" value="1" id="quantity"/>
@@ -182,21 +182,21 @@
                                                 <span class="qty-down">-</span>
                                             </div>
                                         </div>
-                                    @if($product->inCart)
-                                        <a href="{{ route('checkout') }}">
+                                @if($product->inCart)
+                                    <a href="{{ route('checkout') }}">
                                             <button class="add-to-cart-btn product-in-basket1">
                                                 <i class="fa fa-shopping-cart"></i>
                                                 Товар в корзине
                                             </button>
                                         </a>
-                                    @else
-                                        <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }}, $('#quantity').val())">
+                                @else
+                                    <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }}, $('#quantity').val())">
                                             <i class="fa fa-shopping-cart"></i>
                                             Добавить в корзину
                                         </button>
-                                    @endif
+                                @endif
                                 </div>
-                            @endif
+                        @endif
 
                         <ul class="product-btns">
                                 <li>
@@ -226,9 +226,9 @@
                             </ul>
 
 
-                            @if($product->stock > 0)
-                                <br/>
-                                <ul class="add-to-cart">
+                        @if($product->stock > 0)
+                            <br/>
+                            <ul class="add-to-cart">
                                     <li>
                                         <a class="cursor-pointer" id="buy-in-one-click">
                                             <i class="fa fa-shopping-cart"></i>
@@ -241,8 +241,8 @@
                                         </a>
                                     </li>
                                 </ul>
-                            @else
-                                <div class="product-links">
+                        @else
+                            <div class="product-links">
                                         <form action="javascript:void(null);" onsubmit="subscribe(this); return false;" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -260,8 +260,8 @@
                                             </button>
                                         </form>
                                     </div>
-                                <br/>
-                            @endif
+                            <br/>
+                        @endif
 
                         </span>
                 </div>
@@ -332,7 +332,7 @@
                         @endforeach
                     </div>
                 </div>
-        @endif
+            @endif
 
 
 
@@ -345,79 +345,79 @@
     <div id="product-tab">
 
 
-            <!-- product tab nav -->
-            <ul class="tab-nav">
-                @if($product->description)
-                    <li class="active">
-                        <a data-toggle="tab" href="#description">Описание</a>
-                    </li>
-                @endif
-                <li @if(!$product->description) class="active" @endif>
-                    <a @if(!$product->description) class="active" @endif data-toggle="tab" href="#attributes">Характеристики</a>
+        <!-- product tab nav -->
+        <ul class="tab-nav">
+            @if($product->description)
+                <li class="active">
+                    <a data-toggle="tab" href="#description">Описание</a>
                 </li>
-                <li>
-                    <a data-toggle="tab" href="#reviews">Отзывы({{ $product->reviews_count }})</a>
-                </li>
-            </ul>
-            <!-- /product tab nav -->
+            @endif
+            <li @if(!$product->description) class="active" @endif>
+                <a @if(!$product->description) class="active" @endif data-toggle="tab" href="#attributes">Характеристики</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#reviews">Отзывы({{ $product->reviews_count }})</a>
+            </li>
+        </ul>
+        <!-- /product tab nav -->
 
-            <!-- product tab content -->
-            <div class="tab-content">
-                @if($product->description)
-                    <div id="description" class="tab-pane fade in active">
-                        <!-- container -->
-                        @if($product->description_style_id)
+        <!-- product tab content -->
+        <div class="tab-content">
+            @if($product->description)
+                <div id="description" class="tab-pane fade in active">
+                    <!-- container -->
+                    @if($product->description_style_id)
 
-                            {!! $product->description  !!}
+                        {!! $product->description  !!}
 
-                            @section('add_in_end')
-                                {!! $product->descriptionStyle->name !!}
-                            @stop
+                    @section('add_in_end')
+                        {!! $product->descriptionStyle->name !!}
+                    @stop
 
-                        @else
-                            <div class="container">
-                                <div class="row">
-                                        {!! $product->description  !!}
-                                </div>
+                    @else
+                        <div class="container">
+                            <div class="row">
+                                {!! $product->description  !!}
                             </div>
-                        @endif
-                    </div>
-                @endif
-                <div id="attributes" class="tab-pane fade in @if(!$product->description) active @endif">
-                    <div class="container">
-                        <div class="row">
-                                <table class="table table-bordered">
-                                    @foreach($attributes as $attribute)
-                                        @if($attribute->show_product_detail == 1)
-                                            <tr>
-                                                <td>
-                                                    @if($attribute->description and $attribute->description != 'null')
-                                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
-                                                    @endif
-                                                    {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}
-                                                </td>
-                                                <td>
-                                                    {{ $attribute->pivot->value }}
-                                                </td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
-                                </table>
                         </div>
+                    @endif
+                </div>
+            @endif
+            <div id="attributes" class="tab-pane fade in @if(!$product->description) active @endif">
+                <div class="container">
+                    <div class="row">
+                        <table class="table table-bordered">
+                            @foreach($attributes as $attribute)
+                                @if($attribute->show_product_detail == 1)
+                                    <tr>
+                                        <td>
+                                            @if($attribute->description and $attribute->description != 'null')
+                                                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
+                                            @endif
+                                            {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}
+                                        </td>
+                                        <td>
+                                            {{ $attribute->pivot->value }}
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </table>
                     </div>
                 </div>
-                <div id="reviews" class="tab-pane fade in">
-                    <div class="container">
-                        <div class="row">
-                            <div type="lis-comments"
-                                 lis-widget="reviews"
-                                 data-id="{{    $product->parent_id ? $product->parent_id    : $product->id }}"
-                                 data-title="{{ $product->parent_id ? $product->parent->name : $product->name }}">
-                            </div>
+            </div>
+            <div id="reviews" class="tab-pane fade in">
+                <div class="container">
+                    <div class="row">
+                        <div type="lis-comments"
+                             lis-widget="reviews"
+                             data-id="{{    $product->parent_id ? $product->parent_id    : $product->id }}"
+                             data-title="{{ $product->parent_id ? $product->parent->name : $product->name }}">
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
 

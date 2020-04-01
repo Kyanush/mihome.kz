@@ -277,6 +277,14 @@
                             </li>
                         </ul>
                     </li>
+
+                    <li v-bind:class="{'active' : menu_active('/subscriptions/')}">
+                        <router-link :to="{ path: '/subscriptions'}">
+                            <i class="fa fa-envelope"></i>
+                            <span>Подписка</span>
+                        </router-link>
+                    </li>
+
                     <li v-bind:class="{'active' : menu_active('/settings/')}">
                         <router-link :to="{ path: '/settings'}">
                             <i class="fa fa-cogs"></i>

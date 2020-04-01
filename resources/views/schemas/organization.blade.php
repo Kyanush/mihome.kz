@@ -2,6 +2,7 @@
     $number_phones = config('shop.number_phones');
 @endphp
 
+@if(false)
 <script type=application/ld+json> {
         "@context": "http://schema.org",
         "@type": "Organization",
@@ -34,3 +35,4 @@
         ]
     }
 </script>
+@endif

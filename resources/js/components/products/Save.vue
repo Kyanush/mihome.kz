@@ -76,6 +76,12 @@
                                             Отзывы
                                         </a>
                                     </li>
+                                    <li v-if="product.id" v-bind:class="{'active' : tab_active == 'tab_subscriptions'}" @click="setTab('tab_subscriptions')">
+                                        <a>
+                                            <i class="	fa fa-envelope" aria-hidden="true"></i>
+                                            Подписка на товары
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -685,6 +691,12 @@
                                 <reviews :product_id="product.id"></reviews>
                             </div>
 
+                            <div v-if="product.id" v-bind:class="{'active' : tab_active == 'tab_subscriptions'}" role="tabpanel" class="tab-pane" id="tab_subscriptions">
+
+                                <Subscriptions :product_id="product.id"/>
+
+                            </div>
+
                         </div>
 
                     </div><!-- /.box-body -->
@@ -735,12 +747,13 @@
     import { mapActions } from 'vuex';
     import datePicker from 'vue-bootstrap-datetimepicker';
     import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
-    import reviews from '../reviews/reviews';
-    import Categories  from '../plugins/Categories';
-    import Ckeditor    from  '../plugins/Ckeditor';
-    import SelectColor from '../plugins/SelectColor';
+    import reviews        from '../reviews/reviews';
+    import Categories     from '../plugins/Categories';
+    import Ckeditor       from '../plugins/Ckeditor';
+    import SelectColor    from '../plugins/SelectColor';
     import searchProducts from '../plugins/SearchProducts';
-    import Attributes  from '../products/Attributes';
+    import Attributes     from '../products/Attributes';
+    import Subscriptions  from '../products/Subscriptions';
 
 
     export default {
@@ -754,7 +767,8 @@
             Categories,
             SelectColor,
             searchProducts,
-            Attributes
+            Attributes,
+            Subscriptions
         },
         data () {
             return {

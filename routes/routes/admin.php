@@ -151,5 +151,7 @@ Route::group(['middleware' => ['role:admin'], 'prefix'     => 'admin', 'namespac
         Route::post('save-settings',    'SettingController@saveSetting');
         Route::get('get-settings',      'SettingController@getSetting');
 
+        Route::get('subscriptions',     'SubscriptionController@subscriptions');
+
     }
 });
