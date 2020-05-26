@@ -52,11 +52,16 @@ class real_store_kz extends Command
 
                 $sku 			     = trim($product_html->find('span[itemprop=sku]', 0)->plaintext);
                 $name 			     = trim($product_html->find('h1#product-name', 0)->plaintext);
+                $comment_id         = $product_html->find('div[type=lis-comments]', 0)->{'data-id'} ?? 0;
+
+                if($name == 'Подарочный сертификат' or $name == 'realme 6i' or $name == 'Realme C3' or $name = 'Realme 6i'){
+                    return false;
+                }
 
                 $product = \App\Models\Product::where(function($query) use ($name, $sku){
 
-                    $query->OrWhere('name', $name);
-                    $query->OrWhere('sku',  $sku);
+                    $query->Where('name', $name);
+                    //$query->OrWhere('sku',  $sku);
 
                 })->first();
 
@@ -66,7 +71,8 @@ class real_store_kz extends Command
                     $new = true;
                     $product = new \App\Models\Product();
                 }else{
-                    //return;
+                    if(!$product->update_price)
+                        return false;
                 }
 
 
@@ -81,15 +87,21 @@ class real_store_kz extends Command
                     if(strpos($price, '-') !== false)
                     {
                         $price = explode('-', $price)[0];
-                    }else{
-                        $price = preg_replace("/[^0-9]/", '', $price);
                     }
 
-                    $price = str_replace([' ', '.'], "", $price);
+                    $price = preg_replace("/[^0-9]/", '', $price);
                     $price = (int)trim($price);
-                    $price = $price + 7000;
+
                 }else{
                     $price = 0;
+                }
+
+
+                if($price > 150000){
+                    $price = $price - 1000;
+
+                }else{
+                    $price = $price + 2000;
                 }
 
                 //10 - В наличии
@@ -98,18 +110,15 @@ class real_store_kz extends Command
 
                 if($status == 'Товар в наличии'){
                     $status_id = 10;
-                    $stock = 1;
                 }elseif ($status == 'Ожидаем поступление'){
                     $status_id = 11;
-                    $stock = 0;
                 }else{
                     $status_id = 12;
-                    $stock = 0;
                 }
 
-                $product->price     = $price;
-                $product->status_id = $status_id;
-                $product->stock     = $stock;
+                $product->price      = $price;
+                $product->status_id  = $status_id;
+                $product->comment_id = $comment_id;
 
                 if($parent_id)
                     $product->parent_id = $parent_id;

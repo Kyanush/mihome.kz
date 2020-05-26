@@ -18,9 +18,6 @@
 @section('add_in_head')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-    <!-- commentbook -->
-    <script src="{{ asset('/commentbook/script.js') }}" data-jv-id="d5ShOZJS9K"></script>
-    <!-- commentbook -->
 @stop
 
 @include('site.includes.breadcrumb', ['breadcrumbs' => $breadcrumbs])
@@ -173,7 +170,7 @@
                                 </div>
                         @endif
 
-                        @if($product->stock > 0)
+                        @if($product->status_id == 10)
                             <div class="add-to-cart">
                                         <div class="qty-label">
                                             <div class="input-number">
@@ -226,16 +223,16 @@
                             </ul>
 
 
-                        @if($product->stock > 0)
+                        @if($product->status_id == 10)
                             <br/>
                             <ul class="add-to-cart">
                                     <li>
                                         <a class="cursor-pointer" id="buy-in-one-click">
                                             <i class="fa fa-shopping-cart"></i>
-                                            {{ $product->stock > 0 ? 'Купить в 1 клик' : 'Быстрый предзаказ' }}
+                                           Купить в 1 клик
                                         </a>
                                         &nbsp; &nbsp;
-                                        <a title="Пишите на WhatsApp" target="_blank" href="https://api.whatsapp.com/send?phone=77075162636&text=Я заинтересован в покупке {{ $product->name }} {{ $product->stock > 0 ? '' : '(Оформить предзаказ)' }}, Подробнее: {{ $product->detailUrlProduct() }}">
+                                        <a title="Пишите на WhatsApp" target="_blank" href="https://api.whatsapp.com/send?phone=77075162636&text=Я заинтересован в покупке {{ $product->name }}, Подробнее: {{ $product->detailUrlProduct() }}">
                                             <i class="fa fa-whatsapp"></i>
                                             Пишите на WhatsApp
                                         </a>
@@ -304,7 +301,7 @@
                 </table>
             </div>
 
-            @if($group_products->isNotEmpty())
+            @if($group_products->isNotEmpty() and false)
                 <div class="col-md-12">
                     <br/>
                     <h3 class="aside-title">Другие варианты</h3>
@@ -370,9 +367,9 @@
 
                         {!! $product->description  !!}
 
-                    @section('add_in_end')
+
                         {!! $product->descriptionStyle->name !!}
-                    @stop
+
 
                     @else
                         <div class="container">
@@ -389,16 +386,25 @@
                         <table class="table table-bordered">
                             @foreach($attributes as $attribute)
                                 @if($attribute->show_product_detail == 1)
+                                    @php
+                                       $name = $attribute->pivot->name ? $attribute->pivot->name : $attribute->name
+                                    @endphp
                                     <tr>
-                                        <td>
-                                            @if($attribute->description and $attribute->description != 'null')
-                                                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
-                                            @endif
-                                            {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}
-                                        </td>
-                                        <td>
-                                            {{ $attribute->pivot->value }}
-                                        </td>
+                                        @if($name)
+                                            <td>
+                                                @if($attribute->description and $attribute->description != 'null')
+                                                    <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
+                                                @endif
+                                                {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}
+                                            </td>
+                                            <td>
+                                                {{ $attribute->pivot->value }}
+                                            </td>
+                                        @else
+                                            <td colspan="2">
+                                                {{ $attribute->pivot->value }}
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endif
                             @endforeach
@@ -409,11 +415,7 @@
             <div id="reviews" class="tab-pane fade in">
                 <div class="container">
                     <div class="row">
-                        <div type="lis-comments"
-                             lis-widget="reviews"
-                             data-id="{{    $product->parent_id ? $product->parent_id    : $product->id }}"
-                             data-title="{{ $product->parent_id ? $product->parent->name : $product->name }}">
-                        </div>
+                        @include('includes.reviews', ['product' => $product])
                     </div>
                 </div>
             </div>

@@ -62,6 +62,7 @@
 
                 <!-- row -->
                 <div class="row">
+                    @if(false)
                     <!-- ASIDE -->
                     <div id="aside" class="col-md-3">
                         <!-- aside Widget -->
@@ -154,9 +155,10 @@
 
                     </div>
                     <!-- /ASIDE -->
+                    @endif
 
                     <!-- STORE -->
-                    <div id="store" class="col-md-9">
+                    <div id="store" class="col-md-12">
                         <!-- store top filter -->
                         <div class="store-filter clearfix">
                             <div class="store-sort">

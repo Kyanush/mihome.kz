@@ -136,19 +136,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td width="25%" class="text-right">
-                                                <label for="stock">Количество на складе(шт.):</label>
-                                            </td>
-                                            <td width="75%">
-                                                <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.stock')}">
-                                                    <input id="stock" type="text" v-model="product.stock" class="form-control"/>
-                                                    <span v-if="IsError('product.stock')" class="help-block" v-for="e in IsError('product.stock')">
-                                                         {{ e }}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                        </tr>
+
 
                                         <tr>
                                             <td width="25%" class="text-right">
@@ -217,6 +205,29 @@
                                                 </div>
                                             </td>
                                         </tr>
+
+
+                                        <tr>
+                                            <td width="25%" class="text-right">
+                                                <label>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    Обновить цену:
+                                                </label>
+                                            </td>
+                                            <td width="75%">
+                                                <div class="col-md-4" v-bind:class="{'has-error' : IsError('product.update_price')}">
+                                                    <select v-model="product.update_price" class="form-control">
+                                                        <option value="0">Нет</option>
+                                                        <option value="1">Да</option>
+                                                    </select>
+                                                    <span v-if="IsError('product.update_price')" class="help-block" v-for="e in IsError('product.update_price')">
+                                                         {{ e }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
                                         <tr>
                                             <td width="25%" class="text-right">
                                                 <label>Количество просмотров:</label>
@@ -726,6 +737,10 @@
                                 Отменить
                             </router-link>
 
+                            <button type="button" @click="deleteProduct" class="btn btn-danger">
+                                <i class="fa fa-remove"></i> Удалить
+                            </button>
+
                         </div>
                     </div><!-- /.box-footer-->
 
@@ -793,7 +808,6 @@
                     pathPhoto: '',
                     price: 0,
                     sku: '',
-                    stock: 1,
                     status_id: 0,
                     active: 1,
                     seo_title: '',
@@ -803,6 +817,7 @@
                     view_count: 0,
                     reviews_rating_avg: 0,
                     reviews_count: 0,
+                    update_price: 0
 
                 },
                 product_photo_upload_type: 'file',
@@ -958,6 +973,27 @@
                     }
                 });
             },
+            deleteProduct(){
+
+                this.$swal({
+                    title: 'Вы действительно хотите удалить' + ' "' + this.product.name + '"?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Да',
+                    cancelButtonText: 'Нет'
+                }).then((result) => {
+                    if (result.value) {
+                        axios.post('/admin/product-delete/' + this.product.id).then((res)=>{
+                            if(res.data)
+                            {
+                                this.$router.go({ name: 'products' });
+                            }
+                        });
+                    }
+                });
+            },
             getProduct(product_id){
                 if(product_id > 0)
                 {
@@ -985,19 +1021,22 @@
                                 this.product.pathPhoto        = product.pathPhoto;
                                 this.product.price            = parseInt(product.price);
                                 this.product.sku              = product.sku;
-                                this.product.stock            = product.stock;
                                 this.product.status_id        = product.status_id;
                                 this.product.active           = product.active;
                                 this.product.youtube          = product.youtube;
                                 this.product.view_count       = product.view_count;
                                 this.product.reviews_rating_avg = product.reviews_rating_avg;
                                 this.product.reviews_count      = product.reviews_count;
+                                this.product.update_price       = product.update_price;
+
 
 
                                 this.group_products = data.children;
                                 this.categories     = data.categories;
                                 this.product_images = data.images;
                                 this.product_accessories = data.product_accessories;
+
+
 
                                 if(data.specific_price)
                                 {

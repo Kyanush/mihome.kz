@@ -60,8 +60,4 @@
         @include('mobile.product.descriptions')
     @endif
 
-    <!-- commentbook -->
-    <script src="{{ asset('/commentbook/script.js') }}" data-jv-id="d5ShOZJS9K"></script>
-    <!-- commentbook -->
-
 @endsection

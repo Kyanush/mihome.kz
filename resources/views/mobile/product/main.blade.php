@@ -173,20 +173,20 @@
 
 
         <div class="item__info container text-center">
-            @if($product->stock > 0)
+            @if($product->status_id == 10)
                 <button
                     style="padding: 1.867vw 2vw;"
                     type="button"
                     class="button _white"
                     onclick="buyIn1Click({{ $product->id }})">
-                    {{ $product->stock > 0 ? 'Купить в 1 клик' : 'Быстрый предзаказ' }}
+                    Купить в 1 клик
                 </button>
                 &nbsp;
                 <a style="padding: 1.867vw 2vw;"
                    class="button _white"
                    title="Пишите на WhatsApp"
                    target="_blank"
-                   href="https://api.whatsapp.com/send?phone=77075162636&text=Я заинтересован в покупке {{ $product->name }}{{ $product->stock > 0 ? '' : '(Оформить предзаказ)' }}, Подробнее: {{ $product->detailUrlProduct() }}">
+                   href="https://api.whatsapp.com/send?phone=77075162636&text=Я заинтересован в покупке {{ $product->name }}, Подробнее: {{ $product->detailUrlProduct() }}">
                     <i class="fa fa-whatsapp"></i>
                     Пишите на WhatsApp
                 </a>
@@ -344,11 +344,7 @@
 
             <div class="container-title">Отзывы</div>
             <div class="container">
-                <div type="lis-comments"
-                     lis-widget="reviews"
-                     data-id="{{    $product->parent_id ? $product->parent_id    : $product->id }}"
-                     data-title="{{ $product->parent_id ? $product->parent->name : $product->name }}">
-                </div>
+                @include('includes.reviews', ['product' => $product])
             </div>
             <div class="container g-pa0 g-bb-fat">
                 <a href="{{ $product->detailUrlProduct() }}?view=reviews" class="link-more _link-reviews">
@@ -356,8 +352,7 @@
                 </a>
             </div>
 
-
-            @if($product->stock > 0)
+            @if($product->status_id == 10)
                 <button type="button" class="button _big-fixed button-sellers" onclick="_addToCart({{ $product->id }})">
                     Оформить заказ
                 </button>

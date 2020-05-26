@@ -1,7 +1,7 @@
 @extends('layouts.mail')
 @section('content')
 
-    <p>Вы просили Вам информацию о налиции товара <a href="{{ $product->detailUrlProduct() }}">
+    <p>Вы просили информацию о наличии товара <a href="{{ $product->detailUrlProduct() }}">
         {{ $product->name }}</a>.
     </p>
     <p>Товар <a href="{{ $product->detailUrlProduct() }}">

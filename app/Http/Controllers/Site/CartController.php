@@ -7,6 +7,7 @@ use App\Requests\CheckoutRequest;
 use App\Requests\OneClickOrderRequest;
 use App\Services\ServiceCart;
 use App\Services\ServiceOrder;
+use App\Services\ServiceTelegram;
 use App\Services\ServiceUser;
 use App\Tools\Helpers;
 use App\Tools\Seo;
@@ -127,6 +128,9 @@ class CartController extends Controller
 
             ServiceOrder::orderSendMessage($order->id);
 
+            $serviceTelegram = new ServiceTelegram();
+            $serviceTelegram->sendOrder($order->id);
+
             return $this->sendResponse(['order_id' => $order->id]);
         }
 
@@ -156,6 +160,9 @@ class CartController extends Controller
         {
             ServiceOrder::productAdd($request->input('product_id'), $order->id);
             ServiceOrder::orderSendMessage($order->id);
+
+            $serviceTelegram = new ServiceTelegram();
+            $serviceTelegram->sendOrder($order->id);
 
             return $this->sendResponse(['order_id' => $order->id]);
         }

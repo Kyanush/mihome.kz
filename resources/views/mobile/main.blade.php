@@ -43,26 +43,27 @@
 
     <div class="mount-catalog-grid">
         <div class="catalog-grid _list _top">
-            <h3 class="container-title">Хит продаж</h3>
+            <h3 class="container-title">Флагманы - Mi</h3>
             @foreach($products1 as $product)
                 @include('mobile.includes.product_item', ['product' => $product])
             @endforeach
         </div>
 
         <div class="catalog-grid _list _top">
-            <h3 class="container-title">Рекомендуем</h3>
+            <h3 class="container-title">Недорогие - Redmi</h3>
             @foreach($products2 as $product)
                 @include('mobile.includes.product_item', ['product' => $product])
             @endforeach
         </div>
 
         <div class="catalog-grid _list _top">
-            <h3 class="container-title">Акции</h3>
-            @foreach($productsDiscount as $product)
+            <h3 class="container-title">Пылесосы</h3>
+            @foreach($products3 as $product)
                 @include('mobile.includes.product_item', ['product' => $product])
             @endforeach
         </div>
     </div>
+
 
     @if(false)
         @include('mobile.includes.product_slider', ['products' => $products1, 'title' => 'Хит продаж', 'url' => ''])

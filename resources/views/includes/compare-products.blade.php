@@ -57,7 +57,7 @@
         <tr>
             <td>Наличие</td>
             @foreach($productFeaturesCompareList as $item)
-                <td>{{ $item->product->stock > 0 ? 'В наличии' : 'Есть на складе' }}</td>
+                <td>{{ $item->status->name }}</td>
             @endforeach
         </tr>
         <tr>

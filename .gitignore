@@ -4,6 +4,11 @@
 /public/uploads
 /public/images
 /public/video
+/public/ckeditor-4.10.1
+/public/commentbook
+/public/svg
+/public/vendor
+/public/electric_scooter_service
 /parsing
 /storage/*.key
 /vendor

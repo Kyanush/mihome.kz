@@ -41,6 +41,7 @@ class Order extends Model
         parent::boot();
 
         static::updating(function($order) {
+
             if(env('APP_TEST') == 0)
             {
                 if($order->status_id != self::find($order->id)->status_id && $order->status->notification != 0)
@@ -49,13 +50,11 @@ class Order extends Model
                     if($user_email)
                     {
                         $subject = env('APP_NAME') . ' - ' . 'заказ №:' . $order->id . ', статус вашего заказа';
-
-                        Mail::send('mails.status_update_order', ['order' => $order, 'subject' => $subject], function ($m) use ($user_email, $subject) {
-                            $m->to($user_email)->subject($subject);
-                        });
+                        Mail::to($user_email)->send(new \App\Mail\StatusUpdateOrderEmail($order, $subject));
                     }
                 }
             }
+
             if($order->status_id != self::find($order->id)->status_id)
             {
                 OrderStatusHistory::create([
@@ -64,6 +63,7 @@ class Order extends Model
                     'user_id'   => Auth::user()->id
                 ]);
             }
+
         });
 
         //Событие до
@@ -237,6 +237,10 @@ class Order extends Model
             'title' => $title,
             'class' => $class
         ];
+    }
+
+    public function adminDetailUrl(){
+        return env('APP_URL') . '/admin/order/' . $this->id;
     }
 
 }

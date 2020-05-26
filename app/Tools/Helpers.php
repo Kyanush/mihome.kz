@@ -285,4 +285,18 @@ class Helpers
         return false;
     }
 
+    public static function whatsAppNumber($phone){
+        $phone = preg_replace("/[^0-9]/", '', $phone);
+
+        if ($phone[0] == '8' or $phone[0] == '+') {
+            $phone = substr($phone, 1);
+        }
+
+        if(strlen($phone) == 10)
+            $phone = '7' . $phone;
+
+        return $phone;
+
+    }
+
 }

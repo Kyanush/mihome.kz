@@ -12,7 +12,12 @@ class ServiceUploadUrl
 
         $this->url = str_replace(' ', "%20", $this->url);
         $pathinfo  = pathinfo($this->url);
-        $filename  = trim($this->name) . '.' . trim(mb_strtolower($pathinfo['extension']));
+
+        if($this->name)
+            $filename  = trim($this->name) . '.' . trim(mb_strtolower($pathinfo['extension']));
+        else{
+            $filename = $pathinfo['basename'];
+        }
 
         $downloadedFileContents = @file_get_contents($this->url);
         if($downloadedFileContents === false)

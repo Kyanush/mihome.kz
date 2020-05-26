@@ -164,6 +164,9 @@ return [
 
         //image resize
         Intervention\Image\ImageServiceProvider::class,
+
+        //telegram bot
+        Telegram\Bot\Laravel\TelegramServiceProvider::class
     ],
 
     /*
@@ -219,6 +222,9 @@ return [
 
         //image resize
         'Image' => Intervention\Image\Facades\Image::class,
+
+        //telegram bot
+        'Telegram'  => Telegram\Bot\Laravel\Facades\Telegram::class
     ],
 
 ];

@@ -68,11 +68,7 @@ class ServiceOrder implements OrderInterface
             if (!$order)
                 return false;
 
-            $emails = [];
-
-            $settings = Setting::where('key', 'order_notification_email')->get();
-            foreach ($settings as $setting)
-                $emails[] = $setting->value;
+            $emails = Setting::where('key', 'order_notification_email')->pluck('value')->toArray();
 
             if($order->user_email)
                 $emails[] = $order->user_email;
@@ -80,11 +76,9 @@ class ServiceOrder implements OrderInterface
             if(count($emails) > 0)
             {
                 $subject = env('APP_NAME') . ' - ' . 'заказ №:' . $order->id;
-                Mail::send('mails.new_order', ['order' => $order, 'subject' => $subject], function($m) use($subject, $emails)
-                {
-                    $m->to($emails)->subject($subject);
-                });
+                Mail::to($emails)->send(new \App\Mail\OrderEmail($order, $subject));
             }
+
         }
         return true;
     }

@@ -86,7 +86,7 @@
             @else
                 <button class="add-to-cart-btn" onclick="addToCartSite(this, {{ $product->id }})">
                     <i class="fa fa-shopping-cart"></i>
-                    {{ $product->stock > 0 ? 'Добавить в корзину' : 'Оформить предзаказ' }}
+                    Добавить в корзину
                 </button>
             @endif
         @endif

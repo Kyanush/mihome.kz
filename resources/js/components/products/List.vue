@@ -81,19 +81,6 @@
                                     </td>
                                 </tr>
                                 <tr class="odd even">
-                                    <td><b>Количество на складе:</b></td>
-                                    <td>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="number" class="form-control" placeholder="Min" v-model="filter.stock_start">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="number" class="form-control" placeholder="Max" v-model="filter.stock_end">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="odd even">
                                     <td><b>Дата создания:</b></td>
                                     <td>
                                         <div class="row">
@@ -171,6 +158,10 @@
                             ID
                             <SortTable v-model="filter.sort" :column="'id'"></SortTable>
                         </th>
+                        <th>
+                            Сортировка
+                            <SortTable v-model="filter.sort" :column="'sort'"></SortTable>
+                        </th>
                         <th width="200">
                             Название
                             <SortTable v-model="filter.sort" :column="'name'"></SortTable>
@@ -181,9 +172,6 @@
                         <th>
                             Цена
                             <SortTable v-model="filter.sort" :column="'price'"></SortTable>
-                        </th>
-                        <th width="100">Кол-во на<br/> складе
-                            <SortTable v-model="filter.sort" :column="'stock'"></SortTable>
                         </th>
                         <th width="110">Кол-во <br/>просмотров
                             <SortTable v-model="filter.sort" :column="'view_count'"></SortTable>
@@ -201,7 +189,7 @@
                 </thead>
                 <tbody>
                     <tr class="odd even" v-for="(item, index) in products.data"
-                        v-bind:class="{ 'deleted': !item.active || !item.stock }"
+                        v-bind:class="{ 'deleted': !item.active || item.status_id != 10 }"
                         title1="Нажмите дважды чтобы изменить"
                         v-on:dblclick="changeQuicklySelect(item)">
 
@@ -210,6 +198,9 @@
                         </td>
                         <td>
                             {{ item.id }}
+                        </td>
+                        <td>
+                            {{ item.sort }}
                         </td>
                         <td>
                             <router-link :to="{ path: '/product/' + item.id}">
@@ -235,7 +226,6 @@
                                 {{ item.format_price }}
                             </span>
                         </td>
-                        <td :class="{ 'red': !item.stock }">{{ item.stock }} шт.</td>
                         <td>{{ item.view_count }}</td>
                         <td>
                             {{ dateFormat(item.created_at) }}
@@ -272,6 +262,7 @@
                             <input type="checkbox" v-model="selected.all"/>
                         </th>
                         <th>ID</th>
+                        <th>Сортировка</th>
                         <th>Название</th>
                         <th>Фото товара</th>
                         <th>Категории</th>
@@ -291,9 +282,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th>
-                            <input type="text" class="form-control" v-model="selected.stock" @change="editSelected('stock')"/>
-                        </th>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th>
@@ -443,19 +432,6 @@
                                 <tbody>
                                     <tr>
                                         <td width="25%" class="text-right">
-                                            <label for="stock">Количество на складе(шт.):</label>
-                                        </td>
-                                        <td width="75%">
-                                            <div class="col-md-6" v-bind:class="{'has-error' : IsError('change_quickly.stock')}">
-                                                <input required id="stock" type="number" v-model="change_quickly.stock" class="form-control"/>
-                                                <span v-if="IsError('change_quickly.stock')" class="help-block" v-for="e in IsError('change_quickly.stock')">
-                                                     {{ e }}
-                                                </span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="25%" class="text-right">
                                             <label>
                                                 <span class="red">*</span>
                                                 <i class="fa fa-money" aria-hidden="true"></i>
@@ -563,8 +539,6 @@
                     price_start:        this.$route.query.price_start,
                     price_end:          this.$route.query.price_end,
                     sku:                this.$route.query.sku,
-                    stock_start:        this.$route.query.stock_start,
-                    stock_end:          this.$route.query.stock_end,
                     created_at_start:   this.$route.query.created_at_start,
                     created_at_end:     this.$route.query.created_at_end,
                     category:           this.$route.query.category,
@@ -585,7 +559,6 @@
                 },
                 selected: {
                     products_ids: [],
-                    stock:  '',
                     active: '',
                     all: false
                 },
@@ -593,7 +566,6 @@
                     id:     0,
                     name:   '',
                     price:  0,
-                    stock:  0,
                     active: 1
                 }
             }
@@ -622,6 +594,7 @@
                 });
             });
 
+            this.productsList();
         },
 
         watch: {
@@ -643,7 +616,6 @@
                 this.change_quickly.id     = product.id;
                 this.change_quickly.name   = product.name;
                 this.change_quickly.price  = product.price;
-                this.change_quickly.stock  = product.stock;
                 this.change_quickly.active = product.active;
                 $('#changeQuickly').modal('show');
             },
@@ -661,9 +633,6 @@
             },
             editSelected(action){
                 var title = 'Вы действительно хотите изменить?';
-
-                if(action == 'stock')
-                    title = 'Вы действительно хотите изменить количество на складе?';
 
                 if(action == 'active')
                     title = 'Вы действительно хотите изменить статус?';
@@ -684,7 +653,6 @@
                         axios.post('/admin/products-selected-edit', {
 
                             products_ids: this.selected.products_ids,
-                            stock:        this.selected.stock,
                             active:       this.selected.active,
                             action:       action,
                             filter:       this.filter,
@@ -696,13 +664,11 @@
                                 this.productsList();
                                 this.selected = {
                                     products_ids: [],
-                                    stock:  '',
                                     active: ''
                                 };
                             }
                         });
                     }else{
-                        this.selected.stock  = '';
                         this.selected.active = '';
                     }
                 });
@@ -723,7 +689,6 @@
                 this.$router.push({query: ''});
                 this.selected = {
                     products_ids: [],
-                    stock:  '',
                     active: ''
                 };
             },

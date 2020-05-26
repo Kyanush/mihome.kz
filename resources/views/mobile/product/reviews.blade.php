@@ -3,13 +3,7 @@
 <div class="reviews">
     <div class="reviews__inner">
 
-
-        <div type="lis-comments"
-             lis-widget="reviews"
-             data-id="{{    $product->parent_id ? $product->parent_id    : $product->id }}"
-             data-title="{{ $product->parent_id ? $product->parent->name : $product->name }}">
-        </div>
-
+        @include('includes.reviews', ['product' => $product])
 
         @if(false)
         <div class="reviews__rating container g-bb-fat">

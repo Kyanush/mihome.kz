@@ -15,47 +15,17 @@ class MainController extends Controller
 
     public function main(){
 
-
-        if(isset($_GET['mgs'])){
-          	$mgs = $_GET['mgs'];
-            if($mgs){
-            	
-               Mail::raw($mgs, function($message){
-                $message->to('zheksenkulov.kuanysh@gmail.com');
-              });
-              
-               exit();
-            
-        }}
-
-
-        $productsDiscount = Product::productInfoWith()
-                ->whereHas('specificPrice', function ($query){
-                    $query->dateActive();
-                })
-                ->withCount('reviews')
-                ->limit(4)
-                ->where('stock', '>', 0)
-                //->OrderBy('id', 'DESC')
-                ->inRandomOrder()
-                ->get();
-
-
         $products1 =Product::productInfoWith()
-            ->filters(['category' => 'redmi-note-8-pro'])
-            ->limit(4)
-            ->where('stock', '>', 0)
+            ->whereIn('url', ['xiaomi-mi-note-10', 'xiaomi-mi-9t', 'xiaomi-mi-9t-pro', 'xiaomi-mi-10', 'xiaomi-mi-10-pro', 'xiaomi-mi-note-10'])
             ->get();
 
-
-
         $products2 = Product::productInfoWith()
-                    ->filters(['category' => 'redmi-note-8'])
-                    ->limit(4)
-                    ->where('stock', '>', 0)
+                    ->whereIn('url', ['xiaomi-redmi-note-8', 'xiaomi-redmi-8-t', 'redmi-note-8-pro', 'xiaomi-redmi-8', 'xiaomi-redmi-8a', 'xiaomi-poco-x2-redmi-k30', 'xiaomi-redmi-note-9-pro'])
                     ->get();
 
-
+        $products3 = Product::productInfoWith()
+            ->whereIn('url', ['besprovodnoy-pylesos-xiaomi-roidmi-f8e', 'moyushchiy-robot-pylesos-xiaomi-roborock-s5-max', 'robot-pylesos-xiaomi-mijia-roborock-sweep-one-s50-white', 'besprovodnoy-pylesos-xiaomi-roidmi-nex'])
+            ->get();
 
         $seo = Seo::main();
 
@@ -64,9 +34,9 @@ class MainController extends Controller
         return view(Helpers::isMobile() ? 'mobile.main' : 'site.main',
             [
                 'listSlidersHomePage'          => ServiceSlider::listSlidersHomePage(),
-                'productsDiscount'             => $productsDiscount,
                 'products1'                    => $products1,
                 'products2'                    => $products2,
+                'products3'                    => $products3,
                 'seo'                          => $seo,
                 'news'                         => $news
             ]);

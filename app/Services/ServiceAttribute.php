@@ -20,10 +20,10 @@ class ServiceAttribute
                 foreach ($data['values'] as $key => $item)
                 {
 
-                    if(empty($item['id']) and empty($item['value']))
+                    if(empty($item['id']))
                         continue;
 
-                    if (intval($item['is_delete']) or (!empty($item['id']) and empty($item['value']))){
+                    if (intval($item['is_delete']) or (!empty($item['id']))){
                         AttributeValue::destroy($item['id']);
                     }else{
 

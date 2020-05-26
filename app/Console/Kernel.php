@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\mi_home_kz;
+use App\Console\Commands\real_store_kz;
 use App\Console\Commands\xiaomi_store_kz;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -17,7 +18,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         mi_home_kz::class,
-        xiaomi_store_kz::class
+        xiaomi_store_kz::class,
+        real_store_kz::class
     ];
 
     /**
@@ -41,8 +43,8 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+       // $this->load(__DIR__.'/Commands');
 
-        require base_path('routes/console.php');
+       // require base_path('routes/console.php');
     }
 }

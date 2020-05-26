@@ -28,7 +28,7 @@
                         </router-link>
                     </td>
                     <td>
-                        <router-link target="_blank" :to="{ name: 'product_edit', params: { product_id: item.id} }" title="Изменить" :class="{ 'red': (!item.active || !item.stock)}">
+                        <router-link target="_blank" :to="{ name: 'product_edit', params: { product_id: item.id} }" title="Изменить" :class="{ 'red': !item.active}">
                             {{ item.name }},
                         </router-link>
                     </td>

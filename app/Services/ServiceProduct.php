@@ -35,6 +35,8 @@ class ServiceProduct implements ProductInterface
                 'success' => false
             ];
 
+        OrderProduct::where('product_id', $product_id)->delete();
+
         foreach ($product->children as $children_product)
         {
             self::productDelete($children_product->id);

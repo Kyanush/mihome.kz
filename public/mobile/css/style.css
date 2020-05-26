@@ -8115,8 +8115,10 @@ div,h1,h2,h3,h4,h5,h6,label,p,span {
     max-width: 100%!important;
 }
 
-#description video{
+#description video, #description img{
     max-width: 100%!important;
+    width: auto!important;
+    min-width: auto!important;
 }
 
 .cashback{

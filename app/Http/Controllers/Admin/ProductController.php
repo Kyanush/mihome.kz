@@ -42,7 +42,7 @@ class ProductController extends AdminController
     {
         $filters = $request->all();
 
-        $sort = Helpers::sortConvert($filters['sort'] ?? 'sort-DESC');
+        $sort = Helpers::sortConvert($filters['sort'] ?? 'id-DESC');
         $column = $sort['column'];
         $order  = $sort['order'];
 
@@ -229,7 +229,6 @@ class ProductController extends AdminController
     public function productsSelectedEdit(Request $request){
 
         $products_ids = $request->input('products_ids');
-        $stock        = $request->input('stock');
         $active       = $request->input('active');
         $action       = $request->input('action');
         $all          = $request->input('all');
@@ -251,11 +250,6 @@ class ProductController extends AdminController
         if($action == 'active' and ($active == 0 or $active == 1))
             Product::whereIn('id', $products_ids)->update(['active' => $active]);
 
-        //Количество на складе
-        if($action == 'stock' and $stock >= 0)
-            Product::whereIn('id', $products_ids)->update(['stock' => $stock]);
-
-
         return $this->sendResponse(
             true
         );
@@ -264,12 +258,10 @@ class ProductController extends AdminController
     public function productChangeQuicklySave(Request $request){
 
         $id     = $request->input('id');
-        $stock  = intval($request->input('stock',  0));
         $price  = intval($request->input('price',  0));
         $active = intval($request->input('active', 0));
 
         $product = Product::find($id);
-        $product->stock  = $stock;
         $product->price  = $price;
         $product->active = $active;
 

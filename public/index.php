@@ -6,6 +6,7 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
+ 
 function p($arr, $exit = false){
     echo '<pre>';
     print_r($arr);

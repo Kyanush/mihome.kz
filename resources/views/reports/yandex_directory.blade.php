@@ -33,7 +33,7 @@
                     <td>{{ $product->getReducedPrice() }}</td>
                     <td>{{ env('APP_URL') . $product->pathPhoto(true) }}</td>
                     <td>Нет</td>
-                    <td>{{ $product->stock > 0 ? 'Да' : 'Нет'}}</td>
+                    <td>Да</td>
                 </tr>
             @endforeach
 

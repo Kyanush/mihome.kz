@@ -8,7 +8,7 @@
             @foreach($product->attributes as $attribute)
                 @if($attribute->show_product_detail == 1)
                     <dt class="specifications-list__term">
-                        {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}
+                        {!! $attribute->pivot->name ? $attribute->pivot->name : '&nbsp;' !!}
                     </dt>
                     <dd class="specifications-list__specification">
                         {{ $attribute->pivot->value }}

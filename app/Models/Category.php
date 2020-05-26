@@ -125,14 +125,6 @@ class Category extends Model
         {
             return $this->redirect_url;
         }else{
-
-            $url = '';
-            $sd = array_reverse(ServiceCategory::getParents($this->id));
-            foreach (array_reverse($sd) as $category)
-            {
-                $url.= $category->url . '/';
-            }
-
             return route('catalog', ['category' => $this->url]);
         }
     }

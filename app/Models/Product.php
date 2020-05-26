@@ -30,7 +30,6 @@ class Product extends Model
         'photo',
     	'price',
     	'sku',
-    	'stock',
         'status_id',
         'seo_title',
         'seo_keywords',
@@ -42,6 +41,8 @@ class Product extends Model
         'view_count',
         'reviews_rating_avg',
         'reviews_count',
+        'update_price',
+        'comment_id'
 	];
 
     public function scopeIsActive($query){
@@ -104,10 +105,6 @@ class Product extends Model
         if(isset($filters['sku']))
             $query->whereLike('sku',   $filters['sku']);
 
-        if(isset($filters['stock_end']))
-            $query->where('stock', '>=', $filters['stock_end']);
-        if(isset($filters['stock_start']))
-            $query->where('stock', '<=', $filters['stock_start']);
 
         if(isset($filters['url']))
             $query->whereLike('url',   $filters['url']);
@@ -200,23 +197,19 @@ class Product extends Model
         //Событие до
         static::Updating(function($product) {
 
-
-            if(env('APP_TEST') == 0 and $product->stock > 0)
+            if(env('APP_TEST') == 0)
             {
-                    $old_stock = self::find($product->id)->stock;
+                    $old_status_id = self::find($product->id)->status_id;
 
-                    if ($product->stock != $old_stock and empty($old_stock))
+                    if ($product->status_id == 10 and $product->status_id != $old_status_id)
                     {
-                        $subscribe = $product->subscribe;
-                        if($subscribe)
+                        $emails = $product->subscribe()->pluck('email')->toArray();
+                        if(count($emails) > 0)
                         {
-                            foreach ($subscribe as $item)
-                            {
-                                $subject = env('APP_NAME') . ' - ' . 'Товар "' . $product->name . '" в наличии';
-                                Mail::send('mails.is_stock_product', ['product' => $product, 'subject' => $subject], function ($m) use ($item, $subject) {
-                                    $m->to($item->email)->subject($subject);
-                                });
-                            }
+                            $subject = env('APP_NAME') . ' - ' . 'Товар "' . $product->name . '" в наличии';
+                            Mail::to($emails)->send(new \App\Mail\IsStockProductEmail($product, $subject));
+
+                            $product->subscribe()->delete();
                         }
                     }
             }
@@ -230,8 +223,6 @@ class Product extends Model
             if($product->active != 0 and $product->active != 1)
                 $product->active = 1;
 
-            if(!is_numeric($product->stock))
-                $product->stock = 1;
 
             if(!$product->status_id)
                 $product->status_id = Status::where('where_use', 'products_status_id')->defaultValue()->first()->id;
@@ -242,16 +233,13 @@ class Product extends Model
             if(empty($product->id))
             {
                 $product_id = ServiceDB::tableNextId('products');
-
-                $path_folder = public_path(config('shop.products_path_file') . $product_id) . '/';
-                if(!File::isDirectory($path_folder))
-                    File::makeDirectory($path_folder, 0777, true, true);
-
             }else{
                 $product_id = $product->id;
             }
 
-
+            $path_folder = public_path(config('shop.products_path_file') . $product_id) . '/';
+            if(!File::isDirectory($path_folder))
+                File::makeDirectory($path_folder, 0777, true, true);
 
             //фото
             if(is_uploaded_file($product->photo))
@@ -286,11 +274,6 @@ class Product extends Model
                 {
                     $product->photo = $filename;
                 }
-            }
-
-            if($product->parent_id == 0)
-            {
-                 $product->children()->update(['stock' => $product->stock]);
             }
 
         });

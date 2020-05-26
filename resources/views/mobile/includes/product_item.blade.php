@@ -54,14 +54,10 @@
             </div>
             <div class="item-card__instalment">
                 <span class="item-card__prices-price">
-                    @if($product->stock > 0)
-                        <i class="fa fa-check"></i>
-                    @else
-                        <i class="fa fa-hourglass-half" aria-hidden="true"></i>
-                    @endif
+                      {!! $product->status->class !!}
                 </span>
                 <span class="item-card__add-info">
-                    {{ $product->stock > 0 ? 'В наличии' : 'Скоро в продаже' }}
+                    {{ $product->status->name }}
                 </span>
 
 

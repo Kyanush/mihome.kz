@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ServiceTelegram;
 use Illuminate\Database\Eloquent\Model;
 use Mail;
 use DB;
@@ -50,21 +51,24 @@ class Callback extends Model
 
             if(env('APP_TEST') == 0)
             {
-                $emails = [];
-                $settings = Setting::where('key', 'сallback_notification_email')->get();
-                foreach ($settings as $setting)
-                    $emails[] = $setting->value;
+                $emails = Setting::where('key', 'сallback_notification_email')->pluck('value')->toArray();
 
                 if(count($emails) > 0)
                 {
                     $subject = env('APP_NAME') . ' - ' . $modal->type;
-                    Mail::send('mails.callback', ['data' => $modal, 'subject' => $subject], function ($m) use ($subject, $emails) {
-                        $m->to($emails)->subject($subject);
-                    });
+                    Mail::to($emails)->send(new \App\Mail\CallbackEmail($modal, $subject));
                 }
+
+                $serviceTelegram = new ServiceTelegram();
+                $serviceTelegram->sendCallback($modal->id);
+
             }
         });
 
+    }
+
+    public function adminDetailUrl(){
+        return env('APP_URL') . '/admin/callback/' . $this->id;
     }
 
 }

@@ -43,8 +43,23 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="/p/xiaomi-redmi-k30">
-                                    Xiaomi Pocophone X2 (Redmi K30)
+                                <a href="/p/xiaomi-poco-x2-redmi-k30">
+                                    Xiaomi POCO X2 (Redmi K30)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/p/xiaomi-poco-f2-pro-redmi-k30-pro">
+                                    Xiaomi POCO F2 Pro (Redmi K30 Pro)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/p/xiaomi-redmi-note-9">
+                                    Xiaomi Redmi Note 9
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/p/xiaomi-redmi-note-9s">
+                                    Xiaomi Redmi Note 9S
                                 </a>
                             </li>
                             <li>
@@ -52,11 +67,8 @@
                                     Xiaomi Redmi Note 9 Pro
                                 </a>
                             </li>
-                            <li>
-                                <a href="/p/xiaomi-redmi-note-9-pro-max">
-                                    Xiaomi Redmi Note 9 Pro Max
-                                </a>
-                            </li>
+
+
                         </ul>
                     </li>
                     <li class="col-sm-3">
@@ -104,17 +116,22 @@
                             </li>
                             <li>
                                 <a href="/p/xiaomi-mi-10">
-                                    Xiaomi Mi 10 (Скоро, New)
+                                    Xiaomi Mi 10
                                 </a>
                             </li>
                             <li>
                                 <a href="/p/xiaomi-mi-10-pro">
-                                    Xiaomi Mi 10 Pro (Скоро, New)
+                                    Xiaomi Mi 10 Pro
                                 </a>
                             </li>
                             <li>
                                 <a href="/p/xiaomi-mi-note-10">
                                     Xiaomi Mi Note 10
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/p/xiaomi-mi-note-10-lite">
+                                    Xiaomi Mi Note 10 Lite
                                 </a>
                             </li>
 
@@ -427,6 +444,8 @@
             </ul>
             </li>
 
+
+            @if(false)
             @php
                 $categories = \App\Models\Category::orderBy('sort')->whereNotIn('url', ['smartfony', 'elektrosamokaty', 'umnyy-dom'])->isActive()->where('parent_id', 0)->get();
             @endphp
@@ -463,6 +482,135 @@
                     </ul>
                 </li>
             @endforeach
+            @endif
+
+            <li class="dropdown mega-dropdown">
+                <a href="/catalog/kompyutery" data-toggle="" class="dropdown-toggle">
+                    Компьютеры
+                </a>
+                <ul class="dropdown-menu mega-dropdown-menu row">
+                    <div class="megamenu-headline">
+                        <h2>
+                            Компьютеры
+                        </h2>
+                    </div>
+                    <li class="divider"></li>
+
+                    <li class="col-sm-3">
+                        <ul>
+                            <li>
+                                <a href="/catalog/aksessuary-dlya-noutbukov-xiaomi">
+                                    Аксессуары для ноутбуков
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="col-sm-3">
+                        <ul>
+                            <li>
+                                <a href="/catalog/noutbuki">
+                                    Ноутбуки
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="dropdown mega-dropdown">
+                <a href="/catalog/kompyutery" data-toggle="" class="dropdown-toggle">
+                    Аксессуары
+                </a>
+                <ul class="dropdown-menu mega-dropdown-menu row">
+                    <div class="megamenu-headline">
+                        <h2>
+                            Аксессуары
+                        </h2>
+                    </div>
+                    <li class="divider"></li>
+
+                    <li class="col-sm-3">
+                        <ul>
+                            <li>
+                                <a href="/catalog/kolonki-xiaomi">
+                                    Колонки
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/catalog/naushniki-xiaomi">
+                                    Наушники
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="col-sm-3">
+                        <ul>
+                            <li>
+                                <a href="/catalog/xiaomi-power-bank">
+                                    Внешние батареи
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/catalog/zaryadnye-ustroystva-xiaomi">
+                                    Зарядные устройства
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="col-sm-3">
+                        <ul>
+                            <li>
+                                <a href="/catalog/aksessuary-dlya-smartfona-xiaomi">
+                                    Аксессуары для смартфона
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="dropdown mega-dropdown">
+                <a href="/catalog/umnye-ustroystva-xiaomi" data-toggle="" class="dropdown-toggle">
+                    Умные устройства
+                </a>
+                <ul class="dropdown-menu mega-dropdown-menu row">
+                    <div class="megamenu-headline">
+                        <h2>
+                            Умные устройства
+                        </h2>
+                    </div>
+                    <li class="divider"></li>
+
+                    <li class="col-sm-3">
+                        <ul>
+                            <li>
+                                <a href="/catalog/ekshn-kamery-xiaomi-i-yi">
+                                    Экшн камеры
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/catalog/chasy-i-braslety-xiaomi-amazfit">
+                                    Часы и браслеты
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="col-sm-3">
+                        <ul>
+                            <li>
+                                <a href="/catalog/proektory-xiaomi-projector">
+                                    Проекторы
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/catalog/videoregistratory-xiaomi-70mai">
+                                    Видеорегистраторы
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
 
 
             <li class="dropdown mega-dropdown"><a href="/catalog/elektrosamokaty" data-toggle="" class="dropdown-toggle">

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminController;
 
 use App\Models\Order;
 use App\Requests\SaveOrderRequest;
+use App\Services\ServiceTelegram;
 use App\Tools\Helpers;
 use App\User;
 use App\Services\ServiceOrder;
@@ -83,7 +84,13 @@ class OrderController extends AdminController
                     ServiceOrder::productAdd($pivot['product_id'], $order->id, $pivot['quantity'], $pivot['price']);
                 }
             }
+
+            $serviceTelegram = new ServiceTelegram();
+            $serviceTelegram->sendOrder($order->id);
+
         }
+
+
 
         return  $this->sendResponse($order->id);
     }

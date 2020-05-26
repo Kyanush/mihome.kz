@@ -50,7 +50,7 @@
                     </table>
                 </div>
 
-                @if(isset($order->carrier))
+                @if($order->carrier)
                     <div style="padding:13px 20px 15px 80px;overflow:hidden;">
                         <div style="float:left;width:356px;">
                             <span style="font-weight:bold;color:#434343;">Доставка:</span>
