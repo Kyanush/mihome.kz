@@ -31,9 +31,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //https://tutsforweb.com/how-to-set-up-task-scheduling-cron-job-in-laravel/
-        $schedule->command('command:mi_hone_kz')->everyFiveMinutes();
-        $schedule->command('command:xiaomi_store_kz')->everyMinute();
-        $schedule->command('command:real_store_kz')->everyMinute();
+        $schedule->command('command:mi_hone_kz')      ->everyTenMinutes();
+        $schedule->command('command:xiaomi_store_kz') ->everyTenMinutes();
+        $schedule->command('command:real_store_kz')   ->everyTenMinutes();
     }
 
     /**

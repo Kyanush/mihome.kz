@@ -40,7 +40,7 @@ class Slider extends Model
     public function typeFile(){
         $path_parts = pathinfo($this->image);
 
-        if (in_array($path_parts['extension'], array("png", "jpeg", "gif"))){
+        if (in_array($path_parts['extension'], array("png", "jpeg", "gif", "jpg"))){
             return 'image';
         }else{
             return 'video';

@@ -15,6 +15,12 @@ use Auth;
 class Helpers
 {
 
+    public static function sendTestEmail($text){
+        \Mail::send('mails.test', ['text' => $text], function ($m)  {
+            $m->to('zheksenkulov.kuanysh@gmail.com')->subject('Test');
+        });
+    }
+
     public static function filtersProductsDecodeUrl($category = ''){
         $params = explode('/', url()->current());
         $filters = [];

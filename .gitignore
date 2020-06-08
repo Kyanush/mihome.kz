@@ -12,7 +12,6 @@
 /parsing
 /storage/*.key
 /vendor
-/parsing
 /.idea
 /.vscode
 /.vagrant

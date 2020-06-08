@@ -156,7 +156,7 @@
                     </div>
                     <!-- /ASIDE -->
                     @endif
-
+                    
                     <!-- STORE -->
                     <div id="store" class="col-md-12">
                         <!-- store top filter -->

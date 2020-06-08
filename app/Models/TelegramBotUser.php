@@ -12,7 +12,8 @@ class TelegramBotUser extends Model
         'chat_id',
         'username',
         'first_name',
-        'last_name'
-	];
+        'last_name',
+        'site'
+    ];
 
 }

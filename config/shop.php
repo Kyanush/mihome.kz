@@ -11,8 +11,8 @@ return [
     'social_network' =>
         [
             'instagram' => [
-                'url'   => 'https://www.instagram.com/mihome.kz',
-                'token' => '4233405290.1677ed0.e5692138251945c9a0f76180a4885e49',
+                'url'   => 'https://www.instagram.com/mi.home.kz',
+                'token' => '4272330333.2a46ab3.f46c65c76a7140cf96f060198e3c84f7',
                 'icon'  => env('APP_URL') . '/site/images/social-network/instagram.jpg',
                 'title' => 'Вы в Instagram'
             ],
