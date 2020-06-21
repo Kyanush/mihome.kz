@@ -26,6 +26,8 @@
 
 <body>
 
+
+
     <input type="hidden"
            id="user_info"
                <?php

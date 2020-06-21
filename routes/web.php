@@ -146,7 +146,6 @@ Route::group(['namespace'  => 'Site'], function () {
     //выбор города
     Route::post('set-city/{city_code}',    'CityController@setCity');
 
-    Route::get('electric-scooter-service',  'PageController@electricScooterService')->name('electricScooterService');
 
     //новости
     Route::get('news',                    'NewsController@newsList')->name('news_list');

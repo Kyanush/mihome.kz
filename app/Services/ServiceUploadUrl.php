@@ -45,7 +45,7 @@ class ServiceUploadUrl
             }
         }
 
-        return $count == 2 ? true : false;
+        return $count >= 2 ? true : false;
     }
 
 }

@@ -43,6 +43,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="/p/xiaomi-redmi-9">
+                                    Xiaomi Redmi 9
+                                </a>
+                            </li>
+                            <li>
                                 <a href="/p/xiaomi-poco-x2-redmi-k30">
                                     Xiaomi POCO X2 (Redmi K30)
                                 </a>
@@ -74,49 +79,13 @@
                     <li class="col-sm-3">
                         <ul>
                             <li>
-                                <a href="/p/xiaomi-mi-a3">
-                                    Xiaomi Mi A3
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/p/xiaomi-mi-mix-3">
-                                    Xiaomi Mi Mix 3
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/p/xiaomi-mi-max-3">
-                                    Xiaomi Mi Max 3
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="/p/xiaomi-mi-9">
-                                    Xiaomi Mi 9
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/p/xiaomi-mi-9-se">
-                                    Xiaomi Mi 9 SE
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/p/xiaomi-mi-9t">
-                                    Xiaomi Mi 9T
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/p/xiaomi-mi-9-lite">
-                                    Xiaomi Mi 9 lite
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/p/xiaomi-mi-9t-pro">
-                                    Xiaomi Mi 9T Pro
-                                </a>
-                            </li>
-                            <li>
                                 <a href="/p/xiaomi-mi-10">
                                     Xiaomi Mi 10
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/p/xiaomi-mi-10-lite">
+                                    Xiaomi Mi 10 Lite
                                 </a>
                             </li>
                             <li>
@@ -163,16 +132,6 @@
                         <ul>
                             <li class="dropdown-header">
                                 Смартфоны OnePlus
-                            </li>
-                            <li>
-                                <a href="/p/one-plus-6">
-                                    OnePlus 6
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/p/oneplus-6-t">
-                                    OnePlus 6 T
-                                </a>
                             </li>
                             <li>
                                 <a href="/p/oneplus-7">

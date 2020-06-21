@@ -130,7 +130,8 @@ $('.panel-group').on('shown.bs.collapse', toggleIcon);
         dots: true,
         arrows: true,
         fade: true,
-        autoplay: false
+        autoplay: true,
+        autoplaySpeed: 3000
     });
     /*
     $('.main-slider').on('lazyLoaded', function (e, slick, image, imageSource) {

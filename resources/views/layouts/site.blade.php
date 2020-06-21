@@ -34,6 +34,7 @@
 <span id="header">
 <header  style="display: none" v-bind:style="show_block">
 
+
     @php
         $address = config('shop.address');
         $number_phones = config('shop.number_phones');
@@ -350,7 +351,6 @@
                             <li><a rel="nofollow" href="{{ route('order_history') }}">Мои заказы</a></li>
                             <li><a rel="nofollow" href="{{ route('account_edit') }}">Личные данные</a></li>
                             <li><a target="_blank" href="https://1service.kz/">Ремонт самокат</a></li>
-                            <li><a href="{{ route('electricScooterService') }}">Сервис самокат</a></li>
                         </ul>
                     </div>
                 </div>

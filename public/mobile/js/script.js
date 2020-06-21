@@ -88,7 +88,7 @@ $(document).ready(function() {
         centeredSlides: !0,
         slidesPerView: "auto",
         autoplay: {
-            delay: 50000,
+            delay: 3000
         },
     });
 
