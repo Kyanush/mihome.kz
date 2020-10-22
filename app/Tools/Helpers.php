@@ -305,4 +305,24 @@ class Helpers
 
     }
 
+    public static function parseCurrentUrl(){
+        $arr = [
+            'http://mihome.kz',
+            'https://mihome.kz',
+        ];
+
+        $url = \Request::url();
+        $url = str_replace($arr, '', $url);
+
+        $current_url = explode('/', $url);
+        $current_url = array_diff($current_url, array(0, null));
+        $current_url = array_values($current_url);
+
+        return [
+            'url' => $url,
+            'arr' => $current_url
+        ];
+
+    }
+
 }

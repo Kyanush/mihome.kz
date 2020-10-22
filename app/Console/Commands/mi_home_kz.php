@@ -433,6 +433,7 @@ class mi_home_kz extends Command
         $count        =  \App\Models\CronParsing::where('site', $site)->count();
         $cron_parsing = \App\Models\CronParsing::where('parsing', 1)->where('site', $site)->count();
 
+
         if($cron_parsing == $count)
         {
             \App\Models\CronParsing::where('site', $site)->update([
@@ -447,6 +448,12 @@ class mi_home_kz extends Command
             $cron_parsing->save();
 
             $page = $this->fileGetHtml($cron_parsing->url);
+
+
+            dd(
+                file_get_contents($cron_parsing->url)
+            );
+
             if($page)
             {
                 $center_products = $page->find('div#center-products', 0);

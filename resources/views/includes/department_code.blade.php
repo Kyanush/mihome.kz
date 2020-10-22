@@ -22,7 +22,7 @@
 <script src="{{ asset('/site/js/jquery.min.js') }}"></script>
 
 <!-- Vue js -->
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script type="text/javascript" src="https://unpkg.com/vue-the-mask@0.11.1/dist/vue-the-mask.js"></script>
 
 <!-- axios -->

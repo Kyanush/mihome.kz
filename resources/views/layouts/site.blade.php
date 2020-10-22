@@ -34,7 +34,6 @@
 <span id="header">
 <header  style="display: none" v-bind:style="show_block">
 
-
     @php
         $address = config('shop.address');
         $number_phones = config('shop.number_phones');
@@ -59,12 +58,14 @@
                 </li>
             </ul>
             <ul class="header-links pull-right">
+                <!--
                 <li>
                     <a href="{{ route('cashback') }}" class="cashback">
                         <i class="fa fa-percent" aria-hidden="true"></i>
                          Кэшбэк за отзыв
                     </a>
                 </li>
+                --->
                 <li>
                     <a href="#" onclick="modalShow('.callback')">
                         <i class="fa fa-phone"></i>
@@ -329,7 +330,9 @@
                     <div class="footer">
                         <h3 class="footer-title">Меню</h3>
                         <ul class="footer-links">
+                            <!--
                             <li><a class="cashback" href="{{ route('cashback') }}">Кэшбэк за отзыв</a></li>
+                            --->
                             <li><a href="{{ route('delivery_payment') }}">Доставка/Оплата</a></li>
                             <li><a href="{{ route('guaranty') }}">Гарантия</a></li>
                             <li><a href="{{ route('wishlist') }}">Мои закладки</a></li>
@@ -351,6 +354,15 @@
                             <li><a rel="nofollow" href="{{ route('order_history') }}">Мои заказы</a></li>
                             <li><a rel="nofollow" href="{{ route('account_edit') }}">Личные данные</a></li>
                             <li><a target="_blank" href="https://1service.kz/">Ремонт самокат</a></li>
+                            <li><a target="_blank" href="https://1service.kz/">ремонт гироскутеров</a></li>
+                            <li><a target="_blank" href="https://1service.kz/telefon">Ремонт телефонов</a></li>
+                            <li><a target="_blank" href="https://1service.kz/planshet">Ремонт планшетов</a></li>
+
+                            <li><a target="_blank" href="https://1service.kz/noutbukov">Ремонт ноутбуков</a></li>
+                            <li><a target="_blank" href="https://1service.kz/noutbukov">Покупка ноутбуков</a></li>
+                            <li><a target="_blank" href="https://1service.kz/noutbukov">Скупка ноутбуков</a></li>
+                            <li><a target="_blank" href="https://1service.kz/noutbukov">Продажа ноутбуков</a></li>
+
                         </ul>
                     </div>
                 </div>

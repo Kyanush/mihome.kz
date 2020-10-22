@@ -142,6 +142,11 @@
                             {!! $product->status->class !!}
                         </span>
                         @if($product->status_id != 10)
+                            <script>
+                                $(document).ready(function() {
+                                    removeCallbackBtn();
+                                });
+                            </script>
                             <span class="item__add-info">При поступлении товара, цена может отличаться</span>
                         @endif
                 </div>

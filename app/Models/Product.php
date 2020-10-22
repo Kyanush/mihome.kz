@@ -112,11 +112,19 @@ class Product extends Model
         if(isset($filters['active']))
             $query->where('active', $filters['active']);
 
-        if(!empty($filters['category']))
+        if(!empty($filters['category']) or !empty($filters['category_id']))
         {
 
+            $category = Category::where(function ($query) use ($filters){
 
-            $category = Category::where('url', $filters['category'])->first();
+                        if(!empty($filters['category']))
+                            $query->where('url', $filters['category']);
+
+                        if(!empty($filters['category_id']))
+                            $query->find($filters['category_id']);
+
+                    })->first();
+
             if($category)
             {
                 $categories_ids = ServiceCategory::categoryChildIds($category->id);
@@ -445,7 +453,7 @@ class Product extends Model
     }
 
     public function detailUrlProduct(){
-        return route('productDetail', ['product_url' => $this->url]);
+        return env('APP_URL') . $this->url_full;
     }
 
     public function detailUrlProductAdmin(){
@@ -454,15 +462,10 @@ class Product extends Model
 
     public function pathPhoto($firstSlash = false)
     {
-        if($this->photo == 'zashchitnoye-steklo.png')
-        {
-            return '/site/images/zashchitnoye-steklo.png';
-        }else{
-            if($this->photo)
-                return $this->productFileFolder($firstSlash) . $this->photo;
-            else
-                return false;
-        }
+        if($this->photo)
+            return $this->productFileFolder($firstSlash) . $this->photo;
+        else
+            return false;
     }
 
     public function productFileFolder($firstSlash = false, $product_id = 0)

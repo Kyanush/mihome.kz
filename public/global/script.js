@@ -388,3 +388,10 @@ function validSelectModelProduct() {
 
     return false;
 }
+
+function removeCallbackBtn() {
+    setTimeout(function() {
+        $('.callback-button').remove();
+        $('#back-call').remove();
+    }, 1000);
+}

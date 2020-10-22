@@ -7,12 +7,66 @@ Route::group(['namespace'  => 'Telegram'], function () {
 });
 
 
+Route::get('/dddd111', function (){
+
+    /*
+    $cc = \App\Models\Category::all();
+    foreach ($cc as $item)
+    {
+        $url_full = '/catalog/';
+        $ddd = \App\Services\ServiceCategory::getParents($item->id);
+        $ddd = array_reverse($ddd);
+
+        foreach ($ddd as $item2)
+        {
+            $url_full.= $item2->url . '/';
+        }
+
+        $url_full = mb_substr($url_full, 0, -1);
+
+        $item->url_full = $url_full;
+        $item->save();
+    }
+    */
+
+    /*
+    $pod = \App\Models\Product::all();
+    foreach ($pod as $product)
+    {
+
+        $url_full = '';
+        if(!$product->parent_id)
+        {
+            $category = $product->categories()->first();
+            if($category)
+                $url_full = $category->url_full . '/' . $product->url;
+
+        }else{
+            if($product->parent){
+                $category = $product->parent->categories()->first();
+                if($category)
+                    $url_full = $category->url_full . '/' . $product->url;
+            }
+        }
+
+        if($url_full)
+        {
+            $product->url_full = $url_full;
+            $product->save();
+        }
+
+    }*/
+
+});
+
+
 Route::get('/dddd', function (){
 
 
-
-  //  $DDD =  new \App\Console\Commands\xiaomi_store_kz();
-   // $DDD->handle();
+    $ddd = \App\Models\Category::find(282);
+    dd(
+        $ddd->children
+    );
 
     /*
     $dd = \App\Models\Product::where('parent_id', 0)->where('id', '>', 2942)->get();
@@ -104,21 +158,20 @@ Route::group(['namespace'  => 'Site'], function () {
 
 
     $params = '';
-    for ($i = 0; $i <= 50; $i++)
+    for ($i = 0; $i <= 5; $i++)
         $params .= "/{param$i?}";
 
-    //каталог иобильный
-    Route::get('c/{category}', 'CatalogController@c')->where(['category'])->name('category_menu_mobile');
-
     //каталог
+
+    Route::get('/catalog',  'CatalogController@catalog');
     Route::get('catalog/{code}' . $params,  'CatalogController@catalog')->where(['code'])->name('catalog');
 
 
     //товар детально
-    Route::get('p/{product_url}',         'ProductController@productDetail')
-        ->where(['product_url'])
-        ->name('productDetail');
-
+    Route::get('p/{url}', function($url){
+        $product = \App\Models\Product::where('url', $url)->firstOrFail();
+        return Redirect::to($product->url_full, 301);
+    });
 
 
 

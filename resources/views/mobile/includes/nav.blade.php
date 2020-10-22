@@ -34,11 +34,12 @@
                        'title' => 'Главная',
                        'link'  => route('index')
                    ],
+                       /*
                    [
                        'title' => '<img src="/mobile/images/sticker_hit.png"> Кэшбэк за отзыв',
                        'link'  => route('cashback'),
                        'class' => 'cashback'
-                   ],
+                   ],*/
                    [
                        'title' => 'Мои заказы',
                        'link'  => route('order_history')

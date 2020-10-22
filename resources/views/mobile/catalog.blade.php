@@ -22,7 +22,8 @@
 
                 @include('mobile.includes.search-bar', ['class' => ''])
 
-                <div class="filters _top">
+                @if(false)
+                    <div class="filters _top">
                     <div class="filters__filter">
                         <div class="filters__filter-button @if(count($filters) != 2) _active @endif" @click="showFilters = true">
                             Фильтры
@@ -80,9 +81,31 @@
                         </div>
                     </div>
                 </div>
+                @endif
+
             </div>
 
-            @include('mobile.includes.space', ['style' => 'height: 36.273vw;'])
+
+
+
+
+            @php
+                $categories = $category->children()->isActive()->orderBy('sort')->get();
+            @endphp
+            <div class="catalog-items _grid">
+                @foreach($categories as $category)
+                    <a href="{{ $category->url_full }}" class="catalog-item container">
+                        <span class="catalog-item__img">
+                            <img width="24" src="{{ $category->pathImage(true) }}"/>
+                        </span>
+                        <span class="catalog-item__title">
+                            {{ $category->name_short ? $category->name_short : $category->name }}
+                        </span>
+                    </a>
+                @endforeach
+            </div>
+
+            @include('mobile.includes.space', ['style' => 'height: 5vw;'])
 
             <div class="catalog-grid _list _top">
                 @foreach($catalog as $product)
@@ -94,13 +117,13 @@
 
         </div>
 
+        @if(false)
         <div v-show="showFilters">
             <filters></filters>
         </div>
-
         <input id="productsAttributesFilters" type="hidden" value='<?=json_encode($productsAttributesFilters);?>'/>
         <input id="filters"                   type="hidden" value='<?=json_encode($filters);?>'/>
-
+        @endif
 
         @if($category->description)
             <div class="container description">

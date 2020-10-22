@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Services\ServiceCategory;
 use App\Services\ServiceUploadUrl;
+use http\Env;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use File;
@@ -99,6 +100,10 @@ class Category extends Model
                     $category->image = $filename;
                 }
             }
+
+            if(!$category->parent_id)
+                $category->parent_id = 0;
+
         });
 
         static::deleting(function($obj) {
@@ -121,12 +126,14 @@ class Category extends Model
 
     public function catalogUrl($redirect_url = false)
     {
+        return env('APP_URL') . $this->url_full;
+        /*
         if($redirect_url and $this->redirect_url)
         {
             return $this->redirect_url;
         }else{
             return route('catalog', ['category' => $this->url]);
-        }
+        }*/
     }
 
     public function typeValueDescription(){

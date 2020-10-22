@@ -12,7 +12,7 @@ class SaveCategoryRequest extends FormRequest
 
         return [
             'category.name' => ['required', 'unique:categories,name' . ($category_id ? (',' . $category_id . ',id') : '')],
-            'category.url'  => ['nullable', 'unique:categories,url'  . ($category_id ? (',' . $category_id . ',id') : '')]
+            //'category.url'  => ['nullable', 'unique:categories,url'  . ($category_id ? (',' . $category_id . ',id') : '')]
         ];
     }
 
