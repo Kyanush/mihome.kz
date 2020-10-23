@@ -82,7 +82,7 @@
                                              </td>
                                              <td width="75%">
                                                  <div class="form-group col-md-8" v-bind:class="{'has-error' : IsError('category.url_full')}">
-                                                     <input disabled v-model="category.url_full" type="text" class="form-control">
+                                                     <input v-model="category.url_full" type="text" class="form-control">
                                                      <span v-if="IsError('category.url_full')" class="help-block" v-for="e in IsError('category.url_full')">
                                                          {{ e }}
                                                      </span>

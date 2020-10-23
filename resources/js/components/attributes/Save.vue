@@ -254,6 +254,8 @@
     import "vue-swatches/dist/vue-swatches.min.css"
 
 
+    import 'sortable-table/sortable-table.js';
+
 
     export default {
         components:{

@@ -207,12 +207,14 @@
 
 
 <!-- Sort table --->
+@if(false)
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
 <script type="text/javascript">
     function sortableTable(el){
         $(el).sortable();
     }
 </script>
+@endif
 <!-- Sort table --->
 
 </body>
