@@ -47,6 +47,7 @@ class ProductController extends AdminController
         $order  = $sort['order'];
 
         $list =  Product::with([
+                'status',
                 'category',
                 'specificPrice' => function($query){
                     $query->dateActive();

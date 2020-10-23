@@ -166,6 +166,7 @@
                             Название
                             <SortTable v-model="filter.sort" :column="'name'"></SortTable>
                         </th>
+                        <th>Статус</th>
                         <th>Фото товара</th>
                         <th>Категории</th>
                         <th>Артикул</th>
@@ -176,22 +177,15 @@
                         <th width="110">Кол-во <br/>просмотров
                             <SortTable v-model="filter.sort" :column="'view_count'"></SortTable>
                         </th>
-                        <th>
-                            Дата создания<br/>Дата изменения
-                            <SortTable v-model="filter.sort" :column="'created_at'"></SortTable>
-                        </th>
                         <th width="100">
-                            Статус
+                            Показать товар
                             <SortTable v-model="filter.sort" :column="'active'"></SortTable>
                         </th>
                         <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="odd even" v-for="(item, index) in products.data"
-                        v-bind:class="{ 'deleted': !item.active || item.status_id != 10 }"
-                        title1="Нажмите дважды чтобы изменить"
-                        v-on:dblclick="changeQuicklySelect(item)">
+                    <tr class="odd even" v-for="(item, index) in products.data" title="Нажмите дважды чтобы изменить" v-on:dblclick="changeQuicklySelect(item)">
 
                         <td>
                            <input type="checkbox" v-model="selected.products_ids" :value="item.id" v-if="!selected.all"/>
@@ -207,6 +201,7 @@
                                 {{ item.name }}
                             </router-link>
                         </td>
+                        <td v-html="item.status.class + ' ' + item.status.name"></td>
                         <td>
                             <img v-bind:src="item.path_photo" width="70" class="img"/>
                         </td>
@@ -227,11 +222,7 @@
                             </span>
                         </td>
                         <td>{{ item.view_count }}</td>
-                        <td>
-                            {{ dateFormat(item.created_at) }}
-                            <br/>
-                            {{ dateFormat(item.updated_at) }}
-                        </td>
+
                         <td>
                             <i class="fa fa-times-circle" aria-hidden="true" v-bind:class="{ 'fa-times-circle red': !item.active, 'fa-check-circle green': item.active }"></i>
                         </td>
@@ -264,14 +255,14 @@
                         <th>ID</th>
                         <th>Сортировка</th>
                         <th>Название</th>
+                        <th>Статус</th>
                         <th>Фото товара</th>
                         <th>Категории</th>
                         <th>Артикул</th>
                         <th>Цена</th>
                         <th>Количество на<br/> складе</th>
                         <th>Кол-во <br/>просмотров</th>
-                        <th>Дата создания<br/>Дата изменения</th>
-                        <th>Статус</th>
+                        <th>Показать товар</th>
                         <th>Действия</th>
                     </tr>
                     <tr v-if="selected.products_ids.length > 0 || selected.all">

@@ -73,17 +73,18 @@
             </div>
 
             <div class="item__badges _left">
-                @foreach($attributes as $attribute)
-                    @if($attribute->id == 49 and $attribute->pivot->value)
-                        @if($attribute->pivot->value == 'Хит')
-                            <div class="hit"><img src="/mobile/images/sticker_hit.png"> Хит</div>
-                        @elseif($attribute->pivot->value == 'New!')
-                            <div class="new">New!</div>
-                        @else
-                            <div class="new">{{ $attribute->pivot->value }}</div>
+
+                    @foreach($attributes as $attribute)
+                        @if($attribute->id == 49 and $attribute->pivot->value)
+                            @if($attribute->pivot->value == 'Хит')
+                                <div class="hit"><img src="/mobile/images/sticker_hit.png"> Хит</div>
+                            @elseif($attribute->pivot->value == 'New!')
+                                <div class="new">New!</div>
+                            @else
+                                <div class="new">{{ $attribute->pivot->value }}</div>
+                            @endif
                         @endif
-                    @endif
-                @endforeach
+                    @endforeach
             </div>
 
             <div class="item__badges _right">
@@ -276,18 +277,22 @@
             <div class="container-title">Характеристики</div>
             <div class="short-specifications container">
                 <ul class="short-specifications__list">
-                    @php $i = 1; @endphp
-                    @foreach($attributes as $k => $attribute)
-                       @if($attribute->show_product_detail == 1)
-                            <li class="short-specifications__list-el">
-                                {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}: {{ $attribute->pivot->value }};
-                            </li>
-                            @if($i == 5)
-                                @php break; @endphp
+                    @if($product->specifications)
+                        {!! $product->specifications !!}
+                    @else
+                        @php $i = 1; @endphp
+                        @foreach($attributes as $k => $attribute)
+                           @if($attribute->show_product_detail == 1)
+                                <li class="short-specifications__list-el">
+                                    {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}: {{ $attribute->pivot->value }};
+                                </li>
+                                @if($i == 5)
+                                    @php break; @endphp
+                                @endif
+                                @php $i++; @endphp
                             @endif
-                            @php $i++; @endphp
-                        @endif
-                    @endforeach
+                        @endforeach
+                    @endif
                 </ul>
             </div>
             <div class="container g-pa0 g-bb-fat">

@@ -71,6 +71,7 @@ class CatalogController extends Controller
             $product->description_schema = $product_parent->description_schema;
             $product->reviews_rating_avg = $product_parent->reviews_rating_avg;
             $product->reviews_count      = $product_parent->reviews_count;
+            $product->specifications     = $product_parent->specifications;
         }
 
 

@@ -29,6 +29,7 @@ class Product extends Model
         'description_style_id',
         'description_short',
         'description_schema',
+        'specifications',
         'photo',
     	'price',
     	'sku',

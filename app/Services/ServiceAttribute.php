@@ -55,7 +55,10 @@ class ServiceAttribute
                         $value->save();
                     }
                 }
+            }else{
+
             }
+
             return $attribute->id;
         }
 

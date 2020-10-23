@@ -147,7 +147,7 @@
                                             </td>
                                             <td width="75%">
                                                 <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.url_full')}">
-                                                    <input type="text" v-model="product.url_full" class="form-control">
+                                                    <input disabled type="text" v-model="product.url_full" class="form-control">
                                                     <span v-if="IsError('product.url_full')" class="help-block" v-for="e in IsError('product.url_full')">
                                                          {{ e }}
                                                     </span>
@@ -381,6 +381,20 @@
                                                 <div  class="form-group col-md-12">
                                                     <textarea v-model="product.description_short" class="form-control"></textarea>
                                                     <span v-if="IsError('product.description_short')" class="help-block" v-for="e in IsError('product.description_short')">
+                                                         {{ e }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr v-if="!product.parent_id">
+                                            <td  width="25%" class="text-right">
+                                                <label >Характеристики:</label>
+                                            </td>
+                                            <td  width="75%">
+                                                <div  class="form-group col-md-12">
+                                                    <Ckeditor v-model="product.specifications" :uploadFilePath="uploadFilePath"></Ckeditor>
+                                                    <span v-if="IsError('product.tspecifications')" class="help-block" v-for="e in IsError('product.tspecifications')">
                                                          {{ e }}
                                                     </span>
                                                 </div>
@@ -807,6 +821,7 @@
                     description_style_id: 0,
                     description_short: '',
                     description_schema: '',
+                    specifications: '',
                     photo: '',
                     pathPhoto: '',
                     price: 0,
@@ -1011,6 +1026,7 @@
                                 this.product.description_style_id   = product.description_style_id;
                                 this.product.description_short      = product.description_short;
                                 this.product.description_schema     = product.description_schema;
+                                this.product.specifications         = product.specifications;
 
                                 this.product.seo_title        = product.seo_title;
                                 this.product.seo_keywords     = product.seo_keywords;

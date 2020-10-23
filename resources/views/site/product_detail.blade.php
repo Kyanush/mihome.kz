@@ -369,13 +369,8 @@
                 <div id="description" class="tab-pane fade in active">
                     <!-- container -->
                     @if($product->description_style_id)
-
                         {!! $product->description  !!}
-
-
                         {!! $product->descriptionStyle->name !!}
-
-
                     @else
                         <div class="container">
                             <div class="row">
@@ -388,32 +383,36 @@
             <div id="attributes" class="tab-pane fade in @if(!$product->description) active @endif">
                 <div class="container">
                     <div class="row">
-                        <table class="table table-bordered">
-                            @foreach($attributes as $attribute)
-                                @if($attribute->show_product_detail == 1)
-                                    @php
-                                       $name = $attribute->pivot->name ? $attribute->pivot->name : $attribute->name
-                                    @endphp
-                                    <tr>
-                                        @if($name)
-                                            <td>
-                                                @if($attribute->description and $attribute->description != 'null')
-                                                    <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
-                                                @endif
-                                                {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}
-                                            </td>
-                                            <td>
-                                                {{ $attribute->pivot->value }}
-                                            </td>
-                                        @else
-                                            <td colspan="2">
-                                                {{ $attribute->pivot->value }}
-                                            </td>
-                                        @endif
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </table>
+                        @if($product->specifications)
+                            {!! $product->specifications !!}
+                        @else
+                            <table class="table table-bordered">
+                                @foreach($attributes as $attribute)
+                                    @if($attribute->show_product_detail == 1)
+                                        @php
+                                           $name = $attribute->pivot->name ? $attribute->pivot->name : $attribute->name
+                                        @endphp
+                                        <tr>
+                                            @if($name)
+                                                <td>
+                                                    @if($attribute->description and $attribute->description != 'null')
+                                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $attribute->description }}"></i>
+                                                    @endif
+                                                    {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}
+                                                </td>
+                                                <td>
+                                                    {{ $attribute->pivot->value }}
+                                                </td>
+                                            @else
+                                                <td colspan="2">
+                                                    {{ $attribute->pivot->value }}
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </table>
+                        @endif
                     </div>
                 </div>
             </div>

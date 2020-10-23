@@ -176,8 +176,6 @@ class ServiceProduct implements ProductInterface
 
     public static function productAttributesSave(int $product_id, array $attributes)
     {
-        if(empty($product_id) or count($attributes) == 0)
-            return false;
 
         $product = Product::find($product_id);
         //Атрибуты
@@ -185,23 +183,25 @@ class ServiceProduct implements ProductInterface
         //удалить все атрибуты
         $product->attributes()->detach();
 
-        foreach ($attributes as $k => $item)
-        {
-
-            $item['value'] = $item['value'] ?? '';
-            $item['value'] = (array)$item['value'];
-
-            $name = $item['name'] ?? '';
-
-            foreach ($item['value'] as $value)
+        if($attributes)
+            foreach ($attributes as $k => $item)
             {
-                if($value == 'null' or empty($value))
-                    continue;
 
-                $product->attributes()->attach([$item['attribute_id'] => ['value' => $value, 'name' => $name]]);
+                $item['value'] = $item['value'] ?? '';
+                $item['value'] = (array)$item['value'];
+
+                $name = $item['name'] ?? '';
+
+                foreach ($item['value'] as $value)
+                {
+                    if($value == 'null' or empty($value))
+                        continue;
+
+                    $product->attributes()->attach([$item['attribute_id'] => ['value' => $value, 'name' => $name]]);
+                }
+
             }
 
-        }
         return true;
     }
 
