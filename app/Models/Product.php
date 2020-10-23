@@ -20,9 +20,11 @@ class Product extends Model
     protected $table = 'products';
     protected $fillable = [
         'parent_id',
+        'category_id',
     	'name',
         'sort',
         'url',
+        'url_full',
     	'description',
         'description_style_id',
         'description_short',
@@ -41,7 +43,6 @@ class Product extends Model
         'view_count',
         'reviews_rating_avg',
         'reviews_count',
-        'update_price',
         'comment_id'
 	];
 
@@ -245,6 +246,15 @@ class Product extends Model
                 $product_id = $product->id;
             }
 
+
+            //ссылка товара
+            $category = $product->parent_id ? $product->parent->category : $product->category;
+            if($category)
+            {
+                $product->url_full = $category->url_full . '/' . $product->url;
+            }
+
+
             $path_folder = public_path(config('shop.products_path_file') . $product_id) . '/';
             if(!File::isDirectory($path_folder))
                 File::makeDirectory($path_folder, 0777, true, true);
@@ -257,8 +267,6 @@ class Product extends Model
 
                 $upload = new Upload();
                 $upload->fileName = str_slug($product->name);
-                //$upload->setWidth(300);
-                //$upload->setHeight(600);
                 $upload->setPath(config('shop.products_path_file') . $product_id . '/');
                 $upload->setFile($product->photo);
                 $fileName = $upload->save();
@@ -292,6 +300,11 @@ class Product extends Model
 	public function categories()
 	{
         return $this->belongsToMany('App\Models\Category', 'category_product', 'product_id', 'category_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Models\Category', 'category_id', 'id');
     }
 
     //атрибуты

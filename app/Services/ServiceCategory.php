@@ -102,4 +102,20 @@ class ServiceCategory
         return $breadcrumb;
     }
 
+    public static function urlFull($category_id)
+    {
+        $url_full = '/';
+        $categories = self::getParents($category_id);
+        $categories = array_reverse($categories);
+
+        foreach ($categories as $category)
+        {
+            $url_full.= $category->url . '/';
+        }
+
+        $url_full = mb_substr($url_full, 0, -1);
+
+        return $url_full;
+    }
+
 }

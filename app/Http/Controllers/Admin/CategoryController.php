@@ -34,30 +34,7 @@ class CategoryController extends AdminController
 
         $category = Category::findOrNew($data["id"]);
         $category->fill($data);
-        if($category->save())
-        {
-            $ids = [];
-
-            if(isset($data['category_filter_links']))
-                foreach ($data['category_filter_links'] as $item)
-                {
-                    if(isset($item['id']))
-                        $ids[] = $item['id'];
-                }
-            if(count($ids) > 0)
-                $category->categoryFilterLinks()->whereNotIn('id', $ids)->delete();
-            else
-                $category->categoryFilterLinks()->delete();
-
-            if(isset($data['category_filter_links']))
-                foreach ($data['category_filter_links'] as $item)
-                {
-                   $categoryFilterLink = $category->categoryFilterLinks()->findOrNew($item['id'] ?? 0);
-                   $categoryFilterLink->fill($item);
-                   $categoryFilterLink->save();
-                }
-        }
-
+        $category->save();
 
         return  $this->sendResponse($category ? $category->id : false);
     }
@@ -65,9 +42,7 @@ class CategoryController extends AdminController
 
     public function view($id)
     {
-        $category = Category::with(['categoryFilterLinks' => function($query){
-            $query->OrderBy('sort', 'asc');
-        }])->findOrFail($id);
+        $category = Category::findOrFail($id);
         $category->path_image = $category->pathImage(true);
 
         return  $this->sendResponse($category);

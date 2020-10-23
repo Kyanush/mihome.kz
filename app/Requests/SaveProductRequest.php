@@ -26,10 +26,8 @@ class SaveProductRequest extends FormRequest
 
         if(!$parent_id)
         {
-            $rules['product.youtube']          = 'max:25';
-            //$rules['product.description']      = 'required';
-            $rules['categories']               = 'required|exists:categories,id';
-            $rules['categories.*']             = 'required|exists:categories,id';
+            $rules['product.youtube']     = 'max:25';
+            $rules['product.category_id'] = 'required|exists:categories,id';
         }
 
         if ($this->input('specific_price.reduction') > 0)

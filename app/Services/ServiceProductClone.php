@@ -54,10 +54,6 @@ class ServiceProductClone
             $clone->save();
         }
 
-        //категория
-        foreach ($product->categories as $item)
-            $clone->categories()->attach([$item->id]);
-
         //атрибуты
         if($this->clone_attributes)
         {

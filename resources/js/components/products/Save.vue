@@ -117,6 +117,7 @@
                                                 </div>
                                             </td>
                                         </tr>
+
                                         <tr>
                                             <td width="25%" class="text-right">
                                                 <label>
@@ -128,6 +129,26 @@
                                                 <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.url')}">
                                                     <input type="text" v-model="product.url" class="form-control">
                                                     <span v-if="IsError('product.url')" class="help-block" v-for="e in IsError('product.url')">
+                                                         {{ e }}
+                                                    </span>
+                                                    <p class="help-block pull-right">
+                                                        Если пустая ссылка, генерируются автоматически
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td width="25%" class="text-right">
+                                                <label>
+                                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                                    url_full:
+                                                </label>
+                                            </td>
+                                            <td width="75%">
+                                                <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.url_full')}">
+                                                    <input disabled type="text" v-model="product.url_full" class="form-control">
+                                                    <span v-if="IsError('product.url_full')" class="help-block" v-for="e in IsError('product.url_full')">
                                                          {{ e }}
                                                     </span>
                                                     <p class="help-block pull-right">
@@ -207,26 +228,6 @@
                                         </tr>
 
 
-                                        <tr>
-                                            <td width="25%" class="text-right">
-                                                <label>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    Обновить цену:
-                                                </label>
-                                            </td>
-                                            <td width="75%">
-                                                <div class="col-md-4" v-bind:class="{'has-error' : IsError('product.update_price')}">
-                                                    <select v-model="product.update_price" class="form-control">
-                                                        <option value="0">Нет</option>
-                                                        <option value="1">Да</option>
-                                                    </select>
-                                                    <span v-if="IsError('product.update_price')" class="help-block" v-for="e in IsError('product.update_price')">
-                                                         {{ e }}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                        </tr>
-
 
                                         <tr>
                                             <td width="25%" class="text-right">
@@ -284,7 +285,7 @@
                                                 <p class="help-block" style="padding-left: 50px;font-weight: bold;color: #da0303;">Вы можете выбрать одну или несколько категорий, где будет отображаться товар</p>
                                             </td>
                                             <td width="75%">
-                                                <Categories v-model="categories" :returnKey="'id'" :multiple="true"></Categories>
+                                                <Categories v-model="product.category_id" :returnKey="'id'" :multiple="false"></Categories>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -797,9 +798,11 @@
                 product:{
                     id:        this.$route.params.product_id ? this.$route.params.product_id : 0,
                     parent_id: this.$route.query.parent_id   ? this.$route.query.parent_id   : 0,
+                    category_id: 0,
                     name: '',
                     sort: 0,
                     url: '',
+                    url_full: '',
                     description: '',
                     description_style_id: 0,
                     description_short: '',
@@ -817,7 +820,6 @@
                     view_count: 0,
                     reviews_rating_avg: 0,
                     reviews_count: 0,
-                    update_price: 0
 
                 },
                 product_photo_upload_type: 'file',
@@ -1005,9 +1007,11 @@
 
                                 this.product.id               = product.id;
                                 this.product.parent_id        = product.parent_id;
+                                this.product.category_id      = product.category_id;
                                 this.product.name             = product.name;
                                 this.product.sort             = product.sort;
                                 this.product.url              = product.url;
+                                this.product.url_full         = product.url_full;
                                 this.product.description      = product.description;
 
                                 this.product.description_style_id   = product.description_style_id;
@@ -1027,7 +1031,7 @@
                                 this.product.view_count       = product.view_count;
                                 this.product.reviews_rating_avg = product.reviews_rating_avg;
                                 this.product.reviews_count      = product.reviews_count;
-                                this.product.update_price       = product.update_price;
+
 
 
 

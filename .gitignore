@@ -1,4 +1,7 @@
 /node_modules
+*/node_modules/*
+node_modules
+node_modules/
 /public/hot
 /public/storage
 /public/uploads
@@ -14,8 +17,7 @@
 /vendor
 /.idea
 /.vscode
-/.vagrant
-/node_modules
+/.vagra
 Homestead.json
 Homestead.yaml
 npm-debug.log

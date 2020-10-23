@@ -9,6 +9,8 @@ Route::group(['namespace'  => 'Telegram'], function () {
 
 Route::get('/dddd111', function (){
 
+
+
     /*
     $cc = \App\Models\Category::all();
     foreach ($cc as $item)
@@ -63,10 +65,16 @@ Route::get('/dddd111', function (){
 Route::get('/dddd', function (){
 
 
-    $ddd = \App\Models\Category::find(282);
-    dd(
-        $ddd->children
-    );
+    $dd = \App\Models\Product::with('categories')->where('parent_id', 0)->get();
+    foreach ($dd as $dddd)
+    {
+        $category_id = $dddd->categories[0]->id ?? '';
+        if($category_id)
+        {
+            $dddd->category_id = $dddd->categories[0]->id;
+            $dddd->save();
+        }
+    }
 
     /*
     $dd = \App\Models\Product::where('parent_id', 0)->where('id', '>', 2942)->get();

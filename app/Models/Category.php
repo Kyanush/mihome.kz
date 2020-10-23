@@ -18,8 +18,9 @@ class Category extends Model
      protected $fillable = [
          'parent_id',
          'name',
+         'name_short',
          'url',
-         'redirect_url',
+         'url_full',
          'image',
          'class',
          'sort',
@@ -57,10 +58,6 @@ class Category extends Model
         return $this->hasMany(self::class, 'parent_id', 'id');
     }
 
-    public function categoryFilterLinks()
-    {
-        return $this->hasMany('App\Models\CategoryFilterLink', 'category_id', 'id');
-    }
 
     protected static function boot()
     {
@@ -68,7 +65,8 @@ class Category extends Model
 
         //Событие до
         static::Saving(function($category) {
-            $category->url = str_slug(empty($category->url) ? $category->name : $category->url);
+
+            $category->url      = str_slug(empty($category->url) ? $category->name : $category->url);
 
             if(is_uploaded_file($category->image))
             {
@@ -106,6 +104,13 @@ class Category extends Model
 
         });
 
+        static::Saved(function($category) {
+
+            $category->url_full = ServiceCategory::urlFull($category->id);
+            $category->save();
+
+        });
+
         static::deleting(function($obj) {
             $obj->deleteImage();
         });
@@ -124,16 +129,9 @@ class Category extends Model
         return File::delete($this->pathImage());
     }
 
-    public function catalogUrl($redirect_url = false)
+    public function catalogUrl()
     {
         return env('APP_URL') . $this->url_full;
-        /*
-        if($redirect_url and $this->redirect_url)
-        {
-            return $this->redirect_url;
-        }else{
-            return route('catalog', ['category' => $this->url]);
-        }*/
     }
 
     public function typeValueDescription(){

@@ -45,9 +45,6 @@ class ServiceProduct implements ProductInterface
         //папка товара
         File::deleteDirectory($product->productFileFolder());
 
-        //категории
-        $product->categories()->detach();
-
         //атритуты
         $product->attributes()->detach();
 

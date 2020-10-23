@@ -2,9 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\mi_home_kz;
-use App\Console\Commands\real_store_kz;
-use App\Console\Commands\xiaomi_store_kz;
+
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,9 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        mi_home_kz::class,
-        xiaomi_store_kz::class,
-        real_store_kz::class
+
     ];
 
     /**
@@ -30,10 +26,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //https://tutsforweb.com/how-to-set-up-task-scheduling-cron-job-in-laravel/
-        $schedule->command('command:mi_hone_kz')      ->everyTenMinutes();
-        $schedule->command('command:xiaomi_store_kz') ->everyTenMinutes();
-        $schedule->command('command:real_store_kz')   ->everyTenMinutes();
+
     }
 
     /**

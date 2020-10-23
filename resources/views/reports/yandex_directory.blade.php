@@ -27,7 +27,7 @@
                         }
                 @endphp
                 <tr>
-                    <td>{{ $product->categories[0]->name }}</td>
+                    <td>{{ $product->category->name ?? '' }}</td>
                     <td>{{ $product->name }}</td>
                     <td>{!! $description !!}</td>
                     <td>{{ $product->getReducedPrice() }}</td>

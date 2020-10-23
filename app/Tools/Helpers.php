@@ -309,6 +309,7 @@ class Helpers
         $arr = [
             'http://mihome.kz',
             'https://mihome.kz',
+            'https://mihome'
         ];
 
         $url = \Request::url();

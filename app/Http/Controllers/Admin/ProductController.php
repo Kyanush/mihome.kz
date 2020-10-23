@@ -87,12 +87,6 @@ class ProductController extends AdminController
         if($product->save())
         {
 
-            //категория
-            $categories = $request['categories'] ?? false;
-            if($categories)
-                $product->categories()->sync($categories);
-
-
             //Конкретная цена
             if(!empty($request['specific_price']['reduction']))
             {
@@ -130,10 +124,6 @@ class ProductController extends AdminController
 
         //фото товара
         $product->pathPhoto = $product->pathPhoto(true);
-
-        //категория
-        $categories = $product->categories->pluck('id');
-
 
         $children = $product->children->map(function ($item) {
             return  [
@@ -177,7 +167,6 @@ class ProductController extends AdminController
             'product'             => $product,
             'product_accessories' => $product_accessories,
             'images'              => $images,
-            'categories'          => $categories,
             'specific_price'      => $product->specificPrice,
             'children'            => $children
         ]);
