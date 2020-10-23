@@ -2,6 +2,8 @@
 
 //https://api.telegram.org/bot1178569369:AAGYPEtvgvfSihzKY7fp5LfY0xADo_GV8r4/setWebHook?url=https://mihome.kz/telegram
 
+use App\Services\ServiceUploadUrl;
+
 Route::group(['namespace'  => 'Telegram'], function () {
     Route::post('/telegram', 'MainController@telegram');
 });
@@ -63,6 +65,7 @@ Route::get('/dddd111', function (){
 
 
 Route::get('/dddd', function (){
+
 
 
     $dd = \App\Models\Product::with('categories')->where('parent_id', 0)->get();

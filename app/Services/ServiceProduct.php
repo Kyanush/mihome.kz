@@ -113,6 +113,7 @@ class ServiceProduct implements ProductInterface
             //добавить
             if(intval($item['is_delete']) == 0)
             {
+                $images_data = [];
                 if(is_uploaded_file($item['value'])){
 
                     if($original_name)
@@ -158,9 +159,12 @@ class ServiceProduct implements ProductInterface
                     $images_data = ['order' => $key];
 
 
-                $attribute = ProductImage::findOrNew($item["id"]);
-                $attribute->fill($images_data);
-                $attribute->save();
+                if($images_data)
+                {
+                    $attribute = ProductImage::findOrNew($item["id"]);
+                    $attribute->fill($images_data);
+                    $attribute->save();
+                }
                 //удалить
             }else{
                 ProductImage::destroy($item['id']);
