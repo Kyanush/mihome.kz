@@ -282,10 +282,10 @@
                                     <tbody>
                                         <tr>
                                             <td width="25%" class="text-right">
-                                                <p class="help-block" style="padding-left: 50px;font-weight: bold;color: #da0303;">Вы можете выбрать одну или несколько категорий, где будет отображаться товар</p>
+
                                             </td>
                                             <td width="75%">
-                                                <Categories v-model="categories" :returnKey="'id'" :multiple="true"></Categories>
+                                                <Categories v-model="product.category_id" :returnKey="'id'" :multiple="false"></Categories>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -798,6 +798,7 @@
                 product:{
                     id:        this.$route.params.product_id ? this.$route.params.product_id : 0,
                     parent_id: this.$route.query.parent_id   ? this.$route.query.parent_id   : 0,
+                    category_id: '',
                     name: '',
                     sort: 0,
                     url: '',
@@ -832,10 +833,8 @@
                     expiration_date: ''
                 },
 
-                categories: [],
                 method_redirect: 'save_and_back',
                 tab_active: 'tab_general',
-                categories_list: [],
                 group_products: [],
                 detail_url: '',
                 discount_price: {
@@ -931,11 +930,7 @@
                     data.append('accessories_product_ids[' + index + ']', item.id);
                 });
 
-                if(Array.isArray(this.categories)){
-                    for(var i = 0; i < this.categories.length; i++)
-                        data.append('categories[' + i + ']', this.categories[i]);
-                }else
-                    data.append('categories', this.categories);
+
 
 
                 $.each(this.product_images, function(index, item) {
@@ -1006,6 +1001,7 @@
 
                                 this.product.id               = product.id;
                                 this.product.parent_id        = product.parent_id;
+                                this.product.category_id      = product.category_id;
                                 this.product.name             = product.name;
                                 this.product.sort             = product.sort;
                                 this.product.url              = product.url;
@@ -1034,7 +1030,6 @@
 
 
                                 this.group_products = data.children;
-                                this.categories     = data.categories;
                                 this.product_images = data.images;
                                 this.product_accessories = data.product_accessories;
 
@@ -1057,10 +1052,7 @@
         },
         created(){
 
-            var params = {per_page: 100};
-            axios.get('/admin/categories-list', {params:  params}).then((res)=>{
-                this.categories_list = res.data.data;
-            });
+
 
             axios.get('/admin/status/list').then((res)=>{
                 this.statuses = res.data;

@@ -81,7 +81,7 @@
                     <li class="divider"></li>
 
                     @php
-                        $categories = \App\Models\Category::whereNotIn('id', $categories_id_more)->orderBy('sort', 'desc')->limit(5)->where('parent_id', 324)->get();
+                        $categories = \App\Models\Category::whereNotIn('id', $categories_id_more)->orderBy('sort', 'desc')->where('parent_id', 324)->get();
                     @endphp
 
                     @foreach($categories as $category)
