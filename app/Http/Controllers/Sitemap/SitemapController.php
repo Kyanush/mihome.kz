@@ -29,7 +29,7 @@ class SitemapController extends Controller
 
     public function products(){
 
-        $products   = Product::main()->with('categories')->filters(['active' => 1])->get();
+        $products   = Product::main()->filters(['active' => 1])->get();
         $categories = Category::isActive()->get();
 
         $siteUrl    = env('APP_URL');

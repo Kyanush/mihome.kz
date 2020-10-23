@@ -129,10 +129,7 @@ class Product extends Model
             if($category)
             {
                 $categories_ids = ServiceCategory::categoryChildIds($category->id);
-
-                $query->whereHas('categories', function($query) use ($categories_ids){
-                    $query->whereIn('category_id', $categories_ids);
-                });
+                $query->whereIn('category_id', $categories_ids);
             }
         }
 

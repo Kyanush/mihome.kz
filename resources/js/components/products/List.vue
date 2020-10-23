@@ -211,9 +211,7 @@
                             <img v-bind:src="item.path_photo" width="70" class="img"/>
                         </td>
                         <td>
-                            <p v-for="category in item.categories" class="margin-padding-none">
-                                {{ category.name }}
-                            </p>
+                             {{ item.category ? item.category.name : '' }}
                         </td>
                         <td>{{ item.sku }}</td>
                         <td>
