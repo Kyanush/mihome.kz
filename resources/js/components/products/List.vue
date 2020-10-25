@@ -100,7 +100,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="scroll-catalog">
-                                <Categories v-model="filter.category" :returnKey="'url'" :multiple="false"></Categories>
+                                <Categories v-model="filter.category_id" :returnKey="'id'" :multiple="false"></Categories>
                             </div>
                         </div>
                     </div>
@@ -159,27 +159,27 @@
                             <SortTable v-model="filter.sort" :column="'id'"></SortTable>
                         </th>
                         <th>
-                            Сортировка
+                            Sort
                             <SortTable v-model="filter.sort" :column="'sort'"></SortTable>
                         </th>
                         <th width="200">
                             Название
                             <SortTable v-model="filter.sort" :column="'name'"></SortTable>
                         </th>
+                        <th width="100">
+                            Показать товар
+                            <SortTable v-model="filter.sort" :column="'active'"></SortTable>
+                        </th>
                         <th>Статус</th>
-                        <th>Фото товара</th>
+                        <th>Фото</th>
                         <th>Категории</th>
                         <th>Артикул</th>
                         <th>
                             Цена
                             <SortTable v-model="filter.sort" :column="'price'"></SortTable>
                         </th>
-                        <th width="110">Кол-во <br/>просмотров
+                        <th width="110">Просмотр
                             <SortTable v-model="filter.sort" :column="'view_count'"></SortTable>
-                        </th>
-                        <th width="100">
-                            Показать товар
-                            <SortTable v-model="filter.sort" :column="'active'"></SortTable>
                         </th>
                         <th>Действия</th>
                     </tr>
@@ -201,14 +201,15 @@
                                 {{ item.name }}
                             </router-link>
                         </td>
+                        <td>
+                            <i class="fa fa-times-circle" aria-hidden="true" v-bind:class="{ 'fa-times-circle red': !item.active, 'fa-check-circle green': item.active }"></i>
+                        </td>
                         <td v-html="item.status.class + ' ' + item.status.name"></td>
                         <td>
                             <img v-bind:src="item.path_photo" width="70" class="img"/>
                         </td>
                         <td>
-                            <p v-for="category in item.categories" class="margin-padding-none">
-                                {{ category.name }}
-                            </p>
+                             {{ item.category.name }}
                         </td>
                         <td>{{ item.sku }}</td>
                         <td>
@@ -223,9 +224,7 @@
                         </td>
                         <td>{{ item.view_count }}</td>
 
-                        <td>
-                            <i class="fa fa-times-circle" aria-hidden="true" v-bind:class="{ 'fa-times-circle red': !item.active, 'fa-check-circle green': item.active }"></i>
-                        </td>
+
                         <td>
                             <p>
                                 <a class="btn btn-xs btn-default" :href="item.detail_url_product" target="_blank" title="Посмотреть товар">
@@ -253,16 +252,15 @@
                             <input type="checkbox" v-model="selected.all"/>
                         </th>
                         <th>ID</th>
-                        <th>Сортировка</th>
+                        <th>Sort</th>
                         <th>Название</th>
+                        <th>Показать товар</th>
                         <th>Статус</th>
-                        <th>Фото товара</th>
+                        <th>Фото</th>
                         <th>Категории</th>
                         <th>Артикул</th>
                         <th>Цена</th>
-                        <th>Количество на<br/> складе</th>
-                        <th>Кол-во <br/>просмотров</th>
-                        <th>Показать товар</th>
+                        <th>Просмотр</th>
                         <th>Действия</th>
                     </tr>
                     <tr v-if="selected.products_ids.length > 0 || selected.all">
@@ -532,7 +530,7 @@
                     sku:                this.$route.query.sku,
                     created_at_start:   this.$route.query.created_at_start,
                     created_at_end:     this.$route.query.created_at_end,
-                    category:           this.$route.query.category,
+                    category_id:        this.$route.query.category_id,
                     sort:               this.$route.query.sort
                 },
                 clone_product:{

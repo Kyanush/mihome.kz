@@ -1,7 +1,3 @@
-@php
-    $attributes = $product->attributes;
-    $images     = $product->images;
-@endphp
 
 <div class="g-mb-gtn">
 
@@ -18,12 +14,12 @@
                                     alt="{{ $product->name }}"
                                     title="{{ $product->name }}"
                                     class="item__image  swiper-lazy"
-                                    data-src="{{ $product->pathPhoto(true) }}"/>
+                                    data-src="{{ $product->getPhoto() }}"/>
                             <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                         </div>
                     </div>
 
-                    @foreach($images as $image)
+                    @foreach($product->images as $image)
                         <div class="swiper-slide">
                             <div class="item__image-wrapper">
                                 <img
@@ -51,7 +47,7 @@
 
                 </div>
 
-                @if(count($images) > 0)
+                @if(count($product->images) > 0)
                     <div class="swiper-pagination"></div>
                 @endif
             </div>
@@ -74,7 +70,7 @@
 
             <div class="item__badges _left">
 
-                    @foreach($attributes as $attribute)
+                    @foreach($product->attributes as $attribute)
                         @if($attribute->id == 49 and $attribute->pivot->value)
                             @if($attribute->pivot->value == 'Хит')
                                 <div class="hit"><img src="/mobile/images/sticker_hit.png"> Хит</div>
@@ -281,7 +277,7 @@
                         {!! $product->specifications !!}
                     @else
                         @php $i = 1; @endphp
-                        @foreach($attributes as $k => $attribute)
+                        @foreach($product->attributes as $k => $attribute)
                            @if($attribute->show_product_detail == 1)
                                 <li class="short-specifications__list-el">
                                     {{ $attribute->pivot->name ? $attribute->pivot->name : $attribute->name }}: {{ $attribute->pivot->value }};

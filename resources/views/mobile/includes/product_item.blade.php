@@ -18,7 +18,7 @@
     <div class="item-card__image-wrapper ddl_product_link">
           <img class="item-card__image lazy"
                alt="{{ $product->name }}"
-               data-original="{{ $product->pathPhoto(true) }}"/>
+               data-original="{{ $product->getPhoto() }}"/>
     </div>
     <div class="item-card__info">
         <h3 class="item-card__name">

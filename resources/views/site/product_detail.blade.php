@@ -1,9 +1,9 @@
 @extends('layouts.site')
 
-@section('title',    	$seo['title'])
+@section('title',      	$seo['title'])
 @section('description', $seo['description'])
 @section('keywords',    $seo['keywords'])
-@section('og_image',    env('APP_URL') . $product->pathPhoto(true))
+@section('og_image',    $product->getPhoto())
 
 
 @section('content')
@@ -23,11 +23,6 @@
 @include('site.includes.breadcrumb', ['breadcrumbs' => $breadcrumbs])
 
 
-@php
-    $attributes = $product->attributes;
-    $images     = $product->images
-@endphp
-
 
 <!-- SECTION -->
 <div class="section" id="product-detail" >
@@ -39,8 +34,8 @@
             <div class="col-md-5 col-md-push-2">
                 <div id="product-main-img">
                     <div class="product-preview">
-                        <a data-fancybox="gallery" href="{{ $product->pathPhoto(true) }}">
-                            <img data-lazy="{{ $product->pathPhoto(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
+                        <a data-fancybox="gallery" href="{{ $product->getPhoto() }}">
+                            <img data-lazy="{{ $product->getPhoto() }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
                         </a>
 
                         <?php ob_start();?>
@@ -50,7 +45,7 @@
                                         {{ $product->getDiscountTypeinfo() }}
                                     </span>
                             @endif
-                            @foreach($attributes as $attribute)
+                            @foreach($product->attributes as $attribute)
                                 @if($attribute->id == 49 and $attribute->pivot->value)
                                     <span class="new {{ str_slug($attribute->pivot->value)  }}">
                                              {{ $attribute->pivot->value  }}
@@ -64,8 +59,8 @@
                         ?>
                         {!! $label !!}
                     </div>
-                    @if(count($images) > 0)
-                        @foreach($images as $image)
+                    @if(count($product->images) > 0)
+                        @foreach($product->images as $image)
                             <div class="product-preview">
                                 <a data-fancybox="gallery" href="{{ $image->imagePath(true) }}">
                                     <img data-lazy="{{ $image->imagePath(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
@@ -84,10 +79,10 @@
             <div class="col-md-2  col-md-pull-5">
                 <div id="product-imgs">
                     <div class="product-preview">
-                        <img data-lazy="{{ $product->pathPhoto(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
+                        <img data-lazy="{{ $product->getPhoto() }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
                     </div>
-                    @if(count($images) > 0)
-                        @foreach($images as $image)
+                    @if(count($product->images) > 0)
+                        @foreach($product->images as $image)
                             <div class="product-preview">
                                 <img data-lazy="{{ $image->imagePath(true) }}" title="{{ $product->name }}" alt="{{ $product->name }}"/>
                             </div>
@@ -387,7 +382,7 @@
                             {!! $product->specifications !!}
                         @else
                             <table class="table table-bordered">
-                                @foreach($attributes as $attribute)
+                                @foreach($product->attributes as $attribute)
                                     @if($attribute->show_product_detail == 1)
                                         @php
                                            $name = $attribute->pivot->name ? $attribute->pivot->name : $attribute->name

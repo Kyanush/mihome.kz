@@ -27,7 +27,7 @@
                                         <td style="font-size:12px;text-align:left;padding:20px 7px 20px 15px;border-bottom:1px solid #ececec;color:#aeaeae;">{{ $product->pivot->sku }}</td>
                                         <td style="width: 250px;font-size:12px;text-align:left;padding:20px 7px;border-bottom:1px solid #ececec;">
                                             <a href="{{ $product->detailUrlProduct() }}" target="_blank" class="daria-goto-anchor" rel="noopener noreferrer">
-                                                <img style="float: left;" width="40" src="{{ env('APP_URL') . $product->pathPhoto(true) }}"/>
+                                                <img style="float: left;" width="40" src="{{ $product->getPhoto() }}"/>
                                                 <div style="float: left;margin-left: 10px;margin-top: 16px;">
                                                     {{ $product->pivot->name }}
                                                 </div>

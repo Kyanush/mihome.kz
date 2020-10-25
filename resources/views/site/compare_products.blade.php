@@ -49,7 +49,7 @@
                                    <td>
                                        <img height="90"
                                             class="product-image lazy"
-                                            data-original="{{ $item->product->pathPhoto(true) }}"
+                                            data-original="{{ $item->product->getPhoto() }}"
                                             alt="{{ $item->product->name }}"/>
                                    </td>
                                @endforeach

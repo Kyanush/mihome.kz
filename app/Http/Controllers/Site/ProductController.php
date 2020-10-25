@@ -26,7 +26,7 @@ class ProductController extends Controller
                 'id'      => $item->id,
                 'name'    => $item->name,
                 'url'     => $item->detailUrlProduct(),
-                'photo'   => $item->pathPhoto(true),
+                'photo'   => $item->getPhoto(),
                 'price'   => Helpers::priceFormat($item->getReducedPrice()),
             ];
         });
@@ -44,7 +44,7 @@ class ProductController extends Controller
         return  $this->sendResponse([
             'images'  => $images,
             'youtube' => $product->youtube,
-            'photo'   => $product->pathPhoto(true)
+            'photo'   => $product->getPhoto()
         ]);
     }
 
@@ -68,7 +68,7 @@ class ProductController extends Controller
         return  $this->sendResponse([
             'product'          => $product,
             'detailUrlProduct' => $product->detailUrlProduct(),
-            'pathPhoto'        => $product->pathPhoto(true),
+            'pathPhoto'        => $product->getPhoto(),
             'price'            => Helpers::priceFormat($product->getReducedPrice()),
             'attributes'       => $product->attributes
         ]);

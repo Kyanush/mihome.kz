@@ -29,7 +29,7 @@
                          <img height="105"
                               width="140"
                               class="header-cart__image"
-                              src="{{ $item->product->pathPhoto(true) }}"
+                              src="{{ $item->product->getPhoto() }}"
                               alt="{{ $item->product->name }}"
                               title="{{ $item->product->name }}"/>
                       </a>

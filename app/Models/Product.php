@@ -479,6 +479,21 @@ class Product extends Model
             return false;
     }
 
+    public function getPhoto(){
+
+
+        if(empty($this->photo) and $this->parent_id)
+        {
+            $photo      = $this->parent->photo;
+            $product_id = $this->parent->id;
+        }else{
+            $product_id = $this->id;
+            $photo      = $this->photo;
+        }
+
+        return env('APP_URL') . '/' . config('shop.products_path_file') . $product_id . '/' . $photo;
+    }
+
     public function productFileFolder($firstSlash = false, $product_id = 0)
     {
         return ($firstSlash ? '/' : '') . config('shop.products_path_file') . (empty($product_id) ? $this->id : $product_id) . '/';

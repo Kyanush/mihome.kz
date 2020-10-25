@@ -31,7 +31,7 @@
                     <td>{{ $product->name }}</td>
                     <td>{!! $description !!}</td>
                     <td>{{ $product->getReducedPrice() }}</td>
-                    <td>{{ env('APP_URL') . $product->pathPhoto(true) }}</td>
+                    <td>{{ $product->getPhoto() }}</td>
                     <td>Нет</td>
                     <td>Да</td>
                 </tr>

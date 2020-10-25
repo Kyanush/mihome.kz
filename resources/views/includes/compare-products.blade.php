@@ -27,7 +27,7 @@
                 <td>
                     <img height="90"
                          class="product-image"
-                         src="{{ $item->product->pathPhoto(true) }}"
+                         src="{{ $item->product->getPhoto() }}"
                          alt="{{ $item->product->name }}">
                 </td>
             @endforeach

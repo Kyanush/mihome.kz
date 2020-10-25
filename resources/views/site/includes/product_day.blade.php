@@ -23,7 +23,7 @@ $productsDay =  \App\Models\Product::productInfoWith()
                     <a class="shop" href="{{ $productDay->detailUrlProduct() }}">
                         <div class="shop-img">
                             <img class="lazy"
-                                 data-original="{{ $productDay->pathPhoto(true) }}"
+                                 data-original="{{ $productDay->getPhoto() }}"
                                  title=" {{ $productDay->name }}"
                                  alt=" {{ $productDay->name }}"/>
                         </div>

@@ -10,7 +10,7 @@
             <priority>0.6</priority>
             <image:image>
                 <image:loc>
-                    {{ $siteUrl . $product->pathPhoto(true) }}
+                    {{ $product->getPhoto() }}
                 </image:loc>
             </image:image>
         </url>

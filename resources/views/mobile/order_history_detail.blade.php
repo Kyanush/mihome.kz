@@ -83,7 +83,7 @@
                         <tr>
                             <td width="100px">
                                 <a href="{{ $product->detailUrlProduct() }}">
-                                    <img src="{{ $product->pathPhoto(true) }}" height="50">
+                                    <img src="{{ $product->getPhoto() }}" height="50">
                                 </a>
                             </td>
                             <td>

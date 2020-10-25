@@ -9,7 +9,7 @@
                <a href="{{ $cart_product->product->detailUrlProduct() }}">
                   <div class="pull-left">
                         <img  class="img-circle"
-                              src="{{ $cart_product->product->pathPhoto(true) }}"
+                              src="{{ $cart_product->product->getPhoto() }}"
                               alt="{{ $cart_product->name }}" title="{{ $cart_product->name }}">
                   </div>
                   <h4>

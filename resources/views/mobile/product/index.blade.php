@@ -1,9 +1,9 @@
 @extends('layouts.mobile')
 
-@section('title',    	$seo['title'])
+@section('title',    	 $seo['title'])
 @section('description', $seo['description'])
 @section('keywords',    $seo['keywords'])
-@section('og_image',    env('APP_URL') . $product->pathPhoto(true))
+@section('og_image',    $product->getPhoto())
 
 @section('content')
 

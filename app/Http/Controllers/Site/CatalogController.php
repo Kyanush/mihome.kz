@@ -49,9 +49,9 @@ class CatalogController extends Controller
         //категория
         if($product->parent_id)
         {
-            $category = Category::find($product->parent->categories[0]->id);
+            $category = Category::find($product->parent->category->id);
         }else{
-            $category = Category::find($product->categories[0]->id);
+            $category = Category::find($product->category->id);
         }
 
         //Хлебная крошка
@@ -72,6 +72,9 @@ class CatalogController extends Controller
             $product->reviews_rating_avg = $product_parent->reviews_rating_avg;
             $product->reviews_count      = $product_parent->reviews_count;
             $product->specifications     = $product_parent->specifications;
+
+            if(count($product->images) == 0)
+                $product->images = $product_parent->images;
         }
 
 
@@ -115,7 +118,7 @@ class CatalogController extends Controller
             return abort(404);
 
         //Хлебная крошка
-        $breadcrumbs = ServiceCategory::breadcrumbCategories($category->parent_id, $category->name);
+        $breadcrumbs = ServiceCategory::breadcrumbCategories($category->parent_id, $category->name_short ? $category->name_short : $category->name);
 
         return view(Helpers::isMobile() ? 'mobile.catalog' : 'site.catalog', [
             'catalog'                   => $catalog,

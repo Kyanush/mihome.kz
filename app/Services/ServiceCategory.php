@@ -88,7 +88,7 @@ class ServiceCategory
             foreach (array_reverse($categories) as $category)
             {
                 $breadcrumb[] = [
-                    'title' => $category->name,
+                    'title' => $category->name_short ? $category->name_short : $category->name,
                     'link'  => $category->catalogUrl()
                 ];
             }

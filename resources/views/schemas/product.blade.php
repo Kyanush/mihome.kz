@@ -19,7 +19,7 @@
     "productID": "{{ $product->sku }}",
     "name": "{{ $product->name }}",
     "description": "{{ str_replace('\\', "", $product->description_schema ? $product->description_schema : $description_schema) }}",
-    "image":"{{ env('APP_URL') . $product->pathPhoto(true) }}",
+    "image":"{{ $product->getPhoto() }}",
     "brand":"{{ $category->name }}",
     "sku":"{{ $product->sku }}",
     "gtin":"{{ $product->sku }}",

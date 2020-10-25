@@ -6,7 +6,7 @@
             <img class="lazy"
                  title="{{ $product->name }}"
                  alt="{{ $product->name }}"
-                 data-original="{{ $product->pathPhoto(true) }}"/>
+                 data-original="{{ $product->getPhoto() }}"/>
         </a>
 
         <div class="product-label">

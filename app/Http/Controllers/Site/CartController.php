@@ -82,7 +82,7 @@ class CartController extends Controller
                     'product_price'          => Helpers::priceFormat($item->product->price),
                     'product_specific_price' => Helpers::priceFormat($item->product->getReducedPrice()),
                     'product_url'            => $item->product->detailUrlProduct(),
-                    'product_photo'          => $item->product->pathPhoto(true),
+                    'product_photo'          => $item->product->getPhoto(),
                     'quantity'               => $item->quantity,
                     'sum'                    => Helpers::priceFormat($item->quantity * $item->product->getReducedPrice())
                 ];
