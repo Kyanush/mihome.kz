@@ -143,11 +143,6 @@
                             {!! $product->status->class !!}
                         </span>
                         @if($product->status_id != 10)
-                            <script>
-                                $(document).ready(function() {
-                                    removeCallbackBtn();
-                                });
-                            </script>
                             <span class="item__add-info">При поступлении товара, цена может отличаться</span>
                         @endif
                 </div>
@@ -352,6 +347,16 @@
                 </div>
             @endif
 
+            @if($product->youtube)
+                <div class="container-title">Видео обзор</div>
+                <div class="container">
+                    <div class="short-description">
+                        <div id="youtube" width="100%" height="360" videoId="{{ $product->youtube }}"></div>
+                    </div>
+                </div>
+            @endif
+
+            @if(false)
             <div class="container-title">Отзывы</div>
             <div class="container">
                 @include('includes.reviews', ['product' => $product])
@@ -361,6 +366,8 @@
                     Еще отзывов
                 </a>
             </div>
+            @endif
+
 
             @if($product->status_id == 10)
                 <button type="button" class="button _big-fixed button-sellers" onclick="_addToCart({{ $product->id }})">

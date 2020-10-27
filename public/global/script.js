@@ -395,3 +395,28 @@ function removeCallbackBtn() {
         $('#back-call').remove();
     }, 1000);
 }
+
+
+
+
+if($('#youtube').length > 0){
+
+    var height  = $('#youtube').attr('height');
+    var width   = $('#youtube').attr('width');
+    var videoId = $('#youtube').attr('videoId');
+
+
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/player_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    var player;
+    function onYouTubePlayerAPIReady() {
+        player = new YT.Player('youtube', {
+            height: height,
+            width:  width,
+            videoId: videoId
+        });
+    }
+
+}
