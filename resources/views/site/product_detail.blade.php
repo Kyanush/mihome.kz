@@ -360,9 +360,11 @@
             <li @if(!$product->description) class="active" @endif>
                 <a @if(!$product->description) class="active" @endif data-toggle="tab" href="#attributes">Характеристики</a>
             </li>
-            <li>
-                <a data-toggle="tab" href="#reviews">Отзывы({{ $product->reviews_count }})</a>
-            </li>
+            @if(false)
+                <li>
+                    <a data-toggle="tab" href="#reviews">Отзывы({{ $product->reviews_count }})</a>
+                </li>
+            @endif
         </ul>
         <!-- /product tab nav -->
 
@@ -419,6 +421,7 @@
                     </div>
                 </div>
             </div>
+            @if(false)
             <div id="reviews" class="tab-pane fade in">
                 <div class="container">
                     <div class="row">
@@ -426,6 +429,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
 
 
