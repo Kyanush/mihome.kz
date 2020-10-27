@@ -66,8 +66,7 @@ Route::get('/dddd111', function (){
 
 Route::get('/dddd', function (){
 
-
-
+    /*
     $dd = \App\Models\Product::with('categories')->where('parent_id', 0)->get();
     foreach ($dd as $dddd)
     {
@@ -78,6 +77,7 @@ Route::get('/dddd', function (){
             $dddd->save();
         }
     }
+*/
 
     /*
     $dd = \App\Models\Product::where('parent_id', 0)->where('id', '>', 2942)->get();
