@@ -143,7 +143,10 @@
                                     @if($product->status_id != 10)
                                         <script>
                                             $(document).ready(function() {
-                                                removeCallbackBtn();
+                                                setTimeout(function() {
+                                                    $('.callback-button').remove();
+                                                    $('#back-call').remove();
+                                                }, 1000);
                                             });
                                         </script>
                                         <p class="firm-red">При поступлении товара, цена может отличаться</p>
@@ -352,9 +355,11 @@
             <li @if(!$product->description) class="active" @endif>
                 <a @if(!$product->description) class="active" @endif data-toggle="tab" href="#attributes">Характеристики</a>
             </li>
-            <li>
-                <a data-toggle="tab" href="#reviews">Отзывы({{ $product->reviews_count }})</a>
-            </li>
+            @if(false)
+                <li>
+                    <a data-toggle="tab" href="#reviews">Отзывы({{ $product->reviews_count }})</a>
+                </li>
+            @endif
         </ul>
         <!-- /product tab nav -->
 
@@ -411,6 +416,7 @@
                     </div>
                 </div>
             </div>
+            @if(false)
             <div id="reviews" class="tab-pane fade in">
                 <div class="container">
                     <div class="row">
@@ -418,6 +424,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
 
 
@@ -591,22 +598,12 @@
         @endif
 
 
-        @if($product->youtube and false)
+        @if($product->youtube)
             <h2 class="text-center tab-title">Видео обзор</h2>
             <div class="text-center">
-                <iframe
-                        frameborder="0"
-                        allowfullscreen="1"
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        title="YouTube video player"
-                        width="640"
-                        height="360"
-                        src="https://www.youtube.com/embed/{{ $product->youtube }}?rel=0&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fkaspi.kz&amp;widgetid=1">
-                </iframe>
+                <div id="youtube" width="640" height="360" videoId="{{ $product->youtube }}"></div>
             </div>
         @endif
-
-
 
     </div>
     <!-- /product tab content  -->

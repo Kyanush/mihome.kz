@@ -57,7 +57,7 @@ class ProductController extends AdminController
             ->filters($filters)
             ->filtersAttributes($filters)
             ->OrderBy($column, $order)
-            ->paginate($request->input('perPage', 10));
+            ->paginate($request->input('perPage', 20));
 
         foreach ($list as $key => $item)
         {

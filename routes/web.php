@@ -66,8 +66,26 @@ Route::get('/dddd111', function (){
 
 Route::get('/dddd', function (){
 
+    $ids = [
+        3584
+        ,3357
+        ,3321
+        ,3730
 
+        ,3356
+,        3311
+ ,       	1310
+    ];
+    $products = \App\Models\Product::where('category_id', 312)->whereNotIn('id', $ids)->get();
+    foreach ($products as $product)
+    {
+        $product->active = 0;
+        $product->save();
+    }
 
+    
+    
+    /*
     $dd = \App\Models\Product::with('categories')->where('parent_id', 0)->get();
     foreach ($dd as $dddd)
     {
@@ -78,6 +96,7 @@ Route::get('/dddd', function (){
             $dddd->save();
         }
     }
+*/
 
     /*
     $dd = \App\Models\Product::where('parent_id', 0)->where('id', '>', 2942)->get();

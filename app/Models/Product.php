@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\LoadingPhotoFromText;
 use App\Services\ServiceCategory;
 use App\Services\ServiceDB;
 use App\Services\ServiceUploadUrl;
@@ -21,24 +22,24 @@ class Product extends Model
     protected $fillable = [
         'parent_id',
         'category_id',
-    	'name',
+        'name',
         'sort',
         'url',
         'url_full',
-    	'description',
+        'description',
         'description_style_id',
         'description_short',
         'description_schema',
         'specifications',
         'photo',
-    	'price',
-    	'sku',
+        'price',
+        'sku',
         'status_id',
         'seo_title',
         'seo_keywords',
         'seo_description',
-    	'created_at',
-    	'updated_at',
+        'created_at',
+        'updated_at',
         'active',
         'youtube',
         'view_count',
@@ -290,6 +291,23 @@ class Product extends Model
                 }
             }
 
+            if($product->description)
+            {
+                $path_save = public_path(config('shop.products_path_file') . $product_id) . '/';
+                $img_path  = '/' . config('shop.products_path_file') . $product_id . '/';
+
+                $loadingPhotoFromText = new LoadingPhotoFromText();
+                $loadingPhotoFromText->path_save = $path_save;
+                $loadingPhotoFromText->img_path  = $img_path;
+                $loadingPhotoFromText->text      = $product->description;
+                $loadingPhotoFromText->run();
+                if($loadingPhotoFromText->found)
+                {
+                    $product->description = $loadingPhotoFromText->text;
+                }
+
+            }
+
         });
     }
 
@@ -505,6 +523,22 @@ class Product extends Model
            return File::delete($this->pathPhoto());
         else
             return false;
+    }
+
+
+    public function getPhoto(){
+
+
+        if(empty($this->photo) and $this->parent_id)
+        {
+            $photo      = $this->parent->photo;
+            $product_id = $this->parent->id;
+        }else{
+            $product_id = $this->id;
+            $photo      = $this->photo;
+        }
+
+        return env('APP_URL') . '/' . config('shop.products_path_file') . $product_id . '/' . $photo;
     }
 
 }
