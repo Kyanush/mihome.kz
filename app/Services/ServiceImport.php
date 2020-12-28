@@ -119,7 +119,24 @@ class ServiceImport
                         );
                     }
 
+                    //Категория
+                    $categories = $item['categories'] ?? false;
+                    if($categories)
+                    {
+                        $categories = (array)$categories;
+                        $categories_ids = [];
 
+                        foreach ($categories as $name)
+                        {
+                            $category = Category::firstOrNew(['name' => $name]);
+                            $category->name = $name;
+                            $category->save();
+
+                            if($category)
+                                $categories_ids[] = $category->id;
+                        }
+
+                    }
 
                     //Картинки
                     $images = $item['images'] ?? false;

@@ -140,7 +140,7 @@ class ServiceStatistics
                 'color'       => '#b8c7ce',
                 'textColor'   =>  '#222D32',
                 'allDay'      => false,
-                'url'         => '/admin/order/' . $item->id,
+                //'url'         => '/admin/order/' . $item->id,
                 'products'    => $item->products,
                 'icon_class'  => $item->status->class,
                 'icon_title'  => $item->status->name

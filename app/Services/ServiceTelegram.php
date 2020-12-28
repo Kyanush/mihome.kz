@@ -22,6 +22,23 @@ class ServiceTelegram
         $this->site = env('APP_URL');
     }
 
+    public function send($params)
+    {
+        return @file_get_contents("https://api.telegram.org/bot{$this->token}/sendMessage?" . http_build_query($params) );
+
+        /*
+        $telegram = new Api($this->token);
+        try {
+            return $telegram->sendMessage($params);
+        } catch (TelegramResponseException $e) {
+            $errorData = $e->getResponseData();
+            if ($errorData['ok'] === false)
+            {
+                return false;
+            }
+        }*/
+    }
+
     public function get(){
 
         $telegram = new Api($this->token);
@@ -47,7 +64,7 @@ class ServiceTelegram
             );
 
             $reply = 'Ассалаумагалейкум!';
-            $telegram->sendMessage(['chat_id' => $chat_id, 'text' => $reply]);
+            $this->send(['chat_id' => $chat_id, 'text' => $reply]);
         }
 
     }
@@ -71,14 +88,15 @@ class ServiceTelegram
         $text .= "\xE2\x9E\xA1 <a href='" . $callback->url ."'>" . $callback->url . "</a>\n";
 
         if($callback->message)
-            $text.= "\xE2\x98\x8E Сообщение: ". $callback->message . " \n";
+            $text.= "\xE2\x9E\xA1 Сообщение: ". $callback->message . " \n";
 
+        if($callback->name)
+            $text .= "\xE2\x9E\xA1 Имя:" . $callback->name;
 
-        $telegram = new Api($this->token);
         $telegramBotUsers = TelegramBotUser::where('site', $this->site)->get();
         foreach ($telegramBotUsers as $user)
         {
-            $telegram->sendMessage([ 'chat_id' => $user->chat_id, 'parse_mode' => 'HTML', 'disable_web_page_preview' => true, 'text' => $text ]);
+            $this->send([ 'chat_id' => $user->chat_id, 'parse_mode' => 'HTML', 'disable_web_page_preview' => true, 'text' => $text ]);
         }
 
         return true;
@@ -90,7 +108,7 @@ class ServiceTelegram
         if(!$order)
             return false;
 
-        if($order->status_id == 1 or $order->status_id == 9)
+        if($order->status_id == 1 or $order->status_id == 4)
         {
             $text  = "\xE2\x9E\xA1 <a href='" . $order->adminDetailUrl() ."'>№" . $order->id . "</a>\n";
 
@@ -99,9 +117,6 @@ class ServiceTelegram
             $text .= "\xF0\x9F\x93\xA3 Тип заказа: " . $order->type->name . "\n";
 
             $text .= "\n";
-
-            $telegram = new Api($this->token);
-
 
             foreach($order->products as $product){
                 $text.= "\xF0\x9F\x94\xB4 <a href='" . $product->detailUrlProduct() . "'>" . $product->pivot->name . "</a>\n" .
@@ -120,13 +135,15 @@ class ServiceTelegram
                 $text.= "	\xF0\x9F\x92\xB3 Способ оплаты: " . $order->payment->name . "\n";
             }
 
-            $text.= "\xF0\x9F\x92\xB0 Всего к оплате: <b>" . Helpers::priceFormat($order->total) . "</b>";
-
-            $text.= "\n\n";
+            if($order->total)
+            {
+                $text.= "\xF0\x9F\x92\xB0 Всего к оплате: <b>" . Helpers::priceFormat($order->total) . "</b>";
+                $text.= "\n\n";
+            }
 
             $text.= "\xF0\x9F\x91\xA4 ФИО: " . $order->user_name . "\n";
-            $text.= "\xE2\x98\x8E Мобильный телефон: <a href='tel:" . $order->user_phone . "'>"   . $order->user_phone . "</a>\n";
-            $text.= "\xE2\x9C\x85 <a href='https://wa.me/" . Helpers::whatsAppNumber($order->user_phone) . "?text=Здравствуйте'>Написать в WhatsApp</a>\n";
+            $text.= "\xE2\x98\x8E Мобильный телефон: <a href='tel:+" . $order->user_phone . "'>+"   . $order->user_phone . "</a>\n";
+            $text.= "\xE2\x9C\x85 <a href='https://wa.me/" . Helpers::whatsAppNumber($order->user_phone) . "?text=Здравствуйте {$order->user_name}! mihome.kz, г. Алматы, Наурызбай батыра 46, 10.00-19.00 без выходных'>Написать в WhatsApp</a>\n";
             $text.= "\xE2\x9C\x89 Электронная почта: <a href='mailto:" . $order->user_email . "'>"   . $order->user_email . "</a>\n";
 
             if($order->city or $order->address)
@@ -143,12 +160,13 @@ class ServiceTelegram
             foreach ($telegramBotUsers as $user)
             {
                 if($user->role == 'manager')
-                    $telegram->sendMessage([ 'chat_id' => $user->chat_id, 'parse_mode' => 'HTML', 'disable_web_page_preview' => true, 'text' => $text ]);
+                    $this->send([ 'chat_id' => $user->chat_id, 'parse_mode' => 'HTML', 'disable_web_page_preview' => true, 'text' => $text ]);
 
                 //Готов к отправке
                 if($user->role == 'courier')
-                    if($order->status_id == 9)
-                        $telegram->sendMessage([ 'chat_id' => $user->chat_id, 'parse_mode' => 'HTML', 'disable_web_page_preview' => true, 'text' => $text ]);
+                    if($order->status_id == 4)
+                        $this->send([ 'chat_id' => $user->chat_id, 'parse_mode' => 'HTML', 'disable_web_page_preview' => true, 'text' => $text ]);
+
             }
 
             return true;

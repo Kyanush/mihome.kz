@@ -102,7 +102,7 @@
             }
         },
         mounted() {
-            console.log('Component mounted.')
+
         },
         created(){
             if(this.order_status.id > 0)

@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\CategoryFilterLink;
+use App\Models\Product;
 use App\Tools\Helpers;
 
 class ServiceCategory
@@ -76,7 +77,7 @@ class ServiceCategory
         return $data;
     }
 
-    public static function breadcrumbCategories($category_id, $current_title, $current_link = ''){
+    public static function breadcrumbCategories($category_id, $current_title = '', $current_link = ''){
         $breadcrumb[] = [
             'title' => 'Главная',
             'link'  => env('APP_URL')
@@ -94,12 +95,43 @@ class ServiceCategory
             }
         }
 
-        $breadcrumb[] = [
-            'title' => $current_title,
-            'link'  => $current_link
-        ];
+        if($current_title and $current_link)
+        {
+            $breadcrumb[] = [
+                'title' => $current_title,
+                'link'  => $current_link
+            ];
+        }
 
         return $breadcrumb;
+    }
+
+    public static function  breadcrumbCategoriesProduct($product_id){
+        $product = Product::find($product_id);
+
+        if($product->parent_id)
+        {
+            $category = Category::find($product->parent->category->id);
+        }else{
+            $category = Category::find($product->category->id);
+        }
+
+        $breadcrumbs = self::breadcrumbCategories($category->id);
+
+        if($product->parent_id)
+        {
+            $breadcrumbs[] = [
+                'title' => $product->parent->name_short ? $product->parent->name_short : $product->parent->name,
+                'link' => $product->parent->detailUrlProduct()
+            ];
+        }
+
+        $breadcrumbs[] = [
+            'title' => $product->name_short ? $product->name_short : $product->name,
+            'link'  => ''
+        ];
+
+        return $breadcrumbs;
     }
 
     public static function urlFull($category_id)

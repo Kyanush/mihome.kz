@@ -113,6 +113,10 @@
                             <p>Модель: {{ $sku }} </p>
                         @endif
 
+
+
+
+
                         @if($product->description_short)
                             <p class="text-center">{!! $product->description_short !!}</p>
                         @endif
@@ -128,6 +132,7 @@
                                 </a>
                             </div>
                             <div>
+
                                 <h3 class="product-price">
                                     {{ \App\Tools\Helpers::priceFormat($product->getReducedPrice()) }}
                                     @if($product->specificPrice)
@@ -137,9 +142,30 @@
                                     @endif
                                 </h3>
 
+
+                                @if(false)
+                                @include('includes.timer')
+                                @endif
+
+
+                                <h3 class="product-price" style="
+                                    color: #729f40;
+                                    margin-left: 60px;
+                                    font-size: 18px;
+                                    border: 2px solid;
+                                    padding: 5px 5px;
+                                    float: right;
+                                    font-weight: bold;
+                                    display: none;
+                                ">+ {{ $product->getReducedPrice() * 0.02 }} тг бонус</h3>
+
+
                                 <span class="product-available">
-                                    {!! $product->status->class !!}
-                                    {{ $product->status->name }}
+
+                                      <p class="text-center {{ $product->status->class }}">
+                                        {{ $product->status->name }}
+                                      </p>
+
                                     @if($product->status_id != 10)
                                         <script>
                                             $(document).ready(function() {
@@ -164,8 +190,7 @@
                                                 <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected  @endif>
                                                     {{ $group_product->name }}
                                                     ({{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }})
-                                                    {!! $group_product->status->class !!}
-                                                    {{ $group_product->status->name }}
+                                                    - {{ $group_product->status->name }}
                                                 </option>
                                             @endforeach
                                        </select>
@@ -247,16 +272,17 @@
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                                             <div class="form-group">
-                                                <label>Оставьте электронную почту, чтобы узнать о поступлении товара</label>
-                                                <input class="form-control"
+                                                <label>Когда товар появится, мы вам тут же позвоним</label>
+                                                <input class="form-control phone-mask"
                                                        type="text"
-                                                       name="email"
-                                                       @auth value="{{ Auth::user()->email }}" @endauth
-                                                       placeholder="Ваша электронная почта"/>
+                                                       name="phone"
+                                                       required
+                                                       @auth value="{{ Auth::user()->phone }}" @endauth
+                                                       placeholder="+7(777)777-77-77"/>
                                             </div>
                                             <button type="submit" class="btn btn-firm">
                                                 <i class="fa fa-bell"></i>
-                                                Подписаться
+                                                Предзаказ
                                             </button>
                                         </form>
                                     </div>
@@ -269,40 +295,6 @@
             <!-- /Product details -->
 
 
-            <div class="col-md-12">
-                <table class="table">
-                    <tr>
-                        <td>
-                            <p><i class="fa fa-truck firm-red2"  style="font-size: 20px;"></i> Доставка</p>
-                            <p>Курьером по Алматы <b>бесплатно</b></p>
-                            <p>Отправка по Казахстану <a href="{{ route('delivery_payment') }}">подробнее</a></p>
-                        </td>
-                        <td>
-                            <p>
-                                <i class="fa fa-car firm-red2" aria-hidden="true"  style="font-size: 20px;"></i>
-                                Самовывоз
-                            </p>
-                            <p>Магазины в <b>Алматы</b> <a href="{{ route('contact') }}">подробнее</a></p>
-                        </td>
-                        <td>
-                            <p>
-                                <i class="fa fa-check firm-red2" aria-hidden="true"  style="font-size: 20px;"></i>
-                                Гарантия и возврат
-                            </p>
-                            <p>
-                                Гарантия 12 мес <a href="{{ route('guaranty') }}">подробнее</a>
-                            </p>
-                        </td>
-                        <td>
-                            <p>
-                                <i class="fa fa-credit-card firm-red2" aria-hidden="true"  style="font-size: 20px;"></i>
-                                Оплата
-                            </p>
-                            <p>Наличными или картой</p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
 
             @if($group_products->isNotEmpty() and false)
                 <div class="col-md-12">
@@ -341,6 +333,23 @@
     </div>
     <!-- /container -->
 
+    @if($product->youtube)
+        <div class="tab-content">
+            <h2 class="text-center tab-title">Видео обзор</h2>
+            <div class="text-center">
+                <iframe
+                        frameborder="0"
+                        allowfullscreen="1"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        title="YouTube video player"
+                        width="640"
+                        height="360"
+                        src="https://www.youtube.com/embed/{{ $product->youtube }}?rel=0&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fkaspi.kz&amp;widgetid=1">
+                </iframe>
+            </div>
+        </div>
+    @endif
+
     <!-- Product tab -->
     <div id="product-tab">
 
@@ -368,16 +377,11 @@
             @if($product->description)
                 <div id="description" class="tab-pane fade in active">
                     <!-- container -->
-                    @if($product->description_style_id)
-                        {!! $product->description  !!}
-                        {!! $product->descriptionStyle->name !!}
-                    @else
                         <div class="container">
                             <div class="row">
                                 {!! $product->description  !!}
                             </div>
                         </div>
-                    @endif
                 </div>
             @endif
             <div id="attributes" class="tab-pane fade in @if(!$product->description) active @endif">
@@ -598,12 +602,7 @@
         @endif
 
 
-        @if($product->youtube)
-            <h2 class="text-center tab-title">Видео обзор</h2>
-            <div class="text-center">
-                <div id="youtube" width="640" height="360" videoId="{{ $product->youtube }}"></div>
-            </div>
-        @endif
+
 
     </div>
     <!-- /product tab content  -->
@@ -634,13 +633,54 @@
                         <input @auth value="{{ Auth::user()->name }}" @endauth type="text" name="name" placeholder="Имя" class="form-control"/>
                     </div>
                     <div class="form-group">
-                        <label>E-mail:</label>
-                        <input @auth value="{{ Auth::user()->email }}" @endauth type="email" name="email" placeholder="E-mail" class="form-control"/>
-                    </div>
-                    <div class="form-group">
                         <label>Введите номер телефона:</label>
                         <input @auth value="{{ Auth::user()->phone }}" @endauth type="text" name="phone" placeholder="+7 (___) ___-__-__" class="phone-mask form-control"/>
                     </div>
+                    <div class="form-group">
+                        <label>E-mail(не обязательно):</label>
+                        <input @auth value="{{ Auth::user()->email }}" @endauth type="email" name="email" placeholder="E-mail" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Доставка:</label>
+                        @php $carriers = \App\Models\Carrier::OrderBy('id')->get(); @endphp
+                        <select name="carrier_id" class="form-control" onchange="carrier(this)">
+                            @foreach($carriers as $carrier)
+                                <option value="{{ $carrier->id }}" @if($carrier->id == 2) selected @endif>
+                                    {{ $carrier->name }}
+                                    @if($carrier->price > 0)
+                                        - {{ \App\Tools\Helpers::priceFormat($carrier->price) }}
+                                    @endif
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="city" style="display: none">
+                        <label>Адрес *:</label>
+                        <input type="text" placeholder="Адрес *" class="form-control" name="city"/>
+                    </div>
+
+                    <div class="form-group" id="address" style="display: none">
+                        <label>Город *:</label>
+                        <input type="text" placeholder="Город *" class="form-control" name="address"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Комментарий к заказу:</label>
+                        <textarea name="comment" placeholder="Комментарий к заказу" class="form-control"></textarea>
+                    </div>
+
+                    <script>
+                        function carrier(self) {
+                            display = 'block';
+                            if(self.value == 2)
+                                display = 'none';
+
+                            $('#city').css('display', display);
+                            $('#address').css('display', display);
+                        }
+                    </script>
+
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-firm">

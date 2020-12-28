@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use App\Services\ServiceCategory;
-use App\Services\ServiceUploadUrl;
-use http\Env;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use File;
 use App\Tools\Upload;
+use App\Services\ServiceUploadUrl;
 
 class Category extends Model
 {
@@ -18,7 +17,6 @@ class Category extends Model
      protected $fillable = [
          'parent_id',
          'name',
-         'name_short',
          'url',
          'url_full',
          'image',
@@ -33,7 +31,7 @@ class Category extends Model
     public function scopeSearch($query, $search){
         $search = trim(mb_strtolower($search));
         if($search)
-            $query->whereLike(['name'],   $search);
+            $query->whereLike(['name', 'url', 'description'],   $search);
 
         return $query;
     }
@@ -56,6 +54,10 @@ class Category extends Model
         return $this->hasMany(self::class, 'parent_id', 'id');
     }
 
+    public function categoryFilterLinks()
+    {
+        return $this->hasMany('App\Models\CategoryFilterLink', 'category_id', 'id');
+    }
 
     protected static function boot()
     {
@@ -63,8 +65,7 @@ class Category extends Model
 
         //Событие до
         static::Saving(function($category) {
-
-            $category->url      = str_slug(empty($category->url) ? $category->name : $category->url);
+            $category->url = str_slug(empty($category->url) ? $category->name : $category->url);
 
             if(is_uploaded_file($category->image))
             {
@@ -72,8 +73,8 @@ class Category extends Model
                     self::find($category->id)->deleteImage();
 
                 $upload = new Upload();
-                $upload->setWidth(100);
-                $upload->setHeight(100);
+                //$upload->setWidth(100);
+                //$upload->setHeight(100);
                 $upload->setPath(config('shop.categories_path_file'));
                 $upload->setFile($category->image);
 
@@ -97,23 +98,34 @@ class Category extends Model
                 }
             }
 
-            if(!$category->parent_id)
-                $category->parent_id = 0;
+
+            if($category->active == 0)
+            {
+                /*
+                $products = Product::filters(['category_id' => $category->id])->get();
+                foreach ($products as $product)
+                {
+                    $product->active = 0;
+                    $product->save();
+                }*/
+            }
 
         });
 
         static::Saved(function($category) {
 
-            $category->url_full = ServiceCategory::urlFull($category->id);
-            $category->save();
+            //$category->url_full = ServiceCategory::urlFull($category->id);
+            //$category->save();
 
         });
+
 
         static::deleting(function($obj) {
             $obj->deleteImage();
         });
 
     }
+
 
     public function pathImage($firstSlash = false)
     {
@@ -127,8 +139,7 @@ class Category extends Model
         return File::delete($this->pathImage());
     }
 
-    public function catalogUrl()
-    {
+    public function catalogUrl(){
         return env('APP_URL') . $this->url_full;
     }
 

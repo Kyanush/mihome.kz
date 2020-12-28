@@ -14,6 +14,8 @@
             'menu_class'  => 'icon_menu'
         ])
 
+        @include('site.includes.breadcrumb', ['breadcrumbs' => $breadcrumbs])
+
         @include('mobile.includes.space', ['style' => ''])
 
         <div class="mount-catalog-grid">

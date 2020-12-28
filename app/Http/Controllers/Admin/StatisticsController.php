@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\AdminController;
 
+use App\Models\Order;
+use App\Models\OrderStatus;
 use App\Services\ServiceStatistics;
 use Illuminate\Http\Request;
 use DB;
@@ -27,7 +29,7 @@ class StatisticsController extends AdminController
 
         $calendar = ServiceStatistics::fullCalendar($start, $end);
 
-        return  $this->sendResponse($calendar);
+        return $this->sendResponse($calendar);
     }
 
 }

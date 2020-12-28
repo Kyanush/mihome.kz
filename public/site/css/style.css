@@ -2646,7 +2646,7 @@ textarea.input {
 
 /**************** Быстрый заказ *****************/
 .one-click-order .modal-dialog{
-    max-width: 350px;
+    max-width: 500px;
 }
 /**************** Быстрый заказ *****************/
 
@@ -3055,4 +3055,40 @@ textarea.input {
 
 .cashback .fa{
     color: #ff0000;
+}
+
+.in-stock{
+    background: #fff;
+    color: #729f40;
+    border-color: #7fb147;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #fff;
+    border: 2px solid #7fb147;
+    box-shadow: 2px 12px 32px 0 rgba(30,34,30,.06);
+    text-align: center;
+}
+
+.coming-soon{
+    background: #fff;
+    color: #f7b041;
+    border-color: #f8ba59;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #fff;
+    border: 2px solid #f8ba59;
+    box-shadow: 2px 12px 32px 0 rgba(30,34,30,.06);
+    text-align: center;
+}
+
+.not-available{
+    background: #fff;
+    color: #ea561b;
+    border-color: #ea561b;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #fff;
+    border: 2px solid #ea561b;
+    box-shadow: 2px 12px 32px 0 rgba(30,34,30,.06);
+    text-align: center;
 }

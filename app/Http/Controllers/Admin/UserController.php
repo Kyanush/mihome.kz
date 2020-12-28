@@ -8,6 +8,7 @@ use App\Requests\SaveUserRequest;
 use App\User;
 use Illuminate\Http\Request;
 use DB;
+use App\Services\ServicePermission;
 
 class UserController extends AdminController
 {
@@ -25,28 +26,38 @@ class UserController extends AdminController
     }
 
     //SaveAttribute
-    public function save(SaveUserRequest $request)
+    public function save(SaveUserRequest $req)
     {
-        $data = $request->input('user');
+        $data           = $req->input('user');
+        $permission_ids = $req->input('permission_ids');
 
-        $user = User::findOrNew($data["id"]);
+        $id             = $data['id'];
+        $password       = $data['password'];
 
-        if (empty($data['password']))
-            unset($data['password']);
-        else
-            $data['password'] = bcrypt($data['password']);
-
+        $user = User::findOrNew($id);
         $user->fill($data);
 
-        return  $this->sendResponse($user->save() ? $user->id : false);
+        if($password)
+            $user->password = bcrypt($password);
+
+        if($user->save())
+            $user->permissions()->sync($permission_ids);
+
+        return $this->sendResponse($user->id ?? false);
     }
 
 
 
-    public function view($id)
-    {
+    public function view($id){
         $user = User::findOrFail($id);
-        return $this->sendResponse($user);
+      //  $roles_id = $user->roles->pluck('id')->toArray();
+        $permission_ids = $user->permissions()->pluck('permission_id')->toArray();
+
+        return $this->sendResponse([
+            'user'           => $user,
+           // 'roles_id'       => $roles_id,
+            'permission_ids' => $permission_ids
+        ]);
     }
 
 

@@ -15,17 +15,24 @@ class MainController extends Controller
 
     public function main(){
 
-        $products1 =Product::productInfoWith()
-            ->whereIn('url', ['xiaomi-mi-note-10', 'xiaomi-mi-9t', 'xiaomi-mi-9t-pro', 'xiaomi-mi-10', 'xiaomi-mi-10-pro', 'xiaomi-mi-note-10'])
+        $products1 =Product::filters(['category_id' => 284])
+                            ->where('status_id', 10)
+                            ->inRandomOrder()
+                            ->limit(4)
+                            ->get();
+
+        $products2 =Product::filters(['category_id' => 282])
+            ->where('status_id', 10)
+            ->inRandomOrder()
+            ->limit(4)
             ->get();
 
-        $products2 = Product::productInfoWith()
-                    ->whereIn('url', ['xiaomi-redmi-note-8', 'xiaomi-redmi-8-t', 'redmi-note-8-pro', 'xiaomi-redmi-8', 'xiaomi-redmi-8a', 'xiaomi-poco-x2-redmi-k30', 'xiaomi-redmi-note-9-pro'])
-                    ->get();
-
-        $products3 = Product::productInfoWith()
-            ->whereIn('url', ['besprovodnoy-pylesos-xiaomi-roidmi-f8e', 'moyushchiy-robot-pylesos-xiaomi-roborock-s5-max', 'robot-pylesos-xiaomi-mijia-roborock-sweep-one-s50-white', 'besprovodnoy-pylesos-xiaomi-roidmi-nex'])
+        $products3 =Product::filters(['category_id' => 286])
+            ->where('status_id', 10)
+            ->inRandomOrder()
+            ->limit(4)
             ->get();
+
 
         $seo = Seo::main();
 

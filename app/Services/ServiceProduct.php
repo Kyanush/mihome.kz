@@ -5,8 +5,6 @@ use App\Contracts\ProductInterface;
 use App\Models\Attribute;
 use App\Models\AttributeProductValue;
 use App\Models\Order;
-use App\Models\OrderProduct;
-use App\Models\ProductAccessory;
 use App\Services\ServiceUploadUrl;
 use File;
 use App\Models\Product;
@@ -19,14 +17,13 @@ class ServiceProduct implements ProductInterface
 
     public static function productDelete($product_id)
     {
-        /*
         if(Order::whereHas('products', function ($query) use ($product_id){
             $query->where('product_id', $product_id);
         })->first())
             return [
                 'message' => 'Вы не можете удалить, есть привязанные заказы!',
                 'success' => false
-            ];*/
+            ];
 
         $product = Product::find($product_id);
         if(!$product)
@@ -34,8 +31,6 @@ class ServiceProduct implements ProductInterface
                 'message' => 'Товар не найден',
                 'success' => false
             ];
-
-        OrderProduct::where('product_id', $product_id)->delete();
 
         foreach ($product->children as $children_product)
         {
@@ -45,6 +40,7 @@ class ServiceProduct implements ProductInterface
         //папка товара
         File::deleteDirectory($product->productFileFolder());
 
+
         //атритуты
         $product->attributes()->detach();
 
@@ -53,11 +49,6 @@ class ServiceProduct implements ProductInterface
 
         //аксессуары
         $product->productAccessories()->detach();
-        ProductAccessory::where('accessory_product_id', $product->id)->delete();
-        ProductAccessory::where('product_id', $product->id)->delete();
-
-        //Заказ
-        OrderProduct::where('product_id', $product->id)->delete();
 
         //Отзывы
         $product->reviews()->detach();
@@ -97,7 +88,7 @@ class ServiceProduct implements ProductInterface
 
 
     //Картинки
-    public static function productImagesSave(array $images, $product_id, $original_name = false)
+    public static function productImagesSave(array $images, $product_id)
     {
         //id
         //value
@@ -113,16 +104,12 @@ class ServiceProduct implements ProductInterface
             //добавить
             if(intval($item['is_delete']) == 0)
             {
-                $images_data = [];
                 if(is_uploaded_file($item['value'])){
 
-                    if($original_name)
-                        $name =  self::getBaseNameUrl($item['value']);
-                    else
-                        $name = str_slug($product->name) . '-' . ServiceDB::tableNextId('product_images');
-
                     $upload = new Upload();
-                    $upload->fileName = $name;
+                    $upload->fileName = str_slug($product->name) . '-' . ServiceDB::tableNextId('product_images');
+                    //$upload->setWidth(460);
+                    //$upload->setHeight(350);
                     $upload->setPath($product->productFileFolder());
                     $upload->setFile($item['value']);
 
@@ -136,14 +123,8 @@ class ServiceProduct implements ProductInterface
 
                 elseif(ServiceUploadUrl::validUrlImage($item['value']))
                 {
-
-                    if($original_name)
-                        $name =  self::getBaseNameUrl($item['value']);
-                    else
-                        $name = str_slug($product->name) . '-' . ServiceDB::tableNextId('product_images');
-
                     $serviceUploadUrl = new ServiceUploadUrl();
-                    $serviceUploadUrl->name = $name;
+                    $serviceUploadUrl->name = str_slug($product->name) . '-' . ServiceDB::tableNextId('product_images');
                     $serviceUploadUrl->url = $item['value'];
                     $serviceUploadUrl->path_save = $product->productFileFolder();
                     $filename = $serviceUploadUrl->copy();
@@ -159,12 +140,9 @@ class ServiceProduct implements ProductInterface
                     $images_data = ['order' => $key];
 
 
-                if($images_data)
-                {
-                    $attribute = ProductImage::findOrNew($item["id"]);
-                    $attribute->fill($images_data);
-                    $attribute->save();
-                }
+                $attribute = ProductImage::findOrNew($item["id"]);
+                $attribute->fill($images_data);
+                $attribute->save();
                 //удалить
             }else{
                 ProductImage::destroy($item['id']);
@@ -173,13 +151,10 @@ class ServiceProduct implements ProductInterface
         return true;
     }
 
-    public static function getBaseNameUrl($url){
-        $info = pathinfo($url);
-        return $info['basename'];
-    }
-
     public static function productAttributesSave(int $product_id, array $attributes)
     {
+        if(empty($product_id) or count($attributes) == 0)
+            return false;
 
         $product = Product::find($product_id);
         //Атрибуты
@@ -187,25 +162,23 @@ class ServiceProduct implements ProductInterface
         //удалить все атрибуты
         $product->attributes()->detach();
 
-        if($attributes)
-            foreach ($attributes as $k => $item)
+        foreach ($attributes as $k => $item)
+        {
+
+            $item['value'] = $item['value'] ?? '';
+            $item['value'] = (array)$item['value'];
+
+            $name = $item['name'] ?? '';
+
+            foreach ($item['value'] as $value)
             {
+                if($value == 'null' or empty($value))
+                    continue;
 
-                $item['value'] = $item['value'] ?? '';
-                $item['value'] = (array)$item['value'];
-
-                $name = $item['name'] ?? '';
-
-                foreach ($item['value'] as $value)
-                {
-                    if($value == 'null' or empty($value))
-                        continue;
-
-                    $product->attributes()->attach([$item['attribute_id'] => ['value' => $value, 'name' => $name]]);
-                }
-
+                $product->attributes()->attach([$item['attribute_id'] => ['value' => $value, 'name' => $name]]);
             }
 
+        }
         return true;
     }
 

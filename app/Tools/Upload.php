@@ -64,25 +64,22 @@ class Upload
 
         if(is_uploaded_file($file))
         {
-            $ext = $file->extension();
 
-            if($this->fileName){
-                $fileName = $this->fileName . '.' . $ext;
-            }else{
-                $fileName = $file->getClientOriginalName();
-            }
+            $fileName = ($this->fileName ? $this->fileName : md5(uniqid('', true)));
+            $ext = $file->extension();
+            $fileName.= '.' . $ext;
 
             if($file->move($path, $fileName)){
 
-                if (in_array($ext, array("png", "jpeg", "gif")))
-                {
+               // if (in_array($ext, array("png", "jpeg", "gif")))
+               // {
                     if($this->getWidth() > 0 or $this->getHeight() > 0)
                     {
                         Image::make(public_path($path . $fileName))->resize($this->getWidth(), $this->getHeight(), function ($constraint) {
                             $constraint->aspectRatio();
                         })->save();
                     }
-                }
+               // }
 
                 return $fileName;
             }

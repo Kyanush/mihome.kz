@@ -29,7 +29,7 @@
                             <td width="15%"><b>Действия</b></td>
                         </tr>
                         </thead>
-                        <tbody v-for="(item, index) in attributes" v-if="item.attribute_id != 1">
+                        <tbody v-for="(item, index) in attributes">
                         <tr v-for="attribute in attributes_list" v-if="item.attribute_id == attribute.id">
                             <td width="25%" class="text-right">
                                 <label>
@@ -193,6 +193,14 @@
                 handler: function (val, oldVal) {
                     var self = this;
                     var add = true;
+
+                    console.log(
+                        this.attributes
+                    );
+
+                    console.log(
+                        this.select_attribute_id
+                    );
 
                     this.attributes.forEach(function (item) {
                         if(item.attribute_id == self.select_attribute_id)

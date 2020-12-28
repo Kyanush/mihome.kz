@@ -34,7 +34,11 @@ class CategoryController extends AdminController
 
         $category = Category::findOrNew($data["id"]);
         $category->fill($data);
-        $category->save();
+        if($category->save())
+        {
+            $category->url_full = ServiceCategory::urlFull($category->id);
+            $category->save();
+        }
 
         return  $this->sendResponse($category ? $category->id : false);
     }
@@ -42,7 +46,9 @@ class CategoryController extends AdminController
 
     public function view($id)
     {
-        $category = Category::findOrFail($id);
+        $category = Category::with(['categoryFilterLinks' => function($query){
+            $query->OrderBy('sort', 'asc');
+        }])->findOrFail($id);
         $category->path_image = $category->pathImage(true);
 
         return  $this->sendResponse($category);
@@ -50,6 +56,11 @@ class CategoryController extends AdminController
 
     public function delete($id)
     {
+
+        $category = Category::find($id);
+        foreach ($category->children as $cat)
+            $cat->delete();
+
         return  $this->sendResponse(Category::destroy($id) ? true : false);
     }
 

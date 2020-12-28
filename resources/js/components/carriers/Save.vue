@@ -104,9 +104,6 @@
                 }
             }
         },
-        mounted() {
-            console.log('Component mounted.')
-        },
         created(){
             if(this.carrier.id > 0)
             {
@@ -133,7 +130,7 @@
                 event.preventDefault();
                 this.SetErrors(null);
 
-                console.log(this.carrier);
+
                 var data = this.$helper.formData(this.carrier, 'carrier');
 
                 axios.post('/admin/carrier-save', data).then((res)=>{

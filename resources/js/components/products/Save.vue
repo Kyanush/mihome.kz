@@ -4,7 +4,7 @@
 
             <history_back></history_back>
 
-            <form v-on:submit="productSave">
+
 
                 <div class="box">
 
@@ -70,16 +70,10 @@
                                             SEO
                                         </a>
                                     </li>
-                                    <li v-if="!product.parent_id && product.id" v-bind:class="{'active' : tab_active == 'tab_reviews'}" @click="setTab('tab_reviews')">
+                                    <li v-if="product.id" v-bind:class="{'active' : tab_active == 'tab_stock'}" @click="setTab('tab_stock')">
                                         <a>
                                             <i class="fa fa-comments" aria-hidden="true"></i>
-                                            Отзывы
-                                        </a>
-                                    </li>
-                                    <li v-if="product.id" v-bind:class="{'active' : tab_active == 'tab_subscriptions'}" @click="setTab('tab_subscriptions')">
-                                        <a>
-                                            <i class="	fa fa-envelope" aria-hidden="true"></i>
-                                            Подписка на товары
+                                            Склад
                                         </a>
                                     </li>
                                 </ul>
@@ -104,19 +98,8 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td width="25%" class="text-right">
-                                                <label>Сортировка:</label>
-                                            </td>
-                                            <td width="75%">
-                                                <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.sort')}">
-                                                    <input type="text" v-model="product.sort" class="form-control">
-                                                    <span v-if="IsError('product.sort')" class="help-block" v-for="e in IsError('product.sort')">
-                                                         {{ e }}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                        </tr>
+
+
 
                                         <tr>
                                             <td width="25%" class="text-right">
@@ -142,7 +125,7 @@
                                             <td width="25%" class="text-right">
                                                 <label>
                                                     <i class="fa fa-link" aria-hidden="true"></i>
-                                                    url_full:
+                                                    Ссылка полная(url_full):
                                                 </label>
                                             </td>
                                             <td width="75%">
@@ -151,28 +134,23 @@
                                                     <span v-if="IsError('product.url_full')" class="help-block" v-for="e in IsError('product.url_full')">
                                                          {{ e }}
                                                     </span>
-                                                    <p class="help-block pull-right">
-                                                        Если пустая ссылка, генерируются автоматически
-                                                    </p>
                                                 </div>
                                             </td>
                                         </tr>
 
-
                                         <tr>
                                             <td width="25%" class="text-right">
-                                                <label><span class="red">*</span> Статус:</label>
+                                                <label>Количество на складе(шт.):</label>
                                             </td>
                                             <td width="75%">
-                                                <div class="col-md-6">
-                                                    <select v-model="product.status_id" class="form-control">
-                                                        <option v-for="item in statuses"
-                                                                :selected="item.default === 1"
-                                                                :value="item.id"
-                                                                v-if="item.where_use == 'products_status_id'">
-                                                             {{ item.name }}
-                                                        </option>
-                                                    </select>
+                                                <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.stock')}">
+
+                                                    Поступление: {{ balance ? balance.stock : ''}}
+                                                    <br/>
+                                                    Продажа: {{ balance ? balance.sold : ''}}
+                                                    <br/>
+                                                    Остаток: {{ balance ? balance.balance : ''}}
+
                                                 </div>
                                             </td>
                                         </tr>
@@ -194,31 +172,23 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr v-if="product.price != discount_price.sum">
-                                            <td width="25%" class="text-right">
-                                                <label class="red">
-                                                    <i class="fa fa-percent" aria-hidden="true"></i>
-                                                    Цена со скидкой:
-                                                </label>
-                                            </td>
-                                            <td width="75%">
-                                                <div class="col-md-6 red">
-                                                    <b>{{ discount_price.format }} ( {{ discount_price.discount_type_info }} )</b>
-                                                </div>
-                                            </td>
-                                        </tr>
+
+
+
+
+
                                         <tr>
                                             <td width="25%" class="text-right">
                                                 <label>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
-                                                    Показать товар:
+                                                    Статус:
                                                 </label>
                                             </td>
                                             <td width="75%">
                                                 <div class="col-md-4" v-bind:class="{'has-error' : IsError('product.active')}">
                                                     <select v-model="product.active" class="form-control">
-                                                        <option value="1">Да</option>
-                                                        <option value="0">Нет</option>
+                                                        <option value="1">Активный</option>
+                                                        <option value="0">Неактивный</option>
                                                     </select>
                                                     <span v-if="IsError('product.active')" class="help-block" v-for="e in IsError('product.active')">
                                                          {{ e }}
@@ -227,7 +197,23 @@
                                             </td>
                                         </tr>
 
-
+                                        <tr>
+                                            <td width="25%" class="text-right">
+                                                <label><span class="red">*</span> Статус:</label>
+                                            </td>
+                                            <td width="75%">
+                                                <div class="col-md-6">
+                                                    <select v-model="product.status_id" class="form-control">
+                                                        <option v-for="item in statuses"
+                                                                :selected="item.default === 1"
+                                                                :value="item.id"
+                                                                v-if="item.where_use == 'products_status_id'">
+                                                            {{ item.name }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                        </tr>
 
                                         <tr>
                                             <td width="25%" class="text-right">
@@ -257,6 +243,7 @@
                                                 </div>
                                             </td>
                                         </tr>
+
                                         <tr>
                                             <td width="25%" class="text-right">
                                                 <label>Артикул:</label>
@@ -270,6 +257,9 @@
                                                 </div>
                                             </td>
                                         </tr>
+
+
+
                                     </tbody>
                                 </table>
 
@@ -282,7 +272,7 @@
                                     <tbody>
                                         <tr>
                                             <td width="25%" class="text-right">
-
+                                                <p class="help-block" style="padding-left: 50px;font-weight: bold;color: #da0303;">Вы можете выбрать одну или несколько категорий, где будет отображаться товар</p>
                                             </td>
                                             <td width="75%">
                                                 <Categories v-model="product.category_id" :returnKey="'id'" :multiple="false"></Categories>
@@ -296,124 +286,109 @@
 
                                 <table class="table table-bordered ">
                                     <tbody>
-                                        <tr>
-                                            <td width="25%" class="text-right">
-                                                <label><span class="red" v-if="!product.id">*</span> Фото товара:</label>
-                                            </td>
-                                            <td width="75%">
-                                                <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.photo')}">
+                                    <tr>
+                                        <td width="25%" class="text-right">
+                                            <label><span class="red" v-if="!product.id">*</span> Фото товара:</label>
+                                        </td>
+                                        <td width="75%">
+                                            <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.photo')}">
 
-                                                    <table class="table table-bordered ">
-                                                        <tbody>
-                                                            <tr>
-                                                                 <td>
-                                                                     <label>
-                                                                         <input type="radio" v-model="product_photo_upload_type" value="file"/>
-                                                                         Загрузить с компьютера
-                                                                     </label>
-                                                                 </td>
-                                                                 <td>
-                                                                     <label>
-                                                                         <input type="radio" v-model="product_photo_upload_type" value="url">
-                                                                         Вставить путь к файлу
-                                                                     </label>
-                                                                 </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2">
+                                                <table class="table table-bordered ">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <label>
+                                                                <input type="radio" v-model="product_photo_upload_type" value="file"/>
+                                                                Загрузить с компьютера
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label>
+                                                                <input type="radio" v-model="product_photo_upload_type" value="url">
+                                                                Вставить путь к файлу
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
 
-                                                                    <label v-if="product_photo_upload_type == 'file'" class="btn btn-primary btn-file">
-                                                                        <i class="fa fa-file-image-o" aria-hidden="true"></i> Загрузить
-                                                                        <input type="file" accept="image/*"  @change="setProductPhoto($event)"/>
-                                                                    </label>
+                                                            <label v-if="product_photo_upload_type == 'file'" class="btn btn-primary btn-file">
+                                                                <i class="fa fa-file-image-o" aria-hidden="true"></i> Загрузить
+                                                                <input type="file" accept="image/*"  @change="setProductPhoto($event)"/>
+                                                            </label>
 
-                                                                    <input v-if="product_photo_upload_type == 'url'"
-                                                                           placeholder="Пример: https://test.kz/uploads/products/339/xiaomi-mi-9-se-664gb-ocean-blue.jpeg"
-                                                                           class="form-control"
-                                                                           type="text"
-                                                                           v-model="product.photo"/>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <span v-if="IsError('product.photo')" class="help-block" v-for="e in IsError('product.photo')">
+                                                            <input v-if="product_photo_upload_type == 'url'"
+                                                                   placeholder="Пример: https://test.kz/uploads/products/339/xiaomi-mi-9-se-664gb-ocean-blue.jpeg"
+                                                                   class="form-control"
+                                                                   type="text"
+                                                                   v-model="product.photo"/>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <span v-if="IsError('product.photo')" class="help-block" v-for="e in IsError('product.photo')">
                                                          {{ e }}
                                                     </span>
-                                                    <p v-if="product.pathPhoto">
-                                                        <br/>
-                                                        <img v-bind:src="product.pathPhoto" class="img" width="100"/>
-                                                    </p>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr v-if="!product.parent_id">
-                                            <td width="25%" class="text-right">
-                                                <label><span class="red">*</span> Описание:</label>
-                                            </td>
-                                            <td width="75%">
-                                                <select v-model="product.description_style_id" class="form-control">
-                                                    <option></option>
-                                                    <option v-for="item in statuses"
-                                                            :selected="item.default === 1"
-                                                            :value="item.id"
-                                                            v-if="item.where_use == 'products_description_style_id'">
-                                                        {{ item.name }}
-                                                    </option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr v-if="!product.parent_id">
-                                            <td width="100%" colspan="2">
-                                                <div class="form-group col-md-12" v-bind:class="{'has-error' : IsError('product.description')}">
-                                                    <Ckeditor v-model="product.description" :uploadFilePath="uploadFilePath"></Ckeditor>
-                                                    <span v-if="IsError('product.description')" class="help-block" v-for="e in IsError('product.description')">
-                                                         {{ e }}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                <p v-if="product.pathPhoto">
+                                                    <br/>
+                                                    <img v-bind:src="product.pathPhoto" class="img" width="100"/>
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                                        <tr v-if="!product.parent_id">
-                                            <td  width="25%" class="text-right">
-                                                <label >Краткое описание:</label>
-                                            </td>
-                                            <td  width="75%">
-                                                <div  class="form-group col-md-12">
-                                                    <textarea v-model="product.description_short" class="form-control"></textarea>
-                                                    <span v-if="IsError('product.description_short')" class="help-block" v-for="e in IsError('product.description_short')">
+                                    <tr v-if="!product.parent_id">
+                                        <td width="100%" colspan="2">
+                                            <div class="form-group col-md-12" v-bind:class="{'has-error' : IsError('product.description')}">
+                                                <Ckeditor v-model="product.description" :uploadFilePath="uploadFilePath"></Ckeditor>
+                                                <span v-if="IsError('product.description')" class="help-block" v-for="e in IsError('product.description')">
                                                          {{ e }}
                                                     </span>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                                        <tr v-if="!product.parent_id">
-                                            <td  width="25%" class="text-right">
-                                                <label >Характеристики:</label>
-                                            </td>
-                                            <td  width="75%">
-                                                <div  class="form-group col-md-12">
-                                                    <Ckeditor v-model="product.specifications" :uploadFilePath="uploadFilePath"></Ckeditor>
-                                                    <span v-if="IsError('product.tspecifications')" class="help-block" v-for="e in IsError('product.tspecifications')">
+                                    <tr v-if="!product.parent_id">
+                                        <td  width="25%" class="text-right">
+                                            <label >Краткое описание:</label>
+                                        </td>
+                                        <td  width="75%">
+                                            <div  class="form-group col-md-12">
+                                                <textarea v-model="product.description_short" class="form-control"></textarea>
+                                                <span v-if="IsError('product.description_short')" class="help-block" v-for="e in IsError('product.description_short')">
                                                          {{ e }}
                                                     </span>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                                        <tr v-if="!product.parent_id">
-                                            <td  width="25%" class="text-right">
-                                                <label >Описание schema:</label>
-                                            </td>
-                                            <td  width="75%">
-                                                <div  class="form-group col-md-12">
-                                                    <textarea v-model="product.description_schema" class="form-control"></textarea>
-                                                    <span v-if="IsError('product.description_schema')" class="help-block" v-for="e in IsError('product.description_schema')">
+                                    <tr v-if="!product.parent_id">
+                                        <td  width="25%" class="text-right">
+                                            <label >Характеристики:</label>
+                                        </td>
+                                        <td  width="75%">
+                                            <div  class="form-group col-md-12">
+                                                <Ckeditor v-model="product.specifications" :uploadFilePath="uploadFilePath"></Ckeditor>
+                                                <span v-if="IsError('product.tspecifications')" class="help-block" v-for="e in IsError('product.tspecifications')">
                                                          {{ e }}
                                                     </span>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr v-if="!product.parent_id">
+                                        <td  width="25%" class="text-right">
+                                            <label >Описание schema:</label>
+                                        </td>
+                                        <td  width="75%">
+                                            <div  class="form-group col-md-12">
+                                                <textarea v-model="product.description_schema" class="form-control"></textarea>
+                                                <span v-if="IsError('product.description_schema')" class="help-block" v-for="e in IsError('product.description_schema')">
+                                                         {{ e }}
+                                                    </span>
+                                            </div>
+                                        </td>
+                                    </tr>
 
 
 
@@ -423,6 +398,7 @@
 
 
                             </div>
+
 
                             <div v-if="product.id" v-bind:class="{'active' : tab_active == 'tab_attributes'}" role="tabpanel" class="tab-pane" id="tab_attributes">
                                 <Attributes :product_id="product.id"></Attributes>
@@ -542,17 +518,12 @@
                                             <tbody>
                                             <tr class="tr-current-product" v-for="(item, index) in group_products">
                                                 <td>{{ item.id }}</td>
-                                                <td>{{ item.name }}</td>
+                                                <td>
+                                                    {{ item.name }}
+                                                </td>
                                                 <td>{{ item.sku }}</td>
                                                 <td>
-                                                    <span v-if="item.old_price != item.price">
-                                                         <del> {{ item.old_price }}</del>
-                                                         <br/>
-                                                         {{ item.price }}
-                                                    </span>
-                                                    <span v-else>
-                                                        {{ item.price }}
-                                                    </span>
+                                                    <input style="width:100px;" v-model="item.price" class="form-control"/>
                                                 </td>
                                                 <td>
                                                     <i class="fa fa-times-circle"
@@ -675,53 +646,14 @@
 
                             </div>
 
-                            <div v-if="!product.parent_id && product.id" v-bind:class="{'active' : tab_active == 'tab_reviews'}" role="tabpanel" class="tab-pane" id="tab_reviews">
 
-                                <table class="table table-bordered ">
-                                    <tbody>
-                                        <tr>
-                                            <td width="25%" class="text-right">
-                                                <label>
-                                                    <i class="fa fa-comment"></i>
-                                                    Средний рейтинг отзывов:
-                                                </label>
-                                            </td>
-                                            <td width="75%">
-                                                <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.reviews_rating_avg')}">
-                                                    <input type="text" v-model="product.reviews_rating_avg" class="form-control">
-                                                    <span v-if="IsError('product.reviews_rating_avg')" class="help-block" v-for="e in IsError('product.reviews_rating_avg')">
-                                                             {{ e }}
-                                                        </span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="25%" class="text-right">
-                                                <label>
-                                                    <i class="fa fa-comment"></i>
-                                                    Количество отзывов:
-                                                </label>
-                                            </td>
-                                            <td width="75%">
-                                                <div class="col-md-6" v-bind:class="{'has-error' : IsError('product.reviews_count')}">
-                                                    <input type="text" v-model="product.reviews_count" class="form-control">
-                                                    <span v-if="IsError('product.reviews_count')" class="help-block" v-for="e in IsError('product.reviews_count')">
-                                                         {{ e }}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
 
-                                <reviews :product_id="product.id"></reviews>
+                            <div v-if="product.id" v-bind:class="{'active' : tab_active == 'tab_stock'}" role="tabpanel" class="tab-pane" id="tab_stock">
+                                <stock v-if="tab_active == 'tab_stock'"
+                                       :product_id="product.id"/>
                             </div>
 
-                            <div v-if="product.id" v-bind:class="{'active' : tab_active == 'tab_subscriptions'}" role="tabpanel" class="tab-pane" id="tab_subscriptions">
 
-                                <Subscriptions :product_id="product.id"/>
-
-                            </div>
 
                         </div>
 
@@ -729,17 +661,10 @@
 
                     <div class="box-footer">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success" @click="setMethodRedirect('save_and_continue')">
+
+                            <button class="btn btn-success" @click="productSave">
                                 <span class="fa fa-save" role="presentation" aria-hidden="true"></span> &nbsp;
-                                <span data-value="save_and_back">Сохранить и продолжить</span>
-                            </button>
-                            <button type="submit" class="btn btn-primary" @click="setMethodRedirect('save_and_back')">
-                                <span class="fa fa-mail-reply" role="presentation" aria-hidden="true"></span> &nbsp;
-                                <span data-value="save_and_back">Сохранить и назад</span>
-                            </button>
-                            <button type="submit" class="btn btn-info" @click="setMethodRedirect('save_and_new')">
-                                <span class="fa fa-plus-square" role="presentation" aria-hidden="true"></span> &nbsp;
-                                <span data-value="save_and_back">Сохранить и новый</span>
+                                <span data-value="save_and_back">Сохранить</span>
                             </button>
 
                             <a target="_blank" :href="detail_url" v-if="detail_url" class="btn btn-warning">
@@ -747,20 +672,21 @@
                                 Посмотреть товар
                             </a>
 
+                            <a href="/admin/product" class="btn btn-primary ladda-button">
+                                <span class="ladda-label">
+                                    <i class="fa fa-plus"></i> Добавить товар
+                                </span>
+                            </a>
+
                             <router-link :to="{ name: 'products' }" class="btn btn-default">
                                 <span class="fa fa-ban"></span> &nbsp;
                                 Отменить
                             </router-link>
 
-                            <button type="button" @click="deleteProduct" class="btn btn-danger">
-                                <i class="fa fa-remove"></i> Удалить
-                            </button>
-
                         </div>
                     </div><!-- /.box-footer-->
 
                 </div><!-- /.box -->
-            </form>
         </div>
 
 
@@ -777,14 +703,12 @@
     import { mapActions } from 'vuex';
     import datePicker from 'vue-bootstrap-datetimepicker';
     import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
-    import reviews        from '../reviews/reviews';
-    import Categories     from '../plugins/Categories';
-    import Ckeditor       from '../plugins/Ckeditor';
-    import SelectColor    from '../plugins/SelectColor';
+    import Categories  from '../plugins/Categories';
+    import Ckeditor    from  '../plugins/Ckeditor';
+    import SelectColor from '../plugins/SelectColor';
     import searchProducts from '../plugins/SearchProducts';
-    import Attributes     from '../products/Attributes';
-    import Subscriptions  from '../products/Subscriptions';
-
+    import Attributes  from '../products/Attributes';
+    import stock from './Stock';
 
     export default {
         components:{
@@ -793,12 +717,11 @@
             UploadImages,
             datePicker,
             Ckeditor,
-            reviews,
             Categories,
             SelectColor,
             searchProducts,
             Attributes,
-            Subscriptions
+            stock
         },
         data () {
             return {
@@ -809,24 +732,24 @@
                     showClose: true,
                     locale: 'ru'
                 },
+
                 product:{
                     id:        this.$route.params.product_id ? this.$route.params.product_id : 0,
                     parent_id: this.$route.query.parent_id   ? this.$route.query.parent_id   : 0,
-                    category_id: '',
+                    category_id: 0,
                     name: '',
-                    sort: 0,
+
+
                     url: '',
                     url_full: '',
                     description: '',
-                    description_style_id: 0,
-                    description_short: '',
-                    description_schema: '',
-                    specifications: '',
                     photo: '',
                     pathPhoto: '',
                     price: 0,
+
                     sku: '',
                     status_id: 0,
+                    stock: 1,
                     active: 1,
                     seo_title: '',
                     seo_keywords: '',
@@ -835,6 +758,10 @@
                     view_count: 0,
                     reviews_rating_avg: 0,
                     reviews_count: 0,
+
+                    description_short: '',
+                    tspecifications: '',
+                    description_schema: ''
 
                 },
                 product_photo_upload_type: 'file',
@@ -848,18 +775,16 @@
                     expiration_date: ''
                 },
 
-                method_redirect: 'save_and_back',
                 tab_active: 'tab_general',
+
                 group_products: [],
                 detail_url: '',
-                discount_price: {
-                    sum:    0,
-                    format: 0,
-                    discount_type_info: ''
-                },
-                statuses: []
+                statuses: [],
+                balance: false
+
             }
         },
+
         methods:{
             deleteProductAccessory(index){
                  this.$delete(this.product_accessories, index);
@@ -906,9 +831,6 @@
                     }
                 });
             },
-            setMethodRedirect(value){
-                this.method_redirect = value;
-            },
             setProductPhoto(event){
 
                 var self = this;
@@ -923,8 +845,8 @@
             setTab(tab){
                 this.tab_active = tab;
             },
-            productSave(event){
-                event.preventDefault();
+            productSave(){
+
                 this.SetErrors(null);
                 var self = this;
 
@@ -946,6 +868,12 @@
                 });
 
 
+                $.each(this.group_products, function(index, item) {
+                    data.append('groups[' + index + '][id]',         item.id);
+                    data.append('groups[' + index + '][price]',      item.price);
+                });
+
+
 
 
                 $.each(this.product_images, function(index, item) {
@@ -959,14 +887,11 @@
                 axios.post('/admin/product-save', data).then((res)=>{
                     var product_id = res.data;
 
-                    if(res.data)
+
+                    if(product_id)
                     {
                         this.$helper.swalSuccess(this.product.id ? 'Успешно изменено' : 'Успешно создано');
 
-                        if(this.method_redirect == 'save_and_back'){
-                            history.back();
-
-                        }else if(this.method_redirect == 'save_and_continue'){
 
                             this.$router.push({
                                 name: 'product_edit',
@@ -976,32 +901,6 @@
                             });
                             location.reload();
 
-                        }else if(this.method_redirect == 'save_and_new'){
-
-                            this.$router.go({ name: 'product_create' });
-
-                        }
-                    }
-                });
-            },
-            deleteProduct(){
-
-                this.$swal({
-                    title: 'Вы действительно хотите удалить' + ' "' + this.product.name + '"?',
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Да',
-                    cancelButtonText: 'Нет'
-                }).then((result) => {
-                    if (result.value) {
-                        axios.post('/admin/product-delete/' + this.product.id).then((res)=>{
-                            if(res.data)
-                            {
-                                this.$router.go({ name: 'products' });
-                            }
-                        });
                     }
                 });
             },
@@ -1018,12 +917,10 @@
                                 this.product.parent_id        = product.parent_id;
                                 this.product.category_id      = product.category_id;
                                 this.product.name             = product.name;
-                                this.product.sort             = product.sort;
                                 this.product.url              = product.url;
                                 this.product.url_full         = product.url_full;
                                 this.product.description      = product.description;
 
-                                this.product.description_style_id   = product.description_style_id;
                                 this.product.description_short      = product.description_short;
                                 this.product.description_schema     = product.description_schema;
                                 this.product.specifications         = product.specifications;
@@ -1034,8 +931,10 @@
                                 this.product.photo            = product.photo;
                                 this.product.pathPhoto        = product.pathPhoto;
                                 this.product.price            = parseInt(product.price);
+
                                 this.product.sku              = product.sku;
                                 this.product.status_id        = product.status_id;
+                                this.product.stock            = product.stock;
                                 this.product.active           = product.active;
                                 this.product.youtube          = product.youtube;
                                 this.product.view_count       = product.view_count;
@@ -1043,13 +942,10 @@
                                 this.product.reviews_count      = product.reviews_count;
 
 
-
-
-                                this.group_products = data.children;
+                                this.group_products = product.children;
+                                this.categories     = data.categories;
                                 this.product_images = data.images;
                                 this.product_accessories = data.product_accessories;
-
-
 
                                 if(data.specific_price)
                                 {
@@ -1060,7 +956,9 @@
                                 }
 
                                 this.detail_url = data.detail_url;
-                                this.discount_price = data.discount_price;
+                                this.balance = data.balance;
+
+
                             });
                 }
             },
@@ -1068,11 +966,11 @@
         },
         created(){
 
-
-
             axios.get('/admin/status/list').then((res)=>{
                 this.statuses = res.data;
             });
+
+
 
             setTimeout(function () {
                 if(this.product.id > 0)

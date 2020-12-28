@@ -9,37 +9,29 @@
 
         <br/>
 
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Фото</th>
-                    <th>Название</th>
-                    <th width="70">Цена</th>
-                    <th></th>
-                </tr>
-            </thead>
+        <div class="input-group">
+            <a @click="search='Ремонт телефонов'">Ремонт телефонов</a>
+            &nbsp;
+            <a @click="search='Ремонт самокатов'">Ремонт самокатов</a>
+        </div>
+
+        <br/>
+
+        <table v-if="results.length > 0" class="table">
             <tbody>
                 <tr v-for="item in results">
-                    <td>{{ item.id }}</td>
-                    <td>
-                        <router-link target="_blank" :to="{ name: 'product_edit', params: { product_id: item.id} }" title="Изменить">
-                            <img :src="item.photo_path" width="30"/>
+                    <td width="100px">
+                        <router-link target="_blank" :to="{ name: 'product_edit', params: { product_id: item.product.id} }" title="Изменить">
+                            <img :src="item.photo_path" width="100px"/>
                         </router-link>
                     </td>
                     <td>
-                        <router-link target="_blank" :to="{ name: 'product_edit', params: { product_id: item.id} }" title="Изменить" :class="{ 'red': !item.active}">
-                            {{ item.name }},
-                        </router-link>
+                         <a @click="selected(item.product)" :class="{ 'red': !item.product.active }">
+                               {{ item.product.name }}
+                         </a>
                     </td>
-                    <td width="70">
-                        {{ item.reduced_price_format }}
-                    </td>
-                    <td>
-                        <button class="btn btn-success" @click="selected(item)">
-                            <i class="fa fa-plus"></i>
-                            Выбрать
-                        </button>
+                   <td width="80px">
+                        {{ item.price }}
                     </td>
                 </tr>
             </tbody>
@@ -65,6 +57,8 @@
                 });
             },
             selected(product){
+                this.results = [];
+                this.search  = '';
                 this.$emit('productSelected', product);
             },
             clearSearch(){

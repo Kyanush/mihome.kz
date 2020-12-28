@@ -1,6 +1,3 @@
-@extends('layouts.reports')
-@section('content')
-
     <table border="1">
         <thead>
             <tr>
@@ -31,13 +28,11 @@
                     <td>{{ $product->name }}</td>
                     <td>{!! $description !!}</td>
                     <td>{{ $product->getReducedPrice() }}</td>
-                    <td>{{ $product->getPhoto() }}</td>
+                    <td>{{ env('APP_URL') . $product->pathPhoto(true) }}</td>
                     <td>Нет</td>
-                    <td>Да</td>
+                    <td></td>
                 </tr>
             @endforeach
 
         </tbody>
     </table>
-
-@endsection

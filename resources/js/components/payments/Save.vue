@@ -88,9 +88,6 @@
                 }
             }
         },
-        mounted() {
-            console.log('Component mounted.')
-        },
         created(){
             if(this.payment.id > 0)
             {
@@ -115,7 +112,7 @@
                 event.preventDefault();
                 this.SetErrors(null);
 
-                console.log(this.payment);
+
                 var data = this.$helper.formData(this.payment, 'payment');
 
                 axios.post('/admin/payment-save', data).then((res)=>{

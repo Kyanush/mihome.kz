@@ -15,17 +15,29 @@ window.Vue = require('vue');
  */
 
 //Роутеры
-import router from './router'
+import router from './router';
 
 //Функции
 import Helper from './packages/Helper';
 Vue.use(Helper);
 
+import Helper2 from './packages/Helper2';
+Vue.mixin(Helper2);
+
 //Vuex
 import store from './store';
 
+// Loading
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+Vue.use(Loading);
+
+//https://www.npmjs.com/package/vue-notification
+import Notifications from 'vue-notification';
+Vue.use(Notifications);
+
 axios.interceptors.response.use(function (response) {
-    //console.log(response);
+
 
     var res = response;
 
@@ -37,14 +49,13 @@ axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
 
-    //console.log(error.response);
 
 
-    var status =  error.response.status
+
+    var status =  error.response.status;
     var res    = error.response;
 
-    console.log(status);
-    console.log(res);
+
 
 
 
@@ -91,6 +102,45 @@ axios.interceptors.response.use(function (response) {
 
     return error;
 });
+
+
+router.beforeEach((to, from, next) => {
+
+
+        if(to.meta.title)
+            document.title = to.meta.title;
+
+        var permissions = window.permissions;
+        var forbidden = true;
+
+        if(permissions)
+        {
+            permissions.forEach(function (user_role, user_index) {
+
+
+                if(to.meta.roles.indexOf(user_role) >= 0 || to.meta.roles.indexOf('*') >= 0)
+                {
+                    forbidden = false;
+                    return;
+                }
+
+            });
+        }
+
+        if(forbidden && permissions){
+            return next({
+                name: 'accessIsDenied',
+                query: {
+                    page: to.path
+                }
+            });
+        }else{
+            return next();
+        }
+
+});
+
+
 
 //Попап
 import VueSweetalert2 from 'vue-sweetalert2';

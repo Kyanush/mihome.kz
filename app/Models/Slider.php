@@ -20,7 +20,7 @@ class Slider extends Model
         'created_at',
         'updated_at',
         'active'
-	];
+    ];
 
     public function scopeIsActive($query){
         return $query->where('active', 1);
@@ -47,7 +47,7 @@ class Slider extends Model
         }
     }
 
- 	public static function boot()
+    public static function boot()
     {
 
         parent::boot();

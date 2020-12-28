@@ -3,30 +3,41 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Models\Subscribe;
-use App\Requests\SubscribeRequest;
-
+use App\Services\ServiceOrder;
+use App\Services\ServiceTelegram;
+use App\Services\ServiceUser;
+use App\Models\Order;
+use Auth;
+use App\User;
+use Illuminate\Http\Request;
 
 class SubscribeController extends Controller
 {
 
-    public function subscribe(SubscribeRequest $request){
+    public function subscribe(Request $request){
 
-        $product_id = $request->input('product_id', 0);
+        $product_id = $request->input('product_id');
+        $phone      = $request->input('phone');
 
-        $subscribe = Subscribe::where('email', $request->input('email'))->where(function ($query) use ($product_id){
-            if($product_id > 0)
-                $query->where('product_id', $product_id);
-            else
-                $query->whereNull('product_id');
-        })->first();
 
-        if(!$subscribe)
+        //заказ
+        $order = new Order();
+        $order->type_id     = 5;
+        $order->status_id   = 7;
+        $order->user_phone  = $phone;
+
+        if($order->save())
         {
-            Subscribe::create($request->all());
+            ServiceOrder::productAdd($product_id, $order->id);
+            ServiceOrder::orderSendMessage($order->id);
+
+            $serviceTelegram = new ServiceTelegram();
+            $serviceTelegram->sendOrder($order->id);
+
+            return $this->sendResponse(['order_id' => $order->id]);
         }
 
-        return $this->sendResponse($subscribe ? false : true);
+        return $this->sendResponse(true);
     }
 
 }

@@ -14,6 +14,7 @@ class Callback extends Model
 
     protected $table = 'callbacks';
     protected $fillable = [
+        'name',
         'phone',
         'type',
         'message',
@@ -51,12 +52,17 @@ class Callback extends Model
 
             if(env('APP_TEST') == 0)
             {
-                $emails = Setting::where('key', 'сallback_notification_email')->pluck('value')->toArray();
+                $emails = [];
+                $settings = Setting::where('key', 'сallback_notification_email')->get();
+                foreach ($settings as $setting)
+                    $emails[] = $setting->value;
 
                 if(count($emails) > 0)
                 {
                     $subject = env('APP_NAME') . ' - ' . $modal->type;
-                    Mail::to($emails)->send(new \App\Mail\CallbackEmail($modal, $subject));
+                    Mail::send('mails.callback', ['data' => $modal, 'subject' => $subject], function ($m) use ($subject, $emails) {
+                        $m->to($emails)->subject($subject);
+                    });
                 }
 
                 $serviceTelegram = new ServiceTelegram();

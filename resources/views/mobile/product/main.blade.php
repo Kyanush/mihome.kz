@@ -1,4 +1,6 @@
 
+@include('site.includes.breadcrumb', ['breadcrumbs' => $breadcrumbs])
+
 <div class="g-mb-gtn">
 
     <div class="item container g-pa0 g-bb0">
@@ -99,6 +101,11 @@
             @if($product->description_short)
                 <p>{!! $product->description_short !!}</p>
             @endif
+
+            <p class="{{ $product->status->class }}">
+                {{ $product->status->name }}
+            </p>
+
             <a class="item__rating">
                 <span class="rating _{{ ($product->reviews_rating_avg ?? 0) * 2}}"></span>
                 <span class="rating-count">(<span> {{ $product->reviews_count }}</span>&nbsp;отзывов)</span>
@@ -132,12 +139,13 @@
                 </div>
 
                 <div class="item__instalment">
+                    <!--
                         <span class="item__prices-title">
                             {{ $product->status->name }}
                         </span>
                         <span class="item__prices-price">
                             {!! $product->status->class !!}
-                        </span>
+                        </span>--->
                         @if($product->status_id != 10)
                             <span class="item__add-info">При поступлении товара, цена может отличаться</span>
                         @endif
@@ -160,8 +168,7 @@
                         <option value="{{ $group_product->detailUrlProduct() }}" @if($product->id == $group_product->id) selected @endif>
                             {{ $group_product->name }}
                             ({{ \App\Tools\Helpers::priceFormat($group_product->getReducedPrice()) }})
-                            {!! $group_product->status->class !!}
-                            {{ $group_product->status->name }}
+                            - {{ $group_product->status->name }}
                         </option>
                     @endforeach
                 </select>
@@ -192,24 +199,26 @@
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
 
-                        <p>Оставьте электронную почту, чтобы узнать о поступлении товара</p>
+                        <p>Когда товар появится, мы вам тут же позвоним</p>
                         <p>
-                            <input class="search__input"
+                            <input class="search__input phone-mask"
                                    type="text"
-                                   name="email"
-                                   @auth value="{{ Auth::user()->email }}" @endauth
-                                   placeholder="Ваша электронная почта"/>
+                                   required
+                                   name="phone"
+                                   @auth value="{{ Auth::user()->phone }}" @endauth
+                                   placeholder="+7(777)777-77-77"/>
                         </p>
                         <p>
                             <button type="submit" class="button">
                                 <i class="fa fa-bell"></i>
-                                Подписаться
+                                Предзаказ
                             </button>
                         </p>
                     </form>
             @endif
         </div>
 
+        @if(false)
         <div class="item__info container">
             <h2 style="color: #3c92c3;">
                 <i class="fa fa-truck firm-red2"  style="font-size: 20px;"></i> Доставка
@@ -256,6 +265,7 @@
                 </li>
             </ul>
         </div>
+        @endif
 
     </div>
 
@@ -264,6 +274,25 @@
         <div class="sellers-offers _short-list">
 
             @include('mobile.includes.product_slider', ['products' => $products_interested, 'title' => 'С этим товаром покупают', 'url' => ''])
+
+
+            @if($product->youtube)
+                <div class="container-title">Видео обзор</div>
+                <div class="container">
+                    <div class="short-description">
+                        <iframe
+                                frameborder="0"
+                                allowfullscreen="1"
+                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                title="YouTube video player"
+                                width="100%"
+                                height="200"
+                                src="https://www.youtube.com/embed/{{ $product->youtube }}?rel=0&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fkaspi.kz&amp;widgetid=1">
+                        </iframe>
+
+                    </div>
+                </div>
+            @endif
 
             <div class="container-title">Характеристики</div>
             <div class="short-specifications container">
@@ -343,14 +372,7 @@
                 </div>
             @endif
 
-            @if($product->youtube)
-                <div class="container-title">Видео обзор</div>
-                <div class="container">
-                    <div class="short-description">
-                        <div id="youtube" width="100%" height="360" videoId="{{ $product->youtube }}"></div>
-                    </div>
-                </div>
-            @endif
+
 
             @if(false)
             <div class="container-title">Отзывы</div>

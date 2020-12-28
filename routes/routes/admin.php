@@ -1,10 +1,24 @@
 <?php
+
+Route::group(['middleware' => ['role:admin,manager'], 'prefix'     => 'whats-app', 'namespace'  => 'WhatsApp'], function () {
+    Route::get('dialogs',           'WhatsAppController@dialogs');
+    Route::get('messages',          'WhatsAppController@messages');
+    Route::post('send-message',     'WhatsAppController@sendMessage');
+});
+
+
+
 // Admin Interface
-Route::group(['middleware' => ['role:admin'], 'prefix'     => 'admin', 'namespace'  => 'Admin'], function () {
+Route::group(['middleware' => ['role:admin,manager'], 'prefix'     => 'admin', 'namespace'  => 'Admin'], function () {
 
     Route::get('report-goods/{format}',          'ReportController@goods');
     Route::get('yandex-directory/{format}',      'ReportController@yandexDirectory');
+    Route::get('2gis-directory/{format}',        'ReportController@gis2Directory');
     Route::get('export-table/{table}',           'ExportController@exportTable')->where(['table']);
+
+    Route::get('product-stock-report',          'ProductStockController@productStockReport');
+
+
 
     if (!request()->ajax()){
         Route::get('/{any}', 'AdminController@index')->where('any', '.*');
@@ -14,6 +28,10 @@ Route::group(['middleware' => ['role:admin'], 'prefix'     => 'admin', 'namespac
         });
 
     }else{
+
+        Route::get('/barcode', function () {
+            return \App\Tools\Helpers::barcode();
+        });
 
         Route::get('categories-list',          'CategoryController@list');
         Route::get('category-view/{id}',       'CategoryController@view')->where(['id' => '[0-9]+']);
@@ -35,6 +53,10 @@ Route::group(['middleware' => ['role:admin'], 'prefix'     => 'admin', 'namespac
         Route::post('product-delete/{id}',           'ProductController@delete')->where(['id' => '[0-9]+']);
         Route::post('product-price-min-max',         'ProductController@priceMinMax');
         Route::post('products-attributes-filters',   'ProductController@productsAttributesFilters');
+
+        Route::get('product-stock',                 'ProductStockController@list');
+        Route::get('product-stock/{product_id}',    'ProductStockController@get')->where(['product_id' => '[0-9]+']);
+        Route::post('product-stock',                'ProductStockController@save');
 
         Route::post('clone-product',                 'ProductController@cloneProduct');
         Route::get('search-products',                'ProductController@searchProducts');
@@ -103,6 +125,7 @@ Route::group(['middleware' => ['role:admin'], 'prefix'     => 'admin', 'namespac
         Route::get('callback-view/{id}',         'CallbackController@view')->where(['id' => '[0-9]+']);
         Route::get('new-callbacks-count',        'CallbackController@newCallbacksCount');
 
+
         //Заказы
         Route::get('orders-list',                'OrderController@list');
         Route::get('order/{id}',                 'OrderController@view')->where(['id' => '[0-9]+']);
@@ -110,11 +133,20 @@ Route::group(['middleware' => ['role:admin'], 'prefix'     => 'admin', 'namespac
         Route::post('order-save',                'OrderController@orderSave');
         Route::post('order-delete/{order_id}',   'OrderController@orderDelete')->where(['order_id' => '[0-9]+']);
         Route::get('new-orders-count',           'OrderController@newOrdersCount');
+        Route::get('order-print/{order_id}',     'OrderController@orderPrint')->where(['order_id' => '[0-9]+']);
+        Route::post('order-barcode',             'OrderController@orderBarcode');
+
+        Route::delete('order-product/{id}',        'OrderProductController@delete')->where(['id' => '[0-9]+']);
+
 
         //статистика
         Route::get('full-calendar',                        'StatisticsController@fullCalendar');
         Route::get('highcharts-monthly-amount',            'StatisticsController@highchartsMonthlyAmount');
         Route::get('highcharts-monthly-amount-callbacks',  'StatisticsController@highchartsMonthlyAmountCallbacks');
+
+        //статистика
+        Route::get('order-task-list',                        'OrderTaskController@list');
+
 
         //компания
         Route::get('addresses-list',        'AddressController@list');
@@ -151,7 +183,14 @@ Route::group(['middleware' => ['role:admin'], 'prefix'     => 'admin', 'namespac
         Route::post('save-settings',    'SettingController@saveSetting');
         Route::get('get-settings',      'SettingController@getSetting');
 
-        Route::get('subscriptions',     'SubscriptionController@subscriptions');
+
+        Route::get('/permissions',                     'PermissionController@list');
+        Route::delete('/permissions/{permission_id}',  'PermissionController@delete')->where(['permission_id' => '[0-9]+']);
+        Route::post('/permissions',                    'PermissionController@save');
+        Route::get('/permissions/{permission_id}',     'PermissionController@get')->where(['permission_id' => '[0-9]+']);
+
+        Route::get('/product-stock-arrival',                     'ProductStockArrivalController@list');
+        Route::post('/product-stock-arrival',                    'ProductStockArrivalController@save');
 
     }
 });

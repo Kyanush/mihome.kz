@@ -86,7 +86,8 @@ class ServiceCart implements CartInterface
                 $query->with(['specificPrice' => function($query){
                     $query->dateActive();
                 },
-                'categories']);
+                //'categories'
+                ]);
 
             }])->get();
             return $cartItems;

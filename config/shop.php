@@ -58,7 +58,7 @@ return [
 
     'address' => [
         [
-            "streetAddress" => "Жибек Жолы 115, 1 этаж, офис 122",
+            "streetAddress" => "Наурызбай батыра 46",
             "addressLocality" => "г. Алматы",
             "postalCode" => "050004",
             "addressCountry" => "Казахстан",

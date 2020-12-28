@@ -20,7 +20,16 @@ class ProductController extends Controller
 
     public function productSearch(Request $request){
 
-        $products = Product::filters(['name' => $request->input('searchText'), 'active' => 1])->limit(10)->get();
+        $q = Helpers::searchClear($request->input('searchText'));
+
+        $products = Product::where(function ($query) use ($q){
+                                $query->whereRaw("LOWER(name)  like '%$q%'");
+                                $query->orWhereRaw("LOWER(sku) like '%$q%'");
+                            })
+                            ->main()
+                            ->limit(10)
+                            ->get();
+
         $data = $products->map(function ($item) {
             return [
                 'id'      => $item->id,

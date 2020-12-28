@@ -31,9 +31,17 @@ class CatalogController extends Controller
 
         //Похожие товары
         if($product->parent_id){
-            $group_products = Product::with('status')->where('parent_id', $product->parent_id)->productInfoWith()->OrderBy('price')->get();
+            $group_products = Product::with('status')
+                                     ->where('parent_id', $product->parent_id)
+                                     ->productInfoWith()
+                                     ->OrderBy('price')
+                                     ->get();
         }else{
-            $group_products = $product->children()->with('status')->productInfoWith()->OrderBy('price')->get();
+            $group_products = $product->children()
+                                      ->with('status')
+                                      ->productInfoWith()
+                                      ->OrderBy('price')
+                                      ->get();
         }
 
         //С этим товаром покупаю
@@ -49,9 +57,10 @@ class CatalogController extends Controller
         //категория
         if($product->parent_id)
         {
-            $category = Category::find($product->parent->category->id);
+
+            $category = $product->parent->category;
         }else{
-            $category = Category::find($product->category->id);
+            $category = $product->category;
         }
 
         //Хлебная крошка
@@ -72,6 +81,7 @@ class CatalogController extends Controller
             $product->reviews_rating_avg = $product_parent->reviews_rating_avg;
             $product->reviews_count      = $product_parent->reviews_count;
             $product->specifications     = $product_parent->specifications;
+            $product->youtube            = $product_parent->youtube;
 
             if(count($product->images) == 0)
                 $product->images = $product_parent->images;

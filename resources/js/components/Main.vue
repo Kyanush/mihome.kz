@@ -1,139 +1,44 @@
 <template>
     <div class="row">
 
-        <div class="col-md-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <i class="fa fa-cart-arrow-down"></i>
-                        Статусы
-                    </h3>
-                </div>
-                <div class="box-body" v-if="false">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th v-for="item in order_statuses">
-                                    <i :class="item.class"></i>
-                                    {{ item.name }}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td v-for="item in order_statuses">
-                                    <ul>
-                                        <li v-for="order in orders" v-if="order.status_id == item.id">
-                                            {{ order.id }}
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-8">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <i class="fa fa-cart-arrow-down"></i>
-                        Заказы за месяц
-                    </h3>
-                </div>
-                <div class="box-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th v-for="item in total_orders"><i :class="item.class"></i> {{ item.title }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td v-for="(item, status_id) in total_orders">
-                                    <span class="quantity">{{ item.quantity }}</span> шт.
-                                    на
-                                    <span class="quantity">{{ item.total }}</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <i class="fa fa-phone"></i>
-                        Обратные звонки за месяц
-                    </h3>
-                </div>
-                <div class="box-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th v-for="item in total_callbacks">
-                                    <i :class="item.class"></i> {{ item.title }}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td v-for="(item, status_id) in total_callbacks">
-                                    {{ item.quantity }} шт.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <order_status/>
 
         <div class="col-md-12">
             <div class="box">
-                <full-calendar :config="config" :events="events"/>
+                <full-calendar id="full-calendar" :config="config" :events="events"/>
             </div>
         </div>
 
-        <div class="col-md-12">
-            <div class="box">
-                <div id="highcharts-monthly-amount" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="box">
-                <div id="highcharts-monthly-amount-callbacks" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            </div>
-        </div>
+        <RightSidePopup ref="right_side_popup" :title="'Заказ:' + p_order_id">
+            <Order @order_id="orderSaved" :p_order_id="p_order_id"/>
+        </RightSidePopup>
 
     </div>
 </template>
 
 
 <script>
+    var self = '';
+
     import { FullCalendar } from "vue-full-calendar";
     import "fullcalendar-scheduler";
     import "fullcalendar/dist/fullcalendar.min.css";
     import "fullcalendar-scheduler/dist/scheduler.min.css";
     import 'fullcalendar/dist/locale/ru';
+    import order_status from './order_status';
 
+    import RightSidePopup from './plugins/RightSidePopup';
+    import Order          from './orders/OrderForm';
 
     export default {
         components:{
-            FullCalendar
+            FullCalendar, order_status, RightSidePopup, Order
         },
         data() {
             return {
-                order_statuses: [],
+                p_order_id: 0,
+
                 total_orders: [],
-                total_callbacks: [],
-                orders:[],
-
-
                 config: {
                     showNonCurrentDates: false,
                     firstDay: 1,
@@ -165,7 +70,11 @@
                         }
                     },
                     eventClick: function(event, jsEvent, view) {
-                        console.log(event);
+                        var p_order_id = event.id;
+
+                        self.p_order_id = p_order_id;
+                        self.$refs.right_side_popup.active = true;
+
                     },
                     eventMouseover: function(event, jsEvent, view) {
                         if(event.products)
@@ -173,8 +82,11 @@
                                 var products = event.products;
                                 var html = '<ul>';
                                 products.forEach(function (product, index) {
-                                    html += '<li>' + product.name + '</li>';
+                                    html += '<li>' + product.pivot.name + ' - ' + product.pivot.quantity + ' x ' + product.pivot.price + ' тг</li>';
                                 });
+
+                                // return $this->belongsToMany('App\Models\Product')->withPivot(['name', 'sku', 'price', 'quantity']);
+
                                 html += '</ul>';
 
                                 var tooltip = '<div class="tooltipevent">' + html + '</div>';
@@ -208,41 +120,16 @@
                     var data = res.data;
 
                     this.total_orders = data.total_orders;
-                    this.total_callbacks = data.total_callbacks;
 
                     callback(data.calendar);
                 });
-            }
+            },
+            orderSaved(p_order_id){
+                $('#full-calendar').fullCalendar( 'refetchEvents' );
+            },
         },
         created(){
-            axios.get('/admin/order-statuses-list?perPage=100').then((res)=>{
-                console.log(res.data);
-                this.order_statuses = res.data.data;
-            });
-
-            axios.get('/admin/highcharts-monthly-amount').then((res)=>{
-                var data = res.data;
-
-                console.log(data);
-
-                setTimeout(function() {
-                    highchartsMonthlyAmount(data.categories, data.series, 'highcharts-monthly-amount', 'Сумма по месяцам', 'Сумма(тг)');
-                }, 2000);
-            });
-
-            axios.get('/admin/orders-list?perPage=100000000000').then((res)=>{
-                this.orders = res.data.data;
-            });
-
-            axios.get('/admin/highcharts-monthly-amount-callbacks').then((res)=>{
-                var data = res.data;
-
-                console.log(data);
-
-                setTimeout(function() {
-                    highchartsMonthlyAmount(data.categories, data.series, 'highcharts-monthly-amount-callbacks', ' Обратные звонки по месяц', 'Количество');
-                }, 2000);
-            });
+            self = this;
         }
     }
 
@@ -253,12 +140,6 @@
   .fc-today {
       background:#CDDC39 !important;
       font-weight: bold;
-  }
-  th{
-      text-transform: uppercase;
-  }
-  .quantity{
-      font-weight: 600;
   }
   .tooltipevent{
       padding: 5px 10px;
@@ -272,5 +153,8 @@
       padding: 0;
       margin: 0;
       padding-left: 15px;
+  }
+  #full-calendar{
+     margin-bottom: 300px;
   }
 </style>

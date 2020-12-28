@@ -24,13 +24,13 @@
                              </span>
                          </div>
                          <div class="form-group col-md-12" v-bind:class="{'has-error' : IsError('slider.image')}">
-                             <label>Файл</label>
+                             <label>Картина</label>
                              <p>
                                  <img id="image-view" class="img" width="100" v-bind:src="slider.image ? '/uploads/sliders/' + slider.image : ''"/>
                              </p>
                              <label class="btn btn-primary btn-file">
-                                 <i class="fa fa-file-image-o" aria-hidden="true"></i>  Файл
-                                 <input  type="file"  @change="setImage($event)"/>
+                                 <i class="fa fa-file-image-o" aria-hidden="true"></i>  Картина
+                                 <input  type="file" accept="image/*"  @change="setImage($event)"/>
                              </label>
                              <span v-if="IsError('slider.image')" class="help-block" v-for="e in IsError('slider.image')">
                                    {{ e }}
@@ -47,7 +47,6 @@
                              <label>Где отображать</label>
                              <select v-model="slider.show_where" class="form-control">
                                  <option value="home_page">На главную страницу</option>
-                                 <option value="garderobnye">Гардеробные</option>
                              </select>
                              <span v-if="IsError('slider.show_where')" class="help-block" v-for="e in IsError('slider.show_where')">
                                   {{ e }}

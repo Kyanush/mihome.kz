@@ -235,33 +235,10 @@
                      </div>
                      <div class="box-footer">
                          <div  class="form-group">
-                             <div class="btn-group">
-
-                                 <button type="submit" class="btn btn-success" @click="setMethodRedirect('save_and_back')">
-                                     <span class="fa fa-save" role="presentation" aria-hidden="true"></span> &nbsp;
-                                     <span data-value="save_and_back">Сохранить и назад</span>
-                                 </button>
-
-                                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aira-expanded="false">
-                                     <span class="caret"></span>
-                                     <span class="sr-only">▼</span>
-                                 </button>
-
-                                 <ul class="dropdown-menu">
-                                     <li>
-                                         <a @click="setMethodRedirect('save_and_continue')">
-                                             <button type="submit" class="btn-transparent">Сохранить и продолжить</button>
-                                         </a>
-                                     </li>
-                                     <li>
-                                         <a @click="setMethodRedirect('save_and_new')">
-                                             <button type="submit" class="btn-transparent">Сохранить и новый</button>
-                                         </a>
-                                     </li>
-                                 </ul>
-
-                             </div>
-
+                             <button type="submit" class="btn btn-success">
+                                 <i class="fa fa-save" role="presentation" aria-hidden="true"></i> &nbsp;
+                                 {{ category.id ? 'Сохранить' : 'Создать' }}
+                             </button>
                              <router-link :to="{ name: 'categories' }" class="btn btn-default">
                                  <span class="fa fa-ban"></span> &nbsp;
                                  Отменить
@@ -289,7 +266,6 @@
         },
         data () {
             return {
-                method_redirect: 'save_and_back',
                 category:{
                     id: this.$route.params.category_id ? this.$route.params.category_id : 0,
                     parent_id: 0,
@@ -344,9 +320,6 @@
                 this.$helper.setImgSrc(event.target.files[0], '#image-img');
                 this.category.image = event.target.files[0];
             },
-            setMethodRedirect(value){
-                this.method_redirect = value;
-            },
             categorySave(event){
                 event.preventDefault();
                 this.SetErrors(null);
@@ -358,30 +331,20 @@
                 });
 
                 axios.post('/admin/category-save', data).then((res)=>{
+
+                    var category_id = res.data;
+
                     if(res.data)
                     {
                         this.$helper.swalSuccess(this.category.id ? 'Успешно изменено' : 'Успешно создано');
 
-                        if(this.method_redirect == 'save_and_back'){
-                            history.back();
-
-                        }else if(this.method_redirect == 'save_and_continue'){
-                            if(!this.category.id)
-                            {
-                                this.category.id = res.data;
-                                this.$router.push({
-                                        name: 'category_edit',
-                                        params: {
-                                            category_id: this.category.id
-                                        }
-                                    });
+                        this.$router.push({
+                            name: 'category_edit',
+                            params: {
+                                category_id: category_id
                             }
-                        }else if(this.method_redirect == 'save_and_new'){
-                            this.$router.go({
-                                name: 'category_create'
-                            });
-                        }
-
+                        });
+                        location.reload();
                     }
                 });
 

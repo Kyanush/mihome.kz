@@ -2,15 +2,16 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
+use App\Models\Permission;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use DB;
 use Mail;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -61,7 +62,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role', 'role_id', 'id');
     }
 
-
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'permission_user', 'user_id', 'permission_id')
+            ->withPivot(['user_id', 'permission_id']);
+    }
 
     public function hasRole($check)
     {

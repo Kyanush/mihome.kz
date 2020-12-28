@@ -2,18 +2,18 @@
     <div class="box">
 
         <div class="box-header with-border">
-            <router-link :to="{ name: 'order_create' }" class="btn btn-primary ladda-button">
+            <button @click="edit(0)" class="btn btn-primary ladda-button">
                 <span class="ladda-label">
                     <i class="fa fa-plus"></i> Создать заказ
                 </span>
-            </router-link>
+            </button>
 
             <div  class="btn btn-danger pull-right" @click="clearFilters">
                 <i class="fa fa-times" aria-hidden="true"></i>
                 Очистить
             </div>
 
-            <div class="btn btn-primary pull-right" @click="showReport" style="margin-right: 5px;">
+            <div v-if="$can('orders_report')" class="btn btn-primary pull-right" @click="showReport" style="margin-right: 5px;">
                 <i class="fa fa-print" aria-hidden="true"></i>
                 Отчеты
             </div>
@@ -44,23 +44,7 @@
                                                 <input type="text" class="form-control" v-model="filter.id"/>
                                             </td>
                                         </tr>
-                                        <tr class="odd even">
-                                            <td><b>Тип заказа:</b></td>
-                                            <td>
-                                                <select class="form-control" v-model="filter.type_id">
-                                                    <option value="">Все</option>
-                                                    <option v-for="item in types" :value="item.id">
-                                                        {{ item.name }}
-                                                    </option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr class="odd even">
-                                            <td><b>Клиент:</b></td>
-                                            <td>
-                                                <Select2 :settings="{multiple: true, disabled: (filter_user_id ? true : false)  }" v-model="filter.user_id" :options="convertDataSelect2(users)"/>
-                                            </td>
-                                        </tr>
+
                                         <tr class="odd even">
                                             <td><b>Текущее состояние:</b></td>
                                             <td>
@@ -74,12 +58,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr class="odd even">
-                                            <td><b>Курьер:</b></td>
-                                            <td>
-                                                <Select2 :settings="{multiple: true}" v-model="filter.carrier_id" :options="convertDataSelect2(carriers)"/>
-                                            </td>
-                                        </tr>
+
                                         <tr class="odd even">
                                             <td><b>Комментарии:</b></td>
                                             <td>
@@ -92,82 +71,40 @@
                                                 <textarea class="form-control" v-model="filter.product_name"></textarea>
                                             </td>
                                         </tr>
+
+                                        <tr class="odd even">
+                                            <td><b>Дата заказа:</b></td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <date-picker :config="datetimepicker" v-model="filter.created_at_start"></date-picker>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <date-picker :config="datetimepicker" v-model="filter.created_at_end"></date-picker>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="odd even">
+                                            <td><b>ФИО:</b></td>
+                                            <td>
+                                                 <input type="text" class="form-control" v-model="filter.user_name"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="odd even">
+                                            <td><b>Телефон:</b></td>
+                                            <td>
+                                                 <input type="text" class="form-control" v-model="filter.user_phone"/>
+                                            </td>
+                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="table-responsive1">
-                                <table class="table table-bordered ">
-                                    <tbody class="filter">
-                                    <tr class="odd even">
-                                        <td><b>Дата доставки:</b></td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <date-picker :config="datetimepicker" v-model="filter.delivery_date_start"></date-picker>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <date-picker :config="datetimepicker" v-model="filter.delivery_date_end"></date-picker>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd even">
-                                        <td><b>Итого:</b></td>
-                                        <td>
-                                            <input type="number" class="form-control" v-model="filter.total"/>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd even">
-                                        <td><b>Тип оплаты:</b></td>
-                                        <td>
-                                            <Select2 :settings="{multiple: true}" v-model="filter.payment_id" :options="convertDataSelect2(payments)"/>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd even">
-                                        <td><b>Оплачен:</b></td>
-                                        <td>
-                                            <select class="selectpicker form-control" v-model="filter.paid">
-                                                <option value="">Все</option>
-                                                <option value="1" data-icon="fa fa-check-circle status-completed">Да</option>
-                                                <option value="0" data-icon="fa fa-check-circle status-canceled">Нет</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd even">
-                                        <td><b>Дата оплаты:</b></td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <date-picker :config="datetimepicker" v-model="filter.payment_date_start"></date-picker>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <date-picker :config="datetimepicker" v-model="filter.payment_date_end"></date-picker>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="odd even">
-                                        <td><b>Дата заказа:</b></td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <date-picker :config="datetimepicker" v-model="filter.created_at_start"></date-picker>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <date-picker :config="datetimepicker" v-model="filter.created_at_end"></date-picker>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-
-
-
-                                    </tbody>
-                                </table>
-                            </div>
+                            <Categories v-model="filter.category_id" :returnKey="'id'" :multiple="false"/>
                         </div>
                     </div>
                 </div>
@@ -213,12 +150,12 @@
             <tbody>
             <tr class="odd even" v-for="(item, index) in orders.data" v-if="no_show_order_id != item.id">
                 <td>
-                    <router-link :to="{ path: '/order/' + item.id}" title="Посмотреть">
+                    <a @click="edit(item.id)" title="Посмотреть">
                         {{ item.id }}
-                    </router-link>
+                    </a>
                 </td>
                 <td>
-                    <router-link v-if="item.user_id" :to="{ path: '/users/edit/' + item.user_id}">
+                    <router-link v-if="item.user" :to="{ path: '/users/edit/' + item.user_id}">
                         {{ item.user.name }}
                     </router-link>
                 </td>
@@ -236,11 +173,11 @@
                 <td>{{ item.total }}</td>
                 <td>{{ dateFormatTodayYesterday(item.created_at) }}</td>
                 <td>
-                    <router-link :to="{ name: 'order_edit', params: { order_id: item.id } }" title="Посмотреть" class="btn btn-xs btn-default">
+                    <button @click="edit(item.id)" title="Посмотреть" class="btn btn-xs btn-default">
                         <i class="fa fa-eye"></i> <!--Посмотреть--->
-                    </router-link>
+                    </button>
 
-                    <a class="btn btn-xs btn-default red" title="Удалить" @click="deleteOrder(item, index)">
+                    <a v-if="$can('orders_delete')" class="btn btn-xs btn-default red" title="Удалить" @click="deleteOrder(item, index)">
                         <i class="fa fa-remove"></i> <!--Удалить-->
                     </a>
 
@@ -274,6 +211,10 @@
 
         <report :report_types="report_types"></report>
 
+        <RightSidePopup @state="stateOrderPopup"  ref="right_side_popup" :title="'Заказ:' + filter.p_order_id">
+            <Order @order_id="orderSaved" :p_order_id="filter.p_order_id"/>
+        </RightSidePopup>
+
     </div>
 </template>
 
@@ -284,11 +225,14 @@
     import datePicker from 'vue-bootstrap-datetimepicker';
     import report     from '../plugins/Report';
     import SortTable  from '../plugins/SortTable';
+    import RightSidePopup from '../plugins/RightSidePopup';
+    import Order          from '../orders/OrderForm';
+    import Categories     from '../plugins/Categories';
 
     export default {
          props: ['filter_user_id', 'no_show_order_id'],
         components:{
-            Paginate, Select2, datePicker, report, SortTable
+            Paginate, Select2, datePicker, report, SortTable, RightSidePopup, Order, Categories
         },
         data () {
             return {
@@ -302,18 +246,15 @@
                 order_show_filter: false,
 
                 datetimepicker: {
-                    format: 'YYYY-MM-DD HH:mm:ss',
+                    format: 'YYYY-MM-DD',
                     useCurrent: false,
                     showClear: true,
                     showClose: true,
                 },
 
                 orders: [],
-                users: [],
+
                 order_statuses: [],
-                carriers: [],
-                payments: [],
-                types: [],
 
                 filter:{
                     id:                   (this.$route.query.id   ? this.$route.query.id : ''),
@@ -335,7 +276,11 @@
                     page:                 (this.$route.query.page > 1 ? this.$route.query.page : ''),
                     sort:                 this.$route.query.sort,
                     product_name:         (this.$route.query.product_name   ? this.$route.query.product_name : ''),
-                }
+                    user_name:            (this.$route.query.user_name   ? this.$route.query.user_name : ''),
+                    user_phone:           (this.$route.query.user_phone   ? this.$route.query.user_phone : ''),
+                    p_order_id:           (this.$route.query.p_order_id   ? this.$route.query.p_order_id : ''),
+                    category_id:          (this.$route.query.category_id   ? this.$route.query.category_id : ''),
+                },
             }
         },
         watch: {
@@ -349,35 +294,47 @@
         created(){
             this.ordersList();
 
-            axios.get('/admin/status/orders-type').then((res)=>{
-                this.types = res.data;
-            });
-
-            axios.get('/admin/order/users').then((res)=>{
-                this.users = res.data;
-            });
-
             axios.get('/admin/order-statuses-list', {params:  {perPage: 1000}}).then((res)=>{
                 this.order_statuses = res.data.data;
-            });
-
-            axios.get('/admin/carriers-list', {params:  {perPage: 1000}}).then((res)=>{
-                this.carriers = res.data.data;
-            });
-
-            axios.get('/admin/payments-list', {params:  {perPage: 1000}}).then((res)=>{
-                this.payments = res.data.data;
             });
 
             var order_show_filter = localStorage.getItem('order_show_filter');
             if(order_show_filter)
                this.order_show_filter = order_show_filter === 'true' ? true : false;
 
+            setTimeout(function () {
+
+                if(this.filter.p_order_id)
+                    this.edit(this.filter.p_order_id);
+
+            }.bind(this), 1000);
+
         },
         updated () {
             $('.selectpicker').selectpicker('refresh');
         },
         methods:{
+            orderSaved(p_order_id){
+                if(p_order_id)
+                {
+                    this.filter.p_order_id = p_order_id;
+                    this.ordersList();
+                    this.$oneParameterCurrent('p_order_id', 'add', p_order_id);
+                }
+            },
+            stateOrderPopup(state){
+                if(state == 'close')
+                {
+                    this.$oneParameterCurrent('p_order_id', 'delete');
+                    this.filter.p_order_id = 0;
+                    this.ordersList();
+                }
+            },
+            edit(p_order_id){
+                this.filter.p_order_id = p_order_id;
+                this.$refs.right_side_popup.active = true;
+                this.$oneParameterCurrent('p_order_id', 'add', p_order_id);
+            },
             showReport(){
                 $('#popup-peport').modal('show');
             },

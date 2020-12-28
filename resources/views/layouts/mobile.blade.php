@@ -99,9 +99,9 @@
 
 
 <script src="/site/js/jquery.lazyload.min.js"></script>
-<script src="/global/script.min.js"></script>
+<script src="/global/script.js"></script>
 
-<script type="text/javascript" src="/mobile/js/script.min.js"></script>
+<script type="text/javascript" src="/mobile/js/script.js"></script>
 
 
 

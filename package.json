@@ -33,6 +33,8 @@
         "vue-inputmask": "^0.2.1",
         "vue-jstree": "^2.1.6",
         "vue-loader": "^14.2.2",
+        "vue-loading-overlay": "^3.4.2",
+        "vue-notification": "^1.3.20",
         "vue-router": "^3.0.1",
         "vue-sortable-tree": "^1.2.2",
         "vue-swatches": "^1.0.3",

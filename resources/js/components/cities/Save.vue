@@ -105,9 +105,6 @@
                 }
             }
         },
-        mounted() {
-            console.log('Component mounted.')
-        },
         created(){
             if(this.city.id > 0)
             {

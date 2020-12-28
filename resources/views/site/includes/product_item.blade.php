@@ -35,6 +35,11 @@
                 {{ $product->name }}
             </a>
         </h3>
+
+        <p class="text-center {{ $product->status->class }}">
+            {{ $product->status->name }}
+        </p>
+
         @if($product->description_short)
             <p class="text-center">{!! $product->description_short !!}</p>
         @endif

@@ -71,7 +71,7 @@
             },
             reportDownload(){
 
-                console.log(this.filter);
+
 
                 if(this.report.view && this.report.ext)
                 {

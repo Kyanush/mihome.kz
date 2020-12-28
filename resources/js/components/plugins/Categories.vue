@@ -1,5 +1,5 @@
 <template>
-        <div id="categories"></div>
+    <div id="categories"></div>
 </template>
 
 <script>
@@ -11,7 +11,7 @@
         data () {
             return {
                 selected_keys: [],
-                categories: []
+                categories:    []
             }
         },
         methods:{

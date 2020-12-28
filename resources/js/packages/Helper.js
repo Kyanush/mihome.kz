@@ -149,6 +149,44 @@ export default function(Vue){
           }
         },
 
+        dateFormat2(dateString, type_format) {
+
+            if (!dateString) return '';
+            if (!type_format) type_format = 'datetime';
+
+            var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
+            var dateArray = reggie.exec(dateString);
+
+            if (!dateArray) {
+                reggie = /(\d{4})-(\d{2})-(\d{2})/;
+                dateArray = reggie.exec(dateString);
+            }
+
+            if (dateArray) {
+
+                if (type_format == 'date')
+                    return dateArray[3] + '.' + dateArray[2] + '.' + dateArray[1];
+
+                else if (type_format == 'datetime')
+                    return dateArray[3] + '.' + dateArray[2] + '.' + dateArray[1]
+                        + ' ' +
+                        dateArray[4] + ':' + dateArray[5];
+
+                else if (type_format == 'full')
+                    return dateArray[3] + '.' + dateArray[2] + '.' + dateArray[1]
+                        + ' ' +
+                        dateArray[4] + ':' + dateArray[5] + ':' + dateArray[6];
+
+                else if (type_format == 'time')
+                    return dateArray[4] + ':' + dateArray[5];
+
+                else if (type_format == 'fulltime')
+                    return dateArray[4] + ':' + dateArray[5] + ':' + dateArray[6];
+            } else {
+                return '';
+            }
+        },
+
         dateFormat(dateString, type_format){
 
             if(!dateString) return '';
@@ -209,7 +247,21 @@ export default function(Vue){
 
             return this.dateFormat(dateString, 'datetime');
         },
+        convertTimestamp(timestamp) {
+            var d = new Date(timestamp * 1000),
 
+                yyyy = d.getFullYear(),
+
+                mm   = ('0' + (d.getMonth() + 1)).slice(-2),
+                dd   = ('0' + d.getDate()).slice(-2),
+                hh   = ('0' + d.getHours()).slice(-2),
+                min  = ('0' + d.getMinutes()).slice(-2),
+                sec  = ('0' + d.getSeconds()).slice(-2),
+                time;
+
+            time = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + min + ':' + sec;
+            return time;
+        }
 
 
 

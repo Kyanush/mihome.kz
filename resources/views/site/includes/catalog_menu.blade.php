@@ -5,7 +5,11 @@
 
             @php
                 $categories_id_more = [];
-                $categories = \App\Models\Category::orderBy('sort', 'desc')->limit(5)->where('parent_id', 324)->get();
+                $categories = \App\Models\Category::isActive()
+                                                    ->orderBy('sort', 'desc')
+                                                    ->limit(5)
+                                                    ->where('parent_id', 324)
+                                                    ->get();
             @endphp
 
 
@@ -18,7 +22,10 @@
                         {{ $category->name }}
                     </a>
                     @php
-                        $categories2 = $category->children()->orderBy('sort', 'desc')->get();
+                        $categories2 = $category->children()
+                                                ->isActive()
+                                                ->orderBy('sort', 'desc')
+                                                ->get();
                     @endphp
                     @if(count($categories2) > 0)
                         <ul class="dropdown-menu mega-dropdown-menu row">
@@ -35,6 +42,7 @@
                                             
                                             @php
                                                 $products = \App\Models\Product::main()
+                                                                        ->isActive()
                                                                         ->orderByRaw('FIELD(status_id, 10, 11, 12), sort desc')
                                                                         ->filters(['category_id' => $category2->id])
                                                                         ->get();
@@ -81,7 +89,11 @@
                     <li class="divider"></li>
 
                     @php
-                        $categories = \App\Models\Category::whereNotIn('id', $categories_id_more)->orderBy('sort', 'desc')->where('parent_id', 324)->get();
+                        $categories = \App\Models\Category::whereNotIn('id', $categories_id_more)
+                                        ->orderBy('sort', 'desc')
+                                        ->isActive()
+                                        ->where('parent_id', 324)
+                                        ->get();
                     @endphp
 
                     @foreach($categories as $category)
@@ -93,7 +105,10 @@
                                     </a>
                                 </li>
                                 @php
-                                    $categories2 = $category->children()->orderBy('sort', 'desc')->get();
+                                    $categories2 = $category->children()
+                                                            ->isActive()
+                                                            ->orderBy('sort', 'desc')
+                                                            ->get();
                                 @endphp
                                 @foreach($categories2 as $category2)
                                     <li>

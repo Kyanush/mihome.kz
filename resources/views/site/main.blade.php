@@ -17,19 +17,21 @@
     <!-- SECTION -->
     <div class="section">
         <!-- container -->
-        <div class="container">
-            <div class="main-slider" style="width: 100%">
+        <div class="container1">
 
-                @foreach($listSlidersHomePage as $item)
-                    <a href="{{ $item->link }}" title="{{ $item->name }}" title="{{ $item->name }}">
-                        @if($item->typeFile() == 'video')
-                            <video width="100%" uk-cover="" src="{{ $item->pathImage(true) }}" loop="" autoplay="" muted="" playsinline=""></video>
-                        @elseif($item->typeFile() == 'image')
-                            <img data-lazy="{{ $item->pathImage(true) }}" alt="{{ $item->name }}"  class="lazy"/>
-                        @endif
-                    </a>
-                @endforeach
-            </div>
+
+                <div class="main-slider" style="width: 100%">
+                    @foreach($listSlidersHomePage as $item)
+                        <a href="{{ $item->link }}" title="{{ $item->name }}" title="{{ $item->name }}">
+                            @if($item->typeFile() == 'video')
+                                <video width="100%" uk-cover="" src="{{ $item->pathImage(true) }}" loop="" autoplay="" muted="" playsinline=""></video>
+                            @elseif($item->typeFile() == 'image')
+                                <img data-lazy="{{ $item->pathImage(true) }}" alt="{{ $item->name }}"  class="lazy"/>
+                            @endif
+                        </a>
+                    @endforeach
+                </div>
+
         </div>
         <!-- /container -->
     </div>
@@ -40,9 +42,9 @@
     @include('site.includes.product_day')
     @endif
 
-    @include('site.includes.product_slider', ['products' => $products1, 'title' => 'Флагманы - Mi'])
-    @include('site.includes.product_slider', ['products' => $products2, 'title' => 'Недорогие - Redmi'])
-    @include('site.includes.product_slider', ['products' => $products3, 'title' => 'Пылесосы'])
+    @include('site.includes.product_slider', ['products' => $products1, 'title' => 'Красота и здоровье'])
+    @include('site.includes.product_slider', ['products' => $products2, 'title' => 'Товары для дома'])
+    @include('site.includes.product_slider', ['products' => $products3, 'title' => 'Товары для кухни'])
 
     @if(false)
         <!-- HOT DEAL SECTION -->

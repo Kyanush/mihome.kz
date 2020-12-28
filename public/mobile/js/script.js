@@ -391,59 +391,64 @@ Vue.component('buy-in-1-click', {
             name:  user_info.name,
             email: user_info.email,
             phone: user_info.phone,
-            focus:{
-                name: 0,
-                email: 0,
-                phone: 1,
-            },
-            wait: false
+            address: '',
+            city: '',
+            carrier_id: 2,
+
+            wait: false,
+            list_carriers: [],
         }
     },
     template: `
         <div class="dialog">
             <form v-on:submit="buyIn1Click" method="post" enctype="multipart/form-data">
-                <div class="dialog__content _topbar-off" style="height: 400px;">
+                <div class="dialog__content _topbar-off">
                         <div class="topbar container _filter-dialog">
                            <h1 class="topbar__heading">Быстрый заказ</h1>
                            <div class="button _only-red-text" @click="close">Отмена</div>
                         </div>
                         <div>
-                            <div class="input" :class="{ '_has-value': name, '_focused': focus.name == 1, '_invalid': focus.name == 2 && !name }">
-                                <label class="input__label">Имя</label>
-                                <input 
-                                    type="text" 
-                                    class="input__input" 
-                                    v-model="name" 
-                                    @focus="focus.name = 1"
-                                    @blur="focus.name = 2"/>
+                            <div class="input _focused">
+                                <label class="input__label">Имя *</label>
+                                <input type="text" class="input__input" v-model="name" required/>
                             </div>
-                            <div class="input__has-error" v-if="focus.name == 2">Пожалуйста, заполните это поле</div>
                         </div>
                         <div>
-                            <div class="input" :class="{ '_has-value': email, '_focused': focus.email == 1, '_invalid': focus.email == 2 && !email }">
-                                <label class="input__label">Ваш e-mail</label>
-                                <input 
-                                    type="email" 
-                                    class="input__input" 
-                                    v-model="email" 
-                                    @focus="focus.email = 1"
-                                    @blur="focus.email = 2"/>
+                            <div class="input _focused">
+                                <label class="input__label">Ваш e-mail(не обязательно)</label>
+                                <input type="email" class="input__input" v-model="email"/>
                             </div>
-                            <div class="input__has-error" v-if="focus.email == 2">Пожалуйста, заполните это поле</div>
                         </div>
                         <div>
-                            <div class="input" :class="{ '_has-value': phone, '_focused': focus.phone == 1, '_invalid': focus.phone == 2 && !phone }">
-                                <label class="input__label">Введите номер телефона</label>
-                                <the-mask 
-                                       @focus="focus.phone = 1" 
-                                       @blur="focus.phone = 2"
-                                       placeholder="+7(777)777-77-77 *"
-                                       mask="+7(###)###-##-##"
-                                       class="input__input" 
-                                       v-model="phone"/>
+                            <div class="input _focused">
+                                <label class="input__label">Введите номер телефона *</label>
+                                <the-mask placeholder="+7(777)777-77-77 *" mask="+7(###)###-##-##" class="input__input" v-model="phone"/>
                             </div>
-                            <div class="input__has-error" v-if="focus.phone == 2">Пожалуйста, заполните это поле</div>
                         </div>                      
+                        <div>
+                            <div class="input _focused">
+                                <select class="pickup-delivery__location" v-model="carrier_id">
+                                    <option v-for="(item, index) in list_carriers" :value="item.id">
+                                         {{ item.name }} {{ item.price > 0 ? ' - ' + item.price + ' тг' : '' }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div v-if="carrier_id !== 2">
+                            <div class="input _focused">
+                                <label class="input__label">Адрес *</label>
+                                <input class="input__input" v-model="address" required/>
+                            </div>
+                        </div>
+
+                        <div v-if="carrier_id !== 2">
+                            <div class="input _focused">
+                                <label class="input__label">Город *</label>
+                                <input class="input__input" v-model="city" required/>
+                            </div>
+                        </div>
+
                 </div>
                 
                 <button type="submit" class="button _big _space">
@@ -474,6 +479,9 @@ Vue.component('buy-in-1-click', {
                 data.append('name',       this.name);
                 data.append('email',      this.email);
                 data.append('phone',      this.phone);
+                data.append('address',    this.address);
+                data.append('city',       this.city);
+                data.append('carrier_id', this.carrier_id);
                 data.append('product_id', app.product_id);
 
                 axios.post('/one-click-order', data).then(function (response) {
@@ -500,6 +508,13 @@ Vue.component('buy-in-1-click', {
         }
     },
     created(){
+
+        axios.post('/list-carriers').then((res)=>{
+            if(res.data){
+                this.list_carriers = res.data;
+            }
+        });
+
     },
 });
 
@@ -636,7 +651,8 @@ Vue.component('search-dialog', {
     data: function() {
         return  {
             search: '',
-            result: []
+            result: [],
+            loader: false
         }
     },
     template: `<div class="dialog">
@@ -644,10 +660,18 @@ Vue.component('search-dialog', {
 
                     <div class="search">
                         <div class="search__wrapper">
-                            <form action="" class="search__input-wrapper">
-                                <input v-model="search" type="search" class="search__input active" autofocus="" placeholder="Поиск товара">
+                            <a @click="close" class="search__button button _only-red-text">
+                                Закрыть 
+                            </a>
+                        </div>
+                        <div class="search__wrapper">
+                            <form v-on:submit="querySearch" class="search__input-wrapper">
+                                <input required v-model="search" type="text" class="search__input active" placeholder="Поиск товара">
+                                <button type="submit" class="search__button button _only-red-text">
+                                    <img height="15" v-show="loader" src="/site/images/ajax-loader.gif">
+                                    Поиск
+                                </button>
                             </form>
-                            <a @click="close" class="search__button button _only-red-text">Отмена</a>
                         </div>
                         <div class="search__suggestion-list">
                         
@@ -670,32 +694,29 @@ Vue.component('search-dialog', {
         close(){
             app.componentDialog = '';
         },
-        querySearch(){
-            var self = this;
+        querySearch(event){
+            event.preventDefault();
 
-            console.log(self.search);
+            this.loader = true;
+            var self = this;
 
             axios.get('/product-search',{
                 params: {
                     searchText: self.search,
                     maxResults: 10,
                 }
-            })
-                .then(function (response) {
-                    console.log(response.data);
-                    self.result = response.data;
-                });
-        }
-    },
-    watch: {
-        search: {
-            handler: function (val, oldVal) {
-                if(val)
-                    this.querySearch();
-                else
-                    this.result = [];
-            },
-            deep: true
+            }).then(function (response) {
+                self.result = response.data;
+
+                if(self.result.length == 0)
+                {
+                    Swal({
+                        type: 'error',
+                        title: 'По вашему запросу ничего не найдено'
+                    });
+                }
+                self.loader = false;
+            });
         }
     }
 });

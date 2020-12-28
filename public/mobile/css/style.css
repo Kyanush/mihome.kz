@@ -8125,3 +8125,89 @@ div,h1,h2,h3,h4,h5,h6,label,p,span {
     color: #ff0000!important;
     font-weight: bold;
 }
+
+
+.in-stock{
+    background: #fff;
+    color: #729f40;
+    border-color: #7fb147;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #fff;
+    border: 2px solid #7fb147;
+    box-shadow: 2px 12px 32px 0 rgba(30,34,30,.06);
+    text-align: center;
+}
+
+.coming-soon{
+    background: #fff;
+    color: #f7b041;
+    border-color: #f8ba59;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #fff;
+    border: 2px solid #f8ba59;
+    box-shadow: 2px 12px 32px 0 rgba(30,34,30,.06);
+    text-align: center;
+}
+
+.not-available{
+    background: #fff;
+    color: #ea561b;
+    border-color: #ea561b;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #fff;
+    border: 2px solid #ea561b;
+    box-shadow: 2px 12px 32px 0 rgba(30,34,30,.06);
+    text-align: center;
+}
+
+
+
+#breadcrumb {
+    background: #FBFBFC;
+    border-bottom: 1px solid #E4E7ED;
+}
+
+#breadcrumb .breadcrumb-header {
+    display: inline-block;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 15px;
+    text-transform: uppercase;
+}
+
+#breadcrumb .breadcrumb-tree {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+#breadcrumb .breadcrumb-tree li {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+#breadcrumb .breadcrumb-tree li span{
+    display: unset;
+    font-size: 12px;
+    color: #8D99AE;
+    font-weight: unset;
+}
+
+#breadcrumb .breadcrumb-tree li+li {
+    margin-left: 4px;
+}
+
+#breadcrumb .breadcrumb-tree li+li:before {
+    content: '/';
+    display: inline-block;
+    color: #3c92c3;
+    margin-right: 4px;
+}
+
+#breadcrumb .breadcrumb-tree li a {
+    color: #3c92c3;
+}

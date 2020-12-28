@@ -51,12 +51,27 @@
                                     </td>
                                 </tr>
                                 <tr class="odd even">
-                                    <td><b>Статус:</b></td>
+                                    <td><b>Показать товар:</b></td>
                                     <td>
                                         <select class="form-control" v-model="filter.active">
                                             <option value="">Все</option>
                                             <option value="0">Неактивный</option>
                                             <option value="1">Активный</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr class="odd even">
+                                    <td>
+                                        <label>Статус:</label>
+                                    </td>
+                                    <td>
+                                        <select v-model="filter.status_id" class="form-control">
+                                            <option v-for="item in statuses"
+                                                    :selected="item.default === 1"
+                                                    :value="item.id"
+                                                    v-if="item.where_use == 'products_status_id'">
+                                                {{ item.name }}
+                                            </option>
                                         </select>
                                     </td>
                                 </tr>
@@ -80,6 +95,7 @@
                                         <input type="text" class="form-control" placeholder="Артикул" v-model="filter.sku">
                                     </td>
                                 </tr>
+
                                 <tr class="odd even">
                                     <td><b>Дата создания:</b></td>
                                     <td>
@@ -158,34 +174,39 @@
                             ID
                             <SortTable v-model="filter.sort" :column="'id'"></SortTable>
                         </th>
-                        <th>
-                            Sort
-                            <SortTable v-model="filter.sort" :column="'sort'"></SortTable>
-                        </th>
                         <th width="200">
                             Название
                             <SortTable v-model="filter.sort" :column="'name'"></SortTable>
                         </th>
                         <th width="100">
-                            Показать товар
+                            Статус
                             <SortTable v-model="filter.sort" :column="'active'"></SortTable>
                         </th>
-                        <th>Статус</th>
-                        <th>Фото</th>
+                        <th>Фото товара</th>
                         <th>Категории</th>
-                        <th>Артикул</th>
                         <th>
                             Цена
                             <SortTable v-model="filter.sort" :column="'price'"></SortTable>
                         </th>
-                        <th width="110">Просмотр
+                        <th width="120">Кол-во на<br/> складе
+                            <SortTable v-model="filter.sort" :column="'stock'"></SortTable>
+                        </th>
+                        <th width="110">Кол-во <br/>просмотров
                             <SortTable v-model="filter.sort" :column="'view_count'"></SortTable>
                         </th>
+                        <th>
+                            Дата создания<br/>Дата изменения
+                            <SortTable v-model="filter.sort" :column="'created_at'"></SortTable>
+                        </th>
+
                         <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="odd even" v-for="(item, index) in products.data" title="Нажмите дважды чтобы изменить" v-on:dblclick="changeQuicklySelect(item)">
+                    <tr class="odd even" v-for="(item, index) in products.data"
+                        v-bind:class="{ 'deleted': !item.active }"
+                        title1="Нажмите дважды чтобы изменить"
+                        v-on:dblclick="changeQuicklySelect(item)">
 
                         <td>
                            <input type="checkbox" v-model="selected.products_ids" :value="item.id" v-if="!selected.all"/>
@@ -194,24 +215,17 @@
                             {{ item.id }}
                         </td>
                         <td>
-                            {{ item.sort }}
-                        </td>
-                        <td>
                             <router-link :to="{ path: '/product/' + item.id}">
                                 {{ item.name }}
                             </router-link>
-                        </td>
-                        <td>
-                            <i class="fa fa-times-circle" aria-hidden="true" v-bind:class="{ 'fa-times-circle red': !item.active, 'fa-check-circle green': item.active }"></i>
                         </td>
                         <td v-html="item.status.class + ' ' + item.status.name"></td>
                         <td>
                             <img v-bind:src="item.path_photo" width="70" class="img"/>
                         </td>
                         <td>
-                             {{ item.category.name }}
+                            {{ item.category.name }}
                         </td>
-                        <td>{{ item.sku }}</td>
                         <td>
                             <span v-if="item.price_discount">
                                  <del> {{ item.format_price }}</del>
@@ -222,8 +236,19 @@
                                 {{ item.format_price }}
                             </span>
                         </td>
+                        <td>
+                            Поступление: {{ item.balance.stock }}
+                            <br/>
+                            Продажа: {{ item.balance.sold }}
+                            <br/>
+                            Остаток: {{ item.balance.balance }}
+                        </td>
                         <td>{{ item.view_count }}</td>
-
+                        <td>
+                            {{ dateFormat(item.created_at) }}
+                            <br/>
+                            {{ dateFormat(item.updated_at) }}
+                        </td>
 
                         <td>
                             <p>
@@ -236,7 +261,7 @@
                                 </router-link>
                             </p>
                             <p>
-                                <a class="btn btn-xs btn-default" @click="deleteProduct(item, index)" title="Удалить">
+                                <a v-if="$can('products_delete')" class="btn btn-xs btn-default" @click="deleteProduct(item, index)" title="Удалить">
                                     <i class="fa fa-remove"></i> <!--Удалить-->
                                 </a>
                                 <a class="btn btn-xs btn-default clone-btn" @click="cloneShow(item)" title="Создать дубликат">
@@ -252,15 +277,14 @@
                             <input type="checkbox" v-model="selected.all"/>
                         </th>
                         <th>ID</th>
-                        <th>Sort</th>
                         <th>Название</th>
-                        <th>Показать товар</th>
                         <th>Статус</th>
-                        <th>Фото</th>
+                        <th>Фото товара</th>
                         <th>Категории</th>
-                        <th>Артикул</th>
                         <th>Цена</th>
-                        <th>Просмотр</th>
+                        <th>Количество на<br/> складе</th>
+                        <th>Кол-во <br/>просмотров</th>
+                        <th>Дата создания<br/>Дата изменения</th>
                         <th>Действия</th>
                     </tr>
                     <tr v-if="selected.products_ids.length > 0 || selected.all">
@@ -270,8 +294,9 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        <th></th>
+                        <th>
+
+                        </th>
                         <th></th>
                         <th></th>
                         <th>
@@ -419,6 +444,7 @@
                         <div class="modal-body">
                             <table class="table table-bordered ">
                                 <tbody>
+
                                     <tr>
                                         <td width="25%" class="text-right">
                                             <label>
@@ -501,7 +527,11 @@
                     {
                         id: 'yandex-directory',
                         text: 'Яндекс справочник'
-                    }
+                    },
+                    {
+                        id: '2gis-directory',
+                        text: '2gis справочник'
+                    },
                 ],
 
                 product_show_filter: false,
@@ -531,7 +561,8 @@
                     created_at_start:   this.$route.query.created_at_start,
                     created_at_end:     this.$route.query.created_at_end,
                     category_id:        this.$route.query.category_id,
-                    sort:               this.$route.query.sort
+                    sort:               this.$route.query.sort,
+                    status_id:          this.$route.query.status_id,
                 },
                 clone_product:{
                     product_id: 0,
@@ -556,10 +587,16 @@
                     name:   '',
                     price:  0,
                     active: 1
-                }
+                },
+                statuses: []
             }
         },
         created() {
+
+            axios.get('/admin/status/list').then((res)=>{
+                this.statuses = res.data;
+            });
+
             var product_show_filter = localStorage.getItem('product_show_filter');
             if(product_show_filter)
                 this.product_show_filter = product_show_filter === 'true' ? true : false;
@@ -583,7 +620,6 @@
                 });
             });
 
-            this.productsList();
         },
 
         watch: {
@@ -642,6 +678,7 @@
                         axios.post('/admin/products-selected-edit', {
 
                             products_ids: this.selected.products_ids,
+
                             active:       this.selected.active,
                             action:       action,
                             filter:       this.filter,
@@ -746,8 +783,11 @@
                         var data = res.data;
                         this.products_attributes_filters = data;
                     });
+
+                    params['main'] = true;
                     axios.post('/admin/products-list', params).then((res)=>{
                         this.products = res.data;
+
                     });
                     axios.post('/admin/product-price-min-max', params).then((res)=>{
                         this.products_price = res.data;

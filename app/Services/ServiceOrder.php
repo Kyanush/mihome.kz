@@ -19,7 +19,7 @@ class ServiceOrder implements OrderInterface
         return true;
     }
 
-    public static function productAdd($product_id, $order_id, $quantity = 1, $price = 0)
+    public static function productAdd($product_id, $order_id, $quantity = 1, $price = 0, $price0 = false, $product_stock_id = 0)
     {
         $product = Product::with(['specificPrice' => function($query){
             $query->DateActive();
@@ -27,7 +27,8 @@ class ServiceOrder implements OrderInterface
 
         if($product)
         {
-            if($price == 0)
+
+            if($price == 0 and !$price0)
             {
                 if($product->specificPrice)
                     $price = $product->getReducedPrice();
@@ -39,13 +40,16 @@ class ServiceOrder implements OrderInterface
             //findOrNew
             $order = Order::find($order_id);
 
+            $data = [
+                'name'       => $product->name,
+                'sku'        => $product->sku,
+                'price'      => $price,
+                'quantity'   => $quantity,
+                'product_stock_id' => $product_stock_id ? $product_stock_id : null
+            ];
+
             $order->products()->syncWithoutDetaching([$product_id =>
-                [
-                    'name'       => $product->name,
-                    'sku'        => $product->sku,
-                    'price'      => $price,
-                    'quantity'   => $quantity
-                ]
+                $data
             ]);
 
             self::totalOrder($order_id);
@@ -68,7 +72,11 @@ class ServiceOrder implements OrderInterface
             if (!$order)
                 return false;
 
-            $emails = Setting::where('key', 'order_notification_email')->pluck('value')->toArray();
+            $emails = [];
+
+            $settings = Setting::where('key', 'order_notification_email')->get();
+            foreach ($settings as $setting)
+                $emails[] = $setting->value;
 
             if($order->user_email)
                 $emails[] = $order->user_email;
@@ -76,8 +84,14 @@ class ServiceOrder implements OrderInterface
             if(count($emails) > 0)
             {
                 $subject = env('APP_NAME') . ' - ' . 'заказ №:' . $order->id;
-                Mail::to($emails)->send(new \App\Mail\OrderEmail($order, $subject));
+                Mail::send('mails.order', ['order' => $order, 'subject' => $subject], function($m) use($subject, $emails)
+                {
+                    $m->to($emails)->subject($subject);
+                });
             }
+
+            $serviceTelegram = new ServiceTelegram();
+            $serviceTelegram->sendOrder($order_id);
 
         }
         return true;

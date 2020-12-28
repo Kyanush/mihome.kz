@@ -53,10 +53,13 @@
                 </span>
             </div>
             <div class="item-card__instalment">
+
+                <!--
                 <span class="item-card__prices-price">
                       {!! $product->status->class !!}
                 </span>
-                <span class="item-card__add-info">
+                -->
+                <span class="item-card__add-info {{ $product->status->class }}">
                     {{ $product->status->name }}
                 </span>
 

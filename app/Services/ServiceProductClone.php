@@ -37,7 +37,7 @@ class ServiceProductClone
 
         if($this->data)
         {
-            $this->data['url'] = '';
+           // $this->data['url'] = '';
             $clone->fill($this->data);
             $clone->save();
         }
@@ -53,6 +53,7 @@ class ServiceProductClone
             $clone->photo = $photo;
             $clone->save();
         }
+
 
         //атрибуты
         if($this->clone_attributes)
@@ -114,7 +115,20 @@ class ServiceProductClone
             }
         }
 
-
+/*
+        foreach($product->children as $children)
+        {
+            $clone2 = new ServiceProductClone($children->id);
+            $clone2->data = ['parent_id' => $clone->id];
+            $clone2->clone_group               = true;
+            $clone2->clone_photo               = true;
+            $clone2->clone_attributes          = true;
+            $clone2->clone_specific_price      = true;
+            $clone2->clone_product_images      = true;
+            $clone2->clone_reviews             = true;
+            $clone2->clone_product_accessories = true;
+            $clone2->clone();
+        }*/
 
 
         return true;

@@ -22,7 +22,7 @@
     @include('mobile.includes.space', ['style' => 'height: 17.073vw;'])
 
     <div class="catalog-items _grid">
-        <?php $categories = \App\Models\Category::orderBy('sort', 'desc')->where('parent_id', 324)->get();?>
+        <?php $categories = \App\Models\Category::orderBy('sort', 'desc')->isActive()->where('parent_id', 324)->get();?>
         @foreach($categories as $category)
             <a href="{{ $category->url_full }}" class="catalog-item container">
                 <span class="catalog-item__img">
@@ -41,21 +41,21 @@
 
     <div class="mount-catalog-grid">
         <div class="catalog-grid _list _top">
-            <h3 class="container-title">Флагманы - Mi</h3>
+            <h3 class="container-title">Красота и здоровье</h3>
             @foreach($products1 as $product)
                 @include('mobile.includes.product_item', ['product' => $product])
             @endforeach
         </div>
 
         <div class="catalog-grid _list _top">
-            <h3 class="container-title">Недорогие - Redmi</h3>
+            <h3 class="container-title">Товары для дома</h3>
             @foreach($products2 as $product)
                 @include('mobile.includes.product_item', ['product' => $product])
             @endforeach
         </div>
 
         <div class="catalog-grid _list _top">
-            <h3 class="container-title">Пылесосы</h3>
+            <h3 class="container-title">Товары для кухни</h3>
             @foreach($products3 as $product)
                 @include('mobile.includes.product_item', ['product' => $product])
             @endforeach

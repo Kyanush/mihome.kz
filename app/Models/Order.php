@@ -19,7 +19,6 @@ class Order extends Model
         'status_id',
         'carrier_id',
         'comment',
-        'comment_admin',
         'delivery_date',
         'total',
         'payment_id',
@@ -79,6 +78,9 @@ class Order extends Model
 
             if(!$model->user_id)
                 $model->user_id = null;
+
+            if($model->user_phone)
+                $model->user_phone = preg_replace("/[^0-9]/", '', $model->user_phone);
 
         });
 
@@ -152,7 +154,7 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany('App\Models\Product')->withPivot(['name', 'sku', 'price', 'quantity']);
+        return $this->belongsToMany('App\Models\Product')->withPivot(['id', 'name', 'sku', 'price', 'quantity', 'product_stock_id']);
     }
 
 
@@ -206,6 +208,19 @@ class Order extends Model
         if(isset($filter['created_at_end']))
             $query->whereDate('created_at', '<=', $filter['created_at_end']);
 
+        if(isset($filter['user_name']))
+            $query->whereLike('user_name',   $filter['user_name']);
+
+        if(isset($filter['user_phone']))
+            $query->whereLike('user_phone',   $filter['user_phone']);
+
+        $product_name = $filter['product_name'] ?? false;
+        if($product_name)
+        {
+            $query->whereHas('products', function($query) use ($product_name){
+                $query->where(DB::raw('t_products.name'), 'like', '%' . $product_name . '%');
+            });
+        }
 
         return $query;
     }

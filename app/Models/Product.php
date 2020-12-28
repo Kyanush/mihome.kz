@@ -46,7 +46,7 @@ class Product extends Model
         'reviews_rating_avg',
         'reviews_count',
         'comment_id'
-	];
+    ];
 
     public function scopeIsActive($query){
         return $query->where('active', 1);
@@ -115,18 +115,23 @@ class Product extends Model
         if(isset($filters['active']))
             $query->where('active', $filters['active']);
 
+        if(isset($filters['status_id']))
+            $query->where('status_id', $filters['status_id']);
+
+
+
         if(!empty($filters['category']) or !empty($filters['category_id']))
         {
 
             $category = Category::where(function ($query) use ($filters){
 
-                        if(!empty($filters['category']))
-                            $query->where('url', $filters['category']);
+                if(!empty($filters['category']))
+                    $query->where('url', $filters['category']);
 
-                        if(!empty($filters['category_id']))
-                            $query->find($filters['category_id']);
+                if(!empty($filters['category_id']))
+                    $query->find($filters['category_id']);
 
-                    })->first();
+            })->first();
 
             if($category)
             {
@@ -140,49 +145,49 @@ class Product extends Model
 
     public function scopeFiltersAttributes($query, $filters){
 
-            $product_attribute_count = $product_ids = [];
+        $product_attribute_count = $product_ids = [];
 
-            if(count($filters) > 0)
-                foreach ($filters as $filter_code => $filter_value)
+        if(count($filters) > 0)
+            foreach ($filters as $filter_code => $filter_value)
+            {
+
+                if(empty($filter_code) or empty($filter_value))
+                    continue;
+
+                $attribute = Attribute::where('code', $filter_code)->first();
+                if($attribute)
                 {
-
-                    if(empty($filter_code) or empty($filter_value))
-                        continue;
-
-                    $attribute = Attribute::where('code', $filter_code)->first();
-                    if($attribute)
+                    $value = $attribute->values()->where('code', $filter_value)->first()->value ?? false;
+                    if($value)
                     {
-                       $value = $attribute->values()->where('code', $filter_value)->first()->value ?? false;
-                       if($value)
-                       {
-                           $attributeProductValue = AttributeProductValue::where('attribute_id', $attribute->id)->where('value', $value)->get();
-                           foreach ($attributeProductValue as $item)
-                           {
-                               $product_attribute_count[ $item->product_id ][] = $item->product_id;
-                           }
-                       }
+                        $attributeProductValue = AttributeProductValue::where('attribute_id', $attribute->id)->where('value', $value)->get();
+                        foreach ($attributeProductValue as $item)
+                        {
+                            $product_attribute_count[ $item->product_id ][] = $item->product_id;
+                        }
                     }
                 }
-
-            $max = 0;
-            foreach ($product_attribute_count as $key => $item)
-            {
-                if(count($item) > $max)
-                    $max = count($item);
             }
 
-            foreach ($product_attribute_count as $key => $item)
-            {
-                if(count($item) == $max)
-                {
-                    $product_ids[$key] = $key;
-                }
-            }
+        $max = 0;
+        foreach ($product_attribute_count as $key => $item)
+        {
+            if(count($item) > $max)
+                $max = count($item);
+        }
 
-            if(count($product_ids) > 0)
+        foreach ($product_attribute_count as $key => $item)
+        {
+            if(count($item) == $max)
             {
-                $query->whereIn('id', $product_ids);
+                $product_ids[$key] = $key;
             }
+        }
+
+        if(count($product_ids) > 0)
+        {
+            $query->whereIn('id', $product_ids);
+        }
 
         return $query;
     }
@@ -190,7 +195,7 @@ class Product extends Model
 
 
 
-	protected static function boot()
+    protected static function boot()
     {
         parent::boot();
 
@@ -207,19 +212,19 @@ class Product extends Model
 
             if(env('APP_TEST') == 0)
             {
-                    $old_status_id = self::find($product->id)->status_id;
+                $old_status_id = self::find($product->id)->status_id;
 
-                    if ($product->status_id == 10 and $product->status_id != $old_status_id)
+                if ($product->status_id == 10 and $product->status_id != $old_status_id)
+                {
+                    $emails = $product->subscribe()->pluck('email')->toArray();
+                    if(count($emails) > 0)
                     {
-                        $emails = $product->subscribe()->pluck('email')->toArray();
-                        if(count($emails) > 0)
-                        {
-                            $subject = env('APP_NAME') . ' - ' . 'Товар "' . $product->name . '" в наличии';
-                            Mail::to($emails)->send(new \App\Mail\IsStockProductEmail($product, $subject));
+                        $subject = env('APP_NAME') . ' - ' . 'Товар "' . $product->name . '" в наличии';
+                        Mail::to($emails)->send(new \App\Mail\IsStockProductEmail($product, $subject));
 
-                            $product->subscribe()->delete();
-                        }
+                        $product->subscribe()->delete();
                     }
+                }
             }
 
 
@@ -313,8 +318,8 @@ class Product extends Model
 
 
     //категория
-	public function categories()
-	{
+    public function categories()
+    {
         return $this->belongsToMany('App\Models\Category', 'category_product', 'product_id', 'category_id');
     }
 
@@ -324,11 +329,11 @@ class Product extends Model
     }
 
     //атрибуты
-	public function attributes()
-	{
-		return $this->belongsToMany('App\Models\Attribute', 'attribute_product_value', 'product_id', 'attribute_id')
-                    ->withPivot(['name', 'value']);
-	}
+    public function attributes()
+    {
+        return $this->belongsToMany('App\Models\Attribute', 'attribute_product_value', 'product_id', 'attribute_id')
+            ->withPivot(['name', 'value']);
+    }
 
     public function attributeProductValue()
     {
@@ -336,12 +341,12 @@ class Product extends Model
     }
 
     //Картинка
-	public function images()
-	{
-		return $this->hasMany('App\Models\ProductImage')->orderBy('order', 'ASC');
-	}
+    public function images()
+    {
+        return $this->hasMany('App\Models\ProductImage')->orderBy('order', 'ASC');
+    }
 
-	//аксессуары
+    //аксессуары
     public function productAccessories()
     {
         return $this->belongsToMany('App\Models\Product', 'product_accessories', 'product_id', 'accessory_product_id');
@@ -396,7 +401,7 @@ class Product extends Model
 
     public function avgRating()
     {
-         return $this->belongsToMany('App\Models\Review', 'review_product', 'product_id', 'review_id')
+        return $this->belongsToMany('App\Models\Review', 'review_product', 'product_id', 'review_id')
             ->select([DB::raw('t_review_product.product_id'), DB::raw('TRUNCATE(avg(rating), 0) as avg_rating')])
             ->isActive()
             ->GroupBy(DB::raw('t_review_product.product_id'));
@@ -405,45 +410,150 @@ class Product extends Model
     public function oneProductFeaturesCompare()
     {
         return $this->hasOne('App\Models\ProductFeaturesCompare', 'product_id', 'id')
-                    ->where('visit_number', Helpers::visitNumber());
+            ->where('visit_number', Helpers::visitNumber());
     }
 
     public function oneProductFeaturesWishlist()
     {
         return $this->hasOne('App\Models\ProductFeaturesWishlist', 'product_id', 'id')
-                    ->where('user_id', Auth::check() ? Auth::user()->id : 0);
+            ->where('user_id', Auth::check() ? Auth::user()->id : 0);
     }
 
     public function inCart(){
         return $this->hasOne('App\Models\CartItem', 'product_id', 'id')
-                    ->whereHas('cart', function ($query){
-                         $query->currentUser();
-                    });
+            ->whereHas('cart', function ($query){
+                $query->currentUser();
+            });
     }
 
     public function scopeProductInfoWith($query){
         return
-        $query->with([
-            'specificPrice' => function($query){
-                $query->dateActive();
-            },
-            //'attributes',
-            //'categories',
-            //'avgRating',
-            //'oneProductFeaturesCompare',
-            //'oneProductFeaturesWishlist',
-            //'inCart'
-        ])
-        ->isActive()
+            $query->with([
+                'specificPrice' => function($query){
+                    $query->dateActive();
+                },
+                //'attributes',
+                //'categories',
+                //'avgRating',
+                //'oneProductFeaturesCompare',
+                //'oneProductFeaturesWishlist',
+                //'inCart'
+            ])
+                ->isActive()
 
             /*
         ->withCount(['reviews' => function($query){
             $query->isActive();
         }])
         */
-        ;
+            ;
     }
 
+    //склад
+    public function orders()
+    {
+        return $this->hasMany('App\Models\OrderProduct', 'product_id', 'id');
+    }
+
+    //склад
+    public function stock()
+    {
+        return $this->hasMany('App\Models\ProductStock', 'product_id', 'id');
+    }
+
+    public function balance($arrival_id = 0){
+
+
+        $sold = $this->orders()
+            ->where(function ($query) use ($arrival_id){
+
+                if($arrival_id)
+                {
+                    $query->whereHas('stock', function ($query) use ($arrival_id){
+                        $query->where('arrival_id', $arrival_id);
+                    });
+                }
+
+            })
+            ->whereHas('order', function ($query) use ($arrival_id){
+                $query->whereNotIn('status_id', [6]);
+            })
+            ->sum('quantity');
+
+
+        $stock = $this->stock()->where(function ($query) use ($arrival_id){
+
+            if($arrival_id)
+                $query->where('arrival_id', $arrival_id);
+
+        })->sum('quantity');
+
+        //Остаток продажи
+        $remaining_sale = ($stock - $sold) * $this->getReducedPrice();
+
+
+        //Себестоимость сумма
+        $cost_price     = ($stock - $sold) * $this->stock()->where(function ($query) use ($arrival_id){
+
+                if($arrival_id)
+                    $query->where('arrival_id', $arrival_id);
+
+            })->avg('price');
+
+
+        //Прибыль
+        $profit = 0;
+        $products = $this->orders()
+            ->where(function ($query) use ($arrival_id){
+
+                if($arrival_id)
+                {
+                    $query->whereHas('stock', function ($query) use ($arrival_id){
+                        $query->where('arrival_id', $arrival_id);
+                    });
+                }
+
+            })
+            ->whereHas('order', function ($query){
+                $query->where('status_id', 5);
+            })->get();
+
+        if($products)
+            foreach ($products as $product)
+            {
+                $productStock = ProductStock::find($product->product_stock_id);
+                if($productStock)
+                    if($product->price > 0)
+                        $profit += ($product->price - $productStock->price) * $product->quantity;
+            }
+
+
+
+        return [
+            'sold'                  => $sold,
+            'stock'                 => $stock,
+            'balance'               => $stock - $sold,
+
+            //Остаток продажи
+            'remaining_sale'        => [
+                'sum'    => $remaining_sale,
+                'format' => \App\Tools\Helpers::priceFormat($remaining_sale)
+            ],
+
+            //Себестоимость сумма
+            'cost_price'        => [
+                'sum'    => $cost_price,
+                'format' => \App\Tools\Helpers::priceFormat($cost_price)
+            ],
+
+            //Прибыль
+            'profit'        => [
+                'sum'    => $profit,
+                'format' => \App\Tools\Helpers::priceFormat($profit)
+            ]
+
+        ];
+    }
 
 
     /**** Скидки   ***/
@@ -456,10 +566,10 @@ class Product extends Model
             {
                 case 'percent':
                     $price = $price - $this->specificPrice->reduction / 100 * $price;
-                break;
+                    break;
                 case 'sum':
                     $price = $price - $this->specificPrice->reduction;
-                break;
+                    break;
             }
         }
         return $price;
@@ -520,25 +630,12 @@ class Product extends Model
     public function deletePhoto()
     {
         if($this->pathPhoto())
-           return File::delete($this->pathPhoto());
+            return File::delete($this->pathPhoto());
         else
             return false;
     }
 
 
-    public function getPhoto(){
 
-
-        if(empty($this->photo) and $this->parent_id)
-        {
-            $photo      = $this->parent->photo;
-            $product_id = $this->parent->id;
-        }else{
-            $product_id = $this->id;
-            $photo      = $this->photo;
-        }
-
-        return env('APP_URL') . '/' . config('shop.products_path_file') . $product_id . '/' . $photo;
-    }
 
 }

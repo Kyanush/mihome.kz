@@ -12,9 +12,7 @@ import attributes_save    from  '../components/attributes/Save.vue';
 
 import products_list    from  '../components/products/List.vue';
 import products_save    from  '../components/products/Save.vue';
-
-import subscriptions    from  '../components/products/Subscriptions.vue';
-
+import product_stock    from  '../components/products/StockList.vue';
 
 import import_export   from '../components/import-export/Import-export.vue';
 
@@ -40,7 +38,6 @@ import callbacks_list   from  '../components/callbacks/List.vue';
 import callbacks_detail from  '../components/callbacks/Save.vue';
 
 import orders_list     from  '../components/orders/List.vue';
-import orders_detail   from  '../components/orders/Detail.vue';
 
 import sliders_list from  '../components/sliders/List.vue';
 import sliders_save from  '../components/sliders/Save.vue';
@@ -60,9 +57,16 @@ import layout from  '../components/Layout.vue';
 import checkout from  '../components/checkout/Checkout.vue';
 import HistoryBack from  '../components/plugins/HistoryBack.vue';
 
+import permissions       from '../components/permissions/permissions';
+import telefon_sena      from '../components/telefon_sena';
+
+import accessIsDenied    from '../components/AccessIsDenied';
+import not_found         from '../components/404';
+
 Vue.component('layout',       layout);
 Vue.component('checkout',     checkout);
 Vue.component('history_back', HistoryBack);
+Vue.component('telefon_sena', telefon_sena);
 
 Vue.use(Router);
 
@@ -78,7 +82,9 @@ export default new Router({
             component: main,
             meta: {
                 title: 'Статистика',
-            }
+                roles: ['main']
+            },
+
         },
 
 
@@ -91,7 +97,8 @@ export default new Router({
                 title: 'Категории',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['categories']
             }
         },
         {
@@ -103,7 +110,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Категории', link: '/categories' },
-                ]
+                ],
+                roles: ['categories']
             }
         },
         {
@@ -115,7 +123,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Категории', link: '/categories' },
-                ]
+                ],
+                roles: ['categories_reorder']
             }
         },
         {
@@ -127,7 +136,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Категории', link: '/categories' },
-                ]
+                ],
+                roles: ['categories']
             }
         },
 
@@ -146,7 +156,8 @@ export default new Router({
                 title: 'Характеристики',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['attributes']
             }
         },
         {
@@ -158,7 +169,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Характеристики', link: '/attributes' },
-                ]
+                ],
+                roles: ['attributes']
             }
         },
         {
@@ -170,7 +182,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Характеристики', link: '/attributes' },
-                ]
+                ],
+                roles: ['attributes']
             }
         },
 
@@ -184,7 +197,8 @@ export default new Router({
                 title: 'Товары',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['products']
             }
         },
         {
@@ -196,7 +210,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Товары',           link: '/products' },
-                ]
+                ],
+                roles: ['products']
             }
         },
         {
@@ -208,18 +223,33 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Товары',           link: '/products' },
-                ]
+                ],
+                roles: ['products']
+            }
+        },
+        {
+            path: '/product-stock',
+            name: 'product_stock',
+            component: product_stock,
+            meta: {
+                title: 'Количество на складе',
+                breadcrumb: [
+                    { title: 'Главная страница', link: '/main' }
+                ],
+                roles: ['product_stock']
             }
         },
         {
             path: '/import-export',
             component: import_export,
+            name: 'import_export',
             meta: {
                 title: 'Импорт/Экспорт',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Товары',           link: '/products' },
-                ]
+                ],
+                roles: ['import_export']
             }
         },
 
@@ -228,13 +258,15 @@ export default new Router({
         //Отзывы
         {
             path: '/reviews',
+            name: 'reviews',
             component: reviews,
             meta: {
                 title: 'Отзывы',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Товары', link: '/products' },
-                ]
+                ],
+                roles: ['reviews']
             }
         },
 
@@ -250,7 +282,8 @@ export default new Router({
                 roles: ['admin'],
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['users']
             }
         },
         {
@@ -263,7 +296,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Клиенты и пользователи', link: '/users' },
-                ]
+                ],
+                roles: ['users']
             }
         },
         {
@@ -276,7 +310,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Клиенты и пользователи', link: '/users' },
-                ]
+                ],
+                roles: ['users']
             }
         },
 
@@ -292,7 +327,8 @@ export default new Router({
                 title: 'Курьеры',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['carriers']
             }
         },
         {
@@ -304,7 +340,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Курьеры', link: '/carriers' },
-                ]
+                ],
+                roles: ['carriers']
             }
         },
         {
@@ -316,7 +353,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Курьеры', link: '/carriers' },
-                ]
+                ],
+                roles: ['carriers']
             }
         },
 
@@ -332,7 +370,8 @@ export default new Router({
                 title: 'Слайдеры',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['sliders']
             }
         },
         {
@@ -344,7 +383,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Слайдеры', link: '/sliders' },
-                ]
+                ],
+                roles: ['sliders']
             }
         },
         {
@@ -356,7 +396,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Слайдеры', link: '/sliders' },
-                ]
+                ],
+                roles: ['sliders']
             }
         },
 
@@ -370,7 +411,8 @@ export default new Router({
                 title: 'Статусы заказов',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['order_statuses']
             }
         },
         {
@@ -382,7 +424,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Статусы заказов', link: '/order-statuses' },
-                ]
+                ],
+                roles: ['order_statuses']
             }
         },
         {
@@ -394,7 +437,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Статусы заказов', link: '/order-statuses' },
-                ]
+                ],
+                roles: ['order_statuses']
             }
         },
 
@@ -402,12 +446,14 @@ export default new Router({
         //Скидки
         {
             path: '/specific-prices',
+            name: 'specific_prices',
             component: specific_prices_list,
             meta: {
                 title: 'Скидки',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['specific_prices']
             }
         },
 
@@ -421,7 +467,8 @@ export default new Router({
                 title: 'Обратный звонок',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['callbacks']
             }
         },
         {
@@ -433,7 +480,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Обратный звонок', link: '/callbacks' },
-                ]
+                ],
+                roles: ['callbacks']
             }
         },
 
@@ -448,31 +496,8 @@ export default new Router({
                 title: 'Заказы',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
-            }
-        },
-        {
-            path: '/order/:order_id',
-            name: 'order_edit',
-            component: orders_detail,
-            meta: {
-                title: 'Заказ',
-                breadcrumb: [
-                    { title: 'Главная страница', link: '/main' },
-                    { title: 'Заказы', link: '/orders' },
-                ]
-            }
-        },
-        {
-            path: '/order',
-            name: 'order_create',
-            component: orders_detail,
-            meta: {
-                title: 'Создать заказ',
-                breadcrumb: [
-                    { title: 'Главная страница', link: '/main' },
-                    { title: 'Создать заказ', link: '/orders' },
-                ]
+                ],
+                roles: ['orders']
             }
         },
 
@@ -489,7 +514,8 @@ export default new Router({
                 title: 'Тип оплаты',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['payments']
             }
         },
         {
@@ -501,7 +527,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Тип оплаты', link: '/payments' },
-                ]
+                ],
+                roles: ['payments']
             }
         },
         {
@@ -513,7 +540,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Тип оплаты', link: '/payments' },
-                ]
+                ],
+                roles: ['payments']
             }
         },
 
@@ -529,7 +557,8 @@ export default new Router({
                 title: 'Тип оплаты',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['cities']
             }
         },
         {
@@ -541,7 +570,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Тип оплаты', link: '/cities' },
-                ]
+                ],
+                roles: ['cities']
             }
         },
         {
@@ -553,7 +583,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Тип оплаты', link: '/cities' },
-                ]
+                ],
+                roles: ['cities']
             }
         },
 
@@ -569,7 +600,8 @@ export default new Router({
                 title: 'Баннеры',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['banners']
             }
         },
         {
@@ -581,7 +613,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Баннеры', link: '/banners' },
-                ]
+                ],
+                roles: ['banners']
             }
         },
         {
@@ -593,7 +626,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Баннеры', link: '/banners' },
-                ]
+                ],
+                roles: ['banners']
             }
         },
 
@@ -608,7 +642,8 @@ export default new Router({
                 title: 'Новости',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
-                ]
+                ],
+                roles: ['news']
             }
         },
         {
@@ -620,7 +655,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Новости', link: '/news' },
-                ]
+                ],
+                roles: ['news']
             }
         },
         {
@@ -632,7 +668,8 @@ export default new Router({
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' },
                     { title: 'Новости', link: '/news' },
-                ]
+                ],
+                roles: ['news']
             }
         },
 
@@ -646,24 +683,51 @@ export default new Router({
                 title: 'Настройки',
                 breadcrumb: [
                     { title: 'Главная страница', link: '/main' }
-                ]
+                ],
+                roles: ['settings']
             }
         },
+
+
+        /******************************************************/
         {
-            path: '/subscriptions',
-            name: 'subscriptions',
-            component: subscriptions,
+            path: '/permissions',
+            name: 'permissions',
+            component: permissions,
             meta: {
-                title: 'Подписки',
+                title: 'Права доступа',
                 breadcrumb: [
-                    { title: 'Главная страница', link: '/main' }
-                ]
+                    { title: 'Главная страница', name: 'main' }
+                ],
+                roles: ['permissions']
             }
         },
 
+        {
+            path: '/access-is-denied',
+            name: 'accessIsDenied',
+            component: accessIsDenied,
+            meta: {
+                title: 'Доступ запрещен 403',
+                breadcrumb: [
+                    { title: 'Доступ запрещен 403', name: 'accessIsDenied' },
+                ],
+                roles: ['*']
+            }
+        },
 
-
-
+        {
+            path: '*',
+            component: not_found,
+            name: 'not_found',
+            meta: {
+                title: 'Ошибка: 404 - Страница не найдена',
+                breadcrumb: [
+                    { title: 'Главная страница',    name: 'main' },
+                ],
+                roles: ['*']
+            }
+        }
 
 
 ]

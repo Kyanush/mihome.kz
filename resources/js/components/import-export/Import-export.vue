@@ -146,7 +146,6 @@
             this.tableColumns();
             axios.get('/admin/attribute-sets-more-info').then((res)=>{
                 this.attributes_sets_more_info = res.data;
-                console.log(res.data);
             });
         },
         computed: {
@@ -289,7 +288,7 @@
                     axios.post('/admin/import', data).then((res)=>{
                         var data = res.data;
 
-                        console.log(data);
+
 
                         this.mgs = data;
                         this.wait = false;

@@ -97,9 +97,6 @@
                 }
             }
         },
-        mounted() {
-            console.log('Component mounted.')
-        },
         created(){
             if(this.banner.id > 0)
             {

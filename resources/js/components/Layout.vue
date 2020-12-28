@@ -1,3 +1,4 @@
+
 <template>
     <div>
 
@@ -40,6 +41,13 @@
 
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+
+                        <li @click="whatsappShow">
+                            <a>
+                                <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                            </a>
+                        </li>
+
                         <!-- ========================================================= -->
                         <!-- ========== Top menu right items (ordered left) ========== -->
                         <!-- ========================================================= -->
@@ -106,210 +114,46 @@
                     </div>
                 </form>
 
-                <!-- sidebar menu: : style can be found in sidebar.less -->
-                <ul class="sidebar-menu tree">
 
-                    <!-- ================================================ -->
-                    <!-- ==== Recommended place for admin menu items ==== -->
-                    <!-- ================================================ -->
+                <ul class="sidebar-menu tree" style="min-height: 800px;">
+                    <li v-for="item in menu"
+                        v-if="$can(item.can)"
+                        v-bind:class="{ 'active': menu_active(item), 'treeview': item.childs && item.childs.length }">
 
-                    <li class="header">
-                        <i class="fa fa-shopping-basket"></i>
-                        &nbsp;
-                        МАГАЗИН
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                            <span>Товары</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu" style="display: none;">
-                                <li v-bind:class="{'active' : menu_active('/products/')}">
-                                    <router-link :to="{ path: '/products'}">
-                                        <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                                        <span>Товары</span>
-                                    </router-link>
-                                </li>
-                                <li v-bind:class="{'active' : menu_active('/reviews/')}">
-                                    <router-link :to="{ path: '/reviews'}">
-                                        <i class="fa fa-comment" aria-hidden="true"></i>
-                                        <span>Отзывы</span>
-                                    </router-link>
-                                </li>
-                                <li v-bind:class="{'active' : menu_active('/specific-prices/')}">
-                                    <router-link :to="{ path: '/specific-prices'}">
-                                        <i class="fa fa-money"></i>
-                                        <span>Скидки</span>
-                                    </router-link>
-                                </li>
+                        <router-link :to="{ name: item.route_name, query: item.query, params: item.params }">
+                            <i :class="item.icon" aria-hidden="true"></i>
+                            <span v-html="item.name"></span>
+                            <i v-if="item.childs.length" class="fa fa-angle-left pull-right"></i>
+                        </router-link>
+
+                        <ul class="treeview-menu" v-if="item.childs.length" v-bind:class="{ 'display-none': !menu_active(item) }">
+
+                            <li v-for="item2 in item.childs"
+                                v-if="$can(item2.can)"
+                                v-bind:class="{ 'active': menu_active(item2), 'treeview': item2.childs && item2.childs.length }">
+                                <router-link :to="{ name: item2.route_name, query: item2.query, params: item2.params   }">
+                                    <i :class="item2.icon" aria-hidden="true"></i>
+                                    <span v-html="item2.name"></span>
+                                    <i v-if="item2.childs && item2.childs.length" class="fa fa-angle-left pull-right"></i>
+                                </router-link>
+
+                                <ul class="treeview-menu" v-if="item2.childs && item2.childs.length" v-bind:class="{ 'display-none': !menu_active(item2) }">
+                                    <li v-for="item3 in item2.childs"
+                                        v-if="$can(item3.can)"
+                                        v-bind:class="{ 'active': menu_active(item3), 'treeview': item3.childs && item3.childs.length }">
+                                        <router-link :to="{ name: item3.route_name, query: item3.query, params: item3.params   }">
+                                            <i :class="item3.icon" aria-hidden="true"></i>
+                                            <span v-html="item3.name"></span>
+                                        </router-link>
+                                    </li>
+                                </ul>
+
+                            </li>
 
                         </ul>
                     </li>
-
-
-
-                    <li v-bind:class="{'active' : menu_active('/orders/')}">
-                        <router-link :to="{ path: '/orders'}">
-                            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
-                            <span>Заказы </span>
-                            <span class="pull-right-container" v-if="new_orders_count > 0">
-                                  <small class="label pull-right bg-red">
-                                      {{ new_orders_count }}
-                                  </small>
-                            </span>
-                        </router-link>
-                    </li>
-
-
-
-
-
-                    <li v-bind:class="{'active' : menu_active('/callbacks/')}">
-                        <router-link :to="{ path: '/callbacks'}">
-                            <i class="fa fa-phone" aria-hidden="true"></i>
-                            <span>Обратный звонок</span>
-                            <span class="pull-right-container" v-if="new_callbacks_count > 0">
-                                  <small class="label pull-right bg-red">
-                                      {{ new_callbacks_count }}
-                                  </small>
-                            </span>
-                        </router-link>
-                    </li>
-
-
-
-                    <li v-bind:class="{'active' : menu_active('/main/')}">
-                        <router-link :to="{ path: '/main'}">
-                            <i class="fa fa-area-chart" aria-hidden="true"></i>
-                            <span>Статистика</span>
-                        </router-link>
-                    </li>
-
-
-
-
-                    <li class="header">
-                        <i class="fa fa-file"></i>
-                        &nbsp;
-                        КОНТЕНТ
-                    </li>
-                    <li v-bind:class="{'active' : menu_active('/news/')}">
-                        <router-link :to="{ path: '/news'}">
-                            <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-                            <span>Новости</span>
-                        </router-link>
-                    </li>
-                    <li v-bind:class="{'active' : menu_active('/banners/')}">
-                        <router-link :to="{ path: '/banners'}">
-                            <i class="fa fa-clipboard" aria-hidden="true"></i>
-                            <span>Баннеры</span>
-                        </router-link>
-                    </li>
-                    <li v-bind:class="{'active' : menu_active('/sliders/')}">
-                        <router-link :to="{ path: '/sliders'}">
-                            <i class="fa fa-sliders" aria-hidden="true"></i>
-                            <span>Слайдеры</span>
-                        </router-link>
-                    </li>
-
-
-                    <li class="header">
-                        <i class="fa fa-cogs"></i>
-                        &nbsp;
-                        НАСТРОЙКИ
-                    </li>
-                    <li v-bind:class="{'active' : menu_active('/import-export/')}">
-                        <router-link :to="{ path: '/import-export'}">
-                            <i class="fa fa-download" aria-hidden="true"></i>
-                            <span>Импорт/Экспорт</span>
-                        </router-link>
-                    </li>
-
-                    <li v-bind:class="{'active' : menu_active('/users/')}">
-                        <router-link :to="{ path: '/users'}">
-                            <i class="fa fa-users"></i>
-                            <span>Клиенты и пользователи</span>
-                        </router-link>
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-book" aria-hidden="true"></i>
-                            <span>Справочники</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu" style="display: none;">
-                            <li v-bind:class="{'active' : menu_active('/categories/')}">
-                                <router-link :to="{ path: '/categories'}">
-                                    <i class="fa fa-bars"></i>
-                                    <span>Категории</span>
-                                </router-link>
-                            </li>
-                            <li v-bind:class="{'active' : menu_active('/carriers/')}">
-                                <router-link :to="{ path: '/carriers'}">
-                                    <i class="fa fa-truck"></i>
-                                    <span>Курьеры</span>
-                                </router-link>
-                            </li>
-                            <li v-bind:class="{'active' : menu_active('/order-statuses/')}">
-                                <router-link :to="{ path: '/order-statuses'}">
-                                    <i class="fa fa-hourglass-start" aria-hidden="true"></i>
-                                    <span>Статусы заказов</span>
-                                </router-link>
-                            </li>
-                            <li v-bind:class="{'active' : menu_active('/payments/')}">
-                                <router-link :to="{ path: '/payments'}">
-                                    <i class="fa fa-paypal" aria-hidden="true"></i>
-                                    <span>Тип оплаты</span>
-                                </router-link>
-                            </li>
-                            <li v-bind:class="{'active' : menu_active('/cities/')}">
-                                <router-link :to="{ path: '/cities'}">
-                                    <i class="fa fa-home" aria-hidden="true"></i>
-                                    <span>Город</span>
-                                </router-link>
-                            </li>
-                            <li v-bind:class="{'active' : menu_active('/attributes/')}">
-                                <router-link :to="{ path: '/attributes'}">
-                                    <i class="fa fa-tag"></i>
-                                    <span>Характеристики</span>
-                                </router-link>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li v-bind:class="{'active' : menu_active('/subscriptions/')}">
-                        <router-link :to="{ path: '/subscriptions'}">
-                            <i class="fa fa-envelope"></i>
-                            <span>Подписка</span>
-                        </router-link>
-                    </li>
-
-                    <li v-bind:class="{'active' : menu_active('/settings/')}">
-                        <router-link :to="{ path: '/settings'}">
-                            <i class="fa fa-cogs"></i>
-                            <span>Настройки</span>
-                        </router-link>
-                    </li>
-                    <!--
-
-                                        <li><a href="http://estarter-ecommerce-for-laravel/admin/notification-templates"><i class="fa fa-list"></i> <span>Notification Templates</span></a></li>
-
-                                        <li class="treeview">
-                                            <a href="#"><i class="fa fa-group"></i> <span>Users, Roles, Permissions</span> <i class="fa fa-angle-left pull-right"></i></a>
-                                            <ul class="treeview-menu">
-                                                <li><a href="http://estarter-ecommerce-for-laravel/admin/users"><i class="fa fa-user"></i> <span>Users</span></a></li>
-                                                <li><a href="http://estarter-ecommerce-for-laravel/admin/role"><i class="fa fa-group"></i> <span>Roles</span></a></li>
-                                                <li><a href="http://estarter-ecommerce-for-laravel/admin/permission"><i class="fa fa-key"></i> <span>Permissions</span></a></li>
-                                            </ul>
-                                        </li>
-                    -->
-
-
-
-                    <!-- ======================================= -->
-
                 </ul>
+
             </section>
             <!-- /.sidebar -->
         </aside>
@@ -339,6 +183,19 @@
             <strong>Copyright © 2018-{{ current_year }} <a target="_blank" href="https://www.instagram.com/zheksenkulov_kuanysh/">Жексенкулов К.Е.</a></strong>
             All rights reserved.
         </footer>
+
+        <div id="whatsapp-popup" style="position: fixed; left: 0px; right: 0px; top: 0px; bottom: 0px; height: 100%; width: 100%; z-index: 999999;display: none;">
+            <div @click="whatsappClose" style="position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; height: 100%; width: 100%; opacity: 0.4; background: black;"></div>
+            <div style="position: absolute; bottom: 0px; height: 100%; width: calc(100% - 200px); z-index: 9999999; right: 0px;">
+                <whats_app_order/>
+            </div>
+            <div style="position: absolute; z-index: 9999999; top: 5px; width: 180px;">
+                <svg @click="whatsappClose" fill="#77dd00" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg" style="float: right; cursor:pointer;"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg>
+            </div>
+        </div>
+
+        <notifications position="bottom left" group="foo" />
+
     </div>
 </template>
 
@@ -347,42 +204,225 @@
     import { mapGetters } from 'vuex';
     import { mapActions } from 'vuex';
     import  breadcrumbs   from './plugins/Breadcrumbs.vue';
+    import whats_app_order from './whats_app/order_whats_app';
 
     export default {
         components:{
-            breadcrumbs
+            breadcrumbs, whats_app_order
         },
         data() {
             return {
-                new_orders_count: 0,
-                new_callbacks_count: 0,
-                current_year: 2019
+
+
+                current_year: 2019,
+                menu: [
+
+                    {
+                        can: [
+                            'products', 'product_create', 'product_edit',
+                            'product_stock', 'reviews', 'specific_prices'
+                        ],
+                        name: 'Товары',
+                        route_name: '',
+                        icon: 'fa fa-shopping-basket',
+                        menu_active: [
+                            'products', 'product_create', 'product_edit',
+                            'product_stock', 'reviews', 'specific_prices'
+                        ],
+                        childs: [
+                            {
+                                can: ['products'],
+                                name: 'Товары',
+                                route_name: 'products',
+                                icon: 'fa fa-shopping-basket',
+                                menu_active: ['products', 'product_create', 'product_edit']
+                            },
+                            {
+                                can: ['product_stock'],
+                                name: 'Количество на складе',
+                                route_name: 'product_stock',
+                                icon: 'fa fa-database',
+                                menu_active: ['product_stock']
+                            },
+                            {
+                                can: ['reviews'],
+                                name: 'Отзывы',
+                                route_name: 'reviews',
+                                icon: 'fa fa-comment',
+                                menu_active: ['reviews']
+                            },
+                            {
+                                can: ['specific_prices'],
+                                name: 'Скидки',
+                                route_name: 'specific_prices',
+                                icon: 'fa fa-money',
+                                menu_active: ['specific_prices']
+                            }
+                        ]
+                    },
+                    {
+                        can: ['orders'],
+                        name: 'Заказы',
+                        route_name: 'orders',
+                        icon: 'fa fa-cart-arrow-down',
+                        menu_active: ['orders'],
+                        childs: []
+                    },
+                    {
+                        can: ['callbacks', 'callback'],
+                        name: 'Обратный звонок',
+                        route_name: 'callbacks',
+                        icon: 'fa fa-phone',
+                        menu_active: ['callbacks', 'callback'],
+                        childs: []
+                    },
+                    {
+                        can: ['main'],
+                        name: 'Статистика',
+                        route_name: 'main',
+                        icon: 'fa fa-area-chart',
+                        menu_active: ['main'],
+                        childs: []
+                    },
+                    {
+                        can: ['news', 'news_create', 'news_edit'],
+                        name: 'Новости',
+                        route_name: 'news',
+                        icon: 'fa fa-newspaper-o',
+                        menu_active: ['news', 'news_create', 'news_edit'],
+                        childs: []
+                    },
+                    {
+                        can: ['sliders', 'slider_create', 'slider_edit'],
+                        name: 'Слайдеры',
+                        route_name: 'sliders',
+                        icon: 'fa fa-sliders',
+                        menu_active: ['sliders', 'slider_create', 'slider_edit'],
+                        childs: []
+                    },
+                    {
+                        can: ['import_export'],
+                        name: 'Импорт/Экспорт',
+                        route_name: 'import_export',
+                        icon: 'fa fa-download',
+                        menu_active: ['import_export'],
+                        childs: []
+                    },
+                    {
+                        can: ['users', 'user_create', 'user_edit'],
+                        name: 'Клиенты и пользователи',
+                        route_name: 'users',
+                        icon: 'fa fa-users',
+                        menu_active: ['users', 'user_create', 'user_edit'],
+                        childs: []
+                    },
+                    {
+                        can: [
+                            'categories',     'category_create',     'category_edit',
+                            'carriers',       'courier_create',      'courier_edit',
+                            'order_statuses', 'order_status_create', 'order_statuses_save',
+                            'payments',       'payment_create',      'payment_edit',
+                            'cities',         'city_create',         'city_edit',
+                            'attributes',     'attribute_create',    'attribute_edit'
+                        ],
+                        name: 'Справочники',
+                        route_name: '',
+                        icon: 'fa fa-book',
+                        menu_active: [
+                                      'categories',     'category_create',     'category_edit',
+                                      'carriers',       'courier_create',      'courier_edit',
+                                      'order_statuses', 'order_status_create', 'order_statuses_save',
+                                      'payments',       'payment_create',      'payment_edit',
+                                      'cities',         'city_create',         'city_edit',
+                                      'attributes',     'attribute_create',    'attribute_edit'
+                        ],
+                        childs: [
+                            {
+                                can: ['categories'],
+                                name: 'Категории',
+                                route_name: 'categories',
+                                icon: 'fa fa-bars',
+                                menu_active: ['categories', 'category_create', 'category_edit']
+                            },
+                            {
+                                can: ['carriers'],
+                                name: 'Курьеры',
+                                route_name: 'carriers',
+                                icon: 'fa fa-truck',
+                                menu_active: ['carriers', 'courier_create', 'courier_edit']
+                            },
+                            {
+                                can: ['order_statuses'],
+                                name: 'Статусы заказов',
+                                route_name: 'order_statuses',
+                                icon: 'fa fa-hourglass-start',
+                                menu_active: ['order_statuses', 'order_status_create', 'order_statuses_save']
+                            },
+                            {
+                                can: ['payments'],
+                                name: 'Тип оплаты',
+                                route_name: 'payments',
+                                icon: 'fa fa-paypal',
+                                menu_active: ['payments', 'payment_create', 'payment_edit']
+                            },
+                            {
+                                can: ['cities'],
+                                name: 'Город',
+                                route_name: 'cities',
+                                icon: 'fa fa-home',
+                                menu_active: ['cities', 'city_create', 'city_edit']
+                            },
+                            {
+                                can: ['attributes'],
+                                name: 'Характеристики',
+                                route_name: 'attributes',
+                                icon: 'fa fa-tag',
+                                menu_active: ['attributes', 'attribute_create', 'attribute_edit']
+                            },
+                        ]
+                    },
+                    {
+                        can: ['settings'],
+                        name: 'Настройки',
+                        route_name: 'settings',
+                        icon: 'fa fa-cogs',
+                        menu_active: ['settings'],
+                        childs: []
+                    },
+                    {
+                        can: ['permissions'],
+                        name: 'Права',
+                        route_name: 'permissions',
+                        icon: 'fa fa-cogs',
+                        menu_active: ['permissions'],
+                        childs: []
+                    },
+
+                ]
             }
         },
         props: ['user'],
-        mounted() {
-            console.log('Component mounted.')
-        },
         created(){
-            axios.get('/admin/new-orders-count').then((res) => {
-                this.new_orders_count = res.data;
-            });
-            axios.get('/admin/new-callbacks-count').then((res) => {
-                this.new_callbacks_count = res.data;
-            });
+
 
             this.SetUser(this.user);
         },
         methods:{
-            menu_active(url){
-                var current_url = this.$router.currentRoute.path + '/';
-                return current_url.indexOf(url) >= 0 ? true : false;
+            menu_active(item){
+                var current_route_name = this.$router.currentRoute.name;
+                return item.menu_active.indexOf(current_route_name) >= 0 ? true : false;
             },
             ...mapActions(['SetUser']),
             logout(){
                 axios.post('/logout').then((res)=>{
                     window.location.href = "/";
                 });
+            },
+            whatsappShow(){
+                $('#whatsapp-popup').css('display', 'block');
+            },
+            whatsappClose(){
+                $('#whatsapp-popup').css('display', 'none');
             }
         },
         computed:{

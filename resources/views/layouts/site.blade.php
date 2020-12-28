@@ -17,7 +17,7 @@
     <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/bootstrap.min.css') }}"/>
 
     <!-- Custom stlylesheet sd -->
-    <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/style.min.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('/site/css/style.css') }}"/>
 
     @include('includes.department_code')
 
@@ -362,7 +362,8 @@
                             <li><a target="_blank" href="https://1service.kz/noutbukov">Покупка ноутбуков</a></li>
                             <li><a target="_blank" href="https://1service.kz/noutbukov">Скупка ноутбуков</a></li>
                             <li><a target="_blank" href="https://1service.kz/noutbukov">Продажа ноутбуков</a></li>
-
+                            <li><a target="_blank" href="https://dostavka-iz-kitaya.kz">Доставка из китая</a></li>
+                            <li><a target="_blank" href="https://1service.kz/robot-pylesos">Ремонт роботов пылесосов</a></li>
                         </ul>
                     </div>
                 </div>
@@ -556,19 +557,20 @@
 
 <script src="{{ asset('/site/js/jquery.lazyload.min.js') }}"></script>
 
-<script src="{{ asset('/global/script.min.js') }}"></script>
-<script src="{{ asset('/site/js/script.min.js') }}"></script>
+<script src="{{ asset('/global/script.js') }}"></script>
+<script src="{{ asset('/site/js/script.js') }}"></script>
 
 <!-- jQuery Plugins -->
 <script src="{{ asset('/site/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('/site/js/slick.min.js') }}"></script>
 
-<script src="{{ asset('/site/js/main.min.js') }}"></script>
+<script src="{{ asset('/site/js/main.js') }}"></script>
 
-
+@if(false)
 <!-- jivosite -->
 <script src="//code.jivosite.com/widget.js" data-jv-id="d5ShOZJS9K"></script>
 <!-- jivosite -->
+@endif
 
 @yield('add_in_end')
 @include('includes.analytics_body')

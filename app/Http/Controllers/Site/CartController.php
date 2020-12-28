@@ -155,6 +155,11 @@ class CartController extends Controller
         $order->user_email  = $request->input('email');
         $order->user_name   = $request->input('name');
         $order->user_phone  = $request->input('phone');
+        $order->carrier_id  = $request->input('carrier_id');
+        $order->city        = $request->input('city');
+        $order->address     = $request->input('address');
+        $order->comment     = $request->input('comment');
+
 
         if($order->save())
         {

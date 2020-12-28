@@ -166,7 +166,9 @@ return [
         Intervention\Image\ImageServiceProvider::class,
 
         //telegram bot
-        Telegram\Bot\Laravel\TelegramServiceProvider::class
+        Telegram\Bot\Laravel\TelegramServiceProvider::class,
+
+
     ],
 
     /*
