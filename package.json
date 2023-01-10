@@ -25,7 +25,7 @@
     "dependencies": {
         "fullcalendar-scheduler": "^1.9.4",
         "jstree": "^3.3.10",
-        "luxon": "^1.6.2",
+        "luxon": "^1.28.1",
         "v-select2-component": "^0.3.1",
         "vue-bootstrap-datetimepicker": "^5.0.1",
         "vue-ckeditor2": "^2.1.1",
